@@ -83,13 +83,13 @@ const Header: React.FC = () => {
               {/* Search */}
               <form className='relative w-80 max-w-xs' role='search'>
                 <input
-                  className='w-full rounded-full bg-[#0A115F]/10 py-2 pr-12 pl-5 text-[#0A115F] placeholder-gray-500 focus:ring-2 focus:ring-[#0A115F] focus:outline-none'
+                  className='w-full rounded-full bg-[#0A115F]/10 py-2 pl-5 pr-12 text-[#0A115F] placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0A115F]'
                   type='search'
                   placeholder='Tìm sản phẩm'
                   aria-label='Search'
                 />
                 <button
-                  className='absolute top-1/2 right-3 -translate-y-1/2'
+                  className='absolute right-3 top-1/2 -translate-y-1/2'
                   type='submit'
                 >
                   <Image
@@ -109,7 +109,7 @@ const Header: React.FC = () => {
                   width={28}
                   height={28}
                 />
-                <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
+                <span className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
                   0
                 </span>
               </Link>
@@ -146,7 +146,7 @@ const Header: React.FC = () => {
                   d='M4 8h16M4 16h16'
                 />
               </svg>
-              <span className='absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
+              <span className='absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
                 4
               </span>
             </button>
@@ -177,7 +177,7 @@ const Header: React.FC = () => {
                   width={28}
                   height={28}
                 />
-                <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
+                <span className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
                   0
                 </span>
               </Link>
@@ -226,7 +226,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ label, items }) => (
         />
       </svg>
     </button>
-    <div className='invisible absolute top-full left-0 z-50 mt-2 w-40 rounded-lg bg-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100'>
+    <div className='invisible absolute left-0 top-full z-50 mt-2 w-40 rounded-lg bg-white opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100'>
       {items.map((item, idx) => (
         <Link
           key={idx}
@@ -258,7 +258,7 @@ const MegaMenu: React.FC = () => (
         />
       </svg>
     </button>
-    <div className='invisible fixed top-[80px] left-0 z-[9999] max-h-[calc(100vh-80px)] w-screen overflow-y-auto rounded-lg bg-[#06064C] py-6 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100'>
+    <div className='invisible fixed left-0 top-[80px] z-[9999] max-h-[calc(100vh-80px)] w-screen overflow-y-auto rounded-lg bg-[#06064C] py-6 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100'>
       <section className='mx-auto max-w-7xl px-4 text-white'>
         <h2 className='mb-6 text-3xl font-bold uppercase'>
           KHÁM PHÁ THEO CHỦ ĐỀ

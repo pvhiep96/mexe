@@ -73,7 +73,7 @@ export default function Home() {
     <div className='flex min-h-screen flex-col'>
       <Navbar />
       <ExploreTopics />
-      <main className='container mx-auto flex-grow px-4 py-8'>
+      <main className='container mx-auto grow px-4 py-8'>
         {/* Hero Section */}
         <section className='mb-12'>
           <h1 className='mb-4 text-center text-4xl font-bold'>

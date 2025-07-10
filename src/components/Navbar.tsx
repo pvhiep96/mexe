@@ -92,11 +92,11 @@ export default function Navbar() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder='Tìm sản phẩm...'
-              className='rounded-full border py-1 pr-4 pl-10 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none sm:py-2 sm:text-base'
+              className='rounded-full border py-1 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:py-2 sm:text-base'
             />
             <button
               type='submit'
-              className='absolute top-1/2 left-3 -translate-y-1/2 transform'
+              className='absolute left-3 top-1/2 -translate-y-1/2'
             >
               <svg
                 className='h-4 w-4 text-gray-500 sm:h-5 sm:w-5'
@@ -134,7 +134,7 @@ export default function Navbar() {
                 />
               </svg>
               {totalItems > 0 && (
-                <span className='absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white'>
+                <span className='absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white'>
                   {totalItems}
                 </span>
               )}
@@ -211,7 +211,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className='bg-white shadow-md sm:hidden'>
-          <div className='container mx-auto flex flex-col space-y-2 px-4 py-4'>
+          <div className='container mx-auto flex flex-col space-y-2 p-4'>
             <Link
               href='/products'
               className='text-gray-600 hover:text-gray-900'
@@ -247,11 +247,11 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder='Tìm sản phẩm...'
-                className='w-full rounded-full border py-2 pr-4 pl-10 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none'
+                className='w-full rounded-full border py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
               />
               <button
                 type='submit'
-                className='absolute top-1/2 left-3 -translate-y-1/2 transform'
+                className='absolute left-3 top-1/2 -translate-y-1/2'
               >
                 <svg
                   className='h-4 w-4 text-gray-500'
@@ -289,7 +289,7 @@ export default function Navbar() {
                     />
                   </svg>
                   {totalItems > 0 && (
-                    <span className='absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white'>
+                    <span className='absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white'>
                       {totalItems}
                     </span>
                   )}
