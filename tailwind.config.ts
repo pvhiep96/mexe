@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        'xs': '475px', // Optional: Add extra small breakpoint
+        xs: '475px', // Optional: Add extra small breakpoint
       },
       colors: {
         primary: '#2563eb', // Customize blue-500
