@@ -1,0 +1,76 @@
+name: Bug Report
+description: File a bug report to help us improve
+labels: ["bug"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for filing a bug report! Please provide detailed information to help us reproduce and resolve the issue.
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Describe your environment (Node.js version, npm version, OS, etc.).
+      placeholder: "Node.js v20.10.0, npm v10.2.3, macOS 14.5"
+    validations:
+      required: true
+  - type: input
+    id: next-version
+    attributes:
+      label: Next.js Version
+      description: Specify the Next.js version you are using.
+      placeholder: "15.0.0"
+    validations:
+      required: true
+  - type: input
+    id: tailwind-version
+    attributes:
+      label: TailwindCSS Version
+      description: Specify the TailwindCSS version you are using.
+      placeholder: "3.3.7"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+      placeholder: "When I run `npm run lint`, I get an error about..."
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Provide detailed steps to reproduce the bug.
+      placeholder: |
+        1. Run `npm install`
+        2. Run `npm run lint`
+        3. Observe the error
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: Describe what you expected to happen.
+      placeholder: "The linter should run without errors."
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: Describe what actually happened, including error messages or logs.
+      placeholder: "Received error: Could not find plugin 'prettier'..."
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context or screenshots about the bug.
+      placeholder: "This issue occurs only when using TailwindCSS v3.4.x."
+    validations:
+      required: false
