@@ -30,13 +30,26 @@ export default function Home() {
       comboPrice: '7,535,200₫',
       discount: '20%',
       items: [
-        { name: '9SPACE - Deskpad Thảm Nỉ Trải Bàn Làm Việc', price: '180,000₫' },
-        { name: 'DeltaHub - Kê Cổ Tay Công Thái Học Carpio 2.0', price: '859,000₫' },
-        { name: 'Đèn cảm ứng âm thanh gỗ cao cấp - NID B-Light gỗ', price: '1,090,000₫' },
-        { name: 'Đồng hồ để bàn RGB LED Clock Rainbow Time', price: '1,790,000₫' },
+        {
+          name: '9SPACE - Deskpad Thảm Nỉ Trải Bàn Làm Việc',
+          price: '180,000₫',
+        },
+        {
+          name: 'DeltaHub - Kê Cổ Tay Công Thái Học Carpio 2.0',
+          price: '859,000₫',
+        },
+        {
+          name: 'Đèn cảm ứng âm thanh gỗ cao cấp - NID B-Light gỗ',
+          price: '1,090,000₫',
+        },
+        {
+          name: 'Đồng hồ để bàn RGB LED Clock Rainbow Time',
+          price: '1,790,000₫',
+        },
         { name: 'Loa Bluetooth Gravastar Mars Pro', price: '5,500,000₫' },
       ],
-      description: 'Phong cách tối giản luôn là một điểm nhấn sáng trong các cách setup góc làm việc...',
+      description:
+        'Phong cách tối giản luôn là một điểm nhấn sáng trong các cách setup góc làm việc...',
     },
     // Add more combos as needed
   ];
@@ -50,37 +63,62 @@ export default function Home() {
       preorderPrice: '4,312,050₫',
       originalPrice: '5,073,000₫',
       launchDate: '01/10/2025',
-      description: 'Đèn Resin RGB Dragon Ball Z Kakarot là món decor độc đáo tái hiện hình ảnh Goku cực ngầu...',
+      description:
+        'Đèn Resin RGB Dragon Ball Z Kakarot là món decor độc đáo tái hiện hình ảnh Goku cực ngầu...',
     },
     // Add more coming soon products as needed
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className='flex min-h-screen flex-col'>
       <Navbar />
       <ExploreTopics />
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className='container mx-auto flex-grow px-4 py-8'>
         {/* Hero Section */}
-        <section className="mb-12">
-          <h1 className="text-4xl font-bold text-center mb-4">Khám phá Vài Thứ Hay</h1>
-          <p className="text-center text-gray-600">Nâng tầm không gian làm việc với những sản phẩm công nghệ độc đáo</p>
+        <section className='mb-12'>
+          <h1 className='mb-4 text-center text-4xl font-bold'>
+            Khám phá Vài Thứ Hay
+          </h1>
+          <p className='text-center text-gray-600'>
+            Nâng tầm không gian làm việc với những sản phẩm công nghệ độc đáo
+          </p>
         </section>
 
         {/* Categories */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">Khám phá theo chủ đề</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <a href="/products/setup" className="bg-gray-100 p-4 rounded-lg text-center hover:bg-gray-200">Setup Góc Làm Việc</a>
-            <a href="/products/keyboards" className="bg-gray-100 p-4 rounded-lg text-center hover:bg-gray-200">Bàn Phím Hay</a>
-            <a href="/products/new" className="bg-gray-100 p-4 rounded-lg text-center hover:bg-gray-200">Sản Phẩm Mới</a>
-            <a href="/products/steampunk" className="bg-gray-100 p-4 rounded-lg text-center hover:bg-gray-200">Sản Phẩm DIY Steampunk</a>
+        <section className='mb-12'>
+          <h2 className='mb-4 text-2xl font-semibold'>Khám phá theo chủ đề</h2>
+          <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
+            <a
+              href='/products/setup'
+              className='rounded-lg bg-gray-100 p-4 text-center hover:bg-gray-200'
+            >
+              Setup Góc Làm Việc
+            </a>
+            <a
+              href='/products/keyboards'
+              className='rounded-lg bg-gray-100 p-4 text-center hover:bg-gray-200'
+            >
+              Bàn Phím Hay
+            </a>
+            <a
+              href='/products/new'
+              className='rounded-lg bg-gray-100 p-4 text-center hover:bg-gray-200'
+            >
+              Sản Phẩm Mới
+            </a>
+            <a
+              href='/products/steampunk'
+              className='rounded-lg bg-gray-100 p-4 text-center hover:bg-gray-200'
+            >
+              Sản Phẩm DIY Steampunk
+            </a>
           </div>
         </section>
 
         {/* Featured Products */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">Sản phẩm nổi bật</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <section className='mb-12'>
+          <h2 className='mb-4 text-2xl font-semibold'>Sản phẩm nổi bật</h2>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
             {products.map((product) => (
               <ProductCard key={product.id} {...product} />
             ))}
@@ -88,16 +126,16 @@ export default function Home() {
         </section>
 
         {/* Combo Section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">Combo sản phẩm</h2>
+        <section className='mb-12'>
+          <h2 className='mb-4 text-2xl font-semibold'>Combo sản phẩm</h2>
           {combos.map((combo) => (
             <ComboSection key={combo.id} {...combo} />
           ))}
         </section>
 
         {/* Coming Soon Section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">Sắp ra mắt</h2>
+        <section className='mb-12'>
+          <h2 className='mb-4 text-2xl font-semibold'>Sắp ra mắt</h2>
           {comingSoonProducts.map((product) => (
             <ComingSoonSection key={product.id} {...product} />
           ))}
