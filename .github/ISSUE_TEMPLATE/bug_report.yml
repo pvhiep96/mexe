@@ -1,6 +1,6 @@
 name: Bug Report
 description: File a bug report to help us improve
-labels: ["bug"]
+labels: ['bug']
 assignees: []
 body:
   - type: markdown
@@ -12,7 +12,7 @@ body:
     attributes:
       label: Environment
       description: Describe your environment (Node.js version, npm version, OS, etc.).
-      placeholder: "Node.js v20.10.0, npm v10.2.3, macOS 14.5"
+      placeholder: 'Node.js v20.10.0, npm v10.2.3, macOS 14.5'
     validations:
       required: true
   - type: input
@@ -20,7 +20,7 @@ body:
     attributes:
       label: Next.js Version
       description: Specify the Next.js version you are using.
-      placeholder: "15.0.0"
+      placeholder: '15.0.0'
     validations:
       required: true
   - type: input
@@ -28,7 +28,7 @@ body:
     attributes:
       label: TailwindCSS Version
       description: Specify the TailwindCSS version you are using.
-      placeholder: "3.3.7"
+      placeholder: '3.3.7'
     validations:
       required: true
   - type: textarea
@@ -36,7 +36,7 @@ body:
     attributes:
       label: Describe the Bug
       description: A clear and concise description of what the bug is.
-      placeholder: "When I run `npm run lint`, I get an error about..."
+      placeholder: 'When I run `npm run lint`, I get an error about...'
     validations:
       required: true
   - type: textarea
@@ -55,7 +55,7 @@ body:
     attributes:
       label: Expected Behavior
       description: Describe what you expected to happen.
-      placeholder: "The linter should run without errors."
+      placeholder: 'The linter should run without errors.'
     validations:
       required: true
   - type: textarea
@@ -71,6 +71,6 @@ body:
     attributes:
       label: Additional Context
       description: Add any other context or screenshots about the bug.
-      placeholder: "This issue occurs only when using TailwindCSS v3.4.x."
+      placeholder: 'This issue occurs only when using TailwindCSS v3.4.x.'
     validations:
       required: false

@@ -3,7 +3,7 @@ import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import ComboSection from '@/components/ComboSection';
 import ComingSoonSection from '@/components/ComingSoonSection';
-import ExploreTopics from '@/components/ExploreTopics';
+import Sidebar from '@/components/Sidebar';
 
 export default function Home() {
   const products = [
@@ -72,7 +72,7 @@ export default function Home() {
   return (
     <div className='flex min-h-screen flex-col'>
       <Navbar />
-      <ExploreTopics />
+      <Sidebar />
       <main className='container mx-auto grow px-4 py-8'>
         {/* Hero Section */}
         <section className='mb-12'>

@@ -1,0 +1,21 @@
+{
+  "navbar": {
+    "logo": "Vài Thứ Hay",
+    "products": "Sản Phẩm",
+    "combos": "Combo",
+    "about": "Về Chúng Tôi",
+    "login": "Đăng Nhập",
+    "searchPlaceholder": "Tìm sản phẩm...",
+    "cart": "Giỏ hàng",
+    "account": "Tài khoản",
+    "emptyCart": "Giỏ hàng rỗng\nHổng lẻ hổng ưng",
+    "viewCart": "Xem giỏ hàng",
+    "total": "Tổng",
+    "aboutSubmenu": {
+      "setupDecor": "Setup & Decor",
+      "technology": "Công Nghệ",
+      "design": "Thiết Kế",
+      "innovation": "Đổi Mới"
+    }
+  }
+}

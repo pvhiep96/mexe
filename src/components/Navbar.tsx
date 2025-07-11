@@ -2,15 +2,15 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import Image from 'next/image';
 import LoginModal from './LoginModal';
+import AboutDropdown from './Submenu/AboutDropdown';
+import ExploreTopicsMenu from './Submenu/ExploreTopicsMenu';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isAboutOpen, setIsAboutOpen] = useState(false); // State for about submenu
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,125 +28,99 @@ export default function Navbar() {
   );
 
   return (
-    <nav className='bg-white py-4 shadow-md'>
-      <div className='container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8'>
+    <nav className="bg-white py-4 shadow-md">
+      <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href='/' className='text-xl font-bold sm:text-2xl'>
+        <Link href="/" className="text-xl font-bold sm:text-2xl">
           Vài Thứ Hay
         </Link>
 
         {/* Desktop Navigation and Search */}
-        <div className='hidden items-center space-x-4 sm:flex'>
-          <div className='flex space-x-4'>
+        <div className="hidden items-center space-x-4 sm:flex">
+          <div className="grid grid-flow-col gap-4 space-x-4">
+                <div
+      className="relative">
             <Link
-              href='/products'
-              className='text-sm text-gray-600 hover:text-gray-900 sm:text-base'
+              href="/products"
+              className="rounded-full p-4 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-yellow-400 hover:text-gray-900 sm:text-base"
             >
               Sản Phẩm
             </Link>
-            <Link
-              href='/combos'
-              className='text-sm text-gray-600 hover:text-gray-900 sm:text-base'
-            >
-              Combo
-            </Link>
-            <div className='relative'>
-              <Link
-                href='/about'
-                className='text-sm text-gray-600 hover:text-gray-900 sm:text-base'
-                onClick={() => setIsOpen(false)}
-                onMouseEnter={() => setIsAboutOpen(true)}
-                onMouseLeave={() => setIsAboutOpen(false)}
-                style={{
-                  transition: 'background-color 0.3s, font-weight 0.3s',
-                  backgroundColor: isAboutOpen ? '#fcde50' : 'transparent',
-                  fontWeight: isAboutOpen ? 'bold' : 'normal',
-                }}
-              >
-                Về Chúng Tôi
-              </Link>
-              {isAboutOpen && (
-                <div className='absolute left-0 z-10 mt-2 w-48 rounded-lg border bg-white p-2 shadow-lg'>
-                  <ul className='space-y-1'>
-                    <li className='block px-2 py-1 text-gray-600'>
-                      Setup & Decor
-                    </li>
-                    <li className='block px-2 py-1 text-gray-600'>Công Nghệ</li>
-                    <li className='block px-2 py-1 text-gray-600'>Thiết Kế</li>
-                    <li className='block px-2 py-1 text-gray-600'>Đổi Mới</li>
-                  </ul>
-                </div>
-              )}
             </div>
+            <ExploreTopicsMenu setIsOpen={setIsOpen} />
+            <AboutDropdown setIsOpen={setIsOpen} />
+            <div
+      className="relative">
             <Link
-              href='/login'
-              className='text-sm text-gray-600 hover:text-gray-900 sm:text-base'
+              href="/login"
+              className="rounded-full p-4 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-yellow-400 hover:text-gray-900 sm:text-base"
             >
               Đăng Nhập
             </Link>
+            </div>
           </div>
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className='relative'>
+          <form onSubmit={handleSearch} className="relative">
             <input
-              type='text'
+              type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder='Tìm sản phẩm...'
-              className='rounded-full border py-1 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:py-2 sm:text-base'
+              placeholder="Tìm sản phẩm..."
+              className="rounded-full border py-1 pr-4 pl-10 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none sm:py-2 sm:text-base"
             />
             <button
-              type='submit'
-              className='absolute left-3 top-1/2 -translate-y-1/2'
+              type="submit"
+              className="absolute top-1/2 left-3 -translate-y-1/2"
             >
               <svg
-                className='h-4 w-4 text-gray-500 sm:h-5 sm:w-5'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
+                className="h-4 w-4 text-gray-500 sm:h-5 sm:w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
                 <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   strokeWidth={2}
-                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
             </button>
           </form>
           {/* Cart Icon with Popover */}
-          <div className='relative'>
+          <div className="relative">
             <button
               onMouseEnter={() => setIsCartOpen(true)}
               onMouseLeave={() => setIsCartOpen(false)}
-              className='ml-2 text-gray-600 hover:text-gray-900 focus:outline-none'
+              className="ml-2 text-gray-600 hover:text-gray-900 focus:outline-none"
             >
               <svg
-                className='h-6 w-6 sm:h-7 sm:w-7'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
+                className="h-6 w-6 sm:h-7 sm:w-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
                 <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   strokeWidth={2}
-                  d='M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
               {totalItems > 0 && (
-                <span className='absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white'>
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                   {totalItems}
                 </span>
               )}
             </button>
             {isCartOpen && (
               <div
-                className='absolute right-0 z-10 mt-2 w-64 rounded-lg border bg-white p-4 shadow-lg'
+                className="absolute right-0 z-10 mt-2 w-64 rounded-lg border bg-white p-4 shadow-lg"
                 onMouseEnter={() => setIsCartOpen(true)}
                 onMouseLeave={() => setIsCartOpen(false)}
               >
                 {totalItems === 0 ? (
-                  <p className='text-center text-gray-600'>
+                  <p className="text-center text-gray-600">
                     Giỏ hàng rỗng
                     <br />
                     Hổng lẻ hổng ưng
@@ -154,16 +128,16 @@ export default function Navbar() {
                 ) : (
                   <>
                     {cartItems.map((item, index) => (
-                      <div key={index} className='mb-2 flex justify-between'>
+                      <div key={index} className="mb-2 flex justify-between">
                         <span>{item.name}</span>
                         <span>{item.price}</span>
                       </div>
                     ))}
-                    <div className='mt-4 border-t pt-2'>
-                      <p className='text-right font-semibold'>
+                    <div className="mt-4 border-t pt-2">
+                      <p className="text-right font-semibold">
                         Tổng: {totalPrice.toLocaleString()}₫
                       </p>
-                      <button className='mt-2 w-full rounded bg-blue-500 py-1 text-white hover:bg-blue-600'>
+                      <button className="mt-2 w-full rounded bg-blue-500 py-1 text-white hover:bg-blue-600">
                         Xem giỏ hàng
                       </button>
                     </div>
@@ -175,34 +149,34 @@ export default function Navbar() {
           {/* User Circle Icon with Modal */}
           <button
             onClick={() => setIsLoginModalOpen(true)}
-            className='ml-2 text-gray-600 hover:text-gray-900 focus:outline-none'
+            className="ml-2 text-gray-600 hover:text-gray-900 focus:outline-none"
           >
             <svg
-              className='h-6 w-6 sm:h-7 sm:w-7'
-              fill='currentColor'
-              viewBox='0 0 24 24'
+              className="h-6 w-6 sm:h-7 sm:w-7"
+              fill="currentColor"
+              viewBox="0 0 24 24"
             >
-              <path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' />
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
           </button>
         </div>
 
         {/* Hamburger Button for Mobile */}
         <button
-          className='text-gray-600 focus:outline-none sm:hidden'
+          className="text-gray-600 focus:outline-none sm:hidden"
           onClick={() => setIsOpen(!isOpen)}
         >
           <svg
-            className='h-6 w-6'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
+            className="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
             <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
+              strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth={2}
-              d={isOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+              d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
             />
           </svg>
         </button>
@@ -210,96 +184,96 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className='bg-white shadow-md sm:hidden'>
-          <div className='container mx-auto flex flex-col space-y-2 p-4'>
+        <div className="bg-white shadow-md sm:hidden">
+          <div className="container mx-auto flex flex-col space-y-2 p-4">
             <Link
-              href='/products'
-              className='text-gray-600 hover:text-gray-900'
+              href="/products"
+              className="text-gray-600 hover:text-gray-900"
               onClick={() => setIsOpen(false)}
             >
               Sản Phẩm
             </Link>
             <Link
-              href='/combos'
-              className='text-gray-600 hover:text-gray-900'
+              href="/combos"
+              className="text-gray-600 hover:text-gray-900"
               onClick={() => setIsOpen(false)}
             >
               Combo
             </Link>
             <Link
-              href='/about'
-              className='text-gray-600 hover:text-gray-900'
+              href="/about"
+              className="text-gray-600 hover:text-gray-900"
               onClick={() => setIsOpen(false)}
             >
               Về Chúng Tôi
             </Link>
             <Link
-              href='/login'
-              className='text-gray-600 hover:text-gray-900'
+              href="/login"
+              className="text-gray-600 hover:text-gray-900"
               onClick={() => setIsOpen(false)}
             >
               Đăng Nhập
             </Link>
             {/* Mobile Search Bar */}
-            <form onSubmit={handleSearch} className='relative mt-2'>
+            <form onSubmit={handleSearch} className="relative mt-2">
               <input
-                type='text'
+                type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder='Tìm sản phẩm...'
-                className='w-full rounded-full border py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
+                placeholder="Tìm sản phẩm..."
+                className="w-full rounded-full border py-2 pr-4 pl-10 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
               <button
-                type='submit'
-                className='absolute left-3 top-1/2 -translate-y-1/2'
+                type="submit"
+                className="absolute top-1/2 left-3 -translate-y-1/2"
               >
                 <svg
-                  className='h-4 w-4 text-gray-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
+                  className="h-4 w-4 text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
                   <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     strokeWidth={2}
-                    d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                   />
                 </svg>
               </button>
             </form>
             {/* Mobile Cart Icon */}
-            <div className='relative mt-2'>
+            <div className="relative mt-2">
               <button
                 onClick={() => setIsCartOpen(!isCartOpen)}
-                className='w-full text-left text-gray-600 hover:text-gray-900 focus:outline-none'
+                className="w-full text-left text-gray-600 hover:text-gray-900 focus:outline-none"
               >
-                <div className='flex items-center'>
+                <div className="flex items-center">
                   <svg
-                    className='h-6 w-6'
-                    fill='none'
-                    stroke='currentColor'
-                    viewBox='0 0 24 24'
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       strokeWidth={2}
-                      d='M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                     />
                   </svg>
                   {totalItems > 0 && (
-                    <span className='absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white'>
+                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                       {totalItems}
                     </span>
                   )}
-                  <span className='ml-2'>Giỏ hàng</span>
+                  <span className="ml-2">Giỏ hàng</span>
                 </div>
               </button>
               {isCartOpen && (
-                <div className='mt-2 w-full rounded-lg border bg-white p-4 shadow-lg'>
+                <div className="mt-2 w-full rounded-lg border bg-white p-4 shadow-lg">
                   {totalItems === 0 ? (
-                    <p className='text-center text-gray-600'>
+                    <p className="text-center text-gray-600">
                       Giỏ hàng rỗng
                       <br />
                       Hổng lẻ hổng ưng
@@ -307,16 +281,16 @@ export default function Navbar() {
                   ) : (
                     <>
                       {cartItems.map((item, index) => (
-                        <div key={index} className='mb-2 flex justify-between'>
+                        <div key={index} className="mb-2 flex justify-between">
                           <span>{item.name}</span>
                           <span>{item.price}</span>
                         </div>
                       ))}
-                      <div className='mt-4 border-t pt-2'>
-                        <p className='text-right font-semibold'>
+                      <div className="mt-4 border-t pt-2">
+                        <p className="text-right font-semibold">
                           Tổng: {totalPrice.toLocaleString()}₫
                         </p>
-                        <button className='mt-2 w-full rounded bg-blue-500 py-1 text-white hover:bg-blue-600'>
+                        <button className="mt-2 w-full rounded bg-blue-500 py-1 text-white hover:bg-blue-600">
                           Xem giỏ hàng
                         </button>
                       </div>
@@ -328,17 +302,17 @@ export default function Navbar() {
             {/* Mobile User Circle Icon */}
             <button
               onClick={() => setIsLoginModalOpen(true)}
-              className='mt-2 w-full text-left text-gray-600 hover:text-gray-900 focus:outline-none'
+              className="mt-2 w-full text-left text-gray-600 hover:text-gray-900 focus:outline-none"
             >
-              <div className='flex items-center'>
+              <div className="flex items-center">
                 <svg
-                  className='h-6 w-6'
-                  fill='currentColor'
-                  viewBox='0 0 24 24'
+                  className="h-6 w-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' />
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
-                <span className='ml-2'>Tài khoản</span>
+                <span className="ml-2">Tài khoản</span>
               </div>
             </button>
           </div>
@@ -346,9 +320,7 @@ export default function Navbar() {
       )}
 
       {/* Login Modal */}
-      {isLoginModalOpen && (
-        <LoginModal onClose={() => setIsLoginModalOpen(false)} />
-      )}
+      {isLoginModalOpen && <LoginModal onClose={() => setIsLoginModalOpen(false)} />}
     </nav>
   );
 }
