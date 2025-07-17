@@ -1,21 +1,124 @@
 {
-  "navbar": {
-    "logo": "Vài Thứ Hay",
-    "products": "Sản Phẩm",
-    "combos": "Combo",
-    "about": "Về Chúng Tôi",
-    "login": "Đăng Nhập",
-    "searchPlaceholder": "Tìm sản phẩm...",
-    "cart": "Giỏ hàng",
-    "account": "Tài khoản",
-    "emptyCart": "Giỏ hàng rỗng\nHổng lẻ hổng ưng",
-    "viewCart": "Xem giỏ hàng",
-    "total": "Tổng",
-    "aboutSubmenu": {
-      "setupDecor": "Setup & Decor",
-      "technology": "Công Nghệ",
-      "design": "Thiết Kế",
-      "innovation": "Đổi Mới"
+  "banner": {
+    "categories": "Categories",
+    "partners": "Partners",
+    "all_products": "All Products",
+    "partner_brands": "Partner Brands",
+    "accessories": "Interior/Exterior Accessories",
+    "apps_positioning": "Apps/Positioning",
+    "car_toys": "Car Toys",
+    "camping": "Camping",
+    "safety_equipment": "Safety Equipment",
+    "battery_charging": "Battery/Charging/Electric Vehicles",
+    "partner_1": "Partner 1",
+    "partner_2": "Partner 2",
+    "partner_3": "Partner 3"
+  },
+  "contact": {
+    "title": "Contact Us to Collaborate",
+    "you_are": "You are...",
+    "distributor": "Distributor/Agent",
+    "affiliate": "Affiliate Sales",
+    "corporate_gifts": "Corporate Gifts",
+    "content_creator": "Youtuber/Tiktoker/Content Creator",
+    "register": "Register",
+    "name": "Name",
+    "phone": "Phone"
+  },
+  "brands": {
+    "title": "Great Brands at Mexe",
+    "honda": {
+      "name": "Honda Genuine Parts",
+      "brand": "Honda Brand",
+      "field": "Automotive Parts",
+      "founded": "Founded: 1948",
+      "story": "Honda Genuine Parts provides genuine parts and components for Honda vehicles, ensuring quality and optimal durability.",
+      "story_link": "Behind the Story →"
+    },
+    "toyota": {
+      "name": "Toyota Genuine Parts",
+      "brand": "Toyota Brand",
+      "field": "Automotive Parts",
+      "founded": "Founded: 1937",
+      "story": "Toyota Genuine Parts offers high-quality replacement parts, ensuring stable and safe operation for Toyota vehicles on every journey.",
+      "story_link": "Behind the Story →"
+    },
+    "hyundai": {
+      "name": "Hyundai Mobis",
+      "brand": "Hyundai Brand",
+      "field": "Automotive Parts and Components",
+      "founded": "Founded: 1977",
+      "story": "Hyundai Mobis is a supplier of genuine components and parts for Hyundai vehicles, known for advanced technology and high durability.",
+      "story_link": "Behind the Story →"
+    },
+    "ford": {
+      "name": "Ford Genuine Parts",
+      "brand": "Ford Brand",
+      "field": "Automotive Parts",
+      "founded": "Founded: 1903",
+      "story": "Ford Genuine Parts provides genuine replacement parts for Ford vehicles, ensuring confidence and optimal performance for customers.",
+      "story_link": "Behind the Story →"
     }
+  },
+  "combo_workspace": {
+    "title": "Must-Have Accessories",
+    "explore_more": "Explore More",
+    "view": "View",
+    "group_1": [
+      "Dash Camera",
+      "Tire Pressure Sensor",
+      "Floor Mats",
+      "Air Purifier",
+      "..."
+    ],
+    "group_2": [
+      "Car Fast Charger",
+      "Steering Wheel Cover",
+      "Car Air Freshener",
+      "HUD Speed Display",
+      "..."
+    ],
+    "group_3": [
+      "Electronic Tire Inflator",
+      "Multi-Port Charger",
+      "Headrest Pillow",
+      "Leather Seat Cover",
+      "..."
+    ],
+    "group_4": [
+      "5D Ceiling Cover",
+      "Side Mirror Cover",
+      "Door Handle Cover",
+      "Mud Flaps",
+      "..."
+    ],
+    "group_5": [
+      "Reverse Sensor",
+      "Interior LED Lights",
+      "Android Screen",
+      "Heat-Insulating Film",
+      "..."
+    ],
+    "group_6": [
+      "Convex Mirror",
+      "Step-Up Cover",
+      "Sunshade",
+      "Gear Shift Cover",
+      "..."
+    ],
+    "group_7": [
+      "Leather Seat Cover",
+      "Massage Backrest",
+      "Windshield Sunshade",
+      "Seatbelt Cover",
+      "..."
+    ],
+    "group_8": [
+      "5D Ceiling Cover",
+      "Side Mirror Cover",
+      "Door Handle Cover",
+      "Mud Flaps",
+      "..."
+    ]
   }
 }
