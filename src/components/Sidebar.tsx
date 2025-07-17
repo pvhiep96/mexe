@@ -114,8 +114,8 @@ export default function Sidebar() {
     autoplaySpeed: 3000,
     prevArrow: (
         <img
-          width="44"
-          height="66"
+          width="100"
+          height="100"
           src="//theme.hstatic.net/1000069970/1001119059/14/ega-caret-left.png?v=7371"
           alt="Previous"
           className="hover:opacity-70 owl-prev absolute left-0 top-1/2 transform -translate-y-1/2 cursor-pointer"
@@ -153,7 +153,7 @@ export default function Sidebar() {
 
   return (
     <div className="slider-index flex m-4">
-      <div className="w-[375px] slider-sidebar bg-white p-4 shadow-md mr-4 rounded-lg hidden sm:block">
+      <div className="relative w-[375px] slider-sidebar bg-white p-4 shadow-md mr-4 rounded-lg hidden sm:block">
         <ul className="space-y-2 border-b pb-2 grid grid-flow-col">
           <li className={`nav-item ${activeTab === 'danhmuc' ? 'border-b-2 border-yellow-400' : ''}`}>
             <a
@@ -172,10 +172,10 @@ export default function Sidebar() {
             </a>
           </li>
         </ul>
-        <div className=" tab-content mt-4 h-[50vh] overflow-y-scroll">
+        <div className="tab-content mt-4 h-[50vh] overflow-y-scroll">
           <div className={`pl-2 tab-pane rounded-full bg-white ${activeTab === 'danhmuc' ? 'block' : 'hidden'}`}>
             {categories.map((item, idx) => (
-              <div key={idx} className={`relative ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} py-1`}
+              <div key={idx} className={` ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} py-1`}
               onMouseEnter={() => item.submenu && setHoveredSubmenu(item.label)}
               onMouseLeave={() => item.submenu && setHoveredSubmenu(null)}
               >
@@ -183,7 +183,6 @@ export default function Sidebar() {
                   className="sidebar-icon-wrap flex items-center cursor-pointer bg-gray-100 rounded-lg p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-yellow-400 hover:text-gray-900 "
                 >
                   <img
-                    fetchpriority="low"
                     width="30"
                     height="30"
                     src={item.icon}
@@ -194,9 +193,46 @@ export default function Sidebar() {
                     {item.label}
                   </a>
                 </div>
+              </div>
+            ))}
+          </div>
+          <div className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'}`} id="thuonghieu">
+            <div className="menu-vendor-list grid grid-cols-3 gap-4">
+              {vendors.map((vendor, idx) => (
+                <a
+                  key={idx}
+                  href={vendor.href}
+                  target="_blank"
+                  className="vendor-item-menu block overflow-hidden rounded-lg transition-all hover:scale-105"
+                >
+                  <img
+                    width="100"
+                    height="50"
+                    src={vendor.img}
+                    alt={`vendor_${idx + 1}`}
+                    className="img-vendor w-full h-auto"
+                  />
+                  <img
+                    width="100"
+                    height="50"
+                    src={vendor.hoverImg}
+                    alt={`vendor_hover_${idx + 1}`}
+                    className="img-vendor-hover w-full h-auto hidden hover:block"
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {categories.map((item, idx) => (
+              <div key={idx} className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} py-1`}
+              onMouseEnter={() => item.submenu && setHoveredSubmenu(item.label)}
+              onMouseLeave={() => item.submenu && setHoveredSubmenu(null)}
+              >
+
                 {item.submenu && (
                   <div
-                    className={`absolute rounded-lg bg-white left-[290px] top-0 w-[375px] z-10 ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
+                    className={`h-full absolute rounded-lg bg-white left-[290px] top-[80px] w-[375px] z-10 ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
                   >
                     {item.submenu.map((sub, subIdx) => (
                       <a
@@ -212,36 +248,6 @@ export default function Sidebar() {
                 )}
               </div>
             ))}
-          </div>
-          <div className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'}`} id="thuonghieu">
-            <div className="menu-vendor-list grid grid-cols-3 gap-4">
-              {vendors.map((vendor, idx) => (
-                <a
-                  key={idx}
-                  href={vendor.href}
-                  target="_blank"
-                  className="vendor-item-menu block overflow-hidden rounded-lg transition-all hover:scale-105"
-                >
-                  <img
-                    fetchpriority="low"
-                    width="100"
-                    height="50"
-                    src={vendor.img}
-                    alt={`vendor_${idx + 1}`}
-                    className="img-vendor w-full h-auto"
-                  />
-                  <img
-                    fetchpriority="low"
-                    width="100"
-                    height="50"
-                    src={vendor.hoverImg}
-                    alt={`vendor_hover_${idx + 1}`}
-                    className="img-vendor-hover w-full h-auto hidden hover:block"
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
       <div className="slider-index-wrap"

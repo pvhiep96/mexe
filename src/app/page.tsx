@@ -73,7 +73,13 @@ export default function Home() {
     <div className='flex min-h-screen flex-col'>
       <Navbar />
       <Sidebar />
-      <main className='container mx-auto grow px-4 py-8'>
+      <main className='grow'>
+        {/* Coming Soon Section */}
+        <section className='mb-12'>
+          {comingSoonProducts.map((product) => (
+            <ComingSoonSection key={product.id} {...product} />
+          ))}
+        </section>
         {/* Hero Section */}
         <section className='mb-12'>
           <h1 className='mb-4 text-center text-4xl font-bold'>
@@ -133,13 +139,6 @@ export default function Home() {
           ))}
         </section>
 
-        {/* Coming Soon Section */}
-        <section className='mb-12'>
-          <h2 className='mb-4 text-2xl font-semibold'>Sắp ra mắt</h2>
-          {comingSoonProducts.map((product) => (
-            <ComingSoonSection key={product.id} {...product} />
-          ))}
-        </section>
       </main>
       <Footer />
     </div>
