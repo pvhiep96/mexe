@@ -16,7 +16,7 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+    <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black'>
       <div className='login-box w-full max-w-md rounded-lg bg-white p-6'>
         {isRecoverPassword ? (
           <div id='recover-password'>

@@ -1,0 +1,21 @@
+{
+  "navbar": {
+    "logo": "Vài Thứ Hay",
+    "products": "Products",
+    "combos": "Combos",
+    "about": "About Us",
+    "login": "Login",
+    "searchPlaceholder": "Search products...",
+    "cart": "Cart",
+    "account": "Account",
+    "emptyCart": "Cart is empty\nNothing here yet",
+    "viewCart": "View Cart",
+    "total": "Total",
+    "aboutSubmenu": {
+      "setupDecor": "Setup & Decor",
+      "technology": "Technology",
+      "design": "Design",
+      "innovation": "Innovation"
+    }
+  }
+}

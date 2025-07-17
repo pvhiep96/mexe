@@ -1,6 +1,6 @@
 name: Feature Request
 description: Suggest a new feature or enhancement
-labels: ["enhancement"]
+labels: ['enhancement']
 assignees: []
 body:
   - type: markdown
@@ -12,7 +12,7 @@ body:
     attributes:
       label: Feature Description
       description: A clear and concise description of the feature you want to add.
-      placeholder: "I would like to add support for dark mode toggling in the UI."
+      placeholder: 'I would like to add support for dark mode toggling in the UI.'
     validations:
       required: true
   - type: textarea
@@ -20,7 +20,7 @@ body:
     attributes:
       label: Use Case
       description: Explain the problem this feature solves or how it improves the project.
-      placeholder: "This feature would allow users to switch between light and dark themes for better accessibility."
+      placeholder: 'This feature would allow users to switch between light and dark themes for better accessibility.'
     validations:
       required: true
   - type: textarea
@@ -28,7 +28,7 @@ body:
     attributes:
       label: Proposed Solution
       description: Suggest how this feature could be implemented, if you have ideas.
-      placeholder: "Add a theme toggle button in the header that updates TailwindCSS classes."
+      placeholder: 'Add a theme toggle button in the header that updates TailwindCSS classes.'
     validations:
       required: false
   - type: textarea
@@ -36,7 +36,7 @@ body:
     attributes:
       label: Alternatives Considered
       description: Describe any alternative solutions or features you've considered.
-      placeholder: "Manually adding dark mode classes to components, but this is less user-friendly."
+      placeholder: 'Manually adding dark mode classes to components, but this is less user-friendly.'
     validations:
       required: false
   - type: textarea
@@ -44,6 +44,6 @@ body:
     attributes:
       label: Additional Context
       description: Add any other context, such as mockups or references to similar features.
-      placeholder: "Inspired by Next.js documentation dark mode implementation."
+      placeholder: 'Inspired by Next.js documentation dark mode implementation.'
     validations:
       required: false

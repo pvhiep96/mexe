@@ -3,7 +3,7 @@ import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import ComboSection from '@/components/ComboSection';
 import ComingSoonSection from '@/components/ComingSoonSection';
-import ExploreTopics from '@/components/ExploreTopics';
+import Sidebar from '@/components/Sidebar';
 
 export default function Home() {
   const products = [
@@ -72,8 +72,14 @@ export default function Home() {
   return (
     <div className='flex min-h-screen flex-col'>
       <Navbar />
-      <ExploreTopics />
-      <main className='container mx-auto grow px-4 py-8'>
+      <Sidebar />
+      <main className='grow'>
+        {/* Coming Soon Section */}
+        <section className='mb-12'>
+          {comingSoonProducts.map((product) => (
+            <ComingSoonSection key={product.id} {...product} />
+          ))}
+        </section>
         {/* Hero Section */}
         <section className='mb-12'>
           <h1 className='mb-4 text-center text-4xl font-bold'>
@@ -133,13 +139,6 @@ export default function Home() {
           ))}
         </section>
 
-        {/* Coming Soon Section */}
-        <section className='mb-12'>
-          <h2 className='mb-4 text-2xl font-semibold'>Sắp ra mắt</h2>
-          {comingSoonProducts.map((product) => (
-            <ComingSoonSection key={product.id} {...product} />
-          ))}
-        </section>
       </main>
       <Footer />
     </div>
