@@ -1,21 +1,295 @@
 {
-  "navbar": {
-    "logo": "Vài Thứ Hay",
-    "products": "Products",
-    "combos": "Combos",
-    "about": "About Us",
-    "login": "Login",
-    "searchPlaceholder": "Search products...",
-    "cart": "Cart",
-    "account": "Account",
-    "emptyCart": "Cart is empty\nNothing here yet",
-    "viewCart": "View Cart",
-    "total": "Total",
-    "aboutSubmenu": {
-      "setupDecor": "Setup & Decor",
-      "technology": "Technology",
-      "design": "Design",
-      "innovation": "Innovation"
+  "banner": {
+    "categories": "Categories",
+    "partners": "Partners",
+    "all_products": "All Products",
+    "partner_brands": "Partner Brands",
+    "accessories": "Interior/Exterior Accessories",
+    "apps_positioning": "Apps/Positioning",
+    "car_toys": "Car Toys",
+    "camping": "Camping",
+    "safety_equipment": "Safety Equipment",
+    "battery_charging": "Battery/Charging/Electric Vehicles",
+    "partner_1": "Partner 1",
+    "partner_2": "Partner 2",
+    "partner_3": "Partner 3"
+  },
+  "contact": {
+    "title": "Contact Us to Collaborate",
+    "you_are": "You are...",
+    "distributor": "Distributor/Agent",
+    "affiliate": "Affiliate Sales",
+    "corporate_gifts": "Corporate Gifts",
+    "content_creator": "Youtuber/Tiktoker/Content Creator",
+    "register": "Register",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email"
+  },
+  "brands": {
+    "title": "Great Brands at Mexe",
+    "honda": {
+      "name": "Honda Genuine Parts",
+      "brand": "Honda Brand",
+      "field": "Automotive Parts",
+      "founded": "Founded: 1948",
+      "story": "Honda Genuine Parts provides genuine parts and components for Honda vehicles, ensuring quality and optimal durability.",
+      "story_link": "Behind the Story →"
+    },
+    "toyota": {
+      "name": "Toyota Genuine Parts",
+      "brand": "Toyota Brand",
+      "field": "Automotive Parts",
+      "founded": "Founded: 1937",
+      "story": "Toyota Genuine Parts offers high-quality replacement parts, ensuring stable and safe operation for Toyota vehicles on every journey.",
+      "story_link": "Behind the Story →"
+    },
+    "hyundai": {
+      "name": "Hyundai Mobis",
+      "brand": "Hyundai Brand",
+      "field": "Automotive Parts and Components",
+      "founded": "Founded: 1977",
+      "story": "Hyundai Mobis is a supplier of genuine components and parts for Hyundai vehicles, known for advanced technology and high durability.",
+      "story_link": "Behind the Story →"
+    },
+    "ford": {
+      "name": "Ford Genuine Parts",
+      "brand": "Ford Brand",
+      "field": "Automotive Parts",
+      "founded": "Founded: 1903",
+      "story": "Ford Genuine Parts provides genuine replacement parts for Ford vehicles, ensuring confidence and optimal performance for customers.",
+      "story_link": "Behind the Story →"
     }
+  },
+  "combo_workspace": {
+    "title": "Must-Have Accessories",
+    "explore_more": "Explore More",
+    "view": "View",
+    "group_1": [
+      "Dash Camera",
+      "Tire Pressure Sensor",
+      "Floor Mats",
+      "Air Purifier",
+      "..."
+    ],
+    "group_2": [
+      "Car Fast Charger",
+      "Steering Wheel Cover",
+      "Car Air Freshener",
+      "HUD Speed Display",
+      "..."
+    ],
+    "group_3": [
+      "Electronic Tire Inflator",
+      "Multi-Port Charger",
+      "Headrest Pillow",
+      "Leather Seat Cover",
+      "..."
+    ],
+    "group_4": [
+      "5D Ceiling Cover",
+      "Side Mirror Cover",
+      "Door Handle Cover",
+      "Mud Flaps",
+      "..."
+    ],
+    "group_5": [
+      "Reverse Sensor",
+      "Interior LED Lights",
+      "Android Screen",
+      "Heat-Insulating Film",
+      "..."
+    ],
+    "group_6": [
+      "Convex Mirror",
+      "Step-Up Cover",
+      "Sunshade",
+      "Gear Shift Cover",
+      "..."
+    ],
+    "group_7": [
+      "Leather Seat Cover",
+      "Massage Backrest",
+      "Windshield Sunshade",
+      "Seatbelt Cover",
+      "..."
+    ],
+    "group_8": [
+      "5D Ceiling Cover",
+      "Side Mirror Cover",
+      "Door Handle Cover",
+      "Mud Flaps",
+      "..."
+    ]
+  },
+  "workspace": {
+    "title": "Mexe Workspace",
+    "description": "Experience Mexe products directly at our Workspaces",
+    "store_intro": "Store Introduction",
+    "location": "Tan Binh, Ho Chi Minh City"
+  },
+  "header": {
+    "home": "Home",
+    "explore": "Explore",
+    "explore_by_theme": "Explore by Theme",
+    "workspace_setup": "Workspace Setup",
+    "monthly_offers": "Monthly Offers",
+    "newest_products": "Newest Products",
+    "diy_steampunk": "DIY Steampunk Products",
+    "mexe_corner": "Mexe Corner",
+    "view_all": "View All →",
+    "pre_order_info": "What is Pre-Order? Everything You Need to Know About Pre-Order",
+    "livestream_sales": "How Professionals Livestream Sales",
+    "creative_clocks": "5 Creative Desk Clocks to Boost Work Inspiration",
+    "keyboard_mouse_sets": "Affordable Keyboard and Mouse Sets for Designers",
+    "learn_more": "Learn More",
+    "about_us": "About Us",
+    "contact": "Contact",
+    "news": "News",
+    "guides": "Guides",
+    "cart": "Cart",
+    "search": "Search"
+  },
+  "videos": {
+    "title": "Our YouTube Channel",
+    "description": "Mexe is the leading platform for car trading and information. Post car listings quickly and easily. We provide the latest news on car brand promotions, showrooms, and car reviews.",
+    "youtube_link": "Visit Our YouTube Channel",
+    "videos": [
+      {
+        "title": "Nissan Sunny Premium - Spacious and Fuel-Efficient Sedan | Used Car Trading",
+        "date": "03/10/2025"
+      },
+      {
+        "title": "Toyota Fortuner - Well-Maintained Family SUV | Used Car Trading",
+        "date": "03/09/2025"
+      },
+      {
+        "title": "Ford Ranger Wildtrack 2020 - Great Price | Used Car Trading",
+        "date": "03/09/2025"
+      },
+      {
+        "title": "Mazda CX8 - Affordable 7-Seater SUV | Used Car Trading",
+        "date": "02/28/2025"
+      }
+    ]
+  },
+  "footer": {
+    "customer_support": "Customer Support",
+    "policies": "Regulations and Policies",
+    "salon_terms": "Salon Operating Terms",
+    "faq": "Frequently Asked Questions",
+    "contact": "Contact",
+    "about_us": "About Us",
+    "introduction": "Introduction",
+    "operating_terms": "Operating Terms",
+    "recruitment": "Recruitment",
+    "sitemap": "Sitemap",
+    "car_news": "Car News",
+    "service_pricing": "Service Pricing",
+    "auto_academy": "Auto Academy",
+    "company": "NextGen Vietnam JSC",
+    "copyright": "Copyright © 2015 - 2025 Mexe - mexe.com",
+    "phone": "0123.456.789",
+    "email": "hotro@mexe",
+    "working_hours": "Working Hours: 8:30 - 17:15 (Monday - Friday)",
+    "icp_license": "ICP License No. 978/GP-TTĐT",
+    "content_responsible": "Content Responsible: Mr. ABC",
+    "terms_note": "All regulations and general transaction terms posted on the website are effective from May 11, 2015. Mexe does not sell cars directly; please contact the seller directly for car purchases.",
+    "address": {
+      "hq": "Headquarters: Hanoi City",
+      "hanoi_business": "Business Location in Hanoi: Hanoi City",
+      "hcm_office": "Ho Chi Minh City Office: Ho Chi Minh City",
+      "hotline": "Hotline (Working Hours): 012.3456.7890"
+    },
+    "business_license": "Business Registration Certificate No. 0123456789 issued by Hanoi Business Registration Office on February 11, 2015",
+    "icp_license_1": "ICP License No. 978/GP-TTĐT issued by Hanoi Department of Information and Communications on April 14, 2015",
+    "icp_license_amended": "Amended ICP License No. 4362/GP-TTĐT issued by Hanoi Department of Information and Communications on October 20, 2017"
+  },
+  "service_commitment": {
+    "title": "Service Commitment",
+    "support": "24/7 Support",
+    "quality": "Guaranteed Quality and Reliability",
+    "delivery": "Fast Delivery",
+    "purchase": "Extremely Easy Purchasing"
+  },
+  "early_order": {
+    "title": "Order Early with Mexe",
+    "no_products": "No products available for this tab.",
+    "pre_order": "Pre-Order",
+    "new_release": "New Release",
+    "second_batch": "Second Batch Sale",
+    "newly_launched": "Newly Launched",
+    "sold_batch_1": "Sold in Batch 1: 300",
+    "coming_soon": "Coming Soon",
+    "orders_placed": [
+      "Orders Placed: 2/30",
+      "Orders Placed: 24/100",
+      "Orders Placed: 9/60",
+      "Orders Placed: 5/20",
+      "Orders Placed: 12/40",
+      "Orders Placed: 81/300",
+      "Orders Placed: 10/50",
+      "Orders Placed: 0/50"
+    ],
+    "campaign_ends": [
+      "Campaign Ends: 07/25/2025",
+      "Campaign Ends: 07/12/2025",
+      "Campaign Ends: 07/04/2025",
+      "Campaign Ends: 07/30/2025",
+      "Campaign Ends: 08/01/2025",
+      "Product Being Shipped",
+      "Product Being Shipped",
+      "Coming Soon"
+    ]
+  },
+  "new_brands": {
+    "title": "New Brands - Special Hot Deals",
+    "view_more": "View More",
+    "deal_ends": "Deal Ends in",
+    "days": "days",
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "seconds",
+    "products": [
+      {
+        "name": "Chicco Car Seat",
+        "original_price": "1,300,000đ",
+        "discounted_price": "975,000đ",
+        "discount": "-25%"
+      },
+      {
+        "name": "Nuna Car Seat",
+        "original_price": "1,140,000đ",
+        "discounted_price": "741,000đ",
+        "discount": "-35%"
+      },
+      {
+        "name": "Gofa",
+        "original_price": "1,255,000đ",
+        "discounted_price": "727,900đ",
+        "discount": "-42%"
+      },
+      {
+        "name": "Car Air Freshener",
+        "original_price": "1,080,000đ",
+        "discounted_price": "680,400đ",
+        "discount": "-37%"
+      }
+    ],
+    "quality_deal": "Quality Deal 🚚",
+    "ship_now": "Ship Now",
+    "view_details": "View Details",
+    "buy_now": "Buy Now"
+  },
+  "new_products": {
+    "title": "Best-Selling Products",
+    "explore_more": "Explore More",
+    "coming_soon": "Coming Soon",
+    "coming_soon_info": "What is Coming Soon? Coming Soon indicates a new product ready to launch, but we need time to finalize preparations to deliver the best product to customers. The launch date is when you can officially order, but you can register early to secure a discount slot.",
+    "sold": "Sold: 100,000 products",
+    "product_info": "Product Information",
+    "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+    "launch_time": "0:00 AM",
+    "buy_now": "Buy Now 🔔"
   }
 }
