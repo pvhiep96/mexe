@@ -12,3 +12,16 @@
 │   ├── ServiceCommitment.tsx
 │   ├── Header.tsx
 │   ├── Footer.tsx
+
+
+      <SPBanner />
+      <SPNewProductsMobile />
+      <SPEarlyOrder />
+      <SPNewBrands />
+      <SPComboWorkspace />
+      <SPBannerSale />
+      <SPWorkspace />
+      <SPVideos />
+      <SPServiceCommitment />
+      <SPBrands />
+      <SPContact />

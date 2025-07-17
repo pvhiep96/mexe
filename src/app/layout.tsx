@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} text-primary antialiased`}
         style={{ backgroundImage: "url('/bg-vth.jpg')" }}
       >
         <CartProvider>{children}</CartProvider>

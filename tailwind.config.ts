@@ -15,6 +15,12 @@ module.exports = {
           DEFAULT: '#FCDE50',
         },
       },
+      width: {
+        'screen-minus-375': 'calc(100vw - 375px)',
+      },
+      backgroundImage: {
+        footer: "url('/images/footer-background.jpg')",
+      },
     },
   },
   plugins: [],

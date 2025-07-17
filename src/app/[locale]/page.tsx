@@ -25,7 +25,7 @@ import SPContact from '@/components/SP/Contact';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className='flex min-h-screen flex-col'>
       {/* Desktop Sections */}
       <Banner />
       <NewProducts />
@@ -40,17 +40,6 @@ export default function Home() {
       <Contact />
 
       {/* Mobile Sections (SP) */}
-      <SPBanner />
-      <SPNewProductsMobile />
-      <SPEarlyOrder />
-      <SPNewBrands />
-      <SPComboWorkspace />
-      <SPBannerSale />
-      <SPWorkspace />
-      <SPVideos />
-      <SPServiceCommitment />
-      <SPBrands />
-      <SPContact />
     </main>
   );
 }

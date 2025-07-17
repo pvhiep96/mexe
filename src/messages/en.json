@@ -23,7 +23,8 @@
     "content_creator": "Youtuber/Tiktoker/Content Creator",
     "register": "Register",
     "name": "Name",
-    "phone": "Phone"
+    "phone": "Phone",
+    "email": "Email"
   },
   "brands": {
     "title": "Great Brands at Mexe",
