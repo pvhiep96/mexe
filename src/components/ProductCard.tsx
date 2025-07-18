@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
+import { BellAlertIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
 
 interface Product {
   id: number;
@@ -24,50 +25,58 @@ interface ProductCardProps {
   handleMouseOut: () => void;
 }
 
-
-export default function ProductCard({ product, handleMouseOver, handleMouseOut }: ProductCardProps) {
-  const [timeLeft, setTimeLeft] = useState<string>('');
-
+export default function ProductCard({
+  product,
+  handleMouseOver,
+  handleMouseOut,
+}: ProductCardProps) {
+  const targetDate = new Date('2025-07-25T00:00:00').getTime();
+  const [timeLeft, setTimeLeft] = useState(targetDate - Date.now());
   useEffect(() => {
-    const updateTimer = () => {
-      const distance = formatDistanceToNow(new Date(product.releaseDate));
-      setTimeLeft(distance);
-    };
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
+    const interval = setInterval(() => {
+      setTimeLeft(targetDate - Date.now());
+    }, 1000);
+
     return () => clearInterval(interval);
-  }, [product.releaseDate]);
+  }, [targetDate]);
+
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
   return (
-    <div className="bg-white rounded-lg shadow-md grid grid-cols-2 gap-4">
-      <div className="m-auto ml-4">
-        <Link href={`/products/${product.slug}`} className="" >
-          <div className="grid grid-cols-2 gap-2 justify-center justify-items-center justify-self-center content-center items-center">
+    <div className='grid grid-cols-2 gap-4 rounded-lg bg-white shadow-md'>
+      <div className='m-auto ml-4'>
+        <Link href={`/products/${product.slug}`} className=''>
+          <div className='grid grid-cols-2 place-content-center place-items-center gap-2 justify-self-center'>
             <Image
               src={product.images[0]}
               alt={product.title}
               width={100}
               height={100}
-              className=""
+              className=''
             />
             <Image
               src={product.images[1]}
               alt={product.title}
               width={100}
               height={100}
-              className=""
+              className=''
             />
             <Image
               src={product.images[2]}
               alt={product.title}
               width={100}
               height={100}
-              className="w-full h-24 object-cover"
+              className='h-24 w-full object-cover'
             />
           </div>
         </Link>
         <div
-          className="absolute top-0 right-0 flex items-center gap-2 bg-green-700 text-white px-2 py-1 rounded border border-dashed"
+          className='absolute top-0 right-0 flex items-center gap-2 rounded border border-dashed bg-green-700 px-2 py-1 text-white'
           onMouseOver={(e) =>
             handleMouseOver(
               e,
@@ -76,59 +85,75 @@ export default function ProductCard({ product, handleMouseOver, handleMouseOut }
           }
           onMouseOut={handleMouseOut}
         >
-          <span className="text-sm">Coming<br />Soon</span>
+          <span className='text-sm'>
+            Coming
+            <br />
+            Soon
+          </span>
           <Image
-            src="https://file.hstatic.net/1000269366/file/div.accordion__toggle_19ccc6ffc4464ae7b11fecc7d634eaab.png"
-            alt="Vài Thứ Hay"
+            src='https://file.hstatic.net/1000269366/file/div.accordion__toggle_19ccc6ffc4464ae7b11fecc7d634eaab.png'
+            alt='Vài Thứ Hay'
             width={16}
             height={16}
-            className="absolute top-0 right-0 transform translate-x-1/2 translate-y-1/2"
+            className='absolute top-0 right-0 translate-x-1/2 translate-y-1/2'
           />
         </div>
       </div>
-      <div className="p-4">
-        <Link href={`/products/${product.slug}`} className="text-lg font-semibold hover:text-blue-600 truncate w-64">
+
+      <div className='p-4'>
+        <Link
+          href={`/products/${product.slug}`}
+          className='inline-block w-[200px] truncate text-lg font-semibold'
+        >
           {product.title}
         </Link>
-        <div className="mt-2 text-center">
-          <div className="flex items-center justify-center gap-2">
-            <Image
-              src="https://file.hstatic.net/1000269366/file/___icon__calendar__a7b57c81100b4e4aad6001a644a3f03c.png"
-              alt="Dự kiến ra mắt"
-              width={16}
-              height={16}
-            />
+        <div className='mt-2'>
+          <div className='flex items-center justify-center gap-2'>
+            <CalendarDaysIcon className='size-5 text-gray-500' />
             <span>Dự kiến ra mắt:</span>
           </div>
-          <p className="text-sm">0 giờ sáng</p>
-          <time>{new Date(product.releaseDate).toLocaleDateString('vi-VN')}</time>
-          <p className="text-sm mt-1">{timeLeft}</p>
+          <p className='text-center text-sm'>0 giờ sáng</p>
+          <time className='m-1 flex w-full justify-center rounded-xl bg-green-700 p-2 text-center text-sm font-semibold text-white'>
+            {new Date(product.releaseDate).toLocaleDateString('vi-VN')}
+          </time>
+          <div className='mt-1 grid grid-cols-4 gap-2 text-center text-sm'>
+            <div className='rounded p-2'>
+              <span className='font-semibold'>{days}</span> ngày
+            </div>
+            <div className='rounded p-2'>
+              <span className='font-semibold'>{hours}</span> giờ
+            </div>
+            <div className='rounded p-2'>
+              <span className='font-semibold'>{minutes}</span> phút
+            </div>
+            <div className='rounded p-2'>
+              <span className='font-semibold'>{seconds}</span> giây
+            </div>
+          </div>
         </div>
-        <div className="mt-4">
+        <div className='mt-4'>
           <Link
-            href="#"
-            className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full "
+            href='#'
+            className='inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-white'
             onClick={(e) => e.preventDefault()}
           >
-            <b>Đăng ký đặt trước</b>
-            <Image
-              src="https://file.hstatic.net/1000269366/file/icon__bell_c75991a1f91f4820bcd15d4d5621da82.svg"
-              alt="Vài Thứ Hay"
-              width={30}
-              height={30}
-              className="bg-white rounded-full"
-            />
+            <b className='text-sm'>Đăng ký đặt trước</b>
+            <BellAlertIcon className='size-5' />
           </Link>
         </div>
-        <div className="hidden mt-4">
+        <div className='mt-4 hidden'>
           {product.prices.map((price) => (
             <div
               key={price.type}
               className={`p-2 ${price.active ? 'bg-gray-100' : ''}`}
             >
-              <div className="font-semibold">{price.name}: <ins>{price.price}</ins></div>
+              <div className='font-semibold'>
+                {price.name}: <ins>{price.price}</ins>
+              </div>
               <div>{price.name}</div>
-              {price.discount && <span className="text-green-600">Saving {price.discount}</span>}
+              {price.discount && (
+                <span className='text-green-600'>Saving {price.discount}</span>
+              )}
             </div>
           ))}
         </div>
