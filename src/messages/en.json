@@ -153,25 +153,8 @@
   "videos": {
     "title": "Our YouTube Channel",
     "description": "Mexe is the leading platform for car trading and information. Post car listings quickly and easily. We provide the latest news on car brand promotions, showrooms, and car reviews.",
-    "youtube_link": "Visit Our YouTube Channel",
-    "videos": [
-      {
-        "title": "Nissan Sunny Premium - Spacious and Fuel-Efficient Sedan | Used Car Trading",
-        "date": "03/10/2025"
-      },
-      {
-        "title": "Toyota Fortuner - Well-Maintained Family SUV | Used Car Trading",
-        "date": "03/09/2025"
-      },
-      {
-        "title": "Ford Ranger Wildtrack 2020 - Great Price | Used Car Trading",
-        "date": "03/09/2025"
-      },
-      {
-        "title": "Mazda CX8 - Affordable 7-Seater SUV | Used Car Trading",
-        "date": "02/28/2025"
-      }
-    ]
+    "youtube_link": "Visit Our YouTube Channel"
+
   },
   "footer": {
     "customer_support": "Customer Support",
