@@ -14,7 +14,7 @@ export default function ServiceCommitment() {
   ];
 
   return (
-    <section className='relative flex min-h-[500px] flex-col items-center justify-center bg-blue-600'>
+    <section className='relative flex min-h-[500px] flex-col items-center justify-center bg-blue-400'>
       <div className='container mx-auto px-12'>
         <div className='absolute bottom-0 left-0 w-full rotate-180 overflow-hidden leading-none'>
           <svg

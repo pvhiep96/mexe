@@ -22,7 +22,8 @@ import SPVideos from '@/components/SP/Videos';
 import SPServiceCommitment from '@/components/SP/ServiceCommitment';
 import SPBrands from '@/components/SP/Brands';
 import SPContact from '@/components/SP/Contact';
-
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 export default function Home() {
   return (
     <main className='flex min-h-screen flex-col'>

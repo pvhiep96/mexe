@@ -3,9 +3,7 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
-import Slider, { Settings } from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import Slider from 'react-slick';
 import Link from 'next/link';
 
 export default function Banner() {
@@ -285,6 +283,7 @@ export default function Banner() {
                       href={item.href}
                       target='_blank'
                       className='text-sm text-gray-700'
+                      rel='noreferrer'
                     >
                       {item.label}
                     </a>
@@ -303,6 +302,7 @@ export default function Banner() {
                     href={vendor.href}
                     target='_blank'
                     className='vendor-item-menu block overflow-hidden rounded-lg transition-all hover:scale-105'
+                    rel='noreferrer'
                   >
                     <img
                       width='100'
@@ -342,6 +342,7 @@ export default function Banner() {
                         href={sub.href}
                         target='_blank'
                         className='m-2 block cursor-pointer rounded-lg bg-gray-100 p-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-yellow-400 hover:text-gray-900'
+                        rel='noreferrer'
                       >
                         {sub.label}
                       </a>
