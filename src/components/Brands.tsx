@@ -65,7 +65,8 @@ export default function Brands() {
         <div className=''>
           <Slider {...sliderSettings}>
             {brands.map((brand) => (
-              <div key={brand.id} className='rounded-t-lg px-2 shadow-lg'>
+              <div className="p-4">
+              <div key={brand.id} className='rounded-t-lg px-2 shadow-lg '>
                 <div className='relative'>
                   <Image
                     src={brand.image}
@@ -96,6 +97,7 @@ export default function Brands() {
                 >
                   {t(`${brand.id}.story_link`)}
                 </Link>
+              </div>
               </div>
             ))}
           </Slider>
