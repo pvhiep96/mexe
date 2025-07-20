@@ -4,6 +4,14 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.hstatic.net',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
 };
 

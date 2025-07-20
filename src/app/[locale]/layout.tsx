@@ -51,7 +51,14 @@ export default async function RootLayout({
 
       <body className="font-sans">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header/>
+          {/* Desktop Header */}
+          <div className="hidden lg:block">
+            <Header/>
+          </div>
+          {/* Mobile Header */}
+          <div className="lg:hidden">
+            <SPHeader/>
+          </div>
           {children}
           <Footer/>
         </NextIntlClientProvider>
