@@ -187,7 +187,7 @@ export default function NewProducts() {
             <div className=''>
               <Link
                 href='/collections/coming-soon'
-                className='rounded-full bg-gray-600 px-8 py-4 font-semibold text-white shadow-xl shadow-gray-400 hover:bg-yellow-400 hover:text-gray-700'
+                className='rounded-full bg-gray-600 px-8 py-4 font-semibold text-white shadow-xl shadow-gray-400 hover:bg-[#2D6294] hover:text-gray-700'
               >
                 Khám phá thêm{' '}
                 <i className='fa fa-angle-right' aria-hidden='true'></i>

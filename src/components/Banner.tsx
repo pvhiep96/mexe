@@ -238,7 +238,7 @@ export default function Banner() {
         >
           <ul className='grid grid-flow-col space-y-2 border-b pb-2'>
             <li
-              className={`nav-item ${activeTab === 'danhmuc' ? 'border-b-2 border-yellow-400' : ''}`}
+              className={`nav-item ${activeTab === 'danhmuc' ? 'border-b-2 border-[#2D6294]' : ''}`}
             >
               <a
                 className='nav-link block cursor-pointer py-2 text-sm font-medium text-gray-700 hover:text-gray-900'
@@ -248,7 +248,7 @@ export default function Banner() {
               </a>
             </li>
             <li
-              className={`nav-item ${activeTab === 'thuonghieu' ? 'border-b-2 border-yellow-400' : ''}`}
+              className={`nav-item ${activeTab === 'thuonghieu' ? 'border-b-2 border-[#2D6294]' : ''}`}
             >
               <a
                 className='nav-link block cursor-pointer py-2 text-sm font-medium text-gray-700 hover:text-gray-900'
@@ -271,7 +271,7 @@ export default function Banner() {
                   }
                   onMouseLeave={() => item.submenu && setHoveredSubmenu(null)}
                 >
-                  <div className='sidebar-icon-wrap flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-yellow-400 hover:text-gray-900'>
+                  <div className='sidebar-icon-wrap flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'>
                     <img
                       width='30'
                       height='30'
@@ -341,7 +341,7 @@ export default function Banner() {
                         key={subIdx}
                         href={sub.href}
                         target='_blank'
-                        className='m-2 block cursor-pointer rounded-lg bg-gray-100 p-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-yellow-400 hover:text-gray-900'
+                        className='m-2 block cursor-pointer rounded-lg bg-gray-100 p-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'
                         rel='noreferrer'
                       >
                         {sub.label}

@@ -16,7 +16,7 @@ const PRODUCT_MOCK = {
   ],
   colors: [
     { name: 'Trắng', value: 'white' },
-    { name: 'Vàng', value: 'yellow' },
+    { name: 'Vàng', value: '#2D6294' },
   ],
   description: 'Đèn LED xe ô tô cao cấp với công nghệ LED hiện đại, ánh sáng trắng sáng và rõ ràng, phù hợp cho nhiều dòng xe khác nhau. Sản phẩm được thiết kế với chất liệu cao cấp, chống nước và chống rung tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ánh sáng tối ưu. Với thiết kế compact và dễ lắp đặt, đèn không chỉ cải thiện tầm nhìn khi lái xe mà còn tăng tính thẩm mỹ cho chiếc xe của bạn.',
   brand: 'AUTOLIGHT',
@@ -71,8 +71,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen">
+      <div className="container mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex mb-8" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-3">
@@ -112,7 +112,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   key={index}
                   onClick={() => setSelectedImage(index)}
                   className={`aspect-square bg-white rounded-lg overflow-hidden border-2 transition-all ${
-                    selectedImage === index ? 'border-yellow-400' : 'border-gray-200 hover:border-gray-300'
+                    selectedImage === index ? 'border-[#2D6294]' : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
                   <Image
@@ -145,14 +145,14 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   <div
                     key={index}
                     className={`flex-shrink-0 p-3 rounded-lg border text-center text-sm min-w-[140px] ${
-                      index === 0 ? 'border-yellow-400 bg-yellow-50' : 'border-gray-300 bg-gray-50'
+                      index === 0 ? 'border-[#2D6294] bg-[#2D6294]/10' : 'border-gray-300 bg-gray-50'
                     }`}
                   >
                     <div className="relative mb-2">
                       <div className={`text-lg ${index === 0 ? 'text-gray-800' : 'text-gray-400'}`}>
                         {service.icon}
                       </div>
-                      <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full flex items-center justify-center">
+                      <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-[#2D6294] rounded-full flex items-center justify-center">
                         <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                       </div>
                     </div>
@@ -201,7 +201,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     onClick={() => setSelectedColor(color.value)}
                     className={`px-6 py-2 rounded-full border-2 transition-all ${
                       selectedColor === color.value 
-                        ? 'border-yellow-400 bg-yellow-50' 
+                        ? 'border-[#2D6294] bg-[#2D6294]/10' 
                         : 'border-gray-300 hover:border-gray-400'
                     }`}
                   >
@@ -217,7 +217,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50">
                 <button
                   onClick={() => handleQuantityChange('decrease')}
-                  className="px-3 py-2 text-gray-700 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-2 text-gray-700 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   disabled={quantity <= 1}
                 >
                   -
@@ -227,14 +227,14 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                 </span>
                 <button
                   onClick={() => handleQuantityChange('increase')}
-                  className="px-3 py-2 text-gray-700 hover:text-gray-900"
+                  className="px-3 py-2 text-gray-700 hover:text-gray-900 cursor-pointer"
                 >
                   +
                 </button>
               </div>
 
               {/* Add to Cart Button */}
-              <button className="flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors border border-gray-300">
+              <button className="flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors border border-gray-300 cursor-pointer">
                 <div className="relative">
                   <ShoppingCartIcon className="h-8 w-8" />
                   <div className="absolute -top-1 -right-1 w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
@@ -244,7 +244,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               </button>
 
               {/* Buy Now Button */}
-              <button className="flex-1 bg-gray-800 text-white py-3 px-6 rounded-lg font-bold hover:bg-gray-900 transition-colors">
+              <button className="flex-1 bg-gray-800 text-white py-3 px-6 rounded-lg font-bold hover:bg-gray-900 transition-colors cursor-pointer">
                 MUA NGAY
               </button>
             </div>
@@ -256,13 +256,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           {/* Left Column - Product Information, Target Audience, Warranty Policy, Real Images (80% width) */}
           <div className="col-span-4 space-y-6">
             {/* Product Information Header */}
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">THÔNG TIN SẢN PHẨM</h2>
               <button
                 onClick={() => setShowFullProductInfo(!showFullProductInfo)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -352,13 +352,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             {/* Target Audience Section */}
             <div className="mt-6">
                           {/* Target Audience Header */}
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">SẢN PHẨM GIÀNH CHO NHỮNG AI?</h2>
               <button
                 onClick={() => setShowFullTargetAudience(!showFullTargetAudience)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -406,13 +406,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             </div>
 
             {/* Warranty and Return Policy Header */}
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH</h2>
               <button
                 onClick={() => setShowWarrantyPolicy(!showWarrantyPolicy)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -429,15 +429,15 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     </h3>
                     <ul className="space-y-2 text-gray-600">
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng bị lỗi kỹ thuật do nhà sản xuất.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng bị hư hỏng do quá trình vận chuyển.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng giao không đúng mẫu mã, loại mà khách đã đặt.
                       </li>
                     </ul>
@@ -450,19 +450,19 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     </h3>
                     <ul className="space-y-2 text-gray-600">
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Khách hàng cần thông báo cho chúng tôi về tình trạng lỗi sản phẩm, sự cố đơn hàng trong vòng 7 ngày kể từ thời điểm giao hàng thành công.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Khách hàng cần cung cấp video mở hộp sản phẩm để chứng minh lỗi do quá trình vận chuyển hoặc sản xuất.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng hóa còn đầy đủ các phụ kiện đi kèm.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Các vấn đề lỗi sản phẩm Vaithuhay sẽ nhận hàng về kiểm tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
                       </li>
                     </ul>
@@ -475,15 +475,15 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     </h3>
                     <ul className="space-y-2 text-gray-600">
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Sản phẩm bị hư hỏng do lỗi của khách hàng, Vaithuhay chỉ hỗ trợ theo chính sách bảo hành đi kèm.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Khách hàng không cung cấp được video/hình ảnh chứng minh vấn đề lỗi do nhà sản xuất và vận chuyển.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng hoàn về không còn đầy đủ phụ kiện ban đầu.
                       </li>
                     </ul>
@@ -493,13 +493,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             )}
 
             {/* Real Images Section */}
-                         <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+                         <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
                <h2 className="text-lg font-bold">HÌNH ẢNH</h2>
                <button
                  onClick={() => setShowRealImages(!showRealImages)}
                  className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
                >
-                 <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                 <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                  </svg>
                </button>
@@ -538,7 +538,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden border-2 transition-colors ${
-                      index === currentImageIndex ? 'border-yellow-500' : 'border-transparent'
+                      index === currentImageIndex ? 'border-[#2D6294]' : 'border-transparent'
                     }`}
                   >
                     <Image
@@ -558,13 +558,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           {/* Right Column - Technical Specifications and Related Products (20% width) */}
           <div className="col-span-2 space-y-6">
             {/* Technical Specifications Header */}
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">THÔNG SỐ KỸ THUẬT</h2>
               <button
                 onClick={() => setShowTechnicalSpecs(!showTechnicalSpecs)}
                 className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showTechnicalSpecs ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showTechnicalSpecs ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -622,7 +622,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                 <h3 className="font-bold text-gray-900 mb-4">SẢN PHẨM LIÊN QUAN</h3>
                 <div className="space-y-4">
                   {/* Related Product 1 */}
-                  <div className="flex items-center space-x-3 pb-4 border-b border-gray-100">
+                  <div className="flex items-center space-x-3 pb-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
                     <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                       <Image
                         src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=64&h=64&fit=crop"
@@ -641,7 +641,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   </div>
 
                   {/* Related Product 2 */}
-                  <div className="flex items-center space-x-3 pb-4 border-b border-gray-100">
+                  <div className="flex items-center space-x-3 pb-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
                     <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                       <Image
                         src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=64&h=64&fit=crop"
@@ -660,7 +660,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   </div>
 
                   {/* Related Product 3 */}
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
                     <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                       <Image
                         src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=64&h=64&fit=crop"
@@ -687,13 +687,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         <div className="mt-12 lg:hidden space-y-6">
           {/* Product Information */}
           <div>
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">THÔNG TIN SẢN PHẨM</h2>
               <button
                 onClick={() => setShowFullProductInfo(!showFullProductInfo)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -770,13 +770,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
           {/* Technical Specifications */}
           <div>
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">THÔNG SỐ KỸ THUẬT</h2>
               <button
                 onClick={() => setShowTechnicalSpecs(!showTechnicalSpecs)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showTechnicalSpecs ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showTechnicalSpecs ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -829,13 +829,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
           {/* Target Audience */}
           <div>
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">SẢN PHẨM GIÀNH CHO NHỮNG AI?</h2>
               <button
                 onClick={() => setShowFullTargetAudience(!showFullTargetAudience)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -877,13 +877,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
           {/* Warranty Policy */}
           <div>
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH</h2>
               <button
                 onClick={() => setShowWarrantyPolicy(!showWarrantyPolicy)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -897,15 +897,15 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     </h3>
                     <ul className="space-y-2 text-gray-600">
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng bị lỗi kỹ thuật do nhà sản xuất.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng bị hư hỏng do quá trình vận chuyển.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng giao không đúng mẫu mã, loại mà khách đã đặt.
                       </li>
                     </ul>
@@ -916,19 +916,19 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     </h3>
                     <ul className="space-y-2 text-gray-600">
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Khách hàng cần thông báo cho chúng tôi về tình trạng lỗi sản phẩm, sự cố đơn hàng trong vòng 7 ngày kể từ thời điểm giao hàng thành công.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Khách hàng cần cung cấp video mở hộp sản phẩm để chứng minh lỗi do quá trình vận chuyển hoặc sản xuất.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng hóa còn đầy đủ các phụ kiện đi kèm.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Các vấn đề lỗi sản phẩm Vaithuhay sẽ nhận hàng về kiểm tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
                       </li>
                     </ul>
@@ -939,15 +939,15 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     </h3>
                     <ul className="space-y-2 text-gray-600">
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Sản phẩm bị hư hỏng do lỗi của khách hàng, Vaithuhay chỉ hỗ trợ theo chính sách bảo hành đi kèm.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Khách hàng không cung cấp được video/hình ảnh chứng minh vấn đề lỗi do nhà sản xuất và vận chuyển.
                       </li>
                       <li className="flex items-start">
-                        <span className="text-yellow-500 mr-2 mt-1">•</span>
+                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
                         Hàng hoàn về không còn đầy đủ phụ kiện ban đầu.
                       </li>
                     </ul>
@@ -959,13 +959,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
           {/* Real Images */}
           <div>
-            <div className="bg-yellow-500 text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
+            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">HÌNH ẢNH</h2>
               <button
                 onClick={() => setShowRealImages(!showRealImages)}
                 className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
               >
-                <svg className={`w-3 h-3 text-yellow-500 transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
@@ -1006,7 +1006,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden border-2 transition-colors ${
-                      index === currentImageIndex ? 'border-yellow-500' : 'border-transparent'
+                      index === currentImageIndex ? 'border-[#2D6294]' : 'border-transparent'
                     }`}
                   >
                     <Image

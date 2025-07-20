@@ -59,7 +59,7 @@ export default function ComboWorkspace() {
   ];
 
   return (
-    <section className='relative flex min-h-[400px] flex-col items-center justify-center bg-yellow-300 py-8 pt-[100px]'>
+    <section className='relative flex min-h-[400px] flex-col items-center justify-center bg-[#2D6294] py-8 pt-[100px]'>
       <div className='absolute top-0 left-0 z-0 w-full overflow-hidden leading-none opacity-50'>
         <svg
           className='relative block h-[600px] w-full'
@@ -94,7 +94,7 @@ export default function ComboWorkspace() {
             <Link
               key={key}
               href='#'
-              className='mr-4 mb-6 block rounded-full border border-gray-300 p-2 text-center text-lg font-semibold text-gray-800 transition-colors duration-300 hover:border-white hover:bg-yellow-300 hover:text-gray-700 hover:shadow-lg hover:shadow-yellow-500/50'
+              className='mr-4 mb-6 block rounded-full border border-gray-300 p-2 text-center text-lg font-semibold text-gray-800 transition-colors duration-300 hover:border-white hover:bg-[#2D6294] hover:text-gray-700 hover:shadow-lg hover:shadow-[#2D6294]/50'
             >
               {t('explore_more')}
             </Link>
@@ -117,7 +117,7 @@ export default function ComboWorkspace() {
                   {group.items.map((item: string) => (
                     <li
                       key={item}
-                      className='mr-2 mb-1 rounded-full border border-white p-2 text-sm font-semibold transition-colors duration-300 hover:cursor-pointer hover:bg-yellow-300 hover:text-gray-700'
+                      className='mr-2 mb-1 rounded-full border border-white p-2 text-sm font-semibold transition-colors duration-300 hover:cursor-pointer hover:bg-[#2D6294] hover:text-gray-700'
                     >
                       {item}
                     </li>

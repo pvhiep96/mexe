@@ -210,42 +210,42 @@ const sortOptions = [
     label: 'A-Z',
     desc: 'Sắp xếp tên từ A đến Z',
     icon: (
-      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><text x="4" y="13" fontSize="8" fontWeight="bold" fill="black">A</text><text x="4" y="21" fontSize="8" fontWeight="bold" fill="black">Z</text><path d="M16 7v10m0 0l-3-3m3 3l3-3" stroke="black" strokeWidth="2" strokeLinecap="round"/></svg>
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><text x="4" y="13" fontSize="8" fontWeight="bold" fill="black">A</text><text x="4" y="21" fontSize="8" fontWeight="bold" fill="black">Z</text><path d="M16 7v10m0 0l-3-3m3 3l3-3" stroke="black" strokeWidth="2" strokeLinecap="round" /></svg>
     ),
   },
   {
     label: 'Z-A',
     desc: 'Sắp xếp tên từ Z đến A',
     icon: (
-      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><text x="4" y="13" fontSize="8" fontWeight="bold" fill="black">Z</text><text x="4" y="21" fontSize="8" fontWeight="bold" fill="black">A</text><path d="M16 17V7m0 0l-3 3m3-3l3 3" stroke="black" strokeWidth="2" strokeLinecap="round"/></svg>
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><text x="4" y="13" fontSize="8" fontWeight="bold" fill="black">Z</text><text x="4" y="21" fontSize="8" fontWeight="bold" fill="black">A</text><path d="M16 17V7m0 0l-3 3m3-3l3 3" stroke="black" strokeWidth="2" strokeLinecap="round" /></svg>
     ),
   },
   {
     label: 'Mới nhất',
     desc: 'Sắp xếp theo sản phẩm mới nhất',
     icon: (
-      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" stroke="black" strokeWidth="2"/><path d="M8 2v4M16 2v4M4 10h16" stroke="black" strokeWidth="2"/></svg>
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" stroke="black" strokeWidth="2" /><path d="M8 2v4M16 2v4M4 10h16" stroke="black" strokeWidth="2" /></svg>
     ),
   },
   {
     label: 'Bán chạy',
     desc: 'Sắp xếp theo sản phẩm bán chạy',
     icon: (
-      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M6 18v-2a4 4 0 0 1 4-4h0a4 4 0 0 1 4 4v2" stroke="black" strokeWidth="2"/><circle cx="12" cy="7" r="4" stroke="black" strokeWidth="2"/><rect x="2" y="17" width="4" height="5" rx="2" fill="black"/></svg>
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path d="M6 18v-2a4 4 0 0 1 4-4h0a4 4 0 0 1 4 4v2" stroke="black" strokeWidth="2" /><circle cx="12" cy="7" r="4" stroke="black" strokeWidth="2" /><rect x="2" y="17" width="4" height="5" rx="2" fill="black" /></svg>
     ),
   },
   {
     label: 'Giá tăng',
     desc: 'Sắp xếp theo giá tăng dần',
     icon: (
-      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="black" strokeWidth="2"/><path d="M12 16V8m0 0l-3 3m3-3l3 3" stroke="black" strokeWidth="2" strokeLinecap="round"/><text x="9" y="23" fontSize="8" fontWeight="bold" fill="black">$</text></svg>
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="black" strokeWidth="2" /><path d="M12 16V8m0 0l-3 3m3-3l3 3" stroke="black" strokeWidth="2" strokeLinecap="round" /><text x="9" y="23" fontSize="8" fontWeight="bold" fill="black">$</text></svg>
     ),
   },
   {
     label: 'Giá giảm',
     desc: 'Sắp xếp theo giá giảm dần',
     icon: (
-      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="black" strokeWidth="2"/><path d="M12 8v8m0 0l-3-3m3 3l3-3" stroke="black" strokeWidth="2" strokeLinecap="round"/><text x="9" y="23" fontSize="8" fontWeight="bold" fill="black">$</text></svg>
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="black" strokeWidth="2" /><path d="M12 8v8m0 0l-3-3m3 3l3-3" stroke="black" strokeWidth="2" strokeLinecap="round" /><text x="9" y="23" fontSize="8" fontWeight="bold" fill="black">$</text></svg>
     ),
   },
 ];
@@ -270,12 +270,12 @@ export default function ProductListPage() {
         {type === 'prev' ? (
           <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             {/* <circle cx="25" cy="25" r="25" fill="#fff"/> */}
-            <path d="M32 40L18 25L32 10" stroke="#bfa100" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M32 40L18 25L32 10" stroke="#bfa100" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         ) : (
           <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             {/* <circle cx="25" cy="25" r="25" fill="#fff"/> */}
-            <path d="M18 10L32 25L18 40" stroke="#bfa100" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M18 10L32 25L18 40" stroke="#bfa100" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
       </button>
@@ -291,8 +291,8 @@ export default function ProductListPage() {
     autoplay: true,
     autoplaySpeed: 4000,
     arrows: true,
-    prevArrow: <ReviewArrow type="prev" />, 
-    nextArrow: <ReviewArrow type="next" />, 
+    prevArrow: <ReviewArrow type="prev" />,
+    nextArrow: <ReviewArrow type="next" />,
     responsive: [
       { breakpoint: 1200, settings: { slidesToShow: 3 } },
       { breakpoint: 800, settings: { slidesToShow: 3 } },
@@ -300,49 +300,37 @@ export default function ProductListPage() {
   };
 
   return (
-    <div className='flex min-h-screen flex-col'>
-      {/* <Navbar /> */}
-      <main className='grow'>
-        {/* Banner */}
-        {/* <div className="w-full bg-white border-b">
-          <div className="container mx-auto max-w-[1200px]">
-            <img src="https://file.hstatic.net/1000069970/file/banner_pre_c4eeb4b0068b421dafdc8ce2f9aa7d54_40d9e9e6a2894924b768c57612313211.png" alt="Banner" className="w-full max-w-5xl object-cover mx-auto" />
-          </div>
-        </div> */}
-        {/* Breadcrumb and Title for Mobile */}
-        <div className="container mx-auto max-w-[1200px] sm:hidden">
-          <div className="py-4">
-            {/* Breadcrumb */}
-            <div className="bg-white rounded-lg px-4 py-2 mb-4 shadow-sm">
-              <div className="flex items-center text-sm">
-                <span className="text-blue-600">Trang chủ</span>
-                <span className="text-gray-400 mx-2">/</span>
-                <span className="text-blue-600">Danh mục</span>
-                <span className="text-gray-400 mx-2">/</span>
-                <span className="text-gray-600">Tất cả sản phẩm</span>
+    <div className="min-h-screen">
+      <div className="container mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-8">
+        {/* Breadcrumb */}
+        <nav className="flex mb-8" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-1 md:space-x-3">
+            <li className="inline-flex items-center">
+              <a href="/" className="text-gray-700 hover:text-blue-600">Trang chủ</a>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <span className="mx-2 text-gray-400">/</span>
+                <a href="/products" className="text-gray-700 hover:text-blue-600">Sản phẩm</a>
               </div>
-            </div>
-
-            {/* Title Button */}
-            <div className="flex justify-center mb-4">
-              <div className="items-center w-[90%]">
-                <button className="bg-[#2D6294] text-white font-bold text-lg px-8 py-3 rounded-[5px] shadow-lg hover:bg-[#2D6294]/80 transition-colors w-full">
-                  Tất cả sản phẩm
-                </button>
-                {/* Title Label */}
-                <div className="text-left">
-                  <h1 className="text-gray-600 text-base font-medium">Tất cả sản phẩm</h1>
-                </div>
+            </li>
+            <li aria-current="page">
+              <div className="flex items-center">
+                <span className="mx-2 text-gray-400">/</span>
+                <span className="text-gray-500">Tất cả sản phẩm</span>
               </div>
-              
-            </div>
+            </li>
+          </ol>
+        </nav>
 
-            
-          </div>
+        {/* Page Title */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Tất cả sản phẩm</h1>
+          <p className="text-gray-600">Khám phá bộ sưu tập sản phẩm đa dạng của chúng tôi</p>
         </div>
 
         {/* Hashtag */}
-        <div className="container mx-auto max-w-[1200px]">
+        <div className="mb-8">
           <div className="py-4 hidden sm:block">
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 justify-items-center">
               {hashtags.slice(0, 4).map((tag: { label: string }) => (
@@ -388,9 +376,9 @@ export default function ProductListPage() {
               <h2 className="text-lg sm:text-2xl font-bold">Khám phá các danh mục khác:</h2>
               <button className="flex items-center gap-1 sm:gap-2 bg-[#E30613] text-white font-bold rounded-full px-4 sm:px-8 py-1.5 sm:py-2 text-sm sm:text-lg shadow hover:bg-red-700 transition">
                 <span className="flex gap-0.5 sm:gap-1">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </span>
                 <span className="hidden sm:inline">Xem thêm</span>
                 <span className="sm:hidden">Xem</span>
@@ -412,11 +400,10 @@ export default function ProductListPage() {
               {sortOptions.map((opt, idx) => (
                 <button
                   key={opt.label}
-                  className={`w-10 h-10 sm:w-14 sm:h-14 rounded-full shadow flex items-center justify-center transition cursor-pointer ${
-                    selectedSort === idx 
-                      ? 'bg-[#2D6294] hover:bg-[#2D6294]/80' 
+                  className={`w-10 h-10 sm:w-14 sm:h-14 rounded-full shadow flex items-center justify-center transition cursor-pointer ${selectedSort === idx
+                      ? 'bg-[#2D6294] hover:bg-[#2D6294]/80'
                       : 'bg-white hover:bg-sky-100'
-                  }`}
+                    }`}
                   onClick={() => setSelectedSort(idx)}
                   onMouseEnter={() => setHoverIdx(idx)}
                   onMouseLeave={() => setHoverIdx(null)}
@@ -434,7 +421,7 @@ export default function ProductListPage() {
             </div>
           </div>
           {/* Product Grid Component */}
-          <ProductGrid 
+          <ProductGrid
             products={products}
             itemsPerPage={16}
             showBanner={true}
@@ -443,29 +430,74 @@ export default function ProductListPage() {
           />
           {/* Review slider */}
           <div className="w-full py-10 mt-12">
-            <div className="container mx-auto max-w-[1200px]">
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-center mb-6 sm:mb-8 tracking-wide">CÙNG XEM REVIEW SẢN PHẨM</h3>
-              
-              {/* Mobile: Flex layout */}
-              <div className="block sm:hidden">
-                <div className="flex gap-[10px] overflow-x-auto pb-4 px-4">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-center mb-6 sm:mb-8 tracking-wide">CÙNG XEM REVIEW SẢN PHẨM</h3>
+
+            {/* Mobile: Flex layout */}
+            <div className="block sm:hidden">
+              <div className="flex gap-[10px] overflow-x-auto pb-4 px-4">
+                {reviews.map((r, idx) => (
+                  <div key={idx} className="flex-shrink-0">
+                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col h-[275px] w-[175px] border border-[#2D6294]">
+                      <div className="relative h-[160px] w-full flex items-center justify-center">
+                        <img
+                          src={`https://img.youtube.com/vi/${r.videoId}/hqdefault.jpg`}
+                          alt={r.title}
+                          className="w-full h-full object-cover rounded-t-2xl"
+                        />
+                        {/* Text overlay on thumbnail */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                          <div className="text-white text-xs font-semibold line-clamp-2">
+                            {r.subtitle}
+                          </div>
+                        </div>
+                        {/* Price overlay */}
+                        <div className="absolute bottom-2 right-2 bg-white text-black text-xs font-bold px-2 py-1 rounded">
+                          2,990,000
+                        </div>
+                        {/* Play button */}
+                        <a
+                          href={`https://www.youtube.com/watch?v=${r.videoId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow-lg"
+                        >
+                          <svg className="w-8 h-8" viewBox="0 0 56 56" fill="none">
+                            <circle cx="28" cy="28" r="28" fill="#FF0000" />
+                            <path d="M36 28L24 36V20L36 28Z" fill="white" />
+                          </svg>
+                        </a>
+                      </div>
+                      <div className="flex-1 flex flex-col p-3">
+                        <div className="font-bold text-sm mb-1 line-clamp-2 text-black">{r.title}</div>
+                        <div className="text-gray-600 text-xs line-clamp-2">{r.description}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop: Slider */}
+            <div className="hidden sm:block">
+              <div className="relative">
+                <Slider {...reviewSliderSettings}>
                   {reviews.map((r, idx) => (
-                    <div key={idx} className="flex-shrink-0">
-                      <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col h-[275px] w-[175px] border border-[#2D6294]">
-                        <div className="relative h-[160px] w-full flex items-center justify-center">
+                    <div key={idx} className="px-3">
+                      <div className="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col h-[440px] w-full max-w-[320px] mx-auto border-2 border-[#2D6294]">
+                        <div className="relative h-[240px] w-full flex items-center justify-center">
                           <img
                             src={`https://img.youtube.com/vi/${r.videoId}/hqdefault.jpg`}
                             alt={r.title}
-                            className="w-full h-full object-cover rounded-t-2xl"
+                            className="w-full h-full object-cover rounded-t-3xl"
                           />
                           {/* Text overlay on thumbnail */}
                           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-                            <div className="text-white text-xs font-semibold line-clamp-2">
+                            <div className="text-white text-sm font-semibold line-clamp-2">
                               {r.subtitle}
                             </div>
                           </div>
                           {/* Price overlay */}
-                          <div className="absolute bottom-2 right-2 bg-white text-black text-xs font-bold px-2 py-1 rounded">
+                          <div className="absolute bottom-2 right-2 bg-white text-black text-sm font-bold px-2 py-1 rounded">
                             2,990,000
                           </div>
                           {/* Play button */}
@@ -473,75 +505,27 @@ export default function ProductListPage() {
                             href={`https://www.youtube.com/watch?v=${r.videoId}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow-lg"
+                            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg"
                           >
-                            <svg className="w-8 h-8" viewBox="0 0 56 56" fill="none">
-                              <circle cx="28" cy="28" r="28" fill="#FF0000"/>
-                              <path d="M36 28L24 36V20L36 28Z" fill="white"/>
+                            <svg className="w-14 h-14" viewBox="0 0 56 56" fill="none">
+                              <circle cx="28" cy="28" r="28" fill="#FF0000" />
+                              <path d="M36 28L24 36V20L36 28Z" fill="white" />
                             </svg>
                           </a>
                         </div>
-                        <div className="flex-1 flex flex-col p-3">
-                          <div className="font-bold text-sm mb-1 line-clamp-2 text-black">{r.title}</div>
-                          <div className="text-gray-600 text-xs line-clamp-2">{r.description}</div>
+                        <div className="flex-1 flex flex-col p-4">
+                          <div className="font-bold text-base mb-2 line-clamp-2 text-black">{r.title}</div>
+                          <div className="text-gray-600 text-sm line-clamp-2">{r.description}</div>
                         </div>
                       </div>
                     </div>
                   ))}
-                </div>
-              </div>
-
-              {/* Desktop: Slider */}
-              <div className="hidden sm:block">
-                <div className="relative">
-                  <Slider {...reviewSliderSettings}>
-                    {reviews.map((r, idx) => (
-                      <div key={idx} className="px-3">
-                        <div className="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col h-[440px] w-full max-w-[320px] mx-auto border-2 border-[#2D6294]">
-                          <div className="relative h-[240px] w-full flex items-center justify-center">
-                            <img
-                              src={`https://img.youtube.com/vi/${r.videoId}/hqdefault.jpg`}
-                              alt={r.title}
-                              className="w-full h-full object-cover rounded-t-3xl"
-                            />
-                            {/* Text overlay on thumbnail */}
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-                              <div className="text-white text-sm font-semibold line-clamp-2">
-                                {r.subtitle}
-                              </div>
-                            </div>
-                            {/* Price overlay */}
-                            <div className="absolute bottom-2 right-2 bg-white text-black text-sm font-bold px-2 py-1 rounded">
-                              2,990,000
-                            </div>
-                            {/* Play button */}
-                            <a
-                              href={`https://www.youtube.com/watch?v=${r.videoId}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg"
-                            >
-                              <svg className="w-14 h-14" viewBox="0 0 56 56" fill="none">
-                                <circle cx="28" cy="28" r="28" fill="#FF0000"/>
-                                <path d="M36 28L24 36V20L36 28Z" fill="white"/>
-                              </svg>
-                            </a>
-                          </div>
-                          <div className="flex-1 flex flex-col p-4">
-                            <div className="font-bold text-base mb-2 line-clamp-2 text-black">{r.title}</div>
-                            <div className="text-gray-600 text-sm line-clamp-2">{r.description}</div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </Slider>
-                </div>
+                </Slider>
               </div>
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
+      </div>
     </div>
   );
-} 
+}

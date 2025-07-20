@@ -60,7 +60,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           {paginatedProducts.map((product, idx) => (
             <React.Fragment key={product.id}>
               {/* Product card */}
-              <div className="relative bg-white rounded-3xl border-2 border-[#2D6294] shadow-lg flex flex-col overflow-hidden p-0 items-center w-full max-w-[195px] sm:max-w-[245px] h-[320px] sm:h-[420px] lg:h-[450px]"
+              <div className="relative bg-white rounded-3xl border-2 border-[#2D6294] shadow-lg flex flex-col overflow-hidden p-0 items-center w-full max-w-[195px] sm:max-w-[245px] h-[320px] sm:h-[420px] lg:h-[450px] cursor-pointer hover:shadow-xl transition-shadow duration-300"
                 style={{ boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)' }}>
 
                 {/* Product image container */}
@@ -98,7 +98,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                   )}
 
                   {/* Quick view button */}
-                  <button className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
+                  <button className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100 cursor-pointer">
                     <div className="bg-white rounded-full p-2 shadow-lg">
                       <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" strokeWidth="2" />
@@ -159,7 +159,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
                   {/* Add to cart button */}
                   <div className="flex justify-center w-full mt-auto">
-                    <button className="flex items-center justify-center gap-0.5 sm:gap-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full px-1.5 sm:px-6 py-0.5 sm:py-2 text-xs sm:text-base w-full transition-all">
+                    <button className="flex items-center justify-center gap-0.5 sm:gap-2 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full px-1.5 sm:px-6 py-0.5 sm:py-2 text-xs sm:text-base w-full transition-all cursor-pointer">
                       <svg
                         className="h-3 w-3 sm:h-6 sm:w-6 lg:h-7 lg:w-7"
                         fill="none"
@@ -199,7 +199,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           <div className="flex justify-center mt-8 gap-2 sm:gap-4 px-2 sm:px-0">
             {/* Previous button */}
             <button
-              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#2D6294] flex items-center justify-center shadow text-xl sm:text-2xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#2D6294] flex items-center justify-center shadow text-xl sm:text-2xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
@@ -212,7 +212,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             {Array.from({ length: totalPages }).map((_, idx) => (
               <button
                 key={idx}
-                className={`w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow text-lg sm:text-2xl font-normal transition-all ${currentPage === idx + 1 ? 'bg-white text-black font-bold' : 'bg-[#2D6294]/20 text-black'
+                className={`w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow text-lg sm:text-2xl font-normal transition-all cursor-pointer ${currentPage === idx + 1 ? 'bg-white text-black font-bold' : 'bg-[#2D6294]/20 text-black'
                   }`}
                 onClick={() => setCurrentPage(idx + 1)}
               >
@@ -222,7 +222,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
             {/* Next button */}
             <button
-              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#2D6294] flex items-center justify-center shadow text-xl sm:text-2xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#2D6294] flex items-center justify-center shadow text-xl sm:text-2xl font-bold transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >
