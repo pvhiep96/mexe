@@ -26,3 +26,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.slick-prev:before, .slick-next:before {
+  display: none !important;
+  content: '' !important;
+}
