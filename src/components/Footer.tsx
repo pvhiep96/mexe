@@ -7,7 +7,7 @@ export default function Footer() {
   const t = useTranslations('footer');
 
   return (
-    <footer className='bg-[url(/images/footer-background.jpg)] py-8 text-white'>
+    <footer className='bg-[url(/images/footer-background.jpg)] bg-cover bg-center bg-no-repeat py-8 text-white'>
       <div className='container mx-auto px-4'>
         <div className='grid grid-cols-1 gap-8 md:grid-cols-4'>
           <div>

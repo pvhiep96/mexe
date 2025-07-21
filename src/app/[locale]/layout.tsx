@@ -2,28 +2,27 @@ import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 import '../globals.css';
 import Head from 'next/head';
-import {hasLocale} from 'next-intl';
-import {setRequestLocale} from 'next-intl/server';
+import { hasLocale } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SPHeader from '@/components/SP/Header';
 import SPFooter from '@/components/SP/Footer';
 const locales = ['en', 'es'];
-import {routing} from '@/i18n/routing';
+import { routing } from '@/i18n/routing';
 
 export default async function RootLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{locale: string}>;
+  params: Promise<{ locale: string }>;
 }) {
-
-    // Ensure that the incoming `locale` is valid
-    const {locale} = await params;
-    if (!hasLocale(routing.locales, locale)) {
-      notFound();
-    }
+  // Ensure that the incoming `locale` is valid
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
   setRequestLocale(locale);
 
   let messages;
@@ -36,24 +35,60 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-mexe.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/images/logo-mexe.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/images/logo-mexe.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/images/logo-mexe.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="/images/logo-mexe.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/images/logo-mexe.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="/images/logo-mexe.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="/images/logo-mexe.png" />
-        <link rel="apple-touch-icon" sizes="57x57" href="/images/logo-mexe.png" />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <meta name='apple-mobile-web-app-capable' content='yes' />
+        <link
+          rel='apple-touch-icon'
+          sizes='180x180'
+          href='/images/logo-mexe.png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='152x152'
+          href='/images/logo-mexe.png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='144x144'
+          href='/images/logo-mexe.png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='120x120'
+          href='/images/logo-mexe.png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='114x114'
+          href='/images/logo-mexe.png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='76x76'
+          href='/images/logo-mexe.png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='72x72'
+          href='/images/logo-mexe.png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='60x60'
+          href='/images/logo-mexe.png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='57x57'
+          href='/images/logo-mexe.png'
+        />
       </Head>
 
-      <body className="font-sans">
+      <body className='font-sans'>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header/>
+          <Header />
           {children}
-          <Footer/>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
