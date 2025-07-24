@@ -1,46 +1,120 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { PhoneIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+
+const commitmentsDesktop = [
+  {
+    title: (
+      <>
+        HỖ TRỢ<br />24/7
+      </>
+    ),
+    icon: '/images/demo-icon-delivery.png',
+    alt: 'Hỗ trợ 24/7',
+  },
+  {
+    title: (
+      <>
+        ĐẢM BẢO<br />UY TÍN CHẤT<br />LƯỢNG
+      </>
+    ),
+    icon: '/images/demo-icon-delivery.png',
+    alt: 'Đảm bảo uy tín chất lượng',
+  },
+  {
+    title: (
+      <>
+        GIAO HÀNG<br />NHANH CHÓNG
+      </>
+    ),
+    icon: '/images/demo-icon-delivery.png',
+    alt: 'Giao hàng nhanh chóng',
+  },
+  {
+    title: (
+      <>
+        MUA HÀNG CỰC KÌ<br />DỄ DÀNG
+      </>
+    ),
+    icon: '/images/demo-icon-delivery.png',
+    alt: 'Mua hàng cực kì dễ dàng',
+  },
+];
+
+const commitmentsMobile = [
+  {
+    title: (
+      <>
+        HỖ TRỢ<br />24/7
+      </>
+    ),
+    icon: '/images/demo-icon-delivery.png',
+    alt: 'Hỗ trợ 24/7',
+  },
+  {
+    title: (
+      <>
+        ĐẢM BẢO<br />UY TÍN
+      </>
+    ),
+    icon: '/images/demo-icon-delivery.png',
+    alt: 'Đảm bảo uy tín',
+  },
+  {
+    title: (
+      <>
+        GIAO HÀNG<br />NHANH
+      </>
+    ),
+    icon: '/images/demo-icon-delivery.png',
+    alt: 'Giao hàng nhanh',
+  },
+  {
+    title: (
+      <>
+        MUA HÀNG<br />DỄ DÀNG
+      </>
+    ),
+    icon: '/images/demo-icon-delivery.png',
+    alt: 'Mua hàng dễ dàng',
+  },
+];
 
 export default function ServiceCommitment() {
-  const t = useTranslations('service_commitment');
-
-  const commitments = [
-    { title: t('support'), icon: '/images/demo-icon-delivery.png' },
-    { title: t('quality'), icon: '/images/demo-icon-delivery.png' },
-    { title: t('delivery'), icon: '/images/demo-icon-delivery.png' },
-    { title: t('purchase'), icon: '/images/demo-icon-delivery.png' },
-  ];
-
   return (
-    <section className='relative flex min-h-[500px] flex-col items-center justify-center bg-blue-400'>
-      <div className='container mx-auto px-12'>
-        <div className='absolute bottom-0 left-0 w-full rotate-180 overflow-hidden leading-none'>
-          <svg
-            className='relative block h-24 w-full'
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 1440 320'
-            preserveAspectRatio='none'
-          >
-            <path
-              fill='#ffffff'
-              d='M0,224L48,202.7C96,181,192,139,288,112C384,85,480,75,576,101.3C672,128,768,192,864,186.7C960,181,1056,107,1152,106.7C1248,107,1344,181,1392,218.7L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'
-            />
-          </svg>
-        </div>
-        <h2 className='mb-20 text-center text-6xl font-bold text-white'>
-          {t('title')}
-        </h2>
-        <div className='grid grid-cols-1 gap-4 text-white sm:grid-cols-2 md:grid-cols-4'>
-          {commitments.map((commitment) => (
-            <div key={commitment.title} className='text-center'>
-              <PhoneIcon className='mx-auto mb-2 size-12 text-white' />
-              <p className='font-semibold'>{commitment.title}</p>
+    <div>
+      {/* Desktop version */}
+      <div className="hidden lg:block">
+        <section className="w-full bg-gray-100 py-8">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-4xl font-extrabold mb-8 text-center tracking-wide">CAM KẾT DỊCH VỤ</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {commitmentsDesktop.map((commitment, idx) => (
+                <div className="flex flex-col items-center" key={idx}>
+                  <Image src={commitment.icon} alt={commitment.alt} width={160} height={160} className="mb-4 w-40 h-40 object-contain" />
+                  <div className="font-extrabold text-xl text-center mt-2 leading-tight">{commitment.title}</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        </section>
       </div>
-    </section>
+      {/* Mobile version */}
+      <div className="block lg:hidden">
+        <section className="w-full bg-gray-100 py-4">
+          <div className="max-w-xs mx-auto px-2">
+            <h2 className="text-lg font-extrabold mb-4 text-center">CAM KẾT DỊCH VỤ</h2>
+            <div className="grid grid-cols-2 gap-2">
+              {commitmentsMobile.map((commitment, idx) => (
+                <div className="flex flex-col items-center" key={idx}>
+                  <Image src={commitment.icon} alt={commitment.alt} width={64} height={64} className="mb-2 w-16 h-16 object-contain" />
+                  <div className="font-bold text-xs text-center mt-1 leading-tight">{commitment.title}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
   );
 }
