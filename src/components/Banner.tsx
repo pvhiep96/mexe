@@ -234,38 +234,35 @@ export default function Banner() {
     <section className='bg-gray-100 py-8'>
       <div className='slider-index m-4 flex'>
         <div
-          className={`slider-sidebar relative mr-4 hidden w-[${width}px] rounded-lg bg-white p-4 shadow-md sm:block`}
+          className={`slider-sidebar relative mr-4 hidden w-[${width}px] rounded-lg bg-white shadow-md sm:block`}
+          style={activeTab === 'thuonghieu' ? { backgroundImage: "url('/sidebar-menu-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#2F6194' } : {}}
         >
-          <ul className='grid grid-flow-col space-y-2 border-b pb-2'>
-            <li
-              className={`nav-item ${activeTab === 'danhmuc' ? 'border-b-2 border-[#2D6294]' : ''}`}
-            >
+          <ul className='grid grid-flow-col space-y-2 bg-[#2F6194] rounded-t-lg'>
+            <li className={`nav-item mb-[0px]`}>
               <a
-                className='nav-link block cursor-pointer py-2 text-sm font-medium text-gray-700 hover:text-gray-900'
+                className={`nav-link rounded-tl-lg flex items-center justify-center cursor-pointer py-2 text-sm font-medium h-full ${activeTab === 'danhmuc' ? 'bg-[#2F6194] text-white' : 'bg-white text-gray-700 rounded-tr-lg hover:text-gray-900'}`}
                 onClick={() => setActiveTab('danhmuc')}
               >
                 Danh mục
               </a>
             </li>
-            <li
-              className={`nav-item ${activeTab === 'thuonghieu' ? 'border-b-2 border-[#2D6294]' : ''}`}
-            >
+            <li className={`nav-item`}>
               <a
-                className='nav-link block cursor-pointer py-2 text-sm font-medium text-gray-700 hover:text-gray-900'
+                className={`nav-link rounded-tr-lg flex items-center justify-center cursor-pointer py-2 text-sm font-medium h-full ${activeTab === 'thuonghieu' ? 'bg-[#2F6194] text-white' : 'bg-white text-gray-700 rounded-bl-lg hover:text-gray-900'}`}
                 onClick={() => setActiveTab('thuonghieu')}
               >
                 Đối Tác
               </a>
             </li>
           </ul>
-          <div className='tab-content mt-4 h-[400px] overflow-y-scroll'>
+          <div className='tab-content h-[400px] overflow-y-scroll flex w-full'>
             <div
-              className={`tab-pane rounded-full bg-white pl-2 ${activeTab === 'danhmuc' ? 'block' : 'hidden'}`}
+              className={`tab-pane min-w-[400px] ${activeTab === 'danhmuc' ? 'block' : 'hidden'} flex-1 min-w-0`}
             >
               {categories.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} py-1`}
+                  className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} py-1 px-4`}
                   onMouseEnter={() =>
                     item.submenu && setHoveredSubmenu(item.label)
                   }
@@ -292,16 +289,16 @@ export default function Banner() {
               ))}
             </div>
             <div
-              className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'}`}
+              className={`tab-pane min-w-[400px] ${activeTab === 'thuonghieu' ? 'block' : 'hidden'} flex-1 min-w-0`}
               id='thuonghieu'
             >
-              <div className='menu-vendor-list grid grid-cols-3 gap-4'>
+              <div className='menu-vendor-list grid grid-cols-2 gap-4 w-full h-full'>
                 {vendors.map((vendor, idx) => (
                   <a
                     key={idx}
                     href={vendor.href}
                     target='_blank'
-                    className='vendor-item-menu block overflow-hidden rounded-lg transition-all hover:scale-105'
+                    className='vendor-item-menu block overflow-hidden rounded-lg transition-all hover:scale-105 w-full h-full flex items-center justify-center'
                     rel='noreferrer'
                   >
                     <img
@@ -309,14 +306,14 @@ export default function Banner() {
                       height='50'
                       src={vendor.img}
                       alt={`vendor_${idx + 1}`}
-                      className='img-vendor h-auto w-full'
+                      className='img-vendor h-auto w-full max-w-[120px] object-contain'
                     />
                     <img
                       width='100'
                       height='50'
                       src={vendor.hoverImg}
                       alt={`vendor_hover_${idx + 1}`}
-                      className='img-vendor-hover hidden h-auto w-full hover:block'
+                      className='img-vendor-hover hidden h-auto w-full max-w-[120px] object-contain hover:block'
                     />
                   </a>
                 ))}
@@ -334,7 +331,7 @@ export default function Banner() {
               >
                 {item.submenu && (
                   <div
-                    className={`absolute top-[80px] left-[290px] z-10 h-full w-[${width}px] rounded-lg bg-white ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
+                    className={`absolute min-w-[250px] top-[80px] left-[390px] z-10 w-[${width}px] rounded-lg bg-white ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
                   >
                     {item.submenu.map((sub, subIdx) => (
                       <a
@@ -355,7 +352,7 @@ export default function Banner() {
         </div>
         <div
           className='slider-index-wrap'
-          style={{ width: `calc(100vw - ${width}px)` }}
+          style={{ width: `calc(100vw - 450px)` }}
         >
           <Slider {...sliderSettings} ref={sliderRef}>
             {images.map((image) => (
