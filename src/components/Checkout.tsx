@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
 import Image from 'next/image';
+import { BuildingStorefrontIcon, TruckIcon} from '@heroicons/react/24/outline';
 
 interface Product {
   name: string;
@@ -106,6 +107,7 @@ export default function Checkout({ order }: CheckoutProps) {
                   setValue('deliveryType', 'home');
                 }}
               >
+                <TruckIcon className='inline-block mr-2 size-5' />
                 {t('delivery_info.home')}
               </button>
               <button
@@ -120,6 +122,7 @@ export default function Checkout({ order }: CheckoutProps) {
                   setValue('deliveryType', 'store');
                 }}
               >
+                <BuildingStorefrontIcon className='inline-block mr-2 size-5' />
                 {t('delivery_info.store')}
               </button>
             </div>
@@ -364,6 +367,7 @@ export default function Checkout({ order }: CheckoutProps) {
               {t('cart_preview.title')}
             </h2>
             <div className='space-y-4'>
+
               {order.items.map((item, index) => (
                 <div key={index} className='flex items-center space-x-4'>
                   <Image

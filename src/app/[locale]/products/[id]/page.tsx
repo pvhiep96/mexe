@@ -3,11 +3,14 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { useCart } from '@/context/CartContext';
+import { useTranslations } from 'next-intl';
 
 const PRODUCT_MOCK = {
   id: 'den-led-xe-o-to-cao-cap',
   name: 'Đèn LED Xe Ô Tô Cao Cấp – Ánh sáng trắng sáng, thiết kế hiện đại, tương thích đa dòng xe',
-  price: '1,250,000₫',
+  price: 1250000,
+  image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
   images: [
     'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop',
@@ -36,10 +39,19 @@ const PRODUCT_MOCK = {
     'Kích thước': '120 × 80 × 45mm',
     'Trọng lượng': '280g',
     'Chất liệu': 'Nhôm hợp kim + Kính cường lực',
-  }
+  },
+  quantity: 1
 };
-
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  discount?: number;
+  quantity: number;
+}
 export default function ProductDetail({ params }: { params: { id: string } }) {
+   const t = useTranslations('product_detail');
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState('white');
   const [quantity, setQuantity] = useState(1);
@@ -51,6 +63,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const [showRealImages, setShowRealImages] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  const product: Product = PRODUCT_MOCK
+
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
       setQuantity(prev => prev + 1);
@@ -58,6 +72,15 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
       setQuantity(prev => prev - 1);
     }
   };
+  const { addToCart } = useCart();
+  const [successMessage, setSuccessMessage] = useState('');
+
+    const handleAddToCart = () => {
+    addToCart(product);
+    setSuccessMessage(t('add_to_cart_success'));
+    setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
+  };
+
 
   // Product images for slideshow
   const productImages = [
@@ -200,8 +223,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     key={color.value}
                     onClick={() => setSelectedColor(color.value)}
                     className={`px-6 py-2 rounded-full border-2 transition-all ${
-                      selectedColor === color.value 
-                        ? 'border-[#2D6294] bg-[#2D6294]/10' 
+                      selectedColor === color.value
+                        ? 'border-[#2D6294] bg-[#2D6294]/10'
                         : 'border-gray-300 hover:border-gray-400'
                     }`}
                   >
@@ -244,9 +267,20 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               </button>
 
               {/* Buy Now Button */}
-              <button className="flex-1 bg-gray-800 text-white py-3 px-6 rounded-lg font-bold hover:bg-gray-900 transition-colors cursor-pointer">
-                MUA NGAY
-              </button>
+
+                    <div className="relative inline-block">
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 bg-gray-800 text-white py-3 px-6 rounded-lg font-bold hover:bg-gray-900 transition-colors cursor-pointer"
+            >
+              {t('add_to_cart')}
+            </button>
+            {successMessage && (
+              <div className="absolute w-100 bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-green-600 text-white text-sm px-4 py-2 rounded-lg shadow-lg  animate-fade-in">
+                {successMessage}"Product added to cart successfully!"
+              </div>
+            )}
+          </div>
             </div>
           </div>
         </div>
@@ -278,8 +312,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       Ánh sáng LED trắng sáng – Tăng cường tầm nhìn khi lái xe ban đêm
                     </h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Đèn LED xe ô tô với ánh sáng trắng sáng 6000K, cung cấp tầm nhìn rõ ràng và an toàn 
-                      khi lái xe trong điều kiện thiếu sáng. Công nghệ LED hiện đại giúp tiết kiệm điện 
+                      Đèn LED xe ô tô với ánh sáng trắng sáng 6000K, cung cấp tầm nhìn rõ ràng và an toàn
+                      khi lái xe trong điều kiện thiếu sáng. Công nghệ LED hiện đại giúp tiết kiệm điện
                       và tuổi thọ lâu dài hơn so với đèn halogen truyền thống.
                     </p>
                   </div>
@@ -300,8 +334,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   {/* Second Content Block */}
                   <div>
                     <p className="text-gray-600 leading-relaxed mb-4">
-                      Đèn LED xe ô tô AUTOLIGHT AL-2024 với thiết kế hiện đại, tương thích với nhiều dòng xe 
-                      khác nhau từ sedan đến SUV. Sản phẩm được thiết kế với công nghệ LED COB tiên tiến, 
+                      Đèn LED xe ô tô AUTOLIGHT AL-2024 với thiết kế hiện đại, tương thích với nhiều dòng xe
+                      khác nhau từ sedan đến SUV. Sản phẩm được thiết kế với công nghệ LED COB tiên tiến,
                       tạo ra ánh sáng tập trung và đồng đều, giúp tăng cường tầm nhìn khi lái xe ban đêm.
                     </p>
                   </div>
@@ -322,13 +356,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   {/* Third Content Block */}
                   <div>
                     <p className="text-gray-600 leading-relaxed mb-4">
-                      Với thiết kế compact và dễ lắp đặt, đèn LED AUTOLIGHT không chỉ cải thiện tầm nhìn 
-                      mà còn tăng tính thẩm mỹ cho chiếc xe của bạn. Chất liệu nhôm hợp kim cao cấp giúp 
+                      Với thiết kế compact và dễ lắp đặt, đèn LED AUTOLIGHT không chỉ cải thiện tầm nhìn
+                      mà còn tăng tính thẩm mỹ cho chiếc xe của bạn. Chất liệu nhôm hợp kim cao cấp giúp
                       tản nhiệt tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ổn định.
                     </p>
                     <p className="text-gray-600 leading-relaxed">
-                      Sản phẩm đi kèm với bộ lắp đặt đầy đủ và hướng dẫn chi tiết, phù hợp cho cả người 
-                      mới bắt đầu và thợ chuyên nghiệp. Đèn được thiết kế chống nước IP67, đảm bảo hoạt động 
+                      Sản phẩm đi kèm với bộ lắp đặt đầy đủ và hướng dẫn chi tiết, phù hợp cho cả người
+                      mới bắt đầu và thợ chuyên nghiệp. Đèn được thiết kế chống nước IP67, đảm bảo hoạt động
                       ổn định trong mọi điều kiện thời tiết.
                     </p>
                   </div>
@@ -374,7 +408,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                         Chủ xe muốn nâng cấp hệ thống chiếu sáng
                       </h3>
                       <p className="text-gray-600 leading-relaxed">
-                        Với ánh sáng LED trắng sáng và thiết kế hiện đại, đèn rất phù hợp để thay thế 
+                        Với ánh sáng LED trắng sáng và thiết kế hiện đại, đèn rất phù hợp để thay thế
                         đèn halogen cũ, cải thiện tầm nhìn và tăng tính thẩm mỹ cho xe.
                       </p>
                     </div>
@@ -385,7 +419,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                         Tài xế thường xuyên lái xe ban đêm
                       </h3>
                       <p className="text-gray-600 leading-relaxed">
-                        Ánh sáng LED mạnh mẽ và tập trung giúp tăng cường tầm nhìn khi lái xe trong 
+                        Ánh sáng LED mạnh mẽ và tập trung giúp tăng cường tầm nhìn khi lái xe trong
                         điều kiện thiếu sáng, đảm bảo an toàn cho người lái và hành khách.
                       </p>
                     </div>
@@ -396,7 +430,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                         Thợ sửa xe và cửa hàng phụ tùng
                       </h3>
                       <p className="text-gray-600 leading-relaxed">
-                        Sản phẩm chất lượng cao, dễ lắp đặt và tương thích với nhiều dòng xe, phù hợp 
+                        Sản phẩm chất lượng cao, dễ lắp đặt và tương thích với nhiều dòng xe, phù hợp
                         cho việc kinh doanh và cung cấp dịch vụ lắp đặt cho khách hàng.
                       </p>
                     </div>
@@ -706,8 +740,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       Ánh sáng LED trắng sáng – Tăng cường tầm nhìn khi lái xe ban đêm
                     </h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Đèn LED xe ô tô với ánh sáng trắng sáng 6000K, cung cấp tầm nhìn rõ ràng và an toàn 
-                      khi lái xe trong điều kiện thiếu sáng. Công nghệ LED hiện đại giúp tiết kiệm điện 
+                      Đèn LED xe ô tô với ánh sáng trắng sáng 6000K, cung cấp tầm nhìn rõ ràng và an toàn
+                      khi lái xe trong điều kiện thiếu sáng. Công nghệ LED hiện đại giúp tiết kiệm điện
                       và tuổi thọ lâu dài hơn so với đèn halogen truyền thống.
                     </p>
                   </div>
@@ -724,8 +758,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   </div>
                   <div>
                     <p className="text-gray-600 leading-relaxed mb-4">
-                      Đèn LED xe ô tô AUTOLIGHT AL-2024 với thiết kế hiện đại, tương thích với nhiều dòng xe 
-                      khác nhau từ sedan đến SUV. Sản phẩm được thiết kế với công nghệ LED COB tiên tiến, 
+                      Đèn LED xe ô tô AUTOLIGHT AL-2024 với thiết kế hiện đại, tương thích với nhiều dòng xe
+                      khác nhau từ sedan đến SUV. Sản phẩm được thiết kế với công nghệ LED COB tiên tiến,
                       tạo ra ánh sáng tập trung và đồng đều, giúp tăng cường tầm nhìn khi lái xe ban đêm.
                     </p>
                   </div>
@@ -742,13 +776,13 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   </div>
                   <div>
                     <p className="text-gray-600 leading-relaxed mb-4">
-                      Với thiết kế compact và dễ lắp đặt, đèn LED AUTOLIGHT không chỉ cải thiện tầm nhìn 
-                      mà còn tăng tính thẩm mỹ cho chiếc xe của bạn. Chất liệu nhôm hợp kim cao cấp giúp 
+                      Với thiết kế compact và dễ lắp đặt, đèn LED AUTOLIGHT không chỉ cải thiện tầm nhìn
+                      mà còn tăng tính thẩm mỹ cho chiếc xe của bạn. Chất liệu nhôm hợp kim cao cấp giúp
                       tản nhiệt tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ổn định.
                     </p>
                     <p className="text-gray-600 leading-relaxed">
-                      Sản phẩm đi kèm với bộ lắp đặt đầy đủ và hướng dẫn chi tiết, phù hợp cho cả người 
-                      mới bắt đầu và thợ chuyên nghiệp. Đèn được thiết kế chống nước IP67, đảm bảo hoạt động 
+                      Sản phẩm đi kèm với bộ lắp đặt đầy đủ và hướng dẫn chi tiết, phù hợp cho cả người
+                      mới bắt đầu và thợ chuyên nghiệp. Đèn được thiết kế chống nước IP67, đảm bảo hoạt động
                       ổn định trong mọi điều kiện thời tiết.
                     </p>
                   </div>
@@ -848,7 +882,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       Chủ xe muốn nâng cấp hệ thống chiếu sáng
                     </h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Với ánh sáng LED trắng sáng và thiết kế hiện đại, đèn rất phù hợp để thay thế 
+                      Với ánh sáng LED trắng sáng và thiết kế hiện đại, đèn rất phù hợp để thay thế
                       đèn halogen cũ, cải thiện tầm nhìn và tăng tính thẩm mỹ cho xe.
                     </p>
                   </div>
@@ -857,7 +891,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       Tài xế thường xuyên lái xe ban đêm
                     </h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Ánh sáng LED mạnh mẽ và tập trung giúp tăng cường tầm nhìn khi lái xe trong 
+                      Ánh sáng LED mạnh mẽ và tập trung giúp tăng cường tầm nhìn khi lái xe trong
                       điều kiện thiếu sáng, đảm bảo an toàn cho người lái và hành khách.
                     </p>
                   </div>
@@ -866,7 +900,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       Thợ sửa xe và cửa hàng phụ tùng
                     </h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Sản phẩm chất lượng cao, dễ lắp đặt và tương thích với nhiều dòng xe, phù hợp 
+                      Sản phẩm chất lượng cao, dễ lắp đặt và tương thích với nhiều dòng xe, phù hợp
                       cho việc kinh doanh và cung cấp dịch vụ lắp đặt cho khách hàng.
                     </p>
                   </div>
@@ -984,7 +1018,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                
+
                 {/* Navigation Dots */}
                 <div className="flex justify-center mt-4 space-x-2">
                   {productImages.map((_, index) => (
@@ -1090,10 +1124,10 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             <div className="w-[90%] lg:w-[50%] mx-auto text-black px-6 py-3 mb-6">
               <h2 className="text-[16px] lg:text-lg font-bold text-center">CÙNG XEM REVIEW SẢN PHẨM</h2>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               {/* Prev Button - Only visible on PC */}
-              <button 
+              <button
                 onClick={() => {
                   const container = document.getElementById('reviews-container');
                   if (container) {
@@ -1108,7 +1142,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               </button>
 
               {/* Reviews Container */}
-              <div 
+              <div
                 id="reviews-container"
                 className="flex-grow flex gap-4 overflow-x-auto scrollbar-hide"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -1259,7 +1293,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               </div>
 
               {/* Next Button - Only visible on PC */}
-              <button 
+              <button
                 onClick={() => {
                   const container = document.getElementById('reviews-container');
                   if (container) {
@@ -1279,4 +1313,4 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
       </div>
     </div>
   );
-} 
+}

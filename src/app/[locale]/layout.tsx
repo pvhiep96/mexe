@@ -10,6 +10,7 @@ import SPHeader from '@/components/SP/Header';
 import SPFooter from '@/components/SP/Footer';
 const locales = ['en', 'es'];
 import { routing } from '@/i18n/routing';
+import { CartProvider } from '@/context/CartContext';
 
 export default async function RootLayout({
   children,
@@ -86,16 +87,18 @@ export default async function RootLayout({
 
       <body className='font-sans'>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {/* Desktop Header */}
-          <div className="hidden lg:block sticky top-0 z-50 bg-white">
-            <Header/>
-          </div>
-          {/* Mobile Header */}
-          <div className="lg:hidden sticky top-0 z-50 bg-white">
-            <SPHeader/>
-          </div>
-          {children}
-          <Footer/>
+          <CartProvider>
+            {/* Desktop Header */}
+            <div className="hidden lg:block sticky top-0 z-50 bg-white">
+              <Header/>
+            </div>
+            {/* Mobile Header */}
+            <div className="lg:hidden sticky top-0 z-50 bg-white">
+              <SPHeader/>
+            </div>
+            {children}
+            <Footer/>
+          </CartProvider>
         </NextIntlClientProvider>
       </body>
     </html>

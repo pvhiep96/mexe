@@ -330,5 +330,9 @@
     "errors": {
       "required": "This field is required"
     }
+  },
+  "product_detail": {
+    "add_to_cart_success": "Product added to cart successfully!",
+    "add_to_cart" : "Add to Cart"
   }
 }
