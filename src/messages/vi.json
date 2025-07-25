@@ -272,5 +272,21 @@
     "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
     "launch_time": "0:00 SA",
     "buy_now": "Mua Ngay 🔔"
+  },
+  "news": {
+    "title": "Tin Tức & Bài Viết",
+    "description": "Khám phá những bài viết mới nhất về phụ kiện ô tô, công nghệ và bảo dưỡng xe",
+    "all_categories": "Tất cả",
+    "auto_accessories": "Phụ Kiện Ô Tô",
+    "technology": "Công Nghệ",
+    "maintenance": "Bảo Dưỡng",
+    "safety": "An Toàn",
+    "health": "Sức Khỏe",
+    "by": "Bởi",
+    "previous": "Trước",
+    "next": "Sau",
+    "back_to_news": "← Quay lại Tin tức",
+    "related_articles": "Bài viết liên quan",
+    "read_more": "Đọc thêm"
   }
 }

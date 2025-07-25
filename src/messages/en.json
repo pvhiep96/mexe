@@ -275,6 +275,22 @@
     "launch_time": "0:00 AM",
     "buy_now": "Buy Now 🔔"
   },
+  "news": {
+    "title": "News & Articles",
+    "description": "Discover the latest articles about auto accessories, technology and car maintenance",
+    "all_categories": "All",
+    "auto_accessories": "Auto Accessories",
+    "technology": "Technology",
+    "maintenance": "Maintenance",
+    "safety": "Safety",
+    "health": "Health",
+    "by": "By",
+    "previous": "Previous",
+    "next": "Next",
+    "back_to_news": "← Back to News",
+    "related_articles": "Related Articles",
+    "read_more": "Read More"
+  },
   "checkout": {
     "title": "Checkout",
     "delivery_address_placeholder": "Enter your delivery address",
