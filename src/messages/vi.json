@@ -61,64 +61,216 @@
     }
   },
   "combo_workspace": {
-    "title": "Must-Have Accessories",
-    "explore_more": "Explore More",
-    "view": "View",
+    "title": "Phụ Kiện Cần Thiết",
+    "explore_more": "Khám Phá Thêm",
+    "view": "Xem",
     "group_1": [
-      "Dash Camera",
-      "Tire Pressure Sensor",
-      "Floor Mats",
-      "Air Purifier",
+      "Camera Hành Trình",
+      "Cảm Biến Áp Suất Lốp",
+      "Thảm Sàn",
+      "Máy Lọc Không Khí",
       "..."
     ],
     "group_2": [
-      "Car Fast Charger",
-      "Steering Wheel Cover",
-      "Car Air Freshener",
-      "HUD Speed Display",
+      "Sạc Nhanh Ô Tô",
+      "Bọc Vô Lăng",
+      "Nước Thơm Ô Tô",
+      "Màn Hình HUD",
       "..."
     ],
     "group_3": [
-      "Electronic Tire Inflator",
-      "Multi-Port Charger",
-      "Headrest Pillow",
-      "Leather Seat Cover",
+      "Máy Bơm Lốp Điện Tử",
+      "Sạc Đa Cổng",
+      "Gối Tựa Đầu",
+      "Bọc Ghế Da",
       "..."
     ],
     "group_4": [
-      "5D Ceiling Cover",
-      "Side Mirror Cover",
-      "Door Handle Cover",
-      "Mud Flaps",
+      "Bọc Trần 5D",
+      "Bọc Gương Chiếu Hậu",
+      "Bọc Tay Nắm Cửa",
+      "Chắn Bùn",
       "..."
     ],
     "group_5": [
-      "Reverse Sensor",
-      "Interior LED Lights",
-      "Android Screen",
-      "Heat-Insulating Film",
+      "Cảm Biến Lùi",
+      "Đèn LED Nội Thất",
+      "Màn Hình Android",
+      "Phim Cách Nhiệt",
       "..."
     ],
     "group_6": [
-      "Convex Mirror",
-      "Step-Up Cover",
-      "Sunshade",
-      "Gear Shift Cover",
+      "Gương Lồi",
+      "Bọc Bậc Lên Xuống",
+      "Tấm Chắn Nắng",
+      "Bọc Cần Số",
       "..."
     ],
     "group_7": [
-      "Leather Seat Cover",
-      "Massage Backrest",
-      "Windshield Sunshade",
-      "Seatbelt Cover",
+      "Bọc Ghế Da",
+      "Tựa Lưng Massage",
+      "Tấm Chắn Nắng Kính Chắn Gió",
+      "Bọc Dây An Toàn",
       "..."
     ],
     "group_8": [
-      "5D Ceiling Cover",
-      "Side Mirror Cover",
-      "Door Handle Cover",
-      "Mud Flaps",
+      "Bọc Trần 5D",
+      "Bọc Gương Chiếu Hậu",
+      "Bọc Tay Nắm Cửa",
+      "Chắn Bùn",
       "..."
     ]
+  },
+  "header": {
+    "home": "Trang Chủ",
+    "explore": "Khám Phá",
+    "explore_by_theme": "Khám Phá Theo Chủ Đề",
+    "workspace_setup": "Thiết Lập Không Gian Làm Việc",
+    "monthly_offers": "Ưu Đãi Tháng",
+    "newest_products": "Sản Phẩm Mới Nhất",
+    "diy_steampunk": "Sản Phẩm DIY Steampunk",
+    "mexe_corner": "Góc Mexe",
+    "view_all": "Xem Tất Cả →",
+    "pre_order_info": "Pre-Order Là Gì? Tất Tần Tật Về Pre-Order",
+    "livestream_sales": "Cách Chuyên Gia Livestream Bán Hàng",
+    "creative_clocks": "5 Đồng Hồ Để Bàn Sáng Tạo Tăng Cảm Hứng Làm Việc",
+    "keyboard_mouse_sets": "Bộ Bàn Phím Chuột Giá Rẻ Cho Designer",
+    "learn_more": "Tìm Hiểu Thêm",
+    "about_us": "Về Chúng Tôi",
+    "contact": "Liên Hệ",
+    "news": "Tin Tức",
+    "guides": "Hướng Dẫn",
+    "cart": "Giỏ Hàng",
+    "search": "Tìm Kiếm"
+  },
+  "workspace": {
+    "title": "Không Gian Làm Việc Mexe",
+    "description": "Trải nghiệm sản phẩm Mexe trực tiếp tại các Không Gian Làm Việc của chúng tôi",
+    "store_intro": "Giới Thiệu Cửa Hàng",
+    "location": "Tân Bình, Thành Phố Hồ Chí Minh"
+  },
+  "videos": {
+    "title": "Kênh YouTube Của Chúng Tôi",
+    "description": "Mexe là nền tảng hàng đầu về mua bán và thông tin ô tô. Đăng tin xe nhanh chóng và dễ dàng. Chúng tôi cung cấp tin tức mới nhất về khuyến mãi thương hiệu xe, showroom và đánh giá xe.",
+    "youtube_link": "Truy Cập Kênh YouTube Của Chúng Tôi"
+  },
+  "footer": {
+    "customer_support": "Hỗ Trợ Khách Hàng",
+    "policies": "Quy Định Và Chính Sách",
+    "salon_terms": "Điều Khoản Vận Hành Salon",
+    "faq": "Câu Hỏi Thường Gặp",
+    "contact": "Liên Hệ",
+    "about_us": "Về Chúng Tôi",
+    "introduction": "Giới Thiệu",
+    "operating_terms": "Điều Khoản Vận Hành",
+    "recruitment": "Tuyển Dụng",
+    "sitemap": "Sơ Đồ Trang Web",
+    "car_news": "Tin Tức Ô Tô",
+    "service_pricing": "Bảng Giá Dịch Vụ",
+    "auto_academy": "Học Viện Ô Tô",
+    "company": "Công Ty TNHH NextGen Việt Nam",
+    "copyright": "Bản Quyền © 2015 - 2025 Mexe - mexe.com",
+    "phone": "0123.456.789",
+    "email": "hotro@mexe",
+    "working_hours": "Giờ Làm Việc: 8:30 - 17:15 (Thứ Hai - Thứ Sáu)",
+    "icp_license": "Giấy Phép ICP Số 978/GP-TTĐT",
+    "content_responsible": "Chịu Trách Nhiệm Nội Dung: Ông ABC",
+    "terms_note": "Tất cả quy định và điều khoản giao dịch chung được đăng trên website có hiệu lực từ ngày 11/05/2015. Mexe không bán xe trực tiếp; vui lòng liên hệ người bán trực tiếp để mua xe.",
+    "address": {
+      "hq": "Trụ Sở Chính: Thành Phố Hà Nội",
+      "hanoi_business": "Địa Điểm Kinh Doanh Tại Hà Nội: Thành Phố Hà Nội",
+      "hcm_office": "Văn Phòng TP.HCM: Thành Phố Hồ Chí Minh",
+      "hotline": "Hotline (Giờ Làm Việc): 012.3456.7890"
+    },
+    "business_license": "Giấy Chứng Nhận Đăng Ký Kinh Doanh Số 0123456789 do Sở Kế Hoạch và Đầu Tư Hà Nội cấp ngày 11/02/2015",
+    "icp_license_1": "Giấy Phép ICP Số 978/GP-TTĐT do Sở Thông Tin và Truyền Thông Hà Nội cấp ngày 14/04/2015",
+    "icp_license_amended": "Giấy Phép ICP Sửa Đổi Số 4362/GP-TTĐT do Sở Thông Tin và Truyền Thông Hà Nội cấp ngày 20/10/2017"
+  },
+  "service_commitment": {
+    "title": "Cam Kết Dịch Vụ",
+    "support": "Hỗ Trợ 24/7",
+    "quality": "Đảm Bảo Chất Lượng Và Độ Tin Cậy",
+    "delivery": "Giao Hàng Nhanh",
+    "purchase": "Mua Hàng Cực Dễ"
+  },
+  "early_order": {
+    "title": "Đặt Hàng Sớm Với Mexe",
+    "no_products": "Không có sản phẩm nào cho tab này.",
+    "pre_order": "Đặt Trước",
+    "new_release": "Phát Hành Mới",
+    "second_batch": "Bán Đợt 2",
+    "newly_launched": "Mới Ra Mắt",
+    "sold_batch_1": "Đã Bán Đợt 1: 300",
+    "coming_soon": "Sắp Ra Mắt",
+    "orders_placed": [
+      "Đã Đặt: 2/30",
+      "Đã Đặt: 24/100",
+      "Đã Đặt: 9/60",
+      "Đã Đặt: 5/20",
+      "Đã Đặt: 12/40",
+      "Đã Đặt: 81/300",
+      "Đã Đặt: 10/50",
+      "Đã Đặt: 0/50"
+    ],
+    "campaign_ends": [
+      "Chiến Dịch Kết Thúc: 25/07/2025",
+      "Chiến Dịch Kết Thúc: 12/07/2025",
+      "Chiến Dịch Kết Thúc: 04/07/2025",
+      "Chiến Dịch Kết Thúc: 30/07/2025",
+      "Chiến Dịch Kết Thúc: 01/08/2025",
+      "Sản Phẩm Đang Giao",
+      "Sản Phẩm Đang Giao",
+      "Sắp Ra Mắt"
+    ]
+  },
+  "new_brands": {
+    "title": "Thương Hiệu Mới - Ưu Đãi Đặc Biệt Nóng",
+    "view_more": "Xem Thêm",
+    "deal_ends": "Ưu Đãi Kết Thúc Trong",
+    "days": "ngày",
+    "hours": "giờ",
+    "minutes": "phút",
+    "seconds": "giây",
+    "products": [
+      {
+        "name": "Ghế Ô Tô Chicco",
+        "original_price": "1,300,000đ",
+        "discounted_price": "975,000đ",
+        "discount": "-25%"
+      },
+      {
+        "name": "Ghế Ô Tô Nuna",
+        "original_price": "1,140,000đ",
+        "discounted_price": "741,000đ",
+        "discount": "-35%"
+      },
+      {
+        "name": "Gofa",
+        "original_price": "1,255,000đ",
+        "discounted_price": "727,900đ",
+        "discount": "-42%"
+      },
+      {
+        "name": "Nước Thơm Ô Tô",
+        "original_price": "1,080,000đ",
+        "discounted_price": "680,400đ",
+        "discount": "-37%"
+      }
+    ],
+    "quality_deal": "Ưu Đãi Chất Lượng 🚚",
+    "ship_now": "Giao Ngay",
+    "view_details": "Xem Chi Tiết",
+    "buy_now": "Mua Ngay"
+  },
+  "new_products": {
+    "title": "Sản Phẩm Bán Chạy Nhất",
+    "explore_more": "Khám Phá Thêm",
+    "coming_soon": "Sắp Ra Mắt",
+    "coming_soon_info": "Sắp Ra Mắt Là Gì? Sắp Ra Mắt cho biết sản phẩm mới sẵn sàng ra mắt, nhưng chúng tôi cần thời gian để hoàn thiện chuẩn bị để mang đến sản phẩm tốt nhất cho khách hàng. Ngày ra mắt là khi bạn có thể chính thức đặt hàng, nhưng bạn có thể đăng ký sớm để đảm bảo slot giảm giá.",
+    "sold": "Đã Bán: 100,000 sản phẩm",
+    "product_info": "Thông Tin Sản Phẩm",
+    "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+    "launch_time": "0:00 SA",
+    "buy_now": "Mua Ngay 🔔"
   }
 }

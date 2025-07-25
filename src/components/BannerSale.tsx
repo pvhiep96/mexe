@@ -1,12 +1,32 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function BannerSale() {
   return (
-    <section className="py-8 bg-gray-200">
-      <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold text-center">Sale Banner Placeholder</h2>
-        {/* Add sale banner content here */}
+    <div>
+      {/* Desktop version */}
+      <div className="hidden lg:flex justify-center my-6">
+        <Image
+          src="/images/banner-sale.webp"
+          alt="Banner Sale"
+          width={1200}
+          height={320}
+          className="rounded-2xl w-full max-w-4xl shadow-lg"
+          priority
+        />
       </div>
-    </section>
+      {/* Mobile version */}
+      <div className="block lg:hidden flex justify-center my-2">
+        <Image
+          src="/images/banner-sale.webp"
+          alt="Banner Sale"
+          width={400}
+          height={120}
+          className="rounded-xl w-full max-w-xs shadow-lg"
+          priority
+        />
+      </div>
+    </div>
   );
 }

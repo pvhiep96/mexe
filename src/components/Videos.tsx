@@ -1,114 +1,136 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import Slider from 'react-slick';
-import { PlayCircleIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
+
+const videos = [
+  {
+    title: 'NISSAN SUNNY Premium Xe Sedan rộng rãi và tiết kiệm | MUA BÁN Ô TÔ CŨ OTO.COM.VN',
+    date: '10/03/2025',
+    link: 'https://www.youtube.com/watch?v=myhmcJRbi4g',
+    youtubeId: 'myhmcJRbi4g',
+  },
+  {
+    title: 'TOYOTA FOTUNER xe gia đình cực giữ gìn | MUA BÁN Ô TÔ CŨ OTO.COM.VN',
+    date: '09/03/2025',
+    link: 'https://www.youtube.com/watch?v=myhmcJRbi4g',
+    youtubeId: 'myhmcJRbi4g',
+  },
+  {
+    title: 'FORD RANGER WILDTRACK 2020 giá cực rẻ | MUA BÁN Ô TÔ CŨ OTO.COM.VN',
+    date: '09/03/2025',
+    link: 'https://www.youtube.com/watch?v=myhmcJRbi4g',
+    youtubeId: 'myhmcJRbi4g',
+  },
+  {
+    title: 'Mazda CX8 mẫu xe 7 chỗ gầm cao giá rẻ | MUA BÁN Ô TÔ CŨ OTO.COM.VN',
+    date: '28/02/2025',
+    link: 'https://www.youtube.com/watch?v=myhmcJRbi4g',
+    youtubeId: 'myhmcJRbi4g',
+  },
+];
+
+const mainVideoId = 'oX2diE7FSRk';
 
 export default function Videos() {
-  const t = useTranslations('videos');
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-  };
-
-  const videosRaw = [
-    {
-      title:
-        'Nissan Sunny Premium - Spacious and Fuel-Efficient Sedan | Used Car Trading',
-      date: '03/10/2025',
-      link: 'https://www.youtube.com/watch?v=example1',
-      thumbnail: '/images/demo-preorder/preorder-1.png',
-    },
-    {
-      title: 'Toyota Fortuner - Well-Maintained Family SUV | Used Car Trading',
-      date: '03/09/2025',
-      link: 'https://www.youtube.com/watch?v=example1',
-      thumbnail: '/images/demo-preorder/preorder-1.png',
-    },
-    {
-      title: 'Ford Ranger Wildtrack 2020 - Great Price | Used Car Trading',
-      date: '03/09/2025',
-      link: 'https://www.youtube.com/watch?v=example1',
-      thumbnail: '/images/demo-preorder/preorder-1.png',
-    },
-    {
-      title: 'Mazda CX8 - Affordable 7-Seater SUV | Used Car Trading',
-      date: '02/28/2025',
-      link: 'https://www.youtube.com/watch?v=example1',
-      thumbnail: '/images/demo-preorder/preorder-1.png',
-    },
-  ];
-
-  const videos = videosRaw.map(
-    (video: {
-      title: string;
-      date: string;
-      link: string;
-      thumbnail: string;
-    }) => ({
-      title: video.title,
-      date: video.date,
-      link: video.link || '#',
-      thumbnail: video.thumbnail || '/images/demo-preorder/preorder-1.png',
-    })
-  );
-
   return (
-    <section className='bg-gray-100 py-20'>
-      <div className='container mx-auto px-4'>
-        <h2 className='mb-4 text-center text-4xl font-bold'>{t('title')}</h2>
-        <p className='mb-6 text-center italic'>{t('description')}</p>
-        <Slider {...sliderSettings}>
-          {videos.map((video) => (
-            <div className='p-4' key={video.title}>
-              <Link href={video.link} target='_blank' rel='noopener noreferrer'>
-                <div className='overflow-hidden rounded-lg shadow-lg transition-shadow duration-300 hover:cursor-pointer hover:shadow-xl'>
-                  <div className='relative'>
-                    <Image
-                      src={video.thumbnail}
-                      alt={video.title}
-                      width={300}
-                      height={200}
-                      className='h-auto w-full opacity-50 transition-opacity duration-300 hover:opacity-100'
-                    />
-                    <Image
-                      src='/images/icon-youtube.webp'
-                      alt='Play Icon'
-                      width={50}
-                      height={50}
-                      className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 hover:opacity-100'
-                    />
-                  </div>
-                  <div className='p-4'>
-                    <h3 className='text-lg font-semibold'>
-                      {video.title.length > 50
-                        ? `${video.title.slice(0, 50)}...`
-                        : video.title}
-                    </h3>
-                    <p className='text-sm'>{video.date}</p>
-                  </div>
+    <div>
+      {/* Desktop version */}
+      <div className="hidden lg:block w-full bg-gradient-to-br from-[#181d23] to-[#232a36] py-10 px-2">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Cột trái: Video chính */}
+          <div className="md:col-span-2 flex flex-col">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2 flex items-center gap-2">
+              KÊNH YOUTUBE CỦA CHÚNG TÔI
+              <span className="text-red-600 text-xl">
+                <svg className="w-6 h-6 inline-block" fill="currentColor" viewBox="0 0 24 24"><path d="M10 15l5.19-3.09a1 1 0 000-1.72L10 7" /></svg>
+              </span>
+            </h2>
+            <p className="text-gray-300 mb-4">
+              Mexe là kênh thông tin và mua bán ô tô, xe hơi dẫn đầu thị trường. Đăng tin mua bán oto nhanh chóng và đơn giản. Cung cấp tin tức về khuyến mại hãng xe, salons, đánh giá xe ô tô nhanh nhất hiện nay.
+            </p>
+            <div className="w-full aspect-video rounded-xl overflow-hidden mb-2">
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${mainVideoId}`}
+                title="YouTube video"
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+          {/* Cột phải: Danh sách video */}
+          <div className="flex flex-col gap-4">
+            {videos.map((video) => (
+              <Link
+                href={video.link}
+                target="_blank"
+                rel="noopener"
+                className="flex gap-3 hover:bg-white/10 rounded-lg p-1 transition"
+                key={video.title}
+              >
+                <Image
+                  src={`https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`}
+                  alt={video.title}
+                  width={112}
+                  height={80}
+                  className="w-28 h-20 object-cover rounded-lg flex-shrink-0"
+                />
+                <div>
+                  <div className="text-white font-semibold leading-tight text-sm line-clamp-2">{video.title}</div>
+                  <div className="text-gray-400 text-xs mt-1">{video.date}</div>
                 </div>
               </Link>
-            </div>
-          ))}
-        </Slider>
-        <div className='mt-12 text-center'>
+            ))}
+            <Link
+              href="https://www.youtube.com/@mexe2018"
+              target="_blank"
+              className="mt-4 text-right text-white font-semibold hover:underline flex items-center justify-end gap-1"
+            >
+              Tới kênh YouTube
+              <ChevronRightIcon className="w-4 h-4 inline-block" />
+            </Link>
+          </div>
+        </div>
+      </div>
+      {/* Mobile version */}
+      <div className="block lg:hidden w-full bg-gradient-to-br from-[#181d23] to-[#232a36] py-6 px-2">
+        <div className="max-w-xs mx-auto flex flex-col gap-3">
+          <h2 className="text-lg font-extrabold text-white mb-2 text-center">KÊNH YOUTUBE CỦA CHÚNG TÔI</h2>
+          <div className="flex flex-col gap-2">
+            {videos.map((video) => (
+              <Link
+                href={video.link}
+                target="_blank"
+                rel="noopener"
+                className="flex gap-2 hover:bg-white/10 rounded-lg p-1 transition"
+                key={video.title}
+              >
+                <Image
+                  src={`https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`}
+                  alt={video.title}
+                  width={80}
+                  height={60}
+                  className="w-20 h-16 object-cover rounded-lg flex-shrink-0"
+                />
+                <div>
+                  <div className="text-white font-semibold leading-tight text-xs line-clamp-2">{video.title}</div>
+                  <div className="text-gray-400 text-[10px] mt-1">{video.date}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
           <Link
-            href='#'
-            className='rounded-full bg-red-600 p-8 text-3xl font-semibold text-white transition-shadow duration-300 hover:bg-red-700 hover:text-white hover:shadow-lg hover:shadow-red-500/50'
+            href="https://www.youtube.com/@mexe2018"
+            target="_blank"
+            className="mt-4 text-center text-white font-semibold hover:underline flex items-center justify-center gap-1"
           >
-            {t('youtube_link')}
-            <PlayCircleIcon className='ml-2 inline-block size-10' />
+            Tới kênh YouTube
+            <ChevronRightIcon className="w-4 h-4 inline-block" />
           </Link>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
