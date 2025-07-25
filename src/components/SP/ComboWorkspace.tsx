@@ -17,21 +17,29 @@ export default function SPComboWorkspace() {
   ];
 
   return (
-    <section className="py-4 bg-gray-100">
-      <div className="container mx-auto px-4">
-        <h2 className="text-xl font-bold text-center mb-4">{t('title')}</h2>
-        <a href="#" className="text-blue-600 hover:underline text-center block mb-4">
+    <section className='bg-gray-100 py-4'>
+      <div className='container mx-auto px-4'>
+        <h2 className='mb-4 text-center text-xl font-bold'>{t('title')}</h2>
+        <a
+          href='#'
+          className='mb-4 block text-center text-blue-600 hover:underline'
+        >
           {t('explore_more')}
         </a>
-        <div className="flex flex-col space-y-4">
+        <div className='flex flex-col space-y-4'>
           {groups.map((group) => (
-            <div key={group} className="border p-4 rounded">
-              <ul className="space-y-1">
+            <div key={group} className='rounded border p-4'>
+              <ul className='space-y-1'>
                 {t.raw(group).map((item: string) => (
-                  <li key={item} className="text-sm">{item}</li>
+                  <li key={item} className='text-sm'>
+                    {item}
+                  </li>
                 ))}
               </ul>
-              <a href="#" className="text-blue-600 hover:underline mt-2 inline-block text-sm">
+              <a
+                href='#'
+                className='mt-2 inline-block text-sm text-blue-600 hover:underline'
+              >
                 {t('view')}
               </a>
             </div>

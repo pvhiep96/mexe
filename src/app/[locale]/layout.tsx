@@ -89,15 +89,15 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <CartProvider>
             {/* Desktop Header */}
-            <div className="hidden lg:block sticky top-0 z-50 bg-white">
-              <Header/>
+            <div className='sticky top-0 z-50 hidden bg-white lg:block'>
+              <Header />
             </div>
             {/* Mobile Header */}
-            <div className="lg:hidden sticky top-0 z-50 bg-white">
-              <SPHeader/>
+            <div className='sticky top-0 z-50 bg-white lg:hidden'>
+              <SPHeader />
             </div>
             {children}
-            <Footer/>
+            <Footer />
           </CartProvider>
         </NextIntlClientProvider>
       </body>

@@ -10,7 +10,8 @@ const PRODUCT_MOCK = {
   id: 'den-led-xe-o-to-cao-cap',
   name: 'Đèn LED Xe Ô Tô Cao Cấp – Ánh sáng trắng sáng, thiết kế hiện đại, tương thích đa dòng xe',
   price: 1250000,
-  image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
+  image:
+    'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
   images: [
     'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
     'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop',
@@ -21,9 +22,11 @@ const PRODUCT_MOCK = {
     { name: 'Trắng', value: 'white' },
     { name: 'Vàng', value: '#2D6294' },
   ],
-  description: 'Đèn LED xe ô tô cao cấp với công nghệ LED hiện đại, ánh sáng trắng sáng và rõ ràng, phù hợp cho nhiều dòng xe khác nhau. Sản phẩm được thiết kế với chất liệu cao cấp, chống nước và chống rung tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ánh sáng tối ưu. Với thiết kế compact và dễ lắp đặt, đèn không chỉ cải thiện tầm nhìn khi lái xe mà còn tăng tính thẩm mỹ cho chiếc xe của bạn.',
+  description:
+    'Đèn LED xe ô tô cao cấp với công nghệ LED hiện đại, ánh sáng trắng sáng và rõ ràng, phù hợp cho nhiều dòng xe khác nhau. Sản phẩm được thiết kế với chất liệu cao cấp, chống nước và chống rung tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ánh sáng tối ưu. Với thiết kế compact và dễ lắp đặt, đèn không chỉ cải thiện tầm nhìn khi lái xe mà còn tăng tính thẩm mỹ cho chiếc xe của bạn.',
   brand: 'AUTOLIGHT',
-  brandDescription: 'AUTOLIGHT là thương hiệu chuyên về thiết bị chiếu sáng xe ô tô hàng đầu với hơn 15 năm kinh nghiệm trong lĩnh vực automotive lighting. Chúng tôi cam kết cung cấp những sản phẩm chất lượng cao, đáp ứng các tiêu chuẩn quốc tế về an toàn và hiệu suất. AUTOLIGHT tự hào là đối tác tin cậy của nhiều hãng xe lớn và được người tiêu dùng Việt Nam tin tưởng lựa chọn. Với đội ngũ kỹ thuật viên giàu kinh nghiệm và hệ thống bảo hành toàn quốc, AUTOLIGHT luôn đồng hành cùng khách hàng trong việc nâng cấp và bảo trì hệ thống chiếu sáng xe.',
+  brandDescription:
+    'AUTOLIGHT là thương hiệu chuyên về thiết bị chiếu sáng xe ô tô hàng đầu với hơn 15 năm kinh nghiệm trong lĩnh vực automotive lighting. Chúng tôi cam kết cung cấp những sản phẩm chất lượng cao, đáp ứng các tiêu chuẩn quốc tế về an toàn và hiệu suất. AUTOLIGHT tự hào là đối tác tin cậy của nhiều hãng xe lớn và được người tiêu dùng Việt Nam tin tưởng lựa chọn. Với đội ngũ kỹ thuật viên giàu kinh nghiệm và hệ thống bảo hành toàn quốc, AUTOLIGHT luôn đồng hành cùng khách hàng trong việc nâng cấp và bảo trì hệ thống chiếu sáng xe.',
   services: [
     { icon: '🚚', text: 'Miễn phí vận chuyển' },
     { icon: '🔧', text: 'Lắp đặt miễn phí' },
@@ -32,7 +35,7 @@ const PRODUCT_MOCK = {
   ],
   specs: {
     'Thương hiệu': 'AUTOLIGHT',
-    'Model': 'AL-2024',
+    Model: 'AL-2024',
     'Công suất': '35W',
     'Điện áp': '12V/24V',
     'Tuổi thọ': '50,000 giờ',
@@ -40,7 +43,7 @@ const PRODUCT_MOCK = {
     'Trọng lượng': '280g',
     'Chất liệu': 'Nhôm hợp kim + Kính cường lực',
   },
-  quantity: 1
+  quantity: 1,
 };
 interface Product {
   id: string;
@@ -51,7 +54,7 @@ interface Product {
   quantity: number;
 }
 export default function ProductDetail({ params }: { params: { id: string } }) {
-   const t = useTranslations('product_detail');
+  const t = useTranslations('product_detail');
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState('white');
   const [quantity, setQuantity] = useState(1);
@@ -63,79 +66,87 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
   const [showRealImages, setShowRealImages] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const product: Product = PRODUCT_MOCK
+  const product: Product = PRODUCT_MOCK;
 
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
-      setQuantity(prev => prev + 1);
+      setQuantity((prev) => prev + 1);
     } else if (type === 'decrease' && quantity > 1) {
-      setQuantity(prev => prev - 1);
+      setQuantity((prev) => prev - 1);
     }
   };
   const { addToCart } = useCart();
   const [successMessage, setSuccessMessage] = useState('');
 
-    const handleAddToCart = () => {
+  const handleAddToCart = () => {
     addToCart(product);
     setSuccessMessage(t('add_to_cart_success'));
     setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
   };
 
-
   // Product images for slideshow
   const productImages = [
-    "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop"
+    'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop',
   ];
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-8">
+    <div className='min-h-screen'>
+      <div className='container mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8'>
         {/* Breadcrumb */}
-        <nav className="flex mb-8" aria-label="Breadcrumb">
-          <ol className="inline-flex items-center space-x-1 md:space-x-3">
-            <li className="inline-flex items-center">
-              <a href="/" className="text-gray-700 hover:text-blue-600">Trang chủ</a>
+        <nav className='mb-8 flex' aria-label='Breadcrumb'>
+          <ol className='inline-flex items-center space-x-1 md:space-x-3'>
+            <li className='inline-flex items-center'>
+              <a href='/' className='text-gray-700 hover:text-blue-600'>
+                Trang chủ
+              </a>
             </li>
             <li>
-              <div className="flex items-center">
-                <span className="mx-2 text-gray-400">/</span>
-                <a href="/products" className="text-gray-700 hover:text-blue-600">Sản phẩm</a>
+              <div className='flex items-center'>
+                <span className='mx-2 text-gray-400'>/</span>
+                <a
+                  href='/products'
+                  className='text-gray-700 hover:text-blue-600'
+                >
+                  Sản phẩm
+                </a>
               </div>
             </li>
-            <li aria-current="page">
-              <div className="flex items-center">
-                <span className="mx-2 text-gray-400">/</span>
-                <span className="text-gray-500">{PRODUCT_MOCK.name}</span>
+            <li aria-current='page'>
+              <div className='flex items-center'>
+                <span className='mx-2 text-gray-400'>/</span>
+                <span className='text-gray-500'>{PRODUCT_MOCK.name}</span>
               </div>
             </li>
           </ol>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>
           {/* Product Images */}
-          <div className="space-y-4">
-            <div className="aspect-square bg-white rounded-lg overflow-hidden">
+          <div className='space-y-4'>
+            <div className='aspect-square overflow-hidden rounded-lg bg-white'>
               <Image
                 src={PRODUCT_MOCK.images[selectedImage]}
                 alt={PRODUCT_MOCK.name}
                 width={600}
                 height={600}
-                className="w-full h-full object-cover"
+                className='h-full w-full object-cover'
               />
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className='grid grid-cols-4 gap-2'>
               {PRODUCT_MOCK.images.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`aspect-square bg-white rounded-lg overflow-hidden border-2 transition-all ${
-                    selectedImage === index ? 'border-[#2D6294]' : 'border-gray-200 hover:border-gray-300'
+                  className={`aspect-square overflow-hidden rounded-lg border-2 bg-white transition-all ${
+                    selectedImage === index
+                      ? 'border-[#2D6294]'
+                      : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
                   <Image
@@ -143,7 +154,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     alt={`${PRODUCT_MOCK.name} - ${index + 1}`}
                     width={150}
                     height={150}
-                    className="w-full h-full object-cover"
+                    className='h-full w-full object-cover'
                   />
                 </button>
               ))}
@@ -151,37 +162,43 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6">
+          <div className='space-y-6'>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className='mb-2 text-3xl font-bold text-gray-900'>
                 {PRODUCT_MOCK.name}
               </h1>
-              <p className="text-2xl font-semibold text-red-600">
+              <p className='text-2xl font-semibold text-red-600'>
                 {PRODUCT_MOCK.price}
               </p>
             </div>
 
             {/* Services */}
-            <div className="border-t border-b border-gray-200 py-4">
-              <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
+            <div className='border-t border-b border-gray-200 py-4'>
+              <div className='scrollbar-hide flex space-x-4 overflow-x-auto'>
                 {PRODUCT_MOCK.services.map((service, index) => (
                   <div
                     key={index}
-                    className={`flex-shrink-0 p-3 rounded-lg border text-center text-sm min-w-[140px] ${
-                      index === 0 ? 'border-[#2D6294] bg-[#2D6294]/10' : 'border-gray-300 bg-gray-50'
+                    className={`min-w-[140px] flex-shrink-0 rounded-lg border p-3 text-center text-sm ${
+                      index === 0
+                        ? 'border-[#2D6294] bg-[#2D6294]/10'
+                        : 'border-gray-300 bg-gray-50'
                     }`}
                   >
-                    <div className="relative mb-2">
-                      <div className={`text-lg ${index === 0 ? 'text-gray-800' : 'text-gray-400'}`}>
+                    <div className='relative mb-2'>
+                      <div
+                        className={`text-lg ${index === 0 ? 'text-gray-800' : 'text-gray-400'}`}
+                      >
                         {service.icon}
                       </div>
-                      <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-[#2D6294] rounded-full flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                      <div className='absolute -right-1 -bottom-1 flex h-3 w-3 items-center justify-center rounded-full bg-[#2D6294]'>
+                        <div className='h-1.5 w-1.5 rounded-full bg-white'></div>
                       </div>
                     </div>
-                    <div className={`font-medium text-xs leading-tight ${
-                      index === 0 ? 'text-gray-900' : 'text-gray-500'
-                    }`}>
+                    <div
+                      className={`text-xs leading-tight font-medium ${
+                        index === 0 ? 'text-gray-900' : 'text-gray-500'
+                      }`}
+                    >
                       {service.text}
                     </div>
                   </div>
@@ -190,23 +207,27 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             </div>
 
             {/* Brand Information */}
-            <div className="bg-white p-4 rounded-lg border border-gray-200">
-              <div className="mb-3">
-                <span className="font-bold text-gray-900 text-lg">THƯƠNG HIỆU: {PRODUCT_MOCK.brand}</span>
+            <div className='rounded-lg border border-gray-200 bg-white p-4'>
+              <div className='mb-3'>
+                <span className='text-lg font-bold text-gray-900'>
+                  THƯƠNG HIỆU: {PRODUCT_MOCK.brand}
+                </span>
               </div>
-              <div className="relative">
-                <p className={`text-gray-600 leading-relaxed transition-all duration-500 ease-in-out ${
-                  showFullDescription ? 'max-h-none' : 'line-clamp-3'
-                }`}>
+              <div className='relative'>
+                <p
+                  className={`leading-relaxed text-gray-600 transition-all duration-500 ease-in-out ${
+                    showFullDescription ? 'max-h-none' : 'line-clamp-3'
+                  }`}
+                >
                   {PRODUCT_MOCK.brandDescription}
                 </p>
                 {!showFullDescription && (
-                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none"></div>
+                  <div className='pointer-events-none absolute right-0 bottom-0 left-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent'></div>
                 )}
-                <div className="flex justify-center mt-3 relative z-10">
+                <div className='relative z-10 mt-3 flex justify-center'>
                   <button
                     onClick={() => setShowFullDescription(!showFullDescription)}
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-1 rounded-full text-sm transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    className='rounded-full bg-gray-200 px-4 py-1 text-sm text-gray-700 shadow-sm transition-colors hover:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:outline-none'
                   >
                     {showFullDescription ? '▲' : '▼'}
                   </button>
@@ -216,13 +237,15 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
             {/* Color Selection */}
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-3">Màu sắc:</h3>
-              <div className="flex space-x-3">
+              <h3 className='mb-3 text-lg font-medium text-gray-900'>
+                Màu sắc:
+              </h3>
+              <div className='flex space-x-3'>
                 {PRODUCT_MOCK.colors.map((color) => (
                   <button
                     key={color.value}
                     onClick={() => setSelectedColor(color.value)}
-                    className={`px-6 py-2 rounded-full border-2 transition-all ${
+                    className={`rounded-full border-2 px-6 py-2 transition-all ${
                       selectedColor === color.value
                         ? 'border-[#2D6294] bg-[#2D6294]/10'
                         : 'border-gray-300 hover:border-gray-400'
@@ -235,147 +258,161 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             </div>
 
             {/* Quantity Selector and Action Buttons */}
-            <div className="flex items-center space-x-4">
+            <div className='flex items-center space-x-4'>
               {/* Quantity Selector */}
-              <div className="flex items-center border border-gray-300 rounded-lg bg-gray-50">
+              <div className='flex items-center rounded-lg border border-gray-300 bg-gray-50'>
                 <button
                   onClick={() => handleQuantityChange('decrease')}
-                  className="px-3 py-2 text-gray-700 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  className='cursor-pointer px-3 py-2 text-gray-700 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-50'
                   disabled={quantity <= 1}
                 >
                   -
                 </button>
-                <span className="px-4 py-2 border-x border-gray-300 min-w-[60px] text-center bg-white text-gray-900 font-medium">
+                <span className='min-w-[60px] border-x border-gray-300 bg-white px-4 py-2 text-center font-medium text-gray-900'>
                   {quantity}
                 </span>
                 <button
                   onClick={() => handleQuantityChange('increase')}
-                  className="px-3 py-2 text-gray-700 hover:text-gray-900 cursor-pointer"
+                  className='cursor-pointer px-3 py-2 text-gray-700 hover:text-gray-900'
                 >
                   +
                 </button>
               </div>
 
               {/* Add to Cart Button */}
-              <button className="flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors border border-gray-300 cursor-pointer">
-                <div className="relative">
-                  <ShoppingCartIcon className="h-8 w-8" />
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-gray-700 rounded-full flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">+</span>
+              <button className='flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200'>
+                <div className='relative'>
+                  <ShoppingCartIcon className='h-8 w-8' />
+                  <div className='absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-gray-700'>
+                    <span className='text-xs font-bold text-white'>+</span>
                   </div>
                 </div>
               </button>
 
               {/* Buy Now Button */}
 
-                    <div className="relative inline-block">
-            <button
-              onClick={handleAddToCart}
-              className="flex-1 bg-gray-800 text-white py-3 px-6 rounded-lg font-bold hover:bg-gray-900 transition-colors cursor-pointer"
-            >
-              {t('add_to_cart')}
-            </button>
-            {successMessage && (
-              <div className="absolute w-100 bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-green-600 text-white text-sm px-4 py-2 rounded-lg shadow-lg  animate-fade-in">
-                {successMessage}"Product added to cart successfully!"
+              <div className='relative inline-block'>
+                <button
+                  onClick={handleAddToCart}
+                  className='flex-1 cursor-pointer rounded-lg bg-gray-800 px-6 py-3 font-bold text-white transition-colors hover:bg-gray-900'
+                >
+                  {t('add_to_cart')}
+                </button>
+                {successMessage && (
+                  <div className='animate-fade-in absolute bottom-full left-1/2 mb-2 w-100 -translate-x-1/2 transform rounded-lg bg-green-600 px-4 py-2 text-sm text-white shadow-lg'>
+                    {successMessage}"Product added to cart successfully!"
+                  </div>
+                )}
               </div>
-            )}
-          </div>
             </div>
           </div>
         </div>
 
         {/* Desktop Layout */}
-        <div className="mt-12 hidden lg:grid lg:grid-cols-6 gap-6">
+        <div className='mt-12 hidden gap-6 lg:grid lg:grid-cols-6'>
           {/* Left Column - Product Information, Target Audience, Warranty Policy, Real Images (80% width) */}
-          <div className="col-span-4 space-y-6">
+          <div className='col-span-4 space-y-6'>
             {/* Product Information Header */}
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">THÔNG TIN SẢN PHẨM</h2>
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>THÔNG TIN SẢN PHẨM</h2>
               <button
                 onClick={() => setShowFullProductInfo(!showFullProductInfo)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
+                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
               >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
                 </svg>
               </button>
             </div>
 
             {/* Product Information Content */}
             {showFullProductInfo && (
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <div className="space-y-8">
+              <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                <div className='space-y-8'>
                   {/* Title and Intro */}
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">
-                      Ánh sáng LED trắng sáng – Tăng cường tầm nhìn khi lái xe ban đêm
+                    <h3 className='mb-4 text-xl font-bold text-gray-900'>
+                      Ánh sáng LED trắng sáng – Tăng cường tầm nhìn khi lái xe
+                      ban đêm
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Đèn LED xe ô tô với ánh sáng trắng sáng 6000K, cung cấp tầm nhìn rõ ràng và an toàn
-                      khi lái xe trong điều kiện thiếu sáng. Công nghệ LED hiện đại giúp tiết kiệm điện
-                      và tuổi thọ lâu dài hơn so với đèn halogen truyền thống.
+                    <p className='leading-relaxed text-gray-600'>
+                      Đèn LED xe ô tô với ánh sáng trắng sáng 6000K, cung cấp
+                      tầm nhìn rõ ràng và an toàn khi lái xe trong điều kiện
+                      thiếu sáng. Công nghệ LED hiện đại giúp tiết kiệm điện và
+                      tuổi thọ lâu dài hơn so với đèn halogen truyền thống.
                     </p>
                   </div>
 
                   {/* First Image */}
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-md aspect-square bg-gray-800 rounded-lg overflow-hidden">
+                  <div className='flex justify-center'>
+                    <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
                       <Image
                         src={PRODUCT_MOCK.images[0]}
-                        alt="Product detail"
+                        alt='Product detail'
                         width={400}
                         height={400}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
                   </div>
 
                   {/* Second Content Block */}
                   <div>
-                    <p className="text-gray-600 leading-relaxed mb-4">
-                      Đèn LED xe ô tô AUTOLIGHT AL-2024 với thiết kế hiện đại, tương thích với nhiều dòng xe
-                      khác nhau từ sedan đến SUV. Sản phẩm được thiết kế với công nghệ LED COB tiên tiến,
-                      tạo ra ánh sáng tập trung và đồng đều, giúp tăng cường tầm nhìn khi lái xe ban đêm.
+                    <p className='mb-4 leading-relaxed text-gray-600'>
+                      Đèn LED xe ô tô AUTOLIGHT AL-2024 với thiết kế hiện đại,
+                      tương thích với nhiều dòng xe khác nhau từ sedan đến SUV.
+                      Sản phẩm được thiết kế với công nghệ LED COB tiên tiến,
+                      tạo ra ánh sáng tập trung và đồng đều, giúp tăng cường tầm
+                      nhìn khi lái xe ban đêm.
                     </p>
                   </div>
 
                   {/* Second Image */}
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-md aspect-square bg-gray-800 rounded-lg overflow-hidden">
+                  <div className='flex justify-center'>
+                    <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
                       <Image
                         src={PRODUCT_MOCK.images[1]}
-                        alt="Product detail 2"
+                        alt='Product detail 2'
                         width={400}
                         height={400}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
                   </div>
 
                   {/* Third Content Block */}
                   <div>
-                    <p className="text-gray-600 leading-relaxed mb-4">
-                      Với thiết kế compact và dễ lắp đặt, đèn LED AUTOLIGHT không chỉ cải thiện tầm nhìn
-                      mà còn tăng tính thẩm mỹ cho chiếc xe của bạn. Chất liệu nhôm hợp kim cao cấp giúp
-                      tản nhiệt tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ổn định.
+                    <p className='mb-4 leading-relaxed text-gray-600'>
+                      Với thiết kế compact và dễ lắp đặt, đèn LED AUTOLIGHT
+                      không chỉ cải thiện tầm nhìn mà còn tăng tính thẩm mỹ cho
+                      chiếc xe của bạn. Chất liệu nhôm hợp kim cao cấp giúp tản
+                      nhiệt tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ổn định.
                     </p>
-                    <p className="text-gray-600 leading-relaxed">
-                      Sản phẩm đi kèm với bộ lắp đặt đầy đủ và hướng dẫn chi tiết, phù hợp cho cả người
-                      mới bắt đầu và thợ chuyên nghiệp. Đèn được thiết kế chống nước IP67, đảm bảo hoạt động
-                      ổn định trong mọi điều kiện thời tiết.
+                    <p className='leading-relaxed text-gray-600'>
+                      Sản phẩm đi kèm với bộ lắp đặt đầy đủ và hướng dẫn chi
+                      tiết, phù hợp cho cả người mới bắt đầu và thợ chuyên
+                      nghiệp. Đèn được thiết kế chống nước IP67, đảm bảo hoạt
+                      động ổn định trong mọi điều kiện thời tiết.
                     </p>
                   </div>
 
                   {/* Third Image */}
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-md aspect-square bg-gray-800 rounded-lg overflow-hidden">
+                  <div className='flex justify-center'>
+                    <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
                       <Image
                         src={PRODUCT_MOCK.images[2]}
-                        alt="Product detail 3"
+                        alt='Product detail 3'
                         width={400}
                         height={400}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
                   </div>
@@ -384,54 +421,69 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             )}
 
             {/* Target Audience Section */}
-            <div className="mt-6">
-                          {/* Target Audience Header */}
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">SẢN PHẨM GIÀNH CHO NHỮNG AI?</h2>
-              <button
-                onClick={() => setShowFullTargetAudience(!showFullTargetAudience)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
-              >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
-            </div>
+            <div className='mt-6'>
+              {/* Target Audience Header */}
+              <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+                <h2 className='text-lg font-bold'>
+                  SẢN PHẨM GIÀNH CHO NHỮNG AI?
+                </h2>
+                <button
+                  onClick={() =>
+                    setShowFullTargetAudience(!showFullTargetAudience)
+                  }
+                  className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
+                >
+                  <svg
+                    className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`}
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                </button>
+              </div>
 
               {/* Target Audience Content */}
               {showFullTargetAudience && (
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
-                  <div className="space-y-6">
+                <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                  <div className='space-y-6'>
                     {/* First Target Group */}
                     <div>
-                      <h3 className="font-bold text-gray-900 mb-2">
+                      <h3 className='mb-2 font-bold text-gray-900'>
                         Chủ xe muốn nâng cấp hệ thống chiếu sáng
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
-                        Với ánh sáng LED trắng sáng và thiết kế hiện đại, đèn rất phù hợp để thay thế
-                        đèn halogen cũ, cải thiện tầm nhìn và tăng tính thẩm mỹ cho xe.
+                      <p className='leading-relaxed text-gray-600'>
+                        Với ánh sáng LED trắng sáng và thiết kế hiện đại, đèn
+                        rất phù hợp để thay thế đèn halogen cũ, cải thiện tầm
+                        nhìn và tăng tính thẩm mỹ cho xe.
                       </p>
                     </div>
 
                     {/* Second Target Group */}
                     <div>
-                      <h3 className="font-bold text-gray-900 mb-2">
+                      <h3 className='mb-2 font-bold text-gray-900'>
                         Tài xế thường xuyên lái xe ban đêm
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
-                        Ánh sáng LED mạnh mẽ và tập trung giúp tăng cường tầm nhìn khi lái xe trong
-                        điều kiện thiếu sáng, đảm bảo an toàn cho người lái và hành khách.
+                      <p className='leading-relaxed text-gray-600'>
+                        Ánh sáng LED mạnh mẽ và tập trung giúp tăng cường tầm
+                        nhìn khi lái xe trong điều kiện thiếu sáng, đảm bảo an
+                        toàn cho người lái và hành khách.
                       </p>
                     </div>
 
                     {/* Third Target Group */}
                     <div>
-                      <h3 className="font-bold text-gray-900 mb-2">
+                      <h3 className='mb-2 font-bold text-gray-900'>
                         Thợ sửa xe và cửa hàng phụ tùng
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
-                        Sản phẩm chất lượng cao, dễ lắp đặt và tương thích với nhiều dòng xe, phù hợp
-                        cho việc kinh doanh và cung cấp dịch vụ lắp đặt cho khách hàng.
+                      <p className='leading-relaxed text-gray-600'>
+                        Sản phẩm chất lượng cao, dễ lắp đặt và tương thích với
+                        nhiều dòng xe, phù hợp cho việc kinh doanh và cung cấp
+                        dịch vụ lắp đặt cho khách hàng.
                       </p>
                     </div>
                   </div>
@@ -440,38 +492,48 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             </div>
 
             {/* Warranty and Return Policy Header */}
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH</h2>
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>
+                CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH
+              </h2>
               <button
                 onClick={() => setShowWarrantyPolicy(!showWarrantyPolicy)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
+                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
               >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
                 </svg>
               </button>
             </div>
 
             {/* Warranty and Return Policy Content */}
             {showWarrantyPolicy && (
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <div className="space-y-6">
+              <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                <div className='space-y-6'>
                   {/* Return Policy */}
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-3">
+                    <h3 className='mb-3 font-bold text-gray-900'>
                       Chính sách đổi trả hàng:
                     </h3>
-                    <ul className="space-y-2 text-gray-600">
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                    <ul className='space-y-2 text-gray-600'>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng bị lỗi kỹ thuật do nhà sản xuất.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng bị hư hỏng do quá trình vận chuyển.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng giao không đúng mẫu mã, loại mà khách đã đặt.
                       </li>
                     </ul>
@@ -479,45 +541,53 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
                   {/* Return Conditions */}
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-3">
+                    <h3 className='mb-3 font-bold text-gray-900'>
                       Điều kiện đổi trả hàng:
                     </h3>
-                    <ul className="space-y-2 text-gray-600">
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Khách hàng cần thông báo cho chúng tôi về tình trạng lỗi sản phẩm, sự cố đơn hàng trong vòng 7 ngày kể từ thời điểm giao hàng thành công.
+                    <ul className='space-y-2 text-gray-600'>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Khách hàng cần thông báo cho chúng tôi về tình trạng lỗi
+                        sản phẩm, sự cố đơn hàng trong vòng 7 ngày kể từ thời
+                        điểm giao hàng thành công.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Khách hàng cần cung cấp video mở hộp sản phẩm để chứng minh lỗi do quá trình vận chuyển hoặc sản xuất.
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Khách hàng cần cung cấp video mở hộp sản phẩm để chứng
+                        minh lỗi do quá trình vận chuyển hoặc sản xuất.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng hóa còn đầy đủ các phụ kiện đi kèm.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Các vấn đề lỗi sản phẩm Vaithuhay sẽ nhận hàng về kiểm tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Các vấn đề lỗi sản phẩm Vaithuhay sẽ nhận hàng về kiểm
+                        tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày
+                        nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác
+                        định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
                       </li>
                     </ul>
                   </div>
 
                   {/* Non-eligible Cases */}
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-3">
+                    <h3 className='mb-3 font-bold text-gray-900'>
                       Các trường hợp không đủ điều kiện đổi trả:
                     </h3>
-                    <ul className="space-y-2 text-gray-600">
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Vaithuhay chỉ hỗ trợ theo chính sách bảo hành đi kèm.
+                    <ul className='space-y-2 text-gray-600'>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Vaithuhay chỉ
+                        hỗ trợ theo chính sách bảo hành đi kèm.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Khách hàng không cung cấp được video/hình ảnh chứng minh vấn đề lỗi do nhà sản xuất và vận chuyển.
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Khách hàng không cung cấp được video/hình ảnh chứng minh
+                        vấn đề lỗi do nhà sản xuất và vận chuyển.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng hoàn về không còn đầy đủ phụ kiện ban đầu.
                       </li>
                     </ul>
@@ -527,188 +597,240 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             )}
 
             {/* Real Images Section */}
-                         <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-               <h2 className="text-lg font-bold">HÌNH ẢNH</h2>
-               <button
-                 onClick={() => setShowRealImages(!showRealImages)}
-                 className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
-               >
-                 <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                 </svg>
-               </button>
-             </div>
-             {showRealImages && (
-             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              {/* Main Image Display */}
-              <div className="relative mb-6">
-                <div className="aspect-[4/3] bg-gray-800 rounded-lg overflow-hidden">
-                  <Image
-                    src={productImages[currentImageIndex]}
-                    alt={`Product image ${currentImageIndex + 1}`}
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-cover"
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>HÌNH ẢNH</h2>
+              <button
+                onClick={() => setShowRealImages(!showRealImages)}
+                className='flex h-6 w-6 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
+              >
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
                   />
+                </svg>
+              </button>
+            </div>
+            {showRealImages && (
+              <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                {/* Main Image Display */}
+                <div className='relative mb-6'>
+                  <div className='aspect-[4/3] overflow-hidden rounded-lg bg-gray-800'>
+                    <Image
+                      src={productImages[currentImageIndex]}
+                      alt={`Product image ${currentImageIndex + 1}`}
+                      width={800}
+                      height={600}
+                      className='h-full w-full object-cover'
+                    />
+                  </div>
+                  {/* Navigation Dots */}
+                  <div className='mt-4 flex justify-center space-x-2'>
+                    {productImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`h-2 w-2 rounded-full border border-gray-300 transition-colors ${
+                          index === currentImageIndex
+                            ? 'bg-white'
+                            : 'bg-gray-300'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
-                {/* Navigation Dots */}
-                <div className="flex justify-center mt-4 space-x-2">
-                  {productImages.map((_, index) => (
+
+                {/* Thumbnail Gallery */}
+                <div className='scrollbar-hide flex gap-3 overflow-x-auto'>
+                  {productImages.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2 h-2 rounded-full border border-gray-300 transition-colors ${
-                        index === currentImageIndex ? 'bg-white' : 'bg-gray-300'
+                      className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 bg-gray-200 transition-colors ${
+                        index === currentImageIndex
+                          ? 'border-[#2D6294]'
+                          : 'border-transparent'
                       }`}
-                    />
+                    >
+                      <Image
+                        src={image}
+                        alt={`Thumbnail ${index + 1}`}
+                        width={80}
+                        height={80}
+                        className='h-full w-full object-cover'
+                      />
+                    </button>
                   ))}
                 </div>
               </div>
-
-              {/* Thumbnail Gallery */}
-              <div className="flex gap-3 overflow-x-auto scrollbar-hide">
-                {productImages.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden border-2 transition-colors ${
-                      index === currentImageIndex ? 'border-[#2D6294]' : 'border-transparent'
-                    }`}
-                  >
-                    <Image
-                      src={image}
-                      alt={`Thumbnail ${index + 1}`}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
             )}
           </div>
 
           {/* Right Column - Technical Specifications and Related Products (20% width) */}
-          <div className="col-span-2 space-y-6">
+          <div className='col-span-2 space-y-6'>
             {/* Technical Specifications Header */}
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">THÔNG SỐ KỸ THUẬT</h2>
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>THÔNG SỐ KỸ THUẬT</h2>
               <button
                 onClick={() => setShowTechnicalSpecs(!showTechnicalSpecs)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className='flex h-6 w-6 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
               >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showTechnicalSpecs ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showTechnicalSpecs ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
                 </svg>
               </button>
             </div>
 
             {/* Technical Specifications Content */}
             {showTechnicalSpecs && (
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <table className="w-full">
-                <tbody>
-                  <tr className="border-b border-[#dee2e6]">
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Loại đèn</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">LED COB – Ánh sáng trắng sáng</td>
-                  </tr>
-                  <tr className="border-b border-[#dee2e6]">
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Nhiệt độ màu</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">6000K – Trắng sáng tự nhiên</td>
-                  </tr>
-                  <tr className="border-b border-[#dee2e6]">
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Công suất</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">35W</td>
-                  </tr>
-                  <tr className="border-b border-[#dee2e6]">
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Điện áp hoạt động</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">12V/24V DC</td>
-                  </tr>
-                  <tr className="border-b border-[#dee2e6]">
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Tuổi thọ LED</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">50,000 giờ</td>
-                  </tr>
-                  <tr className="border-b border-[#dee2e6]">
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Chống nước</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">IP67</td>
-                  </tr>
-                  <tr className="border-b border-[#dee2e6]">
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Chống rung</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">Có</td>
-                  </tr>
-                  <tr className="border-b border-[#dee2e6]">
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Kích thước</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">120 × 80 × 45 mm</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Trọng lượng</td>
-                    <td className="py-3 px-4 text-gray-900 text-sm">280g</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              <div className='overflow-hidden rounded-lg border border-gray-200 bg-white'>
+                <table className='w-full'>
+                  <tbody>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Loại đèn
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        LED COB – Ánh sáng trắng sáng
+                      </td>
+                    </tr>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Nhiệt độ màu
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        6000K – Trắng sáng tự nhiên
+                      </td>
+                    </tr>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Công suất
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>35W</td>
+                    </tr>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Điện áp hoạt động
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        12V/24V DC
+                      </td>
+                    </tr>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Tuổi thọ LED
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        50,000 giờ
+                      </td>
+                    </tr>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Chống nước
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>IP67</td>
+                    </tr>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Chống rung
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>Có</td>
+                    </tr>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Kích thước
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        120 × 80 × 45 mm
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Trọng lượng
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>280g</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             )}
 
             {/* Related Products */}
-            <div className="bg-white rounded-lg border border-gray-200 lg:sticky lg:top-[100px]">
-              <div className="p-4">
-                <h3 className="font-bold text-gray-900 mb-4">SẢN PHẨM LIÊN QUAN</h3>
-                <div className="space-y-4">
+            <div className='rounded-lg border border-gray-200 bg-white lg:sticky lg:top-[100px]'>
+              <div className='p-4'>
+                <h3 className='mb-4 font-bold text-gray-900'>
+                  SẢN PHẨM LIÊN QUAN
+                </h3>
+                <div className='space-y-4'>
                   {/* Related Product 1 */}
-                  <div className="flex items-center space-x-3 pb-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
-                    <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className='flex cursor-pointer items-center space-x-3 rounded-lg border-b border-gray-100 p-2 pb-4 transition-colors hover:bg-gray-50'>
+                    <div className='h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200'>
                       <Image
-                        src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=64&h=64&fit=crop"
-                        alt="Đèn pha LED"
+                        src='https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=64&h=64&fit=crop'
+                        alt='Đèn pha LED'
                         width={64}
                         height={64}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-gray-900 text-sm truncate">
+                    <div className='min-w-0 flex-1'>
+                      <h4 className='truncate text-sm font-medium text-gray-900'>
                         Đèn pha LED xe ô tô cao cấp...
                       </h4>
-                      <p className="text-red-600 font-bold text-sm">1,890,000₫</p>
+                      <p className='text-sm font-bold text-red-600'>
+                        1,890,000₫
+                      </p>
                     </div>
                   </div>
 
                   {/* Related Product 2 */}
-                  <div className="flex items-center space-x-3 pb-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
-                    <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className='flex cursor-pointer items-center space-x-3 rounded-lg border-b border-gray-100 p-2 pb-4 transition-colors hover:bg-gray-50'>
+                    <div className='h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200'>
                       <Image
-                        src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=64&h=64&fit=crop"
-                        alt="Bộ lọc gió động cơ"
+                        src='https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=64&h=64&fit=crop'
+                        alt='Bộ lọc gió động cơ'
                         width={64}
                         height={64}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-gray-900 text-sm truncate">
+                    <div className='min-w-0 flex-1'>
+                      <h4 className='truncate text-sm font-medium text-gray-900'>
                         Bộ lọc gió động cơ cao cấp...
                       </h4>
-                      <p className="text-red-600 font-bold text-sm">450,000₫</p>
+                      <p className='text-sm font-bold text-red-600'>450,000₫</p>
                     </div>
                   </div>
 
                   {/* Related Product 3 */}
-                  <div className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
-                    <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className='flex cursor-pointer items-center space-x-3 rounded-lg p-2 transition-colors hover:bg-gray-50'>
+                    <div className='h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200'>
                       <Image
-                        src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=64&h=64&fit=crop"
-                        alt="Dầu nhớt động cơ"
+                        src='https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=64&h=64&fit=crop'
+                        alt='Dầu nhớt động cơ'
                         width={64}
                         height={64}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-gray-900 text-sm truncate">
+                    <div className='min-w-0 flex-1'>
+                      <h4 className='truncate text-sm font-medium text-gray-900'>
                         Dầu nhớt động cơ tổng hợp...
                       </h4>
-                      <p className="text-red-600 font-bold text-sm">650,000₫</p>
+                      <p className='text-sm font-bold text-red-600'>650,000₫</p>
                     </div>
                   </div>
                 </div>
@@ -718,82 +840,96 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         </div>
 
         {/* Mobile Layout */}
-        <div className="mt-12 lg:hidden space-y-6">
+        <div className='mt-12 space-y-6 lg:hidden'>
           {/* Product Information */}
           <div>
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">THÔNG TIN SẢN PHẨM</h2>
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>THÔNG TIN SẢN PHẨM</h2>
               <button
                 onClick={() => setShowFullProductInfo(!showFullProductInfo)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
+                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
               >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
                 </svg>
               </button>
             </div>
             {showFullProductInfo && (
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <div className="space-y-8">
+              <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                <div className='space-y-8'>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">
-                      Ánh sáng LED trắng sáng – Tăng cường tầm nhìn khi lái xe ban đêm
+                    <h3 className='mb-4 text-xl font-bold text-gray-900'>
+                      Ánh sáng LED trắng sáng – Tăng cường tầm nhìn khi lái xe
+                      ban đêm
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Đèn LED xe ô tô với ánh sáng trắng sáng 6000K, cung cấp tầm nhìn rõ ràng và an toàn
-                      khi lái xe trong điều kiện thiếu sáng. Công nghệ LED hiện đại giúp tiết kiệm điện
-                      và tuổi thọ lâu dài hơn so với đèn halogen truyền thống.
+                    <p className='leading-relaxed text-gray-600'>
+                      Đèn LED xe ô tô với ánh sáng trắng sáng 6000K, cung cấp
+                      tầm nhìn rõ ràng và an toàn khi lái xe trong điều kiện
+                      thiếu sáng. Công nghệ LED hiện đại giúp tiết kiệm điện và
+                      tuổi thọ lâu dài hơn so với đèn halogen truyền thống.
                     </p>
                   </div>
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-md aspect-square bg-gray-800 rounded-lg overflow-hidden">
+                  <div className='flex justify-center'>
+                    <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
                       <Image
                         src={PRODUCT_MOCK.images[0]}
-                        alt="Product detail"
+                        alt='Product detail'
                         width={400}
                         height={400}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
                   </div>
                   <div>
-                    <p className="text-gray-600 leading-relaxed mb-4">
-                      Đèn LED xe ô tô AUTOLIGHT AL-2024 với thiết kế hiện đại, tương thích với nhiều dòng xe
-                      khác nhau từ sedan đến SUV. Sản phẩm được thiết kế với công nghệ LED COB tiên tiến,
-                      tạo ra ánh sáng tập trung và đồng đều, giúp tăng cường tầm nhìn khi lái xe ban đêm.
+                    <p className='mb-4 leading-relaxed text-gray-600'>
+                      Đèn LED xe ô tô AUTOLIGHT AL-2024 với thiết kế hiện đại,
+                      tương thích với nhiều dòng xe khác nhau từ sedan đến SUV.
+                      Sản phẩm được thiết kế với công nghệ LED COB tiên tiến,
+                      tạo ra ánh sáng tập trung và đồng đều, giúp tăng cường tầm
+                      nhìn khi lái xe ban đêm.
                     </p>
                   </div>
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-md aspect-square bg-gray-800 rounded-lg overflow-hidden">
+                  <div className='flex justify-center'>
+                    <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
                       <Image
                         src={PRODUCT_MOCK.images[1]}
-                        alt="Product detail 2"
+                        alt='Product detail 2'
                         width={400}
                         height={400}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
                   </div>
                   <div>
-                    <p className="text-gray-600 leading-relaxed mb-4">
-                      Với thiết kế compact và dễ lắp đặt, đèn LED AUTOLIGHT không chỉ cải thiện tầm nhìn
-                      mà còn tăng tính thẩm mỹ cho chiếc xe của bạn. Chất liệu nhôm hợp kim cao cấp giúp
-                      tản nhiệt tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ổn định.
+                    <p className='mb-4 leading-relaxed text-gray-600'>
+                      Với thiết kế compact và dễ lắp đặt, đèn LED AUTOLIGHT
+                      không chỉ cải thiện tầm nhìn mà còn tăng tính thẩm mỹ cho
+                      chiếc xe của bạn. Chất liệu nhôm hợp kim cao cấp giúp tản
+                      nhiệt tốt, đảm bảo tuổi thọ lâu dài và hiệu suất ổn định.
                     </p>
-                    <p className="text-gray-600 leading-relaxed">
-                      Sản phẩm đi kèm với bộ lắp đặt đầy đủ và hướng dẫn chi tiết, phù hợp cho cả người
-                      mới bắt đầu và thợ chuyên nghiệp. Đèn được thiết kế chống nước IP67, đảm bảo hoạt động
-                      ổn định trong mọi điều kiện thời tiết.
+                    <p className='leading-relaxed text-gray-600'>
+                      Sản phẩm đi kèm với bộ lắp đặt đầy đủ và hướng dẫn chi
+                      tiết, phù hợp cho cả người mới bắt đầu và thợ chuyên
+                      nghiệp. Đèn được thiết kế chống nước IP67, đảm bảo hoạt
+                      động ổn định trong mọi điều kiện thời tiết.
                     </p>
                   </div>
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-md aspect-square bg-gray-800 rounded-lg overflow-hidden">
+                  <div className='flex justify-center'>
+                    <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
                       <Image
                         src={PRODUCT_MOCK.images[2]}
-                        alt="Product detail 3"
+                        alt='Product detail 3'
                         width={400}
                         height={400}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     </div>
                   </div>
@@ -804,56 +940,92 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
           {/* Technical Specifications */}
           <div>
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">THÔNG SỐ KỸ THUẬT</h2>
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>THÔNG SỐ KỸ THUẬT</h2>
               <button
                 onClick={() => setShowTechnicalSpecs(!showTechnicalSpecs)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
+                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
               >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showTechnicalSpecs ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showTechnicalSpecs ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
                 </svg>
               </button>
             </div>
             {showTechnicalSpecs && (
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <table className="w-full">
+              <div className='overflow-hidden rounded-lg border border-gray-200 bg-white'>
+                <table className='w-full'>
                   <tbody>
-                    <tr className="border-b border-[#dee2e6]">
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Loại đèn</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">LED COB – Ánh sáng trắng sáng</td>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Loại đèn
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        LED COB – Ánh sáng trắng sáng
+                      </td>
                     </tr>
-                    <tr className="border-b border-[#dee2e6]">
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Nhiệt độ màu</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">6000K – Trắng sáng tự nhiên</td>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Nhiệt độ màu
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        6000K – Trắng sáng tự nhiên
+                      </td>
                     </tr>
-                    <tr className="border-b border-[#dee2e6]">
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Công suất</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">35W</td>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Công suất
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>35W</td>
                     </tr>
-                    <tr className="border-b border-[#dee2e6]">
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Điện áp hoạt động</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">12V/24V DC</td>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Điện áp hoạt động
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        12V/24V DC
+                      </td>
                     </tr>
-                    <tr className="border-b border-[#dee2e6]">
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Tuổi thọ LED</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">50,000 giờ</td>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Tuổi thọ LED
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        50,000 giờ
+                      </td>
                     </tr>
-                    <tr className="border-b border-[#dee2e6]">
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Chống nước</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">IP67</td>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Chống nước
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>IP67</td>
                     </tr>
-                    <tr className="border-b border-[#dee2e6]">
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Chống rung</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">Có</td>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Chống rung
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>Có</td>
                     </tr>
-                    <tr className="border-b border-[#dee2e6]">
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Kích thước</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">120 × 80 × 45 mm</td>
+                    <tr className='border-b border-[#dee2e6]'>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Kích thước
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>
+                        120 × 80 × 45 mm
+                      </td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-4 font-medium text-gray-900 text-sm bg-[#f4f4f4]">Trọng lượng</td>
-                      <td className="py-3 px-4 text-gray-900 text-sm">280g</td>
+                      <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
+                        Trọng lượng
+                      </td>
+                      <td className='px-4 py-3 text-sm text-gray-900'>280g</td>
                     </tr>
                   </tbody>
                 </table>
@@ -863,45 +1035,60 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
           {/* Target Audience */}
           <div>
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">SẢN PHẨM GIÀNH CHO NHỮNG AI?</h2>
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>
+                SẢN PHẨM GIÀNH CHO NHỮNG AI?
+              </h2>
               <button
-                onClick={() => setShowFullTargetAudience(!showFullTargetAudience)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
+                onClick={() =>
+                  setShowFullTargetAudience(!showFullTargetAudience)
+                }
+                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
               >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
                 </svg>
               </button>
             </div>
             {showFullTargetAudience && (
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <div className="space-y-6">
+              <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                <div className='space-y-6'>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">
+                    <h3 className='mb-2 font-bold text-gray-900'>
                       Chủ xe muốn nâng cấp hệ thống chiếu sáng
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Với ánh sáng LED trắng sáng và thiết kế hiện đại, đèn rất phù hợp để thay thế
-                      đèn halogen cũ, cải thiện tầm nhìn và tăng tính thẩm mỹ cho xe.
+                    <p className='leading-relaxed text-gray-600'>
+                      Với ánh sáng LED trắng sáng và thiết kế hiện đại, đèn rất
+                      phù hợp để thay thế đèn halogen cũ, cải thiện tầm nhìn và
+                      tăng tính thẩm mỹ cho xe.
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">
+                    <h3 className='mb-2 font-bold text-gray-900'>
                       Tài xế thường xuyên lái xe ban đêm
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Ánh sáng LED mạnh mẽ và tập trung giúp tăng cường tầm nhìn khi lái xe trong
-                      điều kiện thiếu sáng, đảm bảo an toàn cho người lái và hành khách.
+                    <p className='leading-relaxed text-gray-600'>
+                      Ánh sáng LED mạnh mẽ và tập trung giúp tăng cường tầm nhìn
+                      khi lái xe trong điều kiện thiếu sáng, đảm bảo an toàn cho
+                      người lái và hành khách.
                     </p>
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">
+                    <h3 className='mb-2 font-bold text-gray-900'>
                       Thợ sửa xe và cửa hàng phụ tùng
                     </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      Sản phẩm chất lượng cao, dễ lắp đặt và tương thích với nhiều dòng xe, phù hợp
-                      cho việc kinh doanh và cung cấp dịch vụ lắp đặt cho khách hàng.
+                    <p className='leading-relaxed text-gray-600'>
+                      Sản phẩm chất lượng cao, dễ lắp đặt và tương thích với
+                      nhiều dòng xe, phù hợp cho việc kinh doanh và cung cấp
+                      dịch vụ lắp đặt cho khách hàng.
                     </p>
                   </div>
                 </div>
@@ -911,77 +1098,95 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
           {/* Warranty Policy */}
           <div>
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH</h2>
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>
+                CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH
+              </h2>
               <button
                 onClick={() => setShowWarrantyPolicy(!showWarrantyPolicy)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer"
+                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
               >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
                 </svg>
               </button>
             </div>
             {showWarrantyPolicy && (
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <div className="space-y-6">
+              <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                <div className='space-y-6'>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-3">
+                    <h3 className='mb-3 font-bold text-gray-900'>
                       Chính sách đổi trả hàng:
                     </h3>
-                    <ul className="space-y-2 text-gray-600">
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                    <ul className='space-y-2 text-gray-600'>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng bị lỗi kỹ thuật do nhà sản xuất.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng bị hư hỏng do quá trình vận chuyển.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng giao không đúng mẫu mã, loại mà khách đã đặt.
                       </li>
                     </ul>
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-3">
+                    <h3 className='mb-3 font-bold text-gray-900'>
                       Điều kiện đổi trả hàng:
                     </h3>
-                    <ul className="space-y-2 text-gray-600">
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Khách hàng cần thông báo cho chúng tôi về tình trạng lỗi sản phẩm, sự cố đơn hàng trong vòng 7 ngày kể từ thời điểm giao hàng thành công.
+                    <ul className='space-y-2 text-gray-600'>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Khách hàng cần thông báo cho chúng tôi về tình trạng lỗi
+                        sản phẩm, sự cố đơn hàng trong vòng 7 ngày kể từ thời
+                        điểm giao hàng thành công.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Khách hàng cần cung cấp video mở hộp sản phẩm để chứng minh lỗi do quá trình vận chuyển hoặc sản xuất.
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Khách hàng cần cung cấp video mở hộp sản phẩm để chứng
+                        minh lỗi do quá trình vận chuyển hoặc sản xuất.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng hóa còn đầy đủ các phụ kiện đi kèm.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Các vấn đề lỗi sản phẩm Vaithuhay sẽ nhận hàng về kiểm tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Các vấn đề lỗi sản phẩm Vaithuhay sẽ nhận hàng về kiểm
+                        tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày
+                        nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác
+                        định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
                       </li>
                     </ul>
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-3">
+                    <h3 className='mb-3 font-bold text-gray-900'>
                       Các trường hợp không đủ điều kiện đổi trả:
                     </h3>
-                    <ul className="space-y-2 text-gray-600">
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Vaithuhay chỉ hỗ trợ theo chính sách bảo hành đi kèm.
+                    <ul className='space-y-2 text-gray-600'>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Vaithuhay chỉ
+                        hỗ trợ theo chính sách bảo hành đi kèm.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
-                        Khách hàng không cung cấp được video/hình ảnh chứng minh vấn đề lỗi do nhà sản xuất và vận chuyển.
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
+                        Khách hàng không cung cấp được video/hình ảnh chứng minh
+                        vấn đề lỗi do nhà sản xuất và vận chuyển.
                       </li>
-                      <li className="flex items-start">
-                        <span className="text-[#2D6294] mr-2 mt-1">•</span>
+                      <li className='flex items-start'>
+                        <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
                         Hàng hoàn về không còn đầy đủ phụ kiện ban đầu.
                       </li>
                     </ul>
@@ -993,124 +1198,137 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
 
           {/* Real Images */}
           <div>
-            <div className="bg-[#2D6294] text-white px-6 py-3 rounded-lg mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">HÌNH ẢNH</h2>
+            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+              <h2 className='text-lg font-bold'>HÌNH ẢNH</h2>
               <button
                 onClick={() => setShowRealImages(!showRealImages)}
-                className="w-6 h-6 bg-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                className='flex h-6 w-6 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
               >
-                <svg className={`w-3 h-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                <svg
+                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
                 </svg>
               </button>
             </div>
             {showRealImages && (
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                {/* Main Image Display */}
+                <div className='relative mb-6'>
+                  <div className='aspect-[4/3] overflow-hidden rounded-lg bg-gray-800'>
+                    <Image
+                      src={productImages[currentImageIndex]}
+                      alt={`Product image ${currentImageIndex + 1}`}
+                      width={800}
+                      height={600}
+                      className='h-full w-full object-cover'
+                    />
+                  </div>
 
-              {/* Main Image Display */}
-              <div className="relative mb-6">
-                <div className="aspect-[4/3] bg-gray-800 rounded-lg overflow-hidden">
-                  <Image
-                    src={productImages[currentImageIndex]}
-                    alt={`Product image ${currentImageIndex + 1}`}
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-cover"
-                  />
+                  {/* Navigation Dots */}
+                  <div className='mt-4 flex justify-center space-x-2'>
+                    {productImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`h-2 w-2 rounded-full border border-gray-300 transition-colors ${
+                          index === currentImageIndex
+                            ? 'bg-white'
+                            : 'bg-gray-300'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
 
-                {/* Navigation Dots */}
-                <div className="flex justify-center mt-4 space-x-2">
-                  {productImages.map((_, index) => (
+                {/* Thumbnail Gallery */}
+                <div className='scrollbar-hide flex gap-3 overflow-x-auto'>
+                  {productImages.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2 h-2 rounded-full border border-gray-300 transition-colors ${
-                        index === currentImageIndex ? 'bg-white' : 'bg-gray-300'
+                      className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 bg-gray-200 transition-colors ${
+                        index === currentImageIndex
+                          ? 'border-[#2D6294]'
+                          : 'border-transparent'
                       }`}
-                    />
+                    >
+                      <Image
+                        src={image}
+                        alt={`Thumbnail ${index + 1}`}
+                        width={80}
+                        height={80}
+                        className='h-full w-full object-cover'
+                      />
+                    </button>
                   ))}
                 </div>
               </div>
-
-              {/* Thumbnail Gallery */}
-              <div className="flex gap-3 overflow-x-auto scrollbar-hide">
-                {productImages.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden border-2 transition-colors ${
-                      index === currentImageIndex ? 'border-[#2D6294]' : 'border-transparent'
-                    }`}
-                  >
-                    <Image
-                      src={image}
-                      alt={`Thumbnail ${index + 1}`}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
             )}
           </div>
 
           {/* Related Products */}
           <div>
-            <div className="bg-white rounded-lg border border-gray-200 p-4">
-              <h3 className="font-bold text-gray-900 mb-4">SẢN PHẨM LIÊN QUAN</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3 pb-4 border-b border-gray-100">
-                  <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+            <div className='rounded-lg border border-gray-200 bg-white p-4'>
+              <h3 className='mb-4 font-bold text-gray-900'>
+                SẢN PHẨM LIÊN QUAN
+              </h3>
+              <div className='space-y-4'>
+                <div className='flex items-center space-x-3 border-b border-gray-100 pb-4'>
+                  <div className='h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200'>
                     <Image
-                      src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=64&h=64&fit=crop"
-                      alt="Đèn pha LED"
+                      src='https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=64&h=64&fit=crop'
+                      alt='Đèn pha LED'
                       width={64}
                       height={64}
-                      className="w-full h-full object-cover"
+                      className='h-full w-full object-cover'
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-gray-900 text-sm truncate">
+                  <div className='min-w-0 flex-1'>
+                    <h4 className='truncate text-sm font-medium text-gray-900'>
                       Đèn pha LED xe ô tô cao cấp...
                     </h4>
-                    <p className="text-red-600 font-bold text-sm">1,890,000₫</p>
+                    <p className='text-sm font-bold text-red-600'>1,890,000₫</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 pb-4 border-b border-gray-100">
-                  <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                <div className='flex items-center space-x-3 border-b border-gray-100 pb-4'>
+                  <div className='h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200'>
                     <Image
-                      src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=64&h=64&fit=crop"
-                      alt="Bộ lọc gió động cơ"
+                      src='https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=64&h=64&fit=crop'
+                      alt='Bộ lọc gió động cơ'
                       width={64}
                       height={64}
-                      className="w-full h-full object-cover"
+                      className='h-full w-full object-cover'
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-gray-900 text-sm truncate">
+                  <div className='min-w-0 flex-1'>
+                    <h4 className='truncate text-sm font-medium text-gray-900'>
                       Bộ lọc gió động cơ cao cấp...
                     </h4>
-                    <p className="text-red-600 font-bold text-sm">450,000₫</p>
+                    <p className='text-sm font-bold text-red-600'>450,000₫</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                <div className='flex items-center space-x-3'>
+                  <div className='h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200'>
                     <Image
-                      src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=64&h=64&fit=crop"
-                      alt="Dầu nhớt động cơ"
+                      src='https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=64&h=64&fit=crop'
+                      alt='Dầu nhớt động cơ'
                       width={64}
                       height={64}
-                      className="w-full h-full object-cover"
+                      className='h-full w-full object-cover'
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-gray-900 text-sm truncate">
+                  <div className='min-w-0 flex-1'>
+                    <h4 className='truncate text-sm font-medium text-gray-900'>
                       Dầu nhớt động cơ tổng hợp...
                     </h4>
-                    <p className="text-red-600 font-bold text-sm">650,000₫</p>
+                    <p className='text-sm font-bold text-red-600'>650,000₫</p>
                   </div>
                 </div>
               </div>
@@ -1119,173 +1337,186 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         </div>
 
         {/* Reviews Section - Bottom Center */}
-        <div className="mt-12 max-w-6xl mx-auto">
-          <div className="p-6">
-            <div className="w-[90%] lg:w-[50%] mx-auto text-black px-6 py-3 mb-6">
-              <h2 className="text-[16px] lg:text-lg font-bold text-center">CÙNG XEM REVIEW SẢN PHẨM</h2>
+        <div className='mx-auto mt-12 max-w-6xl'>
+          <div className='p-6'>
+            <div className='mx-auto mb-6 w-[90%] px-6 py-3 text-black lg:w-[50%]'>
+              <h2 className='text-center text-[16px] font-bold lg:text-lg'>
+                CÙNG XEM REVIEW SẢN PHẨM
+              </h2>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className='flex items-center space-x-4'>
               {/* Prev Button - Only visible on PC */}
               <button
                 onClick={() => {
-                  const container = document.getElementById('reviews-container');
+                  const container =
+                    document.getElementById('reviews-container');
                   if (container) {
                     container.scrollBy({ left: -400, behavior: 'smooth' });
                   }
                 }}
-                className="hidden lg:flex flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full items-center justify-center hover:bg-gray-300 transition-colors"
+                className='hidden h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 transition-colors hover:bg-gray-300 lg:flex'
               >
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className='h-5 w-5 text-gray-600'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M15 19l-7-7 7-7'
+                  />
                 </svg>
               </button>
 
               {/* Reviews Container */}
               <div
-                id="reviews-container"
-                className="flex-grow flex gap-4 overflow-x-auto scrollbar-hide"
+                id='reviews-container'
+                className='scrollbar-hide flex flex-grow gap-4 overflow-x-auto'
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 w-64 lg:w-80">
-                  <div className="aspect-[4/3]">
+                <div className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                  <div className='aspect-[4/3]'>
                     <iframe
-                      src="https://www.youtube.com/embed/85FWwntb8Zo"
-                      title="Review đèn LED xe ô tô"
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      src='https://www.youtube.com/embed/85FWwntb8Zo'
+                      title='Review đèn LED xe ô tô'
+                      className='h-full w-full'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     ></iframe>
                   </div>
-                  <div className="p-2">
-                    <h3 className="font-medium text-gray-900 text-xs leading-tight">
+                  <div className='p-2'>
+                    <h3 className='text-xs leading-tight font-medium text-gray-900'>
                       REVIEW ĐÈN LED XE Ô TÔ CAO CẤP - SO SÁNH VỚI ĐÈN HALOGEN
                     </h3>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 w-64 lg:w-80">
-                  <div className="aspect-[4/3]">
+                <div className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                  <div className='aspect-[4/3]'>
                     <iframe
-                      src="https://www.youtube.com/embed/85FWwntb8Zo"
-                      title="Hướng dẫn lắp đặt đèn LED"
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      src='https://www.youtube.com/embed/85FWwntb8Zo'
+                      title='Hướng dẫn lắp đặt đèn LED'
+                      className='h-full w-full'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     ></iframe>
                   </div>
-                  <div className="p-2">
-                    <h3 className="font-medium text-gray-900 text-xs leading-tight">
+                  <div className='p-2'>
+                    <h3 className='text-xs leading-tight font-medium text-gray-900'>
                       HƯỚNG DẪN LẮP ĐẶT ĐÈN LED XE Ô TÔ CHI TIẾT TỪ A-Z
                     </h3>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 w-64 lg:w-80">
-                  <div className="aspect-[4/3]">
+                <div className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                  <div className='aspect-[4/3]'>
                     <iframe
-                      src="https://www.youtube.com/embed/85FWwntb8Zo"
-                      title="Test đèn LED ban đêm"
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      src='https://www.youtube.com/embed/85FWwntb8Zo'
+                      title='Test đèn LED ban đêm'
+                      className='h-full w-full'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     ></iframe>
                   </div>
-                  <div className="p-2">
-                    <h3 className="font-medium text-gray-900 text-xs leading-tight">
+                  <div className='p-2'>
+                    <h3 className='text-xs leading-tight font-medium text-gray-900'>
                       TEST ĐÈN LED XE Ô TÔ BAN ĐÊM - HIỆU QUẢ THỰC TẾ
                     </h3>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 w-64 lg:w-80">
-                  <div className="aspect-[4/3]">
+                <div className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                  <div className='aspect-[4/3]'>
                     <iframe
-                      src="https://www.youtube.com/embed/85FWwntb8Zo"
-                      title="So sánh các loại đèn"
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      src='https://www.youtube.com/embed/85FWwntb8Zo'
+                      title='So sánh các loại đèn'
+                      className='h-full w-full'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     ></iframe>
                   </div>
-                  <div className="p-2">
-                    <h3 className="font-medium text-gray-900 text-xs leading-tight">
+                  <div className='p-2'>
+                    <h3 className='text-xs leading-tight font-medium text-gray-900'>
                       SO SÁNH ĐÈN LED, HALOGEN VÀ XENON - LOẠI NÀO TỐT NHẤT?
                     </h3>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 w-64 lg:w-80">
-                  <div className="aspect-[4/3]">
+                <div className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                  <div className='aspect-[4/3]'>
                     <iframe
-                      src="https://www.youtube.com/embed/85FWwntb8Zo"
-                      title="Bảo dưỡng đèn LED"
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      src='https://www.youtube.com/embed/85FWwntb8Zo'
+                      title='Bảo dưỡng đèn LED'
+                      className='h-full w-full'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     ></iframe>
                   </div>
-                  <div className="p-2">
-                    <h3 className="font-medium text-gray-900 text-xs leading-tight">
+                  <div className='p-2'>
+                    <h3 className='text-xs leading-tight font-medium text-gray-900'>
                       HƯỚNG DẪN BẢO DƯỠNG ĐÈN LED XE Ô TÔ ĐÚNG CÁCH
                     </h3>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 w-64 lg:w-80">
-                  <div className="aspect-[4/3]">
+                <div className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                  <div className='aspect-[4/3]'>
                     <iframe
-                      src="https://www.youtube.com/embed/85FWwntb8Zo"
-                      title="Đèn LED cho xe SUV"
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      src='https://www.youtube.com/embed/85FWwntb8Zo'
+                      title='Đèn LED cho xe SUV'
+                      className='h-full w-full'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     ></iframe>
                   </div>
-                  <div className="p-2">
-                    <h3 className="font-medium text-gray-900 text-xs leading-tight">
+                  <div className='p-2'>
+                    <h3 className='text-xs leading-tight font-medium text-gray-900'>
                       LẮP ĐẶT ĐÈN LED CHO XE SUV - KINH NGHIỆM THỰC TẾ
                     </h3>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 w-64 lg:w-80">
-                  <div className="aspect-[4/3]">
+                <div className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                  <div className='aspect-[4/3]'>
                     <iframe
-                      src="https://www.youtube.com/embed/85FWwntb8Zo"
-                      title="Đèn LED xe sedan"
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      src='https://www.youtube.com/embed/85FWwntb8Zo'
+                      title='Đèn LED xe sedan'
+                      className='h-full w-full'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     ></iframe>
                   </div>
-                  <div className="p-2">
-                    <h3 className="font-medium text-gray-900 text-xs leading-tight">
+                  <div className='p-2'>
+                    <h3 className='text-xs leading-tight font-medium text-gray-900'>
                       NÂNG CẤP ĐÈN LED CHO XE SEDAN - TRƯỚC VÀ SAU
                     </h3>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 w-64 lg:w-80">
-                  <div className="aspect-[4/3]">
+                <div className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                  <div className='aspect-[4/3]'>
                     <iframe
-                      src="https://www.youtube.com/embed/85FWwntb8Zo"
-                      title="Tổng hợp đèn LED"
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      src='https://www.youtube.com/embed/85FWwntb8Zo'
+                      title='Tổng hợp đèn LED'
+                      className='h-full w-full'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     ></iframe>
                   </div>
-                  <div className="p-2">
-                    <h3 className="font-medium text-gray-900 text-xs leading-tight">
+                  <div className='p-2'>
+                    <h3 className='text-xs leading-tight font-medium text-gray-900'>
                       TỔNG HỢP CÁC LOẠI ĐÈN LED XE Ô TÔ PHỔ BIẾN NHẤT
                     </h3>
                   </div>
@@ -1295,21 +1526,31 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               {/* Next Button - Only visible on PC */}
               <button
                 onClick={() => {
-                  const container = document.getElementById('reviews-container');
+                  const container =
+                    document.getElementById('reviews-container');
                   if (container) {
                     container.scrollBy({ left: 400, behavior: 'smooth' });
                   }
                 }}
-                className="hidden lg:flex flex-shrink-0 w-10 h-10 bg-gray-200 rounded-full items-center justify-center hover:bg-gray-300 transition-colors"
+                className='hidden h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 transition-colors hover:bg-gray-300 lg:flex'
               >
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className='h-5 w-5 text-gray-600'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M9 5l7 7-7 7'
+                  />
                 </svg>
               </button>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

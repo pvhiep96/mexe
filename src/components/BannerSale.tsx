@@ -6,24 +6,24 @@ export default function BannerSale() {
   return (
     <div>
       {/* Desktop version */}
-      <div className="hidden lg:flex justify-center my-6">
+      <div className='my-6 hidden justify-center lg:flex'>
         <Image
-          src="/images/banner-sale.webp"
-          alt="Banner Sale"
+          src='/images/banner-sale.webp'
+          alt='Banner Sale'
           width={1200}
           height={320}
-          className="rounded-2xl w-full max-w-4xl shadow-lg"
+          className='w-full max-w-4xl rounded-2xl shadow-lg'
           priority
         />
       </div>
       {/* Mobile version */}
-      <div className="block lg:hidden flex justify-center my-2">
+      <div className='my-2 block flex justify-center lg:hidden'>
         <Image
-          src="/images/banner-sale.webp"
-          alt="Banner Sale"
+          src='/images/banner-sale.webp'
+          alt='Banner Sale'
           width={400}
           height={120}
-          className="rounded-xl w-full max-w-xs shadow-lg"
+          className='w-full max-w-xs rounded-xl shadow-lg'
           priority
         />
       </div>

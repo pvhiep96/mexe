@@ -9,11 +9,15 @@ interface PaginationProps {
   baseUrl: string;
 }
 
-export default function Pagination({ currentPage, totalPages, baseUrl }: PaginationProps) {
+export default function Pagination({
+  currentPage,
+  totalPages,
+  baseUrl,
+}: PaginationProps) {
   const generatePageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       // Hiển thị tất cả pages nếu tổng số ít
       for (let i = 1; i <= totalPages; i++) {
@@ -48,26 +52,36 @@ export default function Pagination({ currentPage, totalPages, baseUrl }: Paginat
         pages.push(totalPages);
       }
     }
-    
+
     return pages;
   };
 
   const pageNumbers = generatePageNumbers();
 
   return (
-    <div className="flex justify-center items-center space-x-2 py-8">
+    <div className='flex items-center justify-center space-x-2 py-8'>
       {/* Previous Button */}
       <Link
         href={currentPage > 1 ? `${baseUrl}?page=${currentPage - 1}` : '#'}
-        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+        className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${
           currentPage > 1
-            ? 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-            : 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+            ? 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+            : 'cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400'
         }`}
         onClick={(e) => currentPage <= 1 && e.preventDefault()}
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        <svg
+          className='h-4 w-4'
+          fill='none'
+          stroke='currentColor'
+          viewBox='0 0 24 24'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth={2}
+            d='M15 19l-7-7 7-7'
+          />
         </svg>
       </Link>
 
@@ -75,14 +89,14 @@ export default function Pagination({ currentPage, totalPages, baseUrl }: Paginat
       {pageNumbers.map((page, index) => (
         <React.Fragment key={index}>
           {page === '...' ? (
-            <span className="px-3 py-2 text-gray-500">...</span>
+            <span className='px-3 py-2 text-gray-500'>...</span>
           ) : (
             <Link
               href={`${baseUrl}?page=${page}`}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+              className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${
                 currentPage === page
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                  : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
               }`}
             >
               {page}
@@ -93,18 +107,30 @@ export default function Pagination({ currentPage, totalPages, baseUrl }: Paginat
 
       {/* Next Button */}
       <Link
-        href={currentPage < totalPages ? `${baseUrl}?page=${currentPage + 1}` : '#'}
-        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+        href={
+          currentPage < totalPages ? `${baseUrl}?page=${currentPage + 1}` : '#'
+        }
+        className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${
           currentPage < totalPages
-            ? 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-            : 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+            ? 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+            : 'cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400'
         }`}
         onClick={(e) => currentPage >= totalPages && e.preventDefault()}
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        <svg
+          className='h-4 w-4'
+          fill='none'
+          stroke='currentColor'
+          viewBox='0 0 24 24'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth={2}
+            d='M9 5l7 7-7 7'
+          />
         </svg>
       </Link>
     </div>
   );
-} 
+}

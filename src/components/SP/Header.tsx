@@ -47,7 +47,7 @@ export default function SPHeader() {
           </button>
 
           {/* Center - Logo */}
-          <div className='flex-1 flex justify-center'>
+          <div className='flex flex-1 justify-center'>
             <Image
               src='/images/logo-mexe.png'
               alt='Mexe Logo'
@@ -60,7 +60,10 @@ export default function SPHeader() {
           {/* Right side - Cart and Account Icons */}
           <div className='flex items-center space-x-3'>
             {/* Cart Icon */}
-            <a href='#' className='relative p-2 text-gray-600 hover:text-gray-900'>
+            <a
+              href='#'
+              className='relative p-2 text-gray-600 hover:text-gray-900'
+            >
               <ShoppingCartIcon className='h-6 w-6' />
               <span className='absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
                 0
@@ -81,7 +84,7 @@ export default function SPHeader() {
             <div className='mb-4'>
               <form className='relative' role='search'>
                 <input
-                  className='w-full rounded-full bg-gray-100 py-2 pr-10 pl-4 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  className='w-full rounded-full bg-gray-100 py-2 pr-10 pl-4 text-sm placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none'
                   type='search'
                   placeholder='Tìm sản phẩm'
                   aria-label='Search'
@@ -97,28 +100,28 @@ export default function SPHeader() {
 
             {/* Navigation Links */}
             <nav className='space-y-3'>
-              <Link 
-                href='/' 
+              <Link
+                href='/'
                 className='block py-2 text-gray-700 hover:text-blue-600'
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t('home')}
               </Link>
-              
+
               <div className='space-y-2'>
                 <span className='block py-2 font-medium text-gray-900'>
                   {t('explore')}
                 </span>
-                <div className='pl-4 space-y-2'>
+                <div className='space-y-2 pl-4'>
                   <div className='border-l-2 border-gray-200 pl-4'>
-                    <h4 className='text-sm font-medium text-gray-700 mb-2'>
+                    <h4 className='mb-2 text-sm font-medium text-gray-700'>
                       {t('explore_by_theme')}
                     </h4>
                     <ul className='space-y-1'>
                       {exploreThemes.map((theme) => (
                         <li key={theme}>
-                          <Link 
-                            href='#' 
+                          <Link
+                            href='#'
                             className='block py-1 text-sm text-gray-600 hover:text-blue-600'
                             onClick={() => setIsMenuOpen(false)}
                           >
@@ -128,16 +131,16 @@ export default function SPHeader() {
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div className='border-l-2 border-gray-200 pl-4'>
-                    <h4 className='text-sm font-medium text-gray-700 mb-2'>
+                    <h4 className='mb-2 text-sm font-medium text-gray-700'>
                       {t('mexe_corner')}
                     </h4>
                     <ul className='space-y-1'>
                       {mexeCornerItems.map((item) => (
                         <li key={item.title}>
-                          <Link 
-                            href={item.href} 
+                          <Link
+                            href={item.href}
                             className='block py-1 text-sm text-gray-600 hover:text-blue-600'
                             onClick={() => setIsMenuOpen(false)}
                           >
@@ -146,8 +149,8 @@ export default function SPHeader() {
                         </li>
                       ))}
                       <li>
-                        <Link 
-                          href='#' 
+                        <Link
+                          href='#'
                           className='block py-1 text-sm text-gray-600 hover:text-blue-600'
                           onClick={() => setIsMenuOpen(false)}
                         >
@@ -159,16 +162,16 @@ export default function SPHeader() {
                 </div>
               </div>
 
-              <Link 
-                href='/about' 
+              <Link
+                href='/about'
                 className='block py-2 text-gray-700 hover:text-blue-600'
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t('learn_more')}
               </Link>
-              
-              <Link 
-                href='/articles' 
+
+              <Link
+                href='/articles'
                 className='block py-2 text-gray-700 hover:text-blue-600'
                 onClick={() => setIsMenuOpen(false)}
               >

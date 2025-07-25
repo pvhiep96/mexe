@@ -3,7 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import {
+  MagnifyingGlassIcon,
+  ShoppingCartIcon,
+  UserIcon,
+  ChevronDownIcon,
+} from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
 
 const exploreMenu = [
@@ -103,8 +108,8 @@ export default function Header() {
   }, [openMenu]);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white shadow">
-      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-4">
+    <header className='sticky top-0 z-50 w-full bg-white shadow'>
+      <div className='mx-auto flex max-w-screen-xl items-center justify-between px-4 py-4'>
         <Image
           src='/images/logo-mexe.png'
           alt='Mexe Logo'
@@ -112,46 +117,59 @@ export default function Header() {
           height={40}
           className='h-16 w-auto'
         />
-        <nav className="flex-1 flex items-center justify-center">
-          <ul className="flex gap-[10px] text-[14px] font-normal items-center">
+        <nav className='flex flex-1 items-center justify-center'>
+          <ul className='flex items-center gap-[10px] text-[14px] font-normal'>
             <li>
-              <Link href="/" className="transition-colors hover:font-semibold hover:text-black block px-4 py-2">Trang chủ</Link>
+              <Link
+                href='/'
+                className='block px-4 py-2 transition-colors hover:font-semibold hover:text-black'
+              >
+                Trang chủ
+              </Link>
             </li>
-            <li className="relative group">
+            <li className='group relative'>
               <button
-                className={`flex items-center gap-1 px-4 py-2 rounded-full transition-all ${openMenu === 'explore' ? 'bg-[#2E6093] text-white' : ''} cursor-pointer`}
+                className={`flex items-center gap-1 rounded-full px-4 py-2 transition-all ${openMenu === 'explore' ? 'bg-[#2E6093] text-white' : ''} cursor-pointer`}
                 onMouseEnter={() => setOpenMenu('explore')}
                 onMouseLeave={() => setOpenMenu(null)}
               >
                 Khám phá
-                <ChevronDownIcon className={`w-5 h-5 ml-1 transition-transform ${openMenu === 'explore' ? 'rotate-180' : ''}`} />
+                <ChevronDownIcon
+                  className={`ml-1 h-5 w-5 transition-transform ${openMenu === 'explore' ? 'rotate-180' : ''}`}
+                />
               </button>
               {openMenu === 'explore' && (
                 <div
-                  className="fixed left-0 top-[65px] z-50 w-screen rounded-3xl bg-black shadow-2xl p-8 flex flex-col gap-8 overflow-x-hidden max-h-screen overflow-y-auto"
+                  className='fixed top-[65px] left-0 z-50 flex max-h-screen w-screen flex-col gap-8 overflow-x-hidden overflow-y-auto rounded-3xl bg-black p-8 shadow-2xl'
                   onMouseEnter={() => setOpenMenu('explore')}
                   onMouseLeave={() => setOpenMenu(null)}
-                  style={{maxWidth: '100vw'}}
+                  style={{ maxWidth: '100vw' }}
                 >
                   {/* Flex row: Sidebar + Grid */}
-                  <div className="w-full">
+                  <div className='w-full'>
                     {/* Sidebar icon filter */}
-                    <div className="text-white text-2xl font-extrabold mb-8 tracking-widest">KHÁM PHÁ THEO CHỦ ĐỀ</div>
-                    <div className="flex flex-row w-full gap-10">
-                      <div className="flex flex-col gap-6 items-center justify-start relative">
+                    <div className='mb-8 text-2xl font-extrabold tracking-widest text-white'>
+                      KHÁM PHÁ THEO CHỦ ĐỀ
+                    </div>
+                    <div className='flex w-full flex-row gap-10'>
+                      <div className='relative flex flex-col items-center justify-start gap-6'>
                         {exploreSidebar.map((item, idx) => (
-                          <div key={idx} className="relative cursor-pointer">
+                          <div key={idx} className='relative cursor-pointer'>
                             <button
-                              className="w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg mb-2 hover:bg-gray-100 transition-colors cursor-pointer"
+                              className='mb-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-white shadow-lg transition-colors hover:bg-gray-100'
                               onMouseEnter={() => setHoveredButton(idx)}
                               onMouseLeave={() => setHoveredButton(null)}
                             >
-                              <div className="w-8 h-8 flex items-center justify-center">
-                                <img src={item.icon} alt={item.label} className="w-8 h-8 object-contain" />
+                              <div className='flex h-8 w-8 items-center justify-center'>
+                                <img
+                                  src={item.icon}
+                                  alt={item.label}
+                                  className='h-8 w-8 object-contain'
+                                />
                               </div>
                             </button>
                             {hoveredButton === idx && (
-                              <div className="absolute left-16 top-1/2 -translate-y-1/2 bg-white text-black px-4 py-2 rounded-lg shadow-lg whitespace-nowrap z-10">
+                              <div className='absolute top-1/2 left-16 z-10 -translate-y-1/2 rounded-lg bg-white px-4 py-2 whitespace-nowrap text-black shadow-lg'>
                                 {item.label}
                               </div>
                             )}
@@ -159,17 +177,21 @@ export default function Header() {
                         ))}
                       </div>
                       {/* Grid 4x2 */}
-                      <div className="grid grid-cols-4 grid-rows-2 gap-6 flex-1">
+                      <div className='grid flex-1 grid-cols-4 grid-rows-2 gap-6'>
                         {exploreGrid.map((item, idx) => (
                           <a
                             key={idx}
                             href={item.href}
-                            className="group bg-[#181818] rounded-2xl overflow-hidden flex flex-col hover:scale-105 transition-transform shadow-lg"
+                            className='group flex flex-col overflow-hidden rounded-2xl bg-[#181818] shadow-lg transition-transform hover:scale-105'
                           >
-                            <div className="relative w-full h-32">
-                              <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                            <div className='relative h-32 w-full'>
+                              <img
+                                src={item.image}
+                                alt={item.title}
+                                className='h-full w-full object-cover'
+                              />
                             </div>
-                            <div className="p-3 text-white font-bold text-base truncate group-hover:text-white">
+                            <div className='truncate p-3 text-base font-bold text-white group-hover:text-white'>
                               {item.title}
                             </div>
                           </a>
@@ -178,47 +200,100 @@ export default function Header() {
                     </div>
                   </div>
                   {/* Section: Shopee/Lazada + Mexe News */}
-                  <div className="w-full flex flex-col gap-8 mt-10">
+                  <div className='mt-10 flex w-full flex-col gap-8'>
                     {/* Shopee/Lazada links */}
-                    <div className="flex justify-between items-center gap-8 w-full">
-                      <a href="https://shopee.vn/vaithuhay" target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center bg-[#ee4d2d] rounded-xl py-4 text-white text-xl font-bold hover:opacity-90 transition">
-                        <img src="/logo-mexe.png" alt="vaithuhay" className="h-8 mr-3" /> Shopee Mall
+                    <div className='flex w-full items-center justify-between gap-8'>
+                      <a
+                        href='https://shopee.vn/vaithuhay'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='flex flex-1 items-center justify-center rounded-xl bg-[#ee4d2d] py-4 text-xl font-bold text-white transition hover:opacity-90'
+                      >
+                        <img
+                          src='/logo-mexe.png'
+                          alt='vaithuhay'
+                          className='mr-3 h-8'
+                        />{' '}
+                        Shopee Mall
                       </a>
-                      <a href="https://www.lazada.vn/shop/vaithuhay" target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center bg-[#1a73e8] rounded-xl py-4 text-white text-xl font-bold hover:opacity-90 transition">
-                        <img src="/logo-mexe.png" alt="vaithuhay" className="h-8 mr-3" /> Lazada
+                      <a
+                        href='https://www.lazada.vn/shop/vaithuhay'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='flex flex-1 items-center justify-center rounded-xl bg-[#1a73e8] py-4 text-xl font-bold text-white transition hover:opacity-90'
+                      >
+                        <img
+                          src='/logo-mexe.png'
+                          alt='vaithuhay'
+                          className='mr-3 h-8'
+                        />{' '}
+                        Lazada
                       </a>
                     </div>
                     {/* Mexe News - slider */}
-                    <div className="w-full bg-black rounded-2xl p-6 mt-4">
-                      <div className="flex justify-between items-center mb-4">
-                        <div className="text-white text-2xl font-extrabold uppercase">Mexe News</div>
-                        <a href="#" className="text-white text-base font-semibold hover:underline flex items-center">Xem tất cả <span className="ml-1">&rarr;</span></a>
+                    <div className='mt-4 w-full rounded-2xl bg-black p-6'>
+                      <div className='mb-4 flex items-center justify-between'>
+                        <div className='text-2xl font-extrabold text-white uppercase'>
+                          Mexe News
+                        </div>
+                        <a
+                          href='#'
+                          className='flex items-center text-base font-semibold text-white hover:underline'
+                        >
+                          Xem tất cả <span className='ml-1'>&rarr;</span>
+                        </a>
                       </div>
-                      <div className="flex gap-6 overflow-x-auto scrollbar-hide">
+                      <div className='scrollbar-hide flex gap-6 overflow-x-auto'>
                         {/* Bài viết mẫu */}
-                        <div className="min-w-[260px] max-w-[260px] bg-white rounded-xl overflow-hidden shadow-lg flex-shrink-0">
-                          <div className="w-full h-40 relative">
-                            <img src="/images/banner-policy.webp" alt="Pre order" className="w-full h-full object-cover rounded-t-xl" />
+                        <div className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg'>
+                          <div className='relative h-40 w-full'>
+                            <img
+                              src='/images/banner-policy.webp'
+                              alt='Pre order'
+                              className='h-full w-full rounded-t-xl object-cover'
+                            />
                           </div>
-                          <div className="p-4 text-black font-bold text-base">PRE ORDER LÀ GÌ? MỌI ĐIỀU CẦN BIẾT VỀ PRE ORDER</div>
+                          <div className='p-4 text-base font-bold text-black'>
+                            PRE ORDER LÀ GÌ? MỌI ĐIỀU CẦN BIẾT VỀ PRE ORDER
+                          </div>
                         </div>
-                        <div className="min-w-[260px] max-w-[260px] bg-white rounded-xl overflow-hidden shadow-lg flex-shrink-0">
-                          <div className="w-full h-40 relative">
-                            <img src="/images/banner-sale.webp" alt="Livestream" className="w-full h-full object-cover rounded-t-xl" />
+                        <div className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg'>
+                          <div className='relative h-40 w-full'>
+                            <img
+                              src='/images/banner-sale.webp'
+                              alt='Livestream'
+                              className='h-full w-full rounded-t-xl object-cover'
+                            />
                           </div>
-                          <div className="p-4 text-black font-bold text-base">CÁCH LIVESTREAM BÁN HÀNG CỦA DÂN CHUYÊN</div>
+                          <div className='p-4 text-base font-bold text-black'>
+                            CÁCH LIVESTREAM BÁN HÀNG CỦA DÂN CHUYÊN
+                          </div>
                         </div>
-                        <div className="min-w-[260px] max-w-[260px] bg-white rounded-xl overflow-hidden shadow-lg flex-shrink-0">
-                          <div className="w-full h-40 relative">
-                            <img src="/images/demo-banner/banner-2.png" alt="Đồng hồ bàn sáng tạo" className="w-full h-full object-cover rounded-t-xl" />
+                        <div className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg'>
+                          <div className='relative h-40 w-full'>
+                            <img
+                              src='/images/demo-banner/banner-2.png'
+                              alt='Đồng hồ bàn sáng tạo'
+                              className='h-full w-full rounded-t-xl object-cover'
+                            />
                           </div>
-                          <div className="p-4 text-black font-bold text-base truncate">5 MẪU ĐỒNG HỒ ĐỂ BÀN SÁNG TẠO GIÚP TĂNG CẢM HỨNG LÀM VIỆC</div>
+                          <div className='truncate p-4 text-base font-bold text-black'>
+                            5 MẪU ĐỒNG HỒ ĐỂ BÀN SÁNG TẠO GIÚP TĂNG CẢM HỨNG LÀM
+                            VIỆC
+                          </div>
                         </div>
-                        <div className="min-w-[260px] max-w-[260px] bg-white rounded-xl overflow-hidden shadow-lg flex-shrink-0">
-                          <div className="w-full h-40 relative">
-                            <img src="/images/demo-banner/banner-3.png" alt="Bàn phím chuột" className="w-full h-full object-cover rounded-t-xl" />
+                        <div className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg'>
+                          <div className='relative h-40 w-full'>
+                            <img
+                              src='/images/demo-banner/banner-3.png'
+                              alt='Bàn phím chuột'
+                              className='h-full w-full rounded-t-xl object-cover'
+                            />
                           </div>
-                          <div className="p-4 text-black font-bold text-base truncate">TỔNG HỢP NHỮNG BỘ BÀN PHÍM VÀ CHUỘT GIÁ PHẢI CHĂNG DÀNH CHO DESIGNER</div>
+                          <div className='truncate p-4 text-base font-bold text-black'>
+                            TỔNG HỢP NHỮNG BỘ BÀN PHÍM VÀ CHUỘT GIÁ PHẢI CHĂNG
+                            DÀNH CHO DESIGNER
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -226,18 +301,20 @@ export default function Header() {
                 </div>
               )}
             </li>
-            <li className="relative group">
+            <li className='group relative'>
               <button
-                className={`flex items-center gap-1 px-4 py-2 rounded-full transition-all ${openMenu === 'learnmore' ? 'bg-[#2E6093] text-white' : ''} cursor-pointer`}
+                className={`flex items-center gap-1 rounded-full px-4 py-2 transition-all ${openMenu === 'learnmore' ? 'bg-[#2E6093] text-white' : ''} cursor-pointer`}
                 onMouseEnter={() => setOpenMenu('learnmore')}
                 onMouseLeave={() => setOpenMenu(null)}
               >
                 Tìm hiểu thêm
-                <ChevronDownIcon className={`w-5 h-5 ml-1 transition-transform ${openMenu === 'learnmore' ? 'rotate-180' : ''}`} />
+                <ChevronDownIcon
+                  className={`ml-1 h-5 w-5 transition-transform ${openMenu === 'learnmore' ? 'rotate-180' : ''}`}
+                />
               </button>
               {openMenu === 'learnmore' && (
                 <div
-                  className="absolute left-1/2 top-full z-50 mt-[0px] w-80 -translate-x-1/2 rounded-2xl bg-white shadow-2xl p-4 flex flex-col gap-2"
+                  className='absolute top-full left-1/2 z-50 mt-[0px] flex w-80 -translate-x-1/2 flex-col gap-2 rounded-2xl bg-white p-4 shadow-2xl'
                   onMouseEnter={() => setOpenMenu('learnmore')}
                   onMouseLeave={() => setOpenMenu(null)}
                 >
@@ -245,7 +322,7 @@ export default function Header() {
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="block rounded-full bg-gray-100 px-6 py-3 text-base text-gray-800 font-medium hover:bg-[#2e6093] hover:text-white transition-colors"
+                      className='block rounded-full bg-gray-100 px-6 py-3 text-base font-medium text-gray-800 transition-colors hover:bg-[#2e6093] hover:text-white'
                     >
                       {item.label}
                     </Link>
@@ -253,18 +330,20 @@ export default function Header() {
                 </div>
               )}
             </li>
-            <li className="relative group">
+            <li className='group relative'>
               <button
-                className={`flex items-center gap-1 px-4 py-2 rounded-full transition-all ${openMenu === 'news' ? 'bg-[#2E6093] text-white' : ''} cursor-pointer`}
+                className={`flex items-center gap-1 rounded-full px-4 py-2 transition-all ${openMenu === 'news' ? 'bg-[#2E6093] text-white' : ''} cursor-pointer`}
                 onMouseEnter={() => setOpenMenu('news')}
                 onMouseLeave={() => setOpenMenu(null)}
               >
                 Bài viết
-                <ChevronDownIcon className={`w-5 h-5 ml-1 transition-transform ${openMenu === 'news' ? 'rotate-180' : ''}`} />
+                <ChevronDownIcon
+                  className={`ml-1 h-5 w-5 transition-transform ${openMenu === 'news' ? 'rotate-180' : ''}`}
+                />
               </button>
               {openMenu === 'news' && (
                 <div
-                  className="absolute left-1/2 top-full z-50 mt-[0px] w-80 -translate-x-1/2 rounded-2xl bg-white shadow-2xl p-4 flex flex-col gap-2"
+                  className='absolute top-full left-1/2 z-50 mt-[0px] flex w-80 -translate-x-1/2 flex-col gap-2 rounded-2xl bg-white p-4 shadow-2xl'
                   onMouseEnter={() => setOpenMenu('news')}
                   onMouseLeave={() => setOpenMenu(null)}
                 >
@@ -272,7 +351,7 @@ export default function Header() {
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="block rounded-full bg-gray-100 px-6 py-3 text-base text-gray-800 font-medium hover:bg-[#2e6093] hover:text-white transition-colors"
+                      className='block rounded-full bg-gray-100 px-6 py-3 text-base font-medium text-gray-800 transition-colors hover:bg-[#2e6093] hover:text-white'
                     >
                       {item.label}
                     </Link>
@@ -300,7 +379,6 @@ export default function Header() {
           <a href='#' className='relative'>
             <ShoppingCartIcon className='h-8 w-8' />
             <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
-
               {order?.items.length || 0}
             </span>
           </a>

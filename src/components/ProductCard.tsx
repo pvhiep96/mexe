@@ -48,7 +48,7 @@ export default function ProductCard({
   const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
   return (
-    <div className='grid grid-cols-2 gap-4 rounded-lg bg-white shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-300'>
+    <div className='grid cursor-pointer grid-cols-2 gap-4 rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg'>
       <div className='m-auto ml-4'>
         <Link href={`/products/${product.slug}`} className='cursor-pointer'>
           <div className='grid grid-cols-2 place-content-center place-items-center gap-2 justify-self-center'>
@@ -103,7 +103,7 @@ export default function ProductCard({
       <div className='p-4'>
         <Link
           href={`/products/${product.slug}`}
-          className='inline-block w-[200px] truncate text-lg font-semibold cursor-pointer hover:text-blue-600 transition-colors'
+          className='inline-block w-[200px] cursor-pointer truncate text-lg font-semibold transition-colors hover:text-blue-600'
         >
           {product.title}
         </Link>
@@ -134,7 +134,7 @@ export default function ProductCard({
         <div className='mt-4'>
           <Link
             href='#'
-            className='inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-white cursor-pointer hover:bg-red-700 transition-colors'
+            className='inline-flex cursor-pointer items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700'
             onClick={(e) => e.preventDefault()}
           >
             <b className='text-sm'>Đăng ký đặt trước</b>

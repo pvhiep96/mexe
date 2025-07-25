@@ -3,7 +3,7 @@ import Checkout from '@/components/Checkout';
 import { useCart } from '@/context/CartContext';
 
 export default function CheckoutPage() {
-    const { order } = useCart();
+  const { order } = useCart();
 
   // Fallback order if cart is empty
   const fallbackOrder = {
@@ -13,7 +13,7 @@ export default function CheckoutPage() {
   return (
     <div className='flex min-h-screen flex-col'>
       <main className='grow'>
-        <Checkout order={order || fallbackOrder}  />
+        <Checkout order={order || fallbackOrder} />
       </main>
     </div>
   );

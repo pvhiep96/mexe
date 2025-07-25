@@ -35,7 +35,6 @@ export function useCart() {
   return context;
 }
 
-
 export function CartProvider({ children }: { children: ReactNode }) {
   const [order, setOrder] = useState<Order | null>(null);
 
@@ -68,7 +67,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
 
       // Check if product exists in order
-      const existingItem = prevOrder.items.find((item) => item.id === product.id);
+      const existingItem = prevOrder.items.find(
+        (item) => item.id === product.id
+      );
       let updatedItems: Product[];
 
       if (existingItem) {
@@ -80,7 +81,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
         );
       } else {
         // Add new product to order
-        updatedItems = [...prevOrder.items, { ...product, quantity: product.quantity || 1 }];
+        updatedItems = [
+          ...prevOrder.items,
+          { ...product, quantity: product.quantity || 1 },
+        ];
       }
 
       // Calculate new total
