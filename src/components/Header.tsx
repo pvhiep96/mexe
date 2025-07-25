@@ -11,17 +11,6 @@ import {
 } from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
 
-const exploreMenu = [
-  { label: 'Tất cả sản phẩm', href: '#' },
-  { label: 'Đèn & chiếu sáng', href: '#' },
-  { label: 'Âm thanh & giải trí', href: '#' },
-  { label: 'Camera hành trình', href: '#' },
-  { label: 'Phụ kiện nội thất', href: '#' },
-  { label: 'Phụ kiện ngoại thất', href: '#' },
-  { label: 'Chăm sóc xe', href: '#' },
-  { label: 'Đồ chơi ô tô', href: '#' },
-];
-
 const learnMoreMenu = [
   { label: 'Về Mexe', href: '#' },
   { label: 'Chính sách bảo hành', href: '#' },
@@ -96,27 +85,29 @@ export default function Header() {
   const { order } = useCart();
 
   // Lock body scroll when explore dropdown is open
-  useEffect(() => {
-    if (openMenu === 'explore') {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [openMenu]);
+  // useEffect(() => {
+  // if (openMenu === 'explore') {
+  //   document.body.style.overflow = 'hidden';
+  // } else {
+  //   document.body.style.overflow = '';
+  // }
+  // return () => {
+  //   document.body.style.overflow = '';
+  // };
+  // }, [openMenu]);
 
   return (
     <header className='sticky top-0 z-50 w-full bg-white shadow'>
       <div className='mx-auto flex max-w-screen-xl items-center justify-between px-4 py-4'>
-        <Image
-          src='/images/logo-mexe.png'
-          alt='Mexe Logo'
-          width={100}
-          height={40}
-          className='h-16 w-auto'
-        />
+        <Link href='/' className='flex items-center'>
+          <Image
+            src='/images/logo-mexe.png'
+            alt='Mexe Logo'
+            width={100}
+            height={40}
+            className='h-16 w-auto'
+          />
+        </Link>
         <nav className='flex flex-1 items-center justify-center'>
           <ul className='flex items-center gap-[10px] text-[14px] font-normal'>
             <li>
@@ -376,18 +367,18 @@ export default function Header() {
               <MagnifyingGlassIcon className='h-5 w-5 text-gray-500' />
             </button>
           </form>
-          <a href='#' className='relative'>
+          <Link href='/cart' className='relative'>
             <ShoppingCartIcon className='h-8 w-8' />
             <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
               {order?.items.length || 0}
             </span>
-          </a>
-          <a
-            href='#'
+          </Link>
+          <Link
+            href='/profile'
             className='flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-gray-300'
           >
             <UserIcon className='h-8 w-8' />
-          </a>
+          </Link>
         </div>
       </div>
     </header>

@@ -7,10 +7,12 @@ import { setRequestLocale } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SPHeader from '@/components/SP/Header';
-import SPFooter from '@/components/SP/Footer';
+// import SPFooter from '@/components/SP/Footer';
 const locales = ['en', 'es'];
 import { routing } from '@/i18n/routing';
 import { CartProvider } from '@/context/CartContext';
+import { FlashTooltipProvider } from '@/context/FlashTooltipContext';
+import Alert from '@/components/Alert';
 
 export default async function RootLayout({
   children,
@@ -29,7 +31,7 @@ export default async function RootLayout({
   let messages;
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
+  } catch {
     notFound();
   }
 
@@ -88,16 +90,19 @@ export default async function RootLayout({
       <body className='font-sans'>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <CartProvider>
-            {/* Desktop Header */}
-            <div className='sticky top-0 z-50 hidden bg-white lg:block'>
-              <Header />
-            </div>
-            {/* Mobile Header */}
-            <div className='sticky top-0 z-50 bg-white lg:hidden'>
-              <SPHeader />
-            </div>
-            {children}
-            <Footer />
+            <FlashTooltipProvider>
+              {/* Desktop Header */}
+              <div className='sticky top-0 z-50 hidden bg-white lg:block'>
+                <Header />
+              </div>
+              {/* Mobile Header */}
+              <div className='sticky top-0 z-50 bg-white lg:hidden'>
+                <SPHeader />
+              </div>
+              <Alert />
+              {children}
+              <Footer />
+            </FlashTooltipProvider>
           </CartProvider>
         </NextIntlClientProvider>
       </body>

@@ -17,110 +17,111 @@
   "contact": {
     "title": "Contact Us to Collaborate",
     "you_are": "You are...",
-    "distributor": "Distributor/Agent",
-    "affiliate": "Affiliate Sales",
-    "corporate_gifts": "Corporate Gifts",
-    "content_creator": "Youtuber/Tiktoker/Content Creator",
-    "register": "Register",
     "name": "Name",
     "phone": "Phone",
-    "email": "Email"
+    "email": "Email",
+    "register": "Register",
+    "roles": {
+      "distributor": "Distributor/Agent",
+      "affiliate": "Affiliate Sales",
+      "corporate_gifts": "Corporate Gifts",
+      "content_creator": "Youtuber/Tiktoker/Content Creator"
+    },
+    "errors": {
+      "required": "This field is required"
+    },
+    "alerts": {
+      "success": "Form submitted successfully!",
+      "error": "Submission failed. Please try again.",
+      "noti": "Please check your input and submit again."
+    }
   },
   "brands": {
     "title": "Great Brands at Mexe",
-    "honda": {
-      "name": "Honda Genuine Parts",
-      "brand": "Honda Brand",
-      "field": "Automotive Parts",
-      "founded": "Founded: 1948",
-      "story": "Honda Genuine Parts provides genuine parts and components for Honda vehicles, ensuring quality and optimal durability.",
-      "story_link": "Behind the Story →"
+    "field_label": "Field",
+    "founded_label": "Founded",
+    "story_label": "Brand Story",
+    "story_link": "Behind the Story",
+    "tooltip": {
+      "story_link": "Story page coming soon!"
     },
-    "toyota": {
-      "name": "Toyota Genuine Parts",
-      "brand": "Toyota Brand",
-      "field": "Automotive Parts",
-      "founded": "Founded: 1937",
-      "story": "Toyota Genuine Parts offers high-quality replacement parts, ensuring stable and safe operation for Toyota vehicles on every journey.",
-      "story_link": "Behind the Story →"
-    },
-    "hyundai": {
-      "name": "Hyundai Mobis",
-      "brand": "Hyundai Brand",
-      "field": "Automotive Parts and Components",
-      "founded": "Founded: 1977",
-      "story": "Hyundai Mobis is a supplier of genuine components and parts for Hyundai vehicles, known for advanced technology and high durability.",
-      "story_link": "Behind the Story →"
-    },
-    "ford": {
-      "name": "Ford Genuine Parts",
-      "brand": "Ford Brand",
-      "field": "Automotive Parts",
-      "founded": "Founded: 1903",
-      "story": "Ford Genuine Parts provides genuine replacement parts for Ford vehicles, ensuring confidence and optimal performance for customers.",
-      "story_link": "Behind the Story →"
-    }
+    "honda_title": "Honda Genuine Parts",
+    "honda_brand": "Honda Brand",
+    "honda_field": "Automotive Parts",
+    "honda_founded": "1948",
+    "honda_story": "Honda Genuine Parts provides genuine parts and components for Honda vehicles, ensuring quality and optimal durability.",
+    "toyota_title": "Toyota Genuine Parts",
+    "toyota_brand": "Toyota Brand",
+    "toyota_field": "Automotive Parts",
+    "toyota_founded": "1937",
+    "toyota_story": "Toyota Genuine Parts offers high-quality replacement parts, ensuring stable and safe operation for Toyota vehicles on every journey.",
+    "hyundai_title": "Hyundai Mobis",
+    "hyundai_brand": "Hyundai Brand",
+    "hyundai_field": "Automotive Parts and Components",
+    "hyundai_founded": "1977",
+    "hyundai_story": "Hyundai Mobis is a supplier of genuine components and parts for Hyundai vehicles, known for advanced technology and high durability.",
+    "ford_title": "Ford Genuine Parts",
+    "ford_brand": "Ford Brand",
+    "ford_field": "Automotive Parts",
+    "ford_founded": "1903",
+    "ford_story": "Ford Genuine Parts provides genuine replacement parts for Ford vehicles, ensuring confidence and optimal performance for customers."
   },
-  "combo_workspace": {
+"combo_workspace": {
     "title": "Must-Have Accessories",
     "explore_more": "Explore More",
     "view": "View",
-    "group_1": [
-      "Dash Camera",
-      "Tire Pressure Sensor",
-      "Floor Mats",
-      "Air Purifier",
-      "..."
-    ],
-    "group_2": [
-      "Car Fast Charger",
-      "Steering Wheel Cover",
-      "Car Air Freshener",
-      "HUD Speed Display",
-      "..."
-    ],
-    "group_3": [
-      "Electronic Tire Inflator",
-      "Multi-Port Charger",
-      "Headrest Pillow",
-      "Leather Seat Cover",
-      "..."
-    ],
-    "group_4": [
-      "5D Ceiling Cover",
-      "Side Mirror Cover",
-      "Door Handle Cover",
-      "Mud Flaps",
-      "..."
-    ],
-    "group_5": [
-      "Reverse Sensor",
-      "Interior LED Lights",
-      "Android Screen",
-      "Heat-Insulating Film",
-      "..."
-    ],
-    "group_6": [
-      "Convex Mirror",
-      "Step-Up Cover",
-      "Sunshade",
-      "Gear Shift Cover",
-      "..."
-    ],
-    "group_7": [
-      "Leather Seat Cover",
-      "Massage Backrest",
-      "Windshield Sunshade",
-      "Seatbelt Cover",
-      "..."
-    ],
-    "group_8": [
-      "5D Ceiling Cover",
-      "Side Mirror Cover",
-      "Door Handle Cover",
-      "Mud Flaps",
-      "..."
-    ]
+    "prev_slide": "Previous Slide",
+    "next_slide": "Next Slide",
+    "go_to_slide": "Go to Slide {{number}}",
+    "view_alert": "Combo details coming soon!",
+    "combo_1": "Combo 1",
+    "tag_1_1": "Dash Camera",
+    "tag_1_2": "Tire Pressure Sensor",
+    "tag_1_3": "Floor Mats",
+    "tag_1_4": "Air Purifier",
+    "tag_1_5": "More",
+    "combo_2": "Combo 2",
+    "tag_2_1": "Car Fast Charger",
+    "tag_2_2": "Steering Wheel Cover",
+    "tag_2_3": "Car Air Freshener",
+    "tag_2_4": "HUD Speed Display",
+    "tag_2_5": "More",
+    "combo_3": "Combo 3",
+    "tag_3_1": "Electronic Tire Inflator",
+    "tag_3_2": "Multi-Port Charger",
+    "tag_3_3": "Headrest Pillow",
+    "tag_3_4": "Leather Seat Cover",
+    "tag_3_5": "More",
+    "combo_4": "Combo 4",
+    "tag_4_1": "5D Ceiling Cover",
+    "tag_4_2": "Side Mirror Cover",
+    "tag_4_3": "Door Handle Cover",
+    "tag_4_4": "Mud Flaps",
+    "tag_4_5": "More",
+    "combo_5": "Combo 5",
+    "tag_5_1": "Reverse Sensor",
+    "tag_5_2": "Interior LED Lights",
+    "tag_5_3": "Android Screen",
+    "tag_5_4": "Heat-Insulating Film",
+    "tag_5_5": "More",
+    "combo_6": "Combo 6",
+    "tag_6_1": "Convex Mirror",
+    "tag_6_2": "Step-Up Cover",
+    "tag_6_3": "Sunshade",
+    "tag_6_4": "Gear Shift Cover",
+    "tag_6_5": "More",
+    "combo_7": "Combo 7",
+    "tag_7_1": "Leather Seat Cover",
+    "tag_7_2": "Massage Backrest",
+    "tag_7_3": "Windshield Sunshade",
+    "tag_7_4": "Seatbelt Cover",
+    "tag_7_5": "More",
+    "combo_8": "Combo 8",
+    "tag_8_1": "5D Ceiling Cover",
+    "tag_8_2": "Side Mirror Cover",
+    "tag_8_3": "Door Handle Cover",
+    "tag_8_4": "Mud Flaps",
+    "tag_8_5": "More"
   },
   "workspace": {
     "title": "Mexe Workspace",
@@ -225,55 +226,44 @@
       "Coming Soon"
     ]
   },
-  "new_brands": {
+ "new_brands": {
     "title": "New Brands - Special Hot Deals",
     "view_more": "View More",
     "deal_ends": "Deal Ends in",
-    "days": "days",
-    "hours": "hours",
-    "minutes": "minutes",
-    "seconds": "seconds",
-    "products": [
-      {
-        "name": "Chicco Car Seat",
-        "original_price": "1,300,000đ",
-        "discounted_price": "975,000đ",
-        "discount": "-25%"
-      },
-      {
-        "name": "Nuna Car Seat",
-        "original_price": "1,140,000đ",
-        "discounted_price": "741,000đ",
-        "discount": "-35%"
-      },
-      {
-        "name": "Gofa",
-        "original_price": "1,255,000đ",
-        "discounted_price": "727,900đ",
-        "discount": "-42%"
-      },
-      {
-        "name": "Car Air Freshener",
-        "original_price": "1,080,000đ",
-        "discounted_price": "680,400đ",
-        "discount": "-37%"
-      }
-    ],
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "prev_slide": "Previous Slide",
+    "next_slide": "Next Slide",
+    "go_to_slide": "Go to Slide {{number}}",
     "quality_deal": "Quality Deal 🚚",
     "ship_now": "Ship Now",
     "view_details": "View Details",
-    "buy_now": "Buy Now"
+    "buy_now": "Buy Now",
+    "buy_now_success": "Added to cart successfully!"
   },
   "new_products": {
     "title": "Best-Selling Products",
     "explore_more": "Explore More",
-    "coming_soon": "Coming Soon",
-    "coming_soon_info": "What is Coming Soon? Coming Soon indicates a new product ready to launch, but we need time to finalize preparations to deliver the best product to customers. The launch date is when you can officially order, but you can register early to secure a discount slot.",
-    "sold": "Sold: 100,000 products",
+    "prev_slide": "Previous Slide",
+    "next_slide": "Next Slide",
+    "sold": "Sold: {{count}} products",
     "product_info": "Product Information",
-    "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
-    "launch_time": "0:00 AM",
-    "buy_now": "Buy Now 🔔"
+    "buy_now": "Buy Now 🔔",
+    "buy_now_success": "Added to cart successfully!",
+    "product_1_title": "NuPhy Kick75 Mechanical Keyboard | Wireless Mechanical Keyboard",
+    "product_1_open_date": "07/15/2025",
+    "product_1_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+    "product_2_title": "(Warehouse Deal) Smart Oak Wood Desk",
+    "product_2_open_date": "07/01/2025",
+    "product_2_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+    "product_3_title": "Polaroid Mini D1 Pro Camera - Instant Print",
+    "product_3_open_date": "07/03/2025",
+    "product_3_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+    "product_4_title": "Smart LED Desk Lamp - Anti-Myopia",
+    "product_4_open_date": "07/10/2025",
+    "product_4_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod"
   },
   "news": {
     "title": "News & Articles",
