@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useCart } from '@/context/CartContext';
 
 const exploreMenu = [
   { label: 'Tất cả sản phẩm', href: '#' },
@@ -87,6 +88,7 @@ const exploreGrid = [
 export default function Header() {
   const [openMenu, setOpenMenu] = useState<string | null>('null');
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
+  const { order } = useCart();
 
   // Lock body scroll when explore dropdown is open
   useEffect(() => {
@@ -297,7 +299,10 @@ export default function Header() {
           </form>
           <a href='#' className='relative'>
             <ShoppingCartIcon className='h-8 w-8' />
-            <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>0</span>
+            <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
+
+              {order?.items.length || 0}
+            </span>
           </a>
           <a
             href='#'

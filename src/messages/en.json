@@ -274,5 +274,65 @@
     "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
     "launch_time": "0:00 AM",
     "buy_now": "Buy Now 🔔"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "delivery_address_placeholder": "Enter your delivery address",
+    "delivery_info": {
+      "title": "Delivery Information",
+      "home": "Home Delivery",
+      "store": "At the Store",
+      "name": "Name",
+      "mobile": "Mobile",
+      "email": "Email",
+      "national": "National",
+      "address": "Address",
+      "city": "City",
+      "store": "Select Store",
+      "select_store": "Select a store"
+    },
+    "delivery_method": {
+      "title": "Delivery Method",
+      "address": "Delivery Address",
+      "delivery_address_placeholder": "Based on delivery information"
+    },
+    "payment_method": {
+      "title": "Payment Method",
+      "card": "Credit/Debit Card",
+      "cod": "Cash on Delivery",
+      "bank": "Bank Transfer"
+    },
+    "note": {
+      "title": "Note",
+      "placeholder": "Add any special instructions"
+    },
+    "cart_preview": {
+      "title": "Cart Preview",
+      "price": "Price",
+      "discount": "Discount",
+      "quantity": "Quantity"
+    },
+    "coupon": {
+      "title": "Coupon",
+      "type": "Coupon Type",
+      "code": "Coupon Code",
+      "code_placeholder": "Enter coupon code",
+      "submit": "Apply Coupon"
+    },
+    "summary": {
+      "title": "Summary",
+      "total_items": "Total Items",
+      "shipping": "Shipping",
+      "shipping_value": "Calculated at next step",
+      "total": "Total",
+      "checkout": "Place Order"
+    },
+    "errors": {
+      "required": "This field is required"
+    }
+  },
+  "product_detail": {
+    "add_to_cart_success": "Product added to cart successfully!",
+    "add_to_cart" : "Add to Cart"
   }
 }
