@@ -273,7 +273,6 @@ export default function NewBrands() {
                   key={idx}
                   onClick={() => goToSlide(idx)}
                   className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-red-600' : 'bg-gray-300'}`}
-                  aria-label={t('go_to_slide', { number: idx + 1 })}
                 />
               ))}
             </div>

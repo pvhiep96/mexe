@@ -103,7 +103,7 @@ function ComboCard({ combo }: ComboCardProps) {
     <div className='group relative overflow-hidden rounded-xl bg-black/10 shadow-md'>
       <Image
         src={combo.image}
-        alt={t(combo.name)}
+        alt={combo.name}
         width={300}
         height={288}
         className='h-64 w-full object-cover transition group-hover:brightness-75'

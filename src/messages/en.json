@@ -340,5 +340,30 @@
   "product_detail": {
     "add_to_cart_success": "Product added to cart successfully!",
     "add_to_cart" : "Add to Cart"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty_cart": "Your cart is empty",
+    "cart_banner_alt": "Cart Banner",
+    "quantity": "Quantity",
+    "total": "Total",
+    "proceed_to_checkout": "Proceed to Checkout",
+    "coupon": "Coupon",
+    "gift": "Gift",
+    "quantity_updated": "Quantity updated successfully!",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "free_shipping": "Free Shipping",
+    "free_shipping_desc": "Free shipping on orders over $50",
+    "fast_delivery": "Fast Delivery",
+    "fast_delivery_desc": "Express delivery within 24 hours",
+    "secure_payment": "Secure Payment",
+    "secure_payment_desc": "Safe and secure payment options",
+    "easy_returns": "Easy Returns",
+    "easy_returns_desc": "Hassle-free returns within 30 days",
+    "product_1_name": "Chicco Car Seat",
+    "product_2_name": "Nuna Car Seat",
+    "product_3_name": "Gofa",
+    "product_4_name": "Car Air Freshener"
   }
 }
