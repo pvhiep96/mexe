@@ -15,55 +15,61 @@
     "partner_3": "Partner 3"
   },
   "contact": {
-    "title": "Contact Us to Collaborate",
-    "you_are": "You are...",
-    "distributor": "Distributor/Agent",
-    "affiliate": "Affiliate Sales",
-    "corporate_gifts": "Corporate Gifts",
-    "content_creator": "Youtuber/Tiktoker/Content Creator",
-    "register": "Register",
-    "name": "Name",
-    "phone": "Phone"
+    "title": "Liên Hệ Hợp Tác Cùng Chúng Tôi",
+    "you_are": "Bạn là...",
+    "roles": {
+      "distributor": "Đại Lý/Phân Phối",
+      "affiliate": "Cộng Tác Viên Bán Hàng",
+      "corporate_gifts": "Quà Tặng Doanh Nghiệp",
+      "content_creator": "Youtuber/Tiktoker/Sáng Tạo Nội Dung"
+    },
+    "register": "Đăng Ký",
+    "name": "Họ và tên",
+    "phone": "Số điện thoại",
+    "email": "Email (tùy chọn)",
+    "errors": {
+      "required": "Trường này là bắt buộc"
+    },
+    "alerts": {
+      "success": "Đăng ký thành công! Chúng tôi sẽ liên hệ sớm nhất.",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại."
+    }
   },
   "brands": {
-    "title": "Great Brands at Mexe",
-    "honda": {
-      "name": "Honda Genuine Parts",
-      "brand": "Honda Brand",
-      "field": "Automotive Parts",
-      "founded": "Founded: 1948",
-      "story": "Honda Genuine Parts provides genuine parts and components for Honda vehicles, ensuring quality and optimal durability.",
-      "story_link": "Behind the Story →"
-    },
-    "toyota": {
-      "name": "Toyota Genuine Parts",
-      "brand": "Toyota Brand",
-      "field": "Automotive Parts",
-      "founded": "Founded: 1937",
-      "story": "Toyota Genuine Parts offers high-quality replacement parts, ensuring stable and safe operation for Toyota vehicles on every journey.",
-      "story_link": "Behind the Story →"
-    },
-    "hyundai": {
-      "name": "Hyundai Mobis",
-      "brand": "Hyundai Brand",
-      "field": "Automotive Parts and Components",
-      "founded": "Founded: 1977",
-      "story": "Hyundai Mobis is a supplier of genuine components and parts for Hyundai vehicles, known for advanced technology and high durability.",
-      "story_link": "Behind the Story →"
-    },
-    "ford": {
-      "name": "Ford Genuine Parts",
-      "brand": "Ford Brand",
-      "field": "Automotive Parts",
-      "founded": "Founded: 1903",
-      "story": "Ford Genuine Parts provides genuine replacement parts for Ford vehicles, ensuring confidence and optimal performance for customers.",
-      "story_link": "Behind the Story →"
-    }
+    "title": "Thương Hiệu Lớn Tại Mexe",
+    "field_label": "Lĩnh vực",
+    "founded_label": "Thành lập",
+    "story_label": "Câu Chuyện Thương Hiệu",
+    "story_link": "Đằng Sau Câu Chuyện",
+    "honda_title": "Honda Genuine Parts",
+    "honda_brand": "Honda Brand",
+    "honda_field": "Phụ Kiện Ô Tô",
+    "honda_founded": "Thành lập: 1948",
+    "honda_story": "Honda Genuine Parts cung cấp phụ kiện và linh kiện chính hãng cho xe Honda, đảm bảo chất lượng và độ bền tối ưu.",
+    "toyota_title": "Toyota Genuine Parts",
+    "toyota_brand": "Toyota Brand",
+    "toyota_field": "Phụ Kiện Ô Tô",
+    "toyota_founded": "Thành lập: 1937",
+    "toyota_story": "Toyota Genuine Parts cung cấp phụ kiện thay thế chất lượng cao, đảm bảo vận hành ổn định và an toàn cho xe Toyota trong mọi hành trình.",
+    "hyundai_title": "Hyundai Mobis",
+    "hyundai_brand": "Hyundai Brand",
+    "hyundai_field": "Phụ Kiện Và Linh Kiện Ô Tô",
+    "hyundai_founded": "Thành lập: 1977",
+    "hyundai_story": "Hyundai Mobis là nhà cung cấp linh kiện và phụ kiện chính hãng cho xe Hyundai, được biết đến với công nghệ tiên tiến và độ bền cao.",
+    "ford_title": "Ford Genuine Parts",
+    "ford_brand": "Ford Brand",
+    "ford_field": "Phụ Kiện Ô Tô",
+    "ford_founded": "Thành lập: 1903",
+    "ford_story": "Ford Genuine Parts cung cấp phụ kiện thay thế chính hãng cho xe Ford, đảm bảo sự tin cậy và hiệu suất tối ưu cho khách hàng."
   },
   "combo_workspace": {
     "title": "Phụ Kiện Cần Thiết",
     "explore_more": "Khám Phá Thêm",
     "view": "Xem",
+    "prev_slide": "Slide trước",
+    "next_slide": "Slide tiếp",
+    "go_to_slide": "Tới slide {number}",
+    "view_alert": "Chi tiết combo sắp ra mắt!",
     "group_1": [
       "Camera Hành Trình",
       "Cảm Biến Áp Suất Lốp",
@@ -231,47 +237,74 @@
     "hours": "giờ",
     "minutes": "phút",
     "seconds": "giây",
-    "products": [
-      {
-        "name": "Ghế Ô Tô Chicco",
-        "original_price": "1,300,000đ",
-        "discounted_price": "975,000đ",
-        "discount": "-25%"
-      },
-      {
-        "name": "Ghế Ô Tô Nuna",
-        "original_price": "1,140,000đ",
-        "discounted_price": "741,000đ",
-        "discount": "-35%"
-      },
-      {
-        "name": "Gofa",
-        "original_price": "1,255,000đ",
-        "discounted_price": "727,900đ",
-        "discount": "-42%"
-      },
-      {
-        "name": "Nước Thơm Ô Tô",
-        "original_price": "1,080,000đ",
-        "discounted_price": "680,400đ",
-        "discount": "-37%"
-      }
-    ],
+    "prev_slide": "Slide trước",
+    "next_slide": "Slide tiếp",
+    "go_to_slide": "Tới slide {number}",
     "quality_deal": "Ưu Đãi Chất Lượng 🚚",
     "ship_now": "Giao Ngay",
     "view_details": "Xem Chi Tiết",
-    "buy_now": "Mua Ngay"
+    "buy_now": "Mua Ngay",
+    "buy_now_success": "Đã thêm vào giỏ hàng thành công!"
+  },
+  "cart": {
+    "title": "Giỏ Hàng",
+    "empty_cart": "Giỏ hàng trống",
+    "proceed_to_checkout": "Tiến Hành Thanh Toán",
+    "total": "Tổng Cộng",
+    "coupon": "Mã Giảm Giá",
+    "gift": "Quà Tặng",
+    "quantity": "Số lượng",
+    "decrease_quantity": "Giảm số lượng",
+    "increase_quantity": "Tăng số lượng",
+    "quantity_updated": "Cập nhật số lượng thành công!",
+    "cart_banner_alt": "Banner giỏ hàng"
+  },
+  "checkout": {
+    "title": "Thanh Toán",
+    "delivery_address_placeholder": "Nhập địa chỉ giao hàng",
+    "delivery_info": {
+      "title": "Thông Tin Giao Hàng",
+      "home": "Giao Tận Nhà",
+      "store": "Tại Cửa Hàng",
+      "name": "Họ và tên",
+      "mobile": "Số điện thoại",
+      "email": "Email",
+      "national": "Quốc gia",
+      "address": "Địa chỉ",
+      "city": "Thành phố",
+      "store": "Chọn cửa hàng",
+      "select_store": "Chọn một cửa hàng"
+    },
+    "delivery_method": {
+      "title": "Phương Thức Giao Hàng",
+      "address": "Địa chỉ giao hàng"
+    },
+    "payment_method": {
+      "title": "Phương Thức Thanh Toán",
+      "card": "Thẻ tín dụng",
+      "cod": "Thanh toán khi nhận hàng"
+    },
+    "errors": {
+      "required": "Trường này là bắt buộc"
+    }
+  },
+  "products": {
+    "add_to_cart": "Thêm vào giỏ",
+    "add_to_cart_success": "Đã thêm vào giỏ hàng thành công!"
   },
   "new_products": {
     "title": "Sản Phẩm Bán Chạy Nhất",
     "explore_more": "Khám Phá Thêm",
+    "prev_slide": "Slide trước",
+    "next_slide": "Slide tiếp",
     "coming_soon": "Sắp Ra Mắt",
     "coming_soon_info": "Sắp Ra Mắt Là Gì? Sắp Ra Mắt cho biết sản phẩm mới sẵn sàng ra mắt, nhưng chúng tôi cần thời gian để hoàn thiện chuẩn bị để mang đến sản phẩm tốt nhất cho khách hàng. Ngày ra mắt là khi bạn có thể chính thức đặt hàng, nhưng bạn có thể đăng ký sớm để đảm bảo slot giảm giá.",
-    "sold": "Đã Bán: 100,000 sản phẩm",
+    "sold": "Đã Bán: {count} sản phẩm",
     "product_info": "Thông Tin Sản Phẩm",
     "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
     "launch_time": "0:00 SA",
-    "buy_now": "Mua Ngay 🔔"
+    "buy_now": "Mua Ngay 🔔",
+    "buy_now_success": "Đã thêm vào giỏ hàng thành công!"
   },
   "news": {
     "title": "Tin Tức & Bài Viết",

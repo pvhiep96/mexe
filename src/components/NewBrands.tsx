@@ -46,7 +46,7 @@ const brandProducts: BrandProduct[] = [
     discount: '-42%',
   },
   {
-    id: 4,
+    id: 5,
     name: 'Nước hoa oto',
     image: '/images/demo-new-brands/demo-new-brand-4.png',
     originalPrice: '1,080,000đ',
@@ -54,7 +54,7 @@ const brandProducts: BrandProduct[] = [
     discount: '-37%',
   },
   {
-    id: 4,
+    id: 6,
     name: 'Nước hoa oto',
     image: '/images/demo-new-brands/demo-new-brand-4.png',
     originalPrice: '1,080,000đ',
@@ -62,7 +62,7 @@ const brandProducts: BrandProduct[] = [
     discount: '-37%',
   },
   {
-    id: 4,
+    id: 7,
     name: 'Nước hoa oto',
     image: '/images/demo-new-brands/demo-new-brand-4.png',
     originalPrice: '1,080,000đ',
@@ -165,8 +165,16 @@ export default function NewBrands() {
         setItemsPerSlide(4); // Desktop
       }
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      handleResize(); // Call once to set initial value
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
   }, []);
 
   useEffect(() => {

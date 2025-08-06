@@ -12,22 +12,27 @@ export default function Banner() {
   const [hoveredSubmenu, setHoveredSubmenu] = useState<string | null>(null);
   const sliderRef = useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  // const width = '375';
   const [width, setWidth] = useState(375);
 
   useEffect(() => {
     function handleResize() {
-      console.log('Resizing window to:', window.innerWidth);
+      if (typeof window === 'undefined') return;
       if (window.innerWidth < 768) {
-        setWidth(0); // Mobile width
+        setWidth(0);
       }
     }
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    // cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      handleResize();
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
   }, []);
+
   const images = [
     {
       src: '/images/demo-banner/banner-1.jpg',
@@ -48,15 +53,40 @@ export default function Banner() {
       height: 200,
     },
   ];
+
   const sliderSettings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    arrows: false,
   };
+
+  const mobileCategories = [
+    {
+      icon: '/images/icon-grid.webp',
+      label: 'Tất cả sản phẩm',
+      href: '/collections/tatcasanpham',
+    },
+    {
+      icon: '/images/icon-sale.webp',
+      label: 'Sản phẩm khuyến mãi',
+      href: '/collections/san-pham-khuyen-mai',
+    },
+    {
+      icon: '/images/icon-new.webp',
+      label: 'Sản phẩm mới',
+      href: '/collections/san-pham-moi',
+    },
+    {
+      icon: '/images/icon-preorder.webp',
+      label: 'PRE-ORDER',
+      href: '/collections/pre-order',
+    },
+  ];
 
   const categories = [
     {
@@ -230,11 +260,13 @@ export default function Banner() {
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_12.png?v=7371',
     },
   ];
+
   return (
     <section className='bg-gray-100 py-8'>
-      <div className='slider-index m-4 flex'>
+      {/* Desktop Layout */}
+      <div className='slider-index m-4 hidden lg:flex'>
         <div
-          className={`slider-sidebar relative mr-4 hidden w-[${width}px] rounded-lg bg-white shadow-md sm:block`}
+          className={`slider-sidebar relative mr-4 w-[${width}px] rounded-lg bg-white shadow-md`}
           style={
             activeTab === 'thuonghieu'
               ? {
@@ -364,11 +396,10 @@ export default function Banner() {
           style={{ width: `calc(100vw - 450px)` }}
         >
           <Slider {...sliderSettings} ref={sliderRef}>
-            {images.map((image) => (
-              <div className='item rounded-xl'>
+            {images.map((image, index) => (
+              <div key={index} className='item rounded-xl'>
                 <Link href='/collections/tatcasanpham'>
                   <Image
-                    key={image.src}
                     src={image.src}
                     alt={image.alt}
                     width={image.width}
@@ -379,6 +410,76 @@ export default function Banner() {
               </div>
             ))}
           </Slider>
+        </div>
+      </div>
+
+      {/* Mobile Layout */}
+      <div className='block lg:hidden'>
+        <div className='container mx-auto px-4'>
+          {/* Banner Slider */}
+          <div className='mb-6'>
+            <Slider {...sliderSettings} ref={sliderRef}>
+              {images.map((image, index) => (
+                <div key={index} className='px-2'>
+                  <Link href='/collections/tatcasanpham'>
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      className='h-auto w-full rounded-lg object-cover'
+                    />
+                  </Link>
+                </div>
+              ))}
+            </Slider>
+          </div>
+
+          {/* Categories Grid */}
+          <div className='mb-6'>
+            <h3 className='mb-4 text-lg font-bold text-gray-800'>Khám phá theo chủ đề</h3>
+            <div className='grid grid-cols-2 gap-4'>
+              {mobileCategories.map((category, index) => (
+                <Link
+                  key={index}
+                  href={category.href}
+                  className='flex items-center rounded-lg bg-white p-4 shadow-sm transition-all hover:shadow-md'
+                >
+                  <Image
+                    src={category.icon}
+                    alt={category.label}
+                    width={24}
+                    height={24}
+                    className='mr-3'
+                  />
+                  <span className='text-sm font-medium text-gray-700'>{category.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div className='space-y-3'>
+            <div className='rounded-lg bg-white p-4 shadow-sm'>
+              <h4 className='mb-2 font-semibold text-gray-800'>Setup Góc Làm Việc</h4>
+              <p className='text-sm text-gray-600'>SET UP KHÔNG GIAN GÓC LÀM VIỆC</p>
+            </div>
+            
+            <div className='rounded-lg bg-white p-4 shadow-sm'>
+              <h4 className='mb-2 font-semibold text-gray-800'>Bàn phím hay</h4>
+              <p className='text-sm text-gray-600'>BÀN PHÍM HAY</p>
+            </div>
+            
+            <div className='rounded-lg bg-white p-4 shadow-sm'>
+              <h4 className='mb-2 font-semibold text-gray-800'>Du Lịch Dã Ngoại</h4>
+              <p className='text-sm text-gray-600'>Ưu đãi tháng 8 - Deal tốt sẵn sàng</p>
+            </div>
+            
+            <div className='rounded-lg bg-white p-4 shadow-sm'>
+              <h4 className='mb-2 font-semibold text-gray-800'>Loa - Tai Nghe</h4>
+              <p className='text-sm text-gray-600'>Sản phẩm Cyberpunk - Scifi công nghệ</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -40,7 +40,6 @@ export default function Contact() {
   const onSubmit = (data: ContactForm) => {
     try {
       showTooltip(t('alerts.success'), 'success');
-      console.log('Contact Form Data:', data);
       // Simulate API call
       // Example: await fetch('/api/contact', { method: 'POST', body: JSON.stringify(data) });
     } catch {
@@ -96,7 +95,7 @@ export default function Contact() {
               </div>
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className='flex max-w-md flex-1 flex-col gap-4'
+                className='flex max-w-md flex-1 flex-col gap-4 w-full p-6'
               >
                 <div>
                   <input

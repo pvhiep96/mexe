@@ -425,23 +425,23 @@ export default function EarlyOrder() {
       {/* Mobile version */}
       <div className='block lg:hidden'>
         <section className='w-full bg-[#0A115F]/10 py-4'>
-          <div className='mx-auto max-w-xs px-2'>
+          <div className='container mx-auto px-4'>
             <h2 className='mb-4 text-center text-lg font-extrabold tracking-wide text-[#0A115F]'>
               ĐẶT HÀNG SỚM
             </h2>
             {/* Example slider for mobile, repeat for each product */}
-            <div className='flex gap-2 overflow-x-auto pb-2'>
+            <div className='flex gap-3 overflow-x-auto pb-2'>
               {products[0].slice(0, 3).map((product) => (
                 <div
                   key={product.id}
-                  className='flex min-w-[180px] flex-col items-center rounded-xl bg-white p-2 shadow'
+                  className='flex min-w-[220px] flex-col items-center rounded-xl bg-white p-3 shadow'
                 >
                   <Image
                     src={product.img}
                     alt={product.name}
-                    width={180}
-                    height={96}
-                    className='mb-1 h-24 w-full rounded object-cover'
+                    width={220}
+                    height={176}
+                    className='mb-1 h-36 sm:h-40 w-full rounded object-cover'
                   />
                   <div className='mb-1 text-center text-xs font-bold'>
                     {product.name}
