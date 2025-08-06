@@ -67,7 +67,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             <React.Fragment key={product.id}>
               {/* Product card */}
               <div
-                className='relative flex h-[320px] w-full max-w-[195px] cursor-pointer flex-col items-center overflow-hidden rounded-3xl border-2 border-[#2D6294] bg-white p-0 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:h-[420px] sm:max-w-[245px] lg:h-[450px]'
+                className='group relative flex h-[320px] w-full max-w-[195px] cursor-pointer flex-col items-center overflow-hidden rounded-3xl border-2 border-[#2D6294] bg-white p-0 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:h-[420px] sm:max-w-[245px] lg:h-[450px]'
                 style={{ boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)' }}
               >
                 {/* Product image container */}
@@ -75,7 +75,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                   <img
                     src={product.image}
                     alt={product.name}
-                    className='h-full w-full rounded-t-3xl object-cover'
+                    className='h-full w-full rounded-t-3xl object-cover transition-transform duration-300 group-hover:scale-110'
                   />
 
                   {/* Product badges */}
@@ -104,30 +104,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                     </div>
                   )}
 
-                  {/* Quick view button */}
-                  <button className='bg-opacity-0 hover:bg-opacity-20 absolute inset-0 flex cursor-pointer items-center justify-center bg-black opacity-0 transition-all duration-300 hover:opacity-100'>
-                    <div className='rounded-full bg-white p-2 shadow-lg'>
-                      <svg
-                        width='20'
-                        height='20'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                      >
-                        <path
-                          d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'
-                          stroke='currentColor'
-                          strokeWidth='2'
-                        />
-                        <circle
-                          cx='12'
-                          cy='12'
-                          r='3'
-                          stroke='currentColor'
-                          strokeWidth='2'
-                        />
-                      </svg>
-                    </div>
-                  </button>
+
                 </div>
 
                 {/* Product content */}
@@ -229,63 +206,115 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className='mt-8 flex justify-center gap-2 px-2 sm:gap-4 sm:px-0'>
-            {/* Previous button */}
-            <button
-              className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-[#2D6294] text-xl font-bold shadow transition disabled:cursor-not-allowed disabled:opacity-50 sm:h-16 sm:w-16 sm:text-2xl'
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-            >
-              <svg
-                className='h-6 w-6 sm:h-7 sm:w-7'
-                fill='none'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  d='M15 19l-7-7 7-7'
-                  stroke='black'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
-            </button>
-
-            {/* Page numbers */}
-            {Array.from({ length: totalPages }).map((_, idx) => (
+          <div className='mt-8 flex flex-col items-center gap-4 px-2 sm:px-0'>
+            {/* Page info */}
+            <div className='text-center text-sm text-white font-semibold sm:text-base'>
+              Trang {currentPage} của {totalPages} ({products.length} sản phẩm)
+            </div>
+            
+            <div className='flex justify-center gap-2 sm:gap-4'>
+              {/* Previous button */}
               <button
-                key={idx}
-                className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-lg font-normal shadow transition-all sm:h-14 sm:w-14 sm:text-2xl ${
-                  currentPage === idx + 1
-                    ? 'bg-white font-bold text-black'
-                    : 'bg-[#2D6294]/20 text-black'
-                }`}
-                onClick={() => setCurrentPage(idx + 1)}
+                className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-xl font-bold shadow transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-gray-100 sm:h-16 sm:w-16 sm:text-2xl'
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
               >
-                {idx + 1}
+                <svg
+                  className='h-6 w-6 sm:h-7 sm:w-7'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    d='M15 19l-7-7 7-7'
+                    stroke='#2D6294'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </svg>
               </button>
-            ))}
 
-            {/* Next button */}
-            <button
-              className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-[#2D6294] text-xl font-bold shadow transition disabled:cursor-not-allowed disabled:opacity-50 sm:h-16 sm:w-16 sm:text-2xl'
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-            >
-              <svg
-                className='h-6 w-6 sm:h-7 sm:w-7'
-                fill='none'
-                viewBox='0 0 24 24'
+              {/* Page numbers with ellipsis */}
+              {(() => {
+                const maxVisiblePages = 7;
+                const pages = [];
+                
+                if (totalPages <= maxVisiblePages) {
+                  // Show all pages if total is small
+                  for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                  }
+                } else {
+                  // Show pages with ellipsis
+                  if (currentPage <= 4) {
+                    // Show first 5 pages + ellipsis + last page
+                    for (let i = 1; i <= 5; i++) {
+                      pages.push(i);
+                    }
+                    pages.push('...');
+                    pages.push(totalPages);
+                  } else if (currentPage >= totalPages - 3) {
+                    // Show first page + ellipsis + last 5 pages
+                    pages.push(1);
+                    pages.push('...');
+                    for (let i = totalPages - 4; i <= totalPages; i++) {
+                      pages.push(i);
+                    }
+                  } else {
+                    // Show first page + ellipsis + current-1, current, current+1 + ellipsis + last page
+                    pages.push(1);
+                    pages.push('...');
+                    for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                      pages.push(i);
+                    }
+                    pages.push('...');
+                    pages.push(totalPages);
+                  }
+                }
+
+                return pages.map((page, idx) => (
+                  <React.Fragment key={idx}>
+                    {page === '...' ? (
+                      <div className='flex h-10 w-10 items-center justify-center text-lg sm:h-14 sm:w-14 sm:text-2xl'>
+                        ...
+                      </div>
+                    ) : (
+                      <button
+                        className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-lg font-normal shadow transition-all sm:h-14 sm:w-14 sm:text-2xl ${
+                          currentPage === page
+                            ? 'bg-white font-bold text-[#2D6294]'
+                            : 'bg-white/90 text-[#2D6294] hover:bg-white hover:shadow-lg'
+                        }`}
+                        onClick={() => setCurrentPage(page as number)}
+                      >
+                        {page}
+                      </button>
+                    )}
+                  </React.Fragment>
+                ));
+              })()}
+
+              {/* Next button */}
+              <button
+                className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-xl font-bold shadow transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-gray-100 sm:h-16 sm:w-16 sm:text-2xl'
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
               >
-                <path
-                  d='M9 5l7 7-7 7'
-                  stroke='black'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
-            </button>
+                <svg
+                  className='h-6 w-6 sm:h-7 sm:w-7'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    d='M9 5l7 7-7 7'
+                    stroke='#2D6294'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         )}
       </div>
