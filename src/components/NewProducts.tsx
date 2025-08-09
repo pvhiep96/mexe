@@ -93,15 +93,19 @@ function ProductSlide({ product, isActive }: ProductSlideProps) {
 
   useEffect(() => {
     function handleResize() {
-      console.log('Resizing window to:', window.innerWidth);
-
-      setWidth(window.innerWidth); // Mobile width
+      if (typeof window === 'undefined') return;
+      setWidth(window.innerWidth);
     }
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    // cleanup on unmount
-    return () => window.removeEventListener('resize', handleResize);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      handleResize();
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
   }, []);
 
   return (
@@ -162,7 +166,7 @@ function ProductSlide({ product, isActive }: ProductSlideProps) {
               : product.name}
           </h3>
           <p className='text-xs text-gray-500'>
-            {t('sold', { count: product.soldCount.toLocaleString() })}
+            {t('sold', { count: product.soldCount.toLocaleString('vi-VN') })}
           </p>
           <h4 className='mt-1 text-xs font-medium sm:text-sm'>
             {t('product_info')}

@@ -44,22 +44,13 @@ const brands: Brand[] = [
     storyKey: 'hyundai_story',
   },
   {
-    id: 'hyundai5',
+    id: 'ford4',
     image: '/images/demo-logo-honda.jpg',
-    titleKey: 'hyundai_title',
-    brandKey: 'hyundai_brand',
-    fieldKey: 'hyundai_field',
-    foundedKey: 'hyundai_founded',
-    storyKey: 'hyundai_story',
-  },
-  {
-    id: 'hyundai5',
-    image: '/images/demo-logo-honda.jpg',
-    titleKey: 'hyundai_title',
-    brandKey: 'hyundai_brand',
-    fieldKey: 'hyundai_field',
-    foundedKey: 'hyundai_founded',
-    storyKey: 'hyundai_story',
+    titleKey: 'ford_title',
+    brandKey: 'ford_brand',
+    fieldKey: 'ford_field',
+    foundedKey: 'ford_founded',
+    storyKey: 'ford_story',
   },
 ];
 

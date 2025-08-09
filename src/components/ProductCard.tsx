@@ -31,14 +31,17 @@ export default function ProductCard({
   handleMouseOut,
 }: ProductCardProps) {
   const targetDate = new Date('2025-07-25T00:00:00').getTime();
-  const [timeLeft, setTimeLeft] = useState(targetDate - Date.now());
+  const [timeLeft, setTimeLeft] = useState(0);
+  
   useEffect(() => {
+    setTimeLeft(targetDate - Date.now());
     const interval = setInterval(() => {
       setTimeLeft(targetDate - Date.now());
     }, 1000);
 
     return () => clearInterval(interval);
   }, [targetDate]);
+
 
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   const hours = Math.floor(

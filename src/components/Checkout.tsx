@@ -71,8 +71,7 @@ export default function Checkout({ order }: CheckoutProps) {
   });
 
   const onSubmit = (data: CheckoutForm) => {
-    console.log('Form Data:', data);
-    // Handle form submission (e.g., API call)
+    // TODO: Handle form submission (e.g., API call)
   };
 
   const handleCouponSubmit = () => {
@@ -379,12 +378,12 @@ export default function Checkout({ order }: CheckoutProps) {
                   <div className='grow'>
                     <p className='font-medium'>{item.name}</p>
                     <p className='text-sm'>
-                      {t('cart_preview.price')}: {item.price.toLocaleString()}đ
+                      {t('cart_preview.price')}: {item.price.toLocaleString('vi-VN')}đ
                     </p>
                     {item.discount && (
                       <p className='text-sm text-red-500'>
                         {t('cart_preview.discount')}:{' '}
-                        {item.discount.toLocaleString()}đ
+                        {item.discount.toLocaleString('vi-VN')}đ
                       </p>
                     )}
                     <p className='text-sm'>
@@ -458,7 +457,7 @@ export default function Checkout({ order }: CheckoutProps) {
               </div>
               <div className='flex justify-between font-bold'>
                 <span>{t('summary.total')}</span>
-                <span>{order.total.toLocaleString()}đ</span>
+                                    <span>{order.total.toLocaleString('vi-VN')}đ</span>
               </div>
             </div>
             <button
