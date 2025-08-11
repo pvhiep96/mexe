@@ -296,7 +296,7 @@ export default function Banner() {
               </a>
             </li>
           </ul>
-          <div className='tab-content flex h-[400px] w-full overflow-y-scroll'>
+          <div className='tab-content flex w-full'>
             <div
               className={`tab-pane min-w-[400px] ${activeTab === 'danhmuc' ? 'block' : 'hidden'} min-w-0 flex-1`}
             >
@@ -404,7 +404,7 @@ export default function Banner() {
                     alt={image.alt}
                     width={image.width}
                     height={image.height}
-                    className='h-auto max-h-[500px] w-full rounded-xl object-cover'
+                    className='h-[806px] w-full rounded-xl'
                   />
                 </Link>
               </div>

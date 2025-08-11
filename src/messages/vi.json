@@ -1,18 +1,72 @@
-{
+﻿{
+  "common": {
+    "search": "Tìm kiếm",
+    "search_placeholder": "Tìm kiếm sản phẩm...",
+    "cart": "Giỏ hàng",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "account": "Tài khoản",
+    "logout": "Đăng xuất",
+    "language": "Ngôn ngữ",
+    "currency": "Tiền tệ",
+    "menu": "Menu",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "prev": "Trước",
+    "view_all": "Xem tất cả",
+    "more": "Xem thêm"
+  },
+  "home": {
+    "early_order": "Đăng ký sớm để đảm bảo slot giảm giá.",
+    "coming_soon_info": "Sắp Ra Mắt Là Gì? Sắp Ra Mắt cho biết sản phẩm mới sẵn sàng ra mắt, nhưng chúng tôi cần thời gian để hoàn thiện chuẩn bị để mang đến sản phẩm tốt nhất cho khách hàng. Ngày ra mắt là khi bạn có thể chính thức đặt hàng, nhưng bạn có thể đăng ký sớm để đảm bảo slot giảm giá.",
+    "sold": "Đã Bán: {count} sản phẩm",
+    "product_info": "Thông Tin Sản Phẩm",
+    "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+    "launch_time": "0:00 SA",
+    "buy_now": "Mua Ngay ",
+    "buy_now_success": "Đã thêm vào giỏ hàng thành công!"
+  },
+  "product_detail": {
+    "add_to_cart_success": "Đã thêm sản phẩm vào giỏ hàng thành công!",
+    "add_to_cart": "Thêm vào giỏ hàng"
+  },
+  "header": {
+    "home": "Trang Chủ",
+    "explore": "Khám Phá",
+    "explore_by_theme": "Khám Phá Theo Chủ Đề",
+    "workspace_setup": "Thiết Lập Không Gian Làm Việc",
+    "monthly_offers": "Ưu Đãi Tháng",
+    "newest_products": "Sản Phẩm Mới Nhất",
+    "diy_steampunk": "Sản Phẩm DIY Steampunk",
+    "mexe_corner": "Góc Mexe",
+    "view_all": "Xem Tất Cả ",
+    "pre_order_info": "Pre-Order Là Gì? Tất Tần Tật Về Pre-Order",
+    "livestream_sales": "Cách Chuyên Gia Livestream Bán Hàng",
+    "creative_clocks": "5 Đồng Hồ Để Bàn Sáng Tạo Tăng Cảm Hứng Làm Việc",
+    "keyboard_mouse_sets": "Bộ Bàn Phím Chuột Giá Rẻ Cho Designer",
+    "learn_more": "Tìm Hiểu Thêm",
+    "about_us": "Về Chúng Tôi",
+    "contact": "Liên Hệ",
+    "news": "Tin Tức",
+    "guides": "Hướng Dẫn",
+    "cart": "Giỏ Hàng",
+    "search": "Tìm Kiếm"
+  },
   "banner": {
-    "categories": "Categories",
-    "partners": "Partners",
-    "all_products": "All Products",
-    "partner_brands": "Partner Brands",
-    "accessories": "Interior/Exterior Accessories",
-    "apps_positioning": "Apps/Positioning",
-    "car_toys": "Car Toys",
-    "camping": "Camping",
-    "safety_equipment": "Safety Equipment",
-    "battery_charging": "Battery/Charging/Electric Vehicles",
-    "partner_1": "Partner 1",
-    "partner_2": "Partner 2",
-    "partner_3": "Partner 3"
+    "categories": "Danh Mục",
+    "partners": "Đối Tác",
+    "all_products": "Tất Cả Sản Phẩm",
+    "partner_brands": "Thương Hiệu Đối Tác",
+    "accessories": "Phụ Kiện Nội/Ngoại Thất",
+    "apps_positioning": "Ứng Dụng/Định Vị",
+    "car_toys": "Đồ Chơi Xe Hơi",
+    "camping": "Cắm Trại",
+    "safety_equipment": "Thiết Bị An Toàn",
+    "battery_charging": "Pin/Sạc/Xe Điện",
+    "partner_1": "Đối Tác 1",
+    "partner_2": "Đối Tác 2",
+    "partner_3": "Đối Tác 3"
   },
   "contact": {
     "title": "Liên Hệ Hợp Tác Cùng Chúng Tôi",
@@ -41,26 +95,59 @@
     "founded_label": "Thành lập",
     "story_label": "Câu Chuyện Thương Hiệu",
     "story_link": "Đằng Sau Câu Chuyện",
+
     "honda_title": "Honda Genuine Parts",
     "honda_brand": "Honda Brand",
     "honda_field": "Phụ Kiện Ô Tô",
     "honda_founded": "Thành lập: 1948",
     "honda_story": "Honda Genuine Parts cung cấp phụ kiện và linh kiện chính hãng cho xe Honda, đảm bảo chất lượng và độ bền tối ưu.",
+    "honda": {
+      "name": "Honda Genuine Parts",
+      "brand": "Honda Brand",
+      "field": "Phụ Kiện Ô Tô",
+      "founded": "Thành lập: 1948",
+      "story": "Honda Genuine Parts cung cấp phụ kiện và linh kiện chính hãng cho xe Honda, đảm bảo chất lượng và độ bền tối ưu.",
+      "story_link": "Đằng Sau Câu Chuyện"
+    },
     "toyota_title": "Toyota Genuine Parts",
     "toyota_brand": "Toyota Brand",
     "toyota_field": "Phụ Kiện Ô Tô",
     "toyota_founded": "Thành lập: 1937",
     "toyota_story": "Toyota Genuine Parts cung cấp phụ kiện thay thế chất lượng cao, đảm bảo vận hành ổn định và an toàn cho xe Toyota trong mọi hành trình.",
+    "toyota": {
+      "name": "Toyota Genuine Parts",
+      "brand": "Toyota Brand",
+      "field": "Phụ Kiện Ô Tô",
+      "founded": "Thành lập: 1937",
+      "story": "Toyota Genuine Parts cung cấp phụ kiện thay thế chất lượng cao, đảm bảo vận hành ổn định và an toàn cho xe Toyota trong mọi hành trình.",
+      "story_link": "Đằng Sau Câu Chuyện"
+    },
     "hyundai_title": "Hyundai Mobis",
     "hyundai_brand": "Hyundai Brand",
     "hyundai_field": "Phụ Kiện Và Linh Kiện Ô Tô",
     "hyundai_founded": "Thành lập: 1977",
     "hyundai_story": "Hyundai Mobis là nhà cung cấp linh kiện và phụ kiện chính hãng cho xe Hyundai, được biết đến với công nghệ tiên tiến và độ bền cao.",
+    "hyundai": {
+      "name": "Hyundai Mobis",
+      "brand": "Hyundai Brand",
+      "field": "Phụ Kiện Và Linh Kiện Ô Tô",
+      "founded": "Thành lập: 1977",
+      "story": "Hyundai Mobis là nhà cung cấp linh kiện và phụ kiện chính hãng cho xe Hyundai, được biết đến với công nghệ tiên tiến và độ bền cao.",
+      "story_link": "Đằng Sau Câu Chuyện"
+    },
     "ford_title": "Ford Genuine Parts",
     "ford_brand": "Ford Brand",
     "ford_field": "Phụ Kiện Ô Tô",
     "ford_founded": "Thành lập: 1903",
-    "ford_story": "Ford Genuine Parts cung cấp phụ kiện thay thế chính hãng cho xe Ford, đảm bảo sự tin cậy và hiệu suất tối ưu cho khách hàng."
+    "ford_story": "Ford Genuine Parts cung cấp phụ kiện thay thế chính hãng cho xe Ford, đảm bảo sự tin cậy và hiệu suất tối ưu cho khách hàng.",
+    "ford": {
+      "name": "Ford Genuine Parts",
+      "brand": "Ford Brand",
+      "field": "Phụ Kiện Ô Tô",
+      "founded": "Thành lập: 1903",
+      "story": "Ford Genuine Parts cung cấp phụ kiện thay thế chính hãng cho xe Ford, đảm bảo sự tin cậy và hiệu suất tối ưu cho khách hàng.",
+      "story_link": "Đằng Sau Câu Chuyện"
+    }
   },
   "combo_workspace": {
     "title": "Phụ Kiện Cần Thiết",
@@ -127,28 +214,6 @@
       "..."
     ]
   },
-  "header": {
-    "home": "Trang Chủ",
-    "explore": "Khám Phá",
-    "explore_by_theme": "Khám Phá Theo Chủ Đề",
-    "workspace_setup": "Thiết Lập Không Gian Làm Việc",
-    "monthly_offers": "Ưu Đãi Tháng",
-    "newest_products": "Sản Phẩm Mới Nhất",
-    "diy_steampunk": "Sản Phẩm DIY Steampunk",
-    "mexe_corner": "Góc Mexe",
-    "view_all": "Xem Tất Cả →",
-    "pre_order_info": "Pre-Order Là Gì? Tất Tần Tật Về Pre-Order",
-    "livestream_sales": "Cách Chuyên Gia Livestream Bán Hàng",
-    "creative_clocks": "5 Đồng Hồ Để Bàn Sáng Tạo Tăng Cảm Hứng Làm Việc",
-    "keyboard_mouse_sets": "Bộ Bàn Phím Chuột Giá Rẻ Cho Designer",
-    "learn_more": "Tìm Hiểu Thêm",
-    "about_us": "Về Chúng Tôi",
-    "contact": "Liên Hệ",
-    "news": "Tin Tức",
-    "guides": "Hướng Dẫn",
-    "cart": "Giỏ Hàng",
-    "search": "Tìm Kiếm"
-  },
   "workspace": {
     "title": "Không Gian Làm Việc Mexe",
     "description": "Trải nghiệm sản phẩm Mexe trực tiếp tại các Không Gian Làm Việc của chúng tôi",
@@ -175,7 +240,7 @@
     "service_pricing": "Bảng Giá Dịch Vụ",
     "auto_academy": "Học Viện Ô Tô",
     "company": "Công Ty TNHH NextGen Việt Nam",
-    "copyright": "Bản Quyền © 2015 - 2025 Mexe - mexe.com",
+    "copyright": "Bản Quyền  2015 - 2025 Mexe - mexe.com",
     "phone": "0123.456.789",
     "email": "hotro@mexe",
     "working_hours": "Giờ Làm Việc: 8:30 - 17:15 (Thứ Hai - Thứ Sáu)",
@@ -185,7 +250,7 @@
     "address": {
       "hq": "Trụ Sở Chính: Thành Phố Hà Nội",
       "hanoi_business": "Địa Điểm Kinh Doanh Tại Hà Nội: Thành Phố Hà Nội",
-      "hcm_office": "Văn Phòng TP.HCM: Thành Phố Hồ Chí Minh",
+      "hcm_office": "Văn Phòng Thành Phố Hồ Chí Minh: Thành Phố Hồ Chí Minh",
       "hotline": "Hotline (Giờ Làm Việc): 012.3456.7890"
     },
     "business_license": "Giấy Chứng Nhận Đăng Ký Kinh Doanh Số 0123456789 do Sở Kế Hoạch và Đầu Tư Hà Nội cấp ngày 11/02/2015",
@@ -219,7 +284,6 @@
       "Đã Đặt: 0/50"
     ],
     "campaign_ends": [
-      "Chiến Dịch Kết Thúc: 25/07/2025",
       "Chiến Dịch Kết Thúc: 12/07/2025",
       "Chiến Dịch Kết Thúc: 04/07/2025",
       "Chiến Dịch Kết Thúc: 30/07/2025",
@@ -240,7 +304,7 @@
     "prev_slide": "Slide trước",
     "next_slide": "Slide tiếp",
     "go_to_slide": "Tới slide {number}",
-    "quality_deal": "Ưu Đãi Chất Lượng 🚚",
+    "quality_deal": "Ưu Đãi Chất Lượng ",
     "ship_now": "Giao Ngay",
     "view_details": "Xem Chi Tiết",
     "buy_now": "Mua Ngay",
@@ -261,7 +325,6 @@
   },
   "checkout": {
     "title": "Thanh Toán",
-    "delivery_address_placeholder": "Nhập địa chỉ giao hàng",
     "delivery_info": {
       "title": "Thông Tin Giao Hàng",
       "home": "Giao Tận Nhà",
@@ -298,12 +361,11 @@
     "prev_slide": "Slide trước",
     "next_slide": "Slide tiếp",
     "coming_soon": "Sắp Ra Mắt",
-    "coming_soon_info": "Sắp Ra Mắt Là Gì? Sắp Ra Mắt cho biết sản phẩm mới sẵn sàng ra mắt, nhưng chúng tôi cần thời gian để hoàn thiện chuẩn bị để mang đến sản phẩm tốt nhất cho khách hàng. Ngày ra mắt là khi bạn có thể chính thức đặt hàng, nhưng bạn có thể đăng ký sớm để đảm bảo slot giảm giá.",
     "sold": "Đã Bán: {count} sản phẩm",
     "product_info": "Thông Tin Sản Phẩm",
     "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
     "launch_time": "0:00 SA",
-    "buy_now": "Mua Ngay 🔔",
+    "buy_now": "Mua Ngay ",
     "buy_now_success": "Đã thêm vào giỏ hàng thành công!"
   },
   "news": {
@@ -318,7 +380,7 @@
     "by": "Bởi",
     "previous": "Trước",
     "next": "Sau",
-    "back_to_news": "← Quay lại Tin tức",
+    "back_to_news": " Quay lại Tin tức",
     "related_articles": "Bài viết liên quan",
     "read_more": "Đọc thêm"
   }

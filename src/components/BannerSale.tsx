@@ -23,7 +23,7 @@ export default function BannerSale() {
           alt='Banner Sale'
           width={400}
           height={120}
-          className='w-full max-w-xs rounded-xl shadow-lg'
+          className='w-[92%] rounded-xl shadow-lg'
           priority
         />
       </div>

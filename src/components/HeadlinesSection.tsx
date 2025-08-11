@@ -68,6 +68,7 @@ export default function HeadlinesSection() {
                   loading='eager'
                   fetchPriority='high'
                   decoding='sync'
+                  style={{ width: 'auto', height: 'auto' }}
                 />
                 {/* Hover Title Overlay */}
                 <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-4 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
@@ -96,6 +97,7 @@ export default function HeadlinesSection() {
                     loading='eager'
                     fetchPriority='high'
                     decoding='sync'
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                   {/* Hover Title Overlay */}
                   <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-3 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
@@ -123,6 +125,7 @@ export default function HeadlinesSection() {
                       loading='eager'
                       fetchPriority='high'
                       decoding='sync'
+                      style={{ width: 'auto', height: 'auto' }}
                     />
                     {/* Hover Title Overlay */}
                     <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-2 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
@@ -148,6 +151,7 @@ export default function HeadlinesSection() {
                       loading='eager'
                       fetchPriority='high'
                       decoding='sync'
+                      style={{ width: 'auto', height: 'auto' }}
                     />
                     {/* Hover Title Overlay */}
                     <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-2 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>

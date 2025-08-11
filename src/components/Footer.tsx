@@ -83,6 +83,7 @@ export default function Footer() {
               alt='Mexe Logo'
               width={100}
               height={40}
+              style={{ width: 'auto', height: 'auto' }}
             />
           </div>
         </div>

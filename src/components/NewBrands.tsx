@@ -103,6 +103,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
         width={280}
         height={160}
         className='h-40 w-full rounded-t-xl object-cover'
+        style={{ width: 'auto', height: 'auto' }}
       />
       <div className='p-3'>
         <h3 className='line-clamp-2 text-sm font-semibold text-gray-900 sm:text-base'>

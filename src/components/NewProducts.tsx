@@ -124,11 +124,13 @@ function ProductSlide({ product, isActive }: ProductSlideProps) {
           alt={product.name}
           width={105}
           height={100}
-          className='col-span-1 row-span-1 h-full w-full rounded-xl object-cover'
+          className='col-span-1 row-span-1 rounded-xl object-cover'
           style={{
             objectPosition: 'center',
             gridRow: '1 / span 1',
             gridColumn: '1 / span 1',
+            width: '100%',
+            height: '100%'
           }}
         />
         <Image
@@ -136,11 +138,13 @@ function ProductSlide({ product, isActive }: ProductSlideProps) {
           alt={product.name}
           width={105}
           height={100}
-          className='col-span-1 row-span-1 h-full w-full rounded-xl object-cover'
+          className='col-span-1 row-span-1 rounded-xl object-cover'
           style={{
             objectPosition: 'center',
             gridRow: '2 / span 1',
             gridColumn: '1 / span 1',
+            width: '100%',
+            height: '100%'
           }}
         />
         <Image
@@ -148,11 +152,13 @@ function ProductSlide({ product, isActive }: ProductSlideProps) {
           alt={product.name}
           width={105}
           height={200}
-          className='col-span-1 row-span-2 h-full w-full rounded-xl object-cover'
+          className='col-span-1 row-span-2 rounded-xl object-cover'
           style={{
             objectPosition: 'center',
             gridRow: '1 / span 2',
             gridColumn: '2 / span 1',
+            width: '100%',
+            height: '100%'
           }}
         />
       </div>

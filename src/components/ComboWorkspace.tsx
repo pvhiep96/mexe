@@ -107,6 +107,7 @@ function ComboCard({ combo }: ComboCardProps) {
         width={300}
         height={288}
         className='h-64 w-full object-cover transition group-hover:brightness-75'
+        style={{ width: 'auto', height: 'auto' }}
       />
       <button
         onClick={handleViewClick}

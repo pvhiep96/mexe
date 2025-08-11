@@ -129,7 +129,7 @@ export default function Workspace() {
       </div>
       {/* Mobile version */}
       <div className='block lg:hidden'>
-        <section className='relative mx-auto my-4 w-full max-w-xs overflow-hidden rounded-2xl bg-[#757575] px-2 py-4'>
+        <section className='relative mx-auto my-4 w-[92%] overflow-hidden rounded-2xl bg-[#757575] px-2 py-4'>
           <div className='mb-4 flex flex-col items-center'>
             <h2 className='mb-2 text-center text-lg font-extrabold tracking-wide text-white'>
               MEXE WORKSPACE

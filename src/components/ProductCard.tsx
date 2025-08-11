@@ -75,6 +75,7 @@ export default function ProductCard({
               width={100}
               height={100}
               className='h-24 w-full object-cover'
+              style={{ width: 'auto', height: 'auto' }}
             />
           </div>
         </Link>
