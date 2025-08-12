@@ -42,36 +42,41 @@ export function useCart() {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [order, setOrder] = useState<Order | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   // Load cart from local storage on mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const savedOrder = localStorage.getItem('cart');
-        if (savedOrder) {
-          const parsedOrder = JSON.parse(savedOrder);
-          // Validate parsed order structure
-          if (parsedOrder && Array.isArray(parsedOrder.items)) {
-            setOrder(parsedOrder);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to load cart from local storage:', error);
-        localStorage.removeItem('cart'); // Clear invalid data
-      }
-    }
+    setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
+    try {
+      const savedOrder = localStorage.getItem('cart');
+      if (savedOrder) {
+        const parsedOrder = JSON.parse(savedOrder);
+        // Validate parsed order structure
+        if (parsedOrder && Array.isArray(parsedOrder.items)) {
+          setOrder(parsedOrder);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load cart from local storage:', error);
+      localStorage.removeItem('cart'); // Clear invalid data
+    }
+  }, [mounted]);
 
   // Save cart to local storage on update
   useEffect(() => {
-    if (order && typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('cart', JSON.stringify(order));
-      } catch (error) {
-        console.error('Failed to save cart to local storage:', error);
-      }
+    if (!mounted || !order) return;
+    
+    try {
+      localStorage.setItem('cart', JSON.stringify(order));
+    } catch (error) {
+      console.error('Failed to save cart to local storage:', error);
     }
-  }, [order]);
+  }, [order, mounted]);
 
   const addToCart = (product: Product) => {
     setOrder((prevOrder) => {

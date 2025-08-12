@@ -1,14 +1,13 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 import '../globals.css';
-import Head from 'next/head';
 import { hasLocale } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SPHeader from '@/components/SP/Header';
 // import SPFooter from '@/components/SP/Footer';
-const locales = ['en', 'es'];
+const locales = ['en', 'vi'];
 import { routing } from '@/i18n/routing';
 import { CartProvider } from '@/context/CartContext';
 import { FlashTooltipProvider } from '@/context/FlashTooltipContext';
@@ -37,7 +36,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <Head>
+      <head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <meta name='apple-mobile-web-app-capable' content='yes' />
         <link
@@ -85,7 +84,7 @@ export default async function RootLayout({
           sizes='57x57'
           href='/images/logo-mexe.png'
         />
-      </Head>
+      </head>
 
       <body className='font-sans'>
         <NextIntlClientProvider locale={locale} messages={messages}>

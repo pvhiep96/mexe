@@ -30,17 +30,19 @@ export default function ProductCard({
   handleMouseOver,
   handleMouseOut,
 }: ProductCardProps) {
-  const targetDate = new Date('2025-07-25T00:00:00').getTime();
   const [timeLeft, setTimeLeft] = useState(0);
   
   useEffect(() => {
-    setTimeLeft(targetDate - Date.now());
-    const interval = setInterval(() => {
-      setTimeLeft(targetDate - Date.now());
-    }, 1000);
+    const targetDate = new Date('2025-07-25T00:00:00').getTime();
+    const updateTime = () => {
+      setTimeLeft(Math.max(0, targetDate - Date.now()));
+    };
+    
+    updateTime(); // Initial call
+    const interval = setInterval(updateTime, 1000);
 
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, []);
 
 
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -118,7 +120,7 @@ export default function ProductCard({
           </div>
           <p className='text-center text-sm'>0 giờ sáng</p>
           <time className='m-1 flex w-full justify-center rounded-xl bg-green-700 p-2 text-center text-sm font-semibold text-white'>
-            {new Date(product.releaseDate).toLocaleDateString('vi-VN')}
+            {product.releaseDate}
           </time>
           <div className='mt-1 grid grid-cols-4 gap-2 text-center text-sm'>
             <div className='rounded p-2'>

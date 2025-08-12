@@ -52,7 +52,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href='#' className='hover:underline'>
-                  {t('recruitment')}
+                  {t('recruitment.title')}
                 </a>
               </li>
               <li>

@@ -7,6 +7,15 @@ import ProductGrid from '../../../components/ProductGrid';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faSortAlphaDown, 
+  faSortAlphaUp, 
+  faClock, 
+  faStar, 
+  faSortNumericUp, 
+  faSortNumericDown 
+} from '@fortawesome/free-solid-svg-icons';
 
 // Tất cả sản phẩm
 const allProducts = [
@@ -487,111 +496,32 @@ const sortOptions = [
   {
     label: 'A-Z',
     desc: 'Sắp xếp tên từ A đến Z',
-    icon: (
-      <svg width='28' height='28' fill='none' viewBox='0 0 24 24'>
-        <text x='4' y='13' fontSize='8' fontWeight='bold' fill='black'>
-          A
-        </text>
-        <text x='4' y='21' fontSize='8' fontWeight='bold' fill='black'>
-          Z
-        </text>
-        <path
-          d='M16 7v10m0 0l-3-3m3 3l3-3'
-          stroke='black'
-          strokeWidth='2'
-          strokeLinecap='round'
-        />
-      </svg>
-    ),
+    icon: <FontAwesomeIcon icon={faSortAlphaDown} className="w-6 h-6" />,
   },
   {
     label: 'Z-A',
     desc: 'Sắp xếp tên từ Z đến A',
-    icon: (
-      <svg width='28' height='28' fill='none' viewBox='0 0 24 24'>
-        <text x='4' y='13' fontSize='8' fontWeight='bold' fill='black'>
-          Z
-        </text>
-        <text x='4' y='21' fontSize='8' fontWeight='bold' fill='black'>
-          A
-        </text>
-        <path
-          d='M16 17V7m0 0l-3 3m3-3l3 3'
-          stroke='black'
-          strokeWidth='2'
-          strokeLinecap='round'
-        />
-      </svg>
-    ),
+    icon: <FontAwesomeIcon icon={faSortAlphaUp} className="w-6 h-6" />,
   },
   {
     label: 'Mới nhất',
     desc: 'Sắp xếp theo sản phẩm mới nhất',
-    icon: (
-      <svg width='28' height='28' fill='none' viewBox='0 0 24 24'>
-        <rect
-          x='4'
-          y='4'
-          width='16'
-          height='16'
-          rx='3'
-          stroke='black'
-          strokeWidth='2'
-        />
-        <path d='M8 2v4M16 2v4M4 10h16' stroke='black' strokeWidth='2' />
-      </svg>
-    ),
+    icon: <FontAwesomeIcon icon={faClock} className="w-6 h-6" />,
   },
   {
     label: 'Bán chạy',
     desc: 'Sắp xếp theo sản phẩm bán chạy',
-    icon: (
-      <svg width='28' height='28' fill='none' viewBox='0 0 24 24'>
-        <path
-          d='M6 18v-2a4 4 0 0 1 4-4h0a4 4 0 0 1 4 4v2'
-          stroke='black'
-          strokeWidth='2'
-        />
-        <circle cx='12' cy='7' r='4' stroke='black' strokeWidth='2' />
-        <rect x='2' y='17' width='4' height='5' rx='2' fill='black' />
-      </svg>
-    ),
+    icon: <FontAwesomeIcon icon={faStar} className="w-6 h-6" />,
   },
   {
     label: 'Giá tăng',
     desc: 'Sắp xếp theo giá tăng dần',
-    icon: (
-      <svg width='28' height='28' fill='none' viewBox='0 0 24 24'>
-        <circle cx='12' cy='12' r='8' stroke='black' strokeWidth='2' />
-        <path
-          d='M12 16V8m0 0l-3 3m3-3l3 3'
-          stroke='black'
-          strokeWidth='2'
-          strokeLinecap='round'
-        />
-        <text x='9' y='23' fontSize='8' fontWeight='bold' fill='black'>
-          $
-        </text>
-      </svg>
-    ),
+    icon: <FontAwesomeIcon icon={faSortNumericUp} className="w-6 h-6" />,
   },
   {
     label: 'Giá giảm',
     desc: 'Sắp xếp theo giá giảm dần',
-    icon: (
-      <svg width='28' height='28' fill='none' viewBox='0 0 24 24'>
-        <circle cx='12' cy='12' r='8' stroke='black' strokeWidth='2' />
-        <path
-          d='M12 8v8m0 0l-3-3m3 3l3-3'
-          stroke='black'
-          strokeWidth='2'
-          strokeLinecap='round'
-        />
-        <text x='9' y='23' fontSize='8' fontWeight='bold' fill='black'>
-          $
-        </text>
-      </svg>
-    ),
+    icon: <FontAwesomeIcon icon={faSortNumericDown} className="w-6 h-6" />,
   },
 ];
 
@@ -868,23 +798,36 @@ export default function ProductListPage() {
               {sortOptions.map((opt, idx) => (
                 <button
                   key={opt.label}
-                  className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow transition sm:h-14 sm:w-14 ${
+                  className={`group flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow transition-all duration-200 hover:scale-105 sm:h-14 sm:w-14 ${
                     selectedSort === idx
-                      ? 'bg-[#2D6294] hover:bg-[#2D6294]/80'
-                      : 'bg-white hover:bg-sky-100'
+                      ? 'bg-[#2D6294] text-white shadow-lg'
+                      : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-[#2D6294] shadow'
                   }`}
                   onClick={() => setSelectedSort(idx)}
                   onMouseEnter={() => setHoverIdx(idx)}
                   onMouseLeave={() => setHoverIdx(null)}
                 >
-                  <div className='h-6 w-6 sm:h-7 sm:w-7'>{opt.icon}</div>
+                  <div className='h-5 w-5 transition-colors duration-200 sm:h-7 sm:w-7'>{opt.icon}</div>
                 </button>
               ))}
             </div>
-            <div
-              className={`mt-3 flex hidden h-8 items-center justify-center rounded-full px-4 py-1.5 text-center text-sm font-semibold transition-all duration-200 sm:mt-4 sm:flex sm:h-10 sm:px-8 sm:py-2 sm:text-base ${hoverIdx !== null ? 'bg-[#2D6294] text-white shadow' : 'bg-transparent text-transparent shadow-none'}`}
-            >
-              {hoverIdx !== null ? sortOptions[hoverIdx].desc : '\u00A0'}
+            <div className="relative mt-3 sm:mt-4 h-12 sm:h-14">
+              {sortOptions.map((opt, idx) => (
+                <div
+                  key={idx}
+                  className={`absolute top-0 flex h-8 items-center justify-center rounded-full px-4 py-1.5 text-center text-sm font-medium transition-all duration-300 sm:h-10 sm:px-6 sm:py-2 sm:text-base whitespace-nowrap ${
+                    hoverIdx === idx
+                      ? 'bg-[#2D6294] text-white shadow-lg transform translate-y-0 opacity-100 z-10' 
+                      : 'bg-transparent text-transparent shadow-none transform translate-y-1 opacity-0 pointer-events-none'
+                  }`}
+                  style={{
+                    left: `${(idx * 100) / sortOptions.length}%`,
+                    transform: hoverIdx === idx ? 'translateX(-50%)' : 'translateX(-50%) translateY(1rem)',
+                  }}
+                >
+                  {opt.desc}
+                </div>
+              ))}
             </div>
           </div>
           {/* Product Grid Component */}
@@ -1016,3 +959,4 @@ export default function ProductListPage() {
     </div>
   );
 }
+

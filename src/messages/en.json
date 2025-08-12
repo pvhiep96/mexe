@@ -166,7 +166,47 @@
     "about_us": "About Us",
     "introduction": "Introduction",
     "operating_terms": "Operating Terms",
-    "recruitment": "Recruitment",
+    "recruitment": {
+      "title": "Recruitment",
+      "hero_subtitle": "GREAT VISION, WITHOUT GREAT PEOPLE IS IRRELEVANT",
+      "hero_description": "Join Mexe to build the future of Vietnam's automotive industry",
+      "filter_title": "CHOOSE THE POSITION THAT SUITS YOU",
+      "job_type_label": "Job Type:",
+      "department_label": "Department:",
+      "all": "All",
+      "fulltime": "Full-time",
+      "parttime": "Part-time",
+      "intern": "Internship",
+      "no_jobs_found": "No suitable positions found",
+      "no_jobs_description": "Try changing the filters or come back later",
+      "why_join_title": "WHY CHOOSE MEXE?",
+      "why_join_items": {
+        "environment": {
+          "title": "Dynamic Environment",
+          "description": "Work in a young, creative and constantly innovative environment"
+        },
+        "career_growth": {
+          "title": "Career Growth",
+          "description": "Clear development path with many career advancement opportunities"
+        },
+        "training": {
+          "title": "Continuous Training",
+          "description": "Regular training and skill development from experts"
+        },
+        "benefits": {
+          "title": "Attractive Benefits",
+          "description": "Competitive salary, comprehensive insurance and many other benefits"
+        }
+      },
+      "contact_title": "READY TO JOIN US?",
+      "contact_description": "If you don't find a suitable position, send your CV so we can contact you when opportunities arise",
+      "send_cv": "Send CV Now",
+      "contact_consultation": "Contact Consultation",
+      "apply_now": "Apply Now",
+      "requirements": "Requirements:",
+      "benefits": "Benefits:",
+      "hot": "HOT"
+    },
     "sitemap": "Sitemap",
     "car_news": "Car News",
     "service_pricing": "Service Pricing",
@@ -339,7 +379,7 @@
   },
   "product_detail": {
     "add_to_cart_success": "Product added to cart successfully!",
-    "add_to_cart" : "Add to Cart"
+    "add_to_cart" : "Buy Now"
   },
   "cart": {
     "title": "Your Cart",
