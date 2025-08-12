@@ -28,8 +28,8 @@ interface Order {
 
 interface ShippingCondition {
   id: number;
-  name: string;
-  description: string;
+  nameKey: string;
+  descriptionKey: string;
   image: string;
 }
 
@@ -44,30 +44,30 @@ interface ShippingConditionCardProps {
 interface CartProps {
   order: Order;
 }
-const shippingConditions: ShippingCondition[] = [
+const shippingConditions = [
   {
     id: 1,
-    description: 'Free shipping on orders over $50',
+    descriptionKey: 'free_shipping_desc',
     image: '/images/demo-icon-delivery.png',
-    name: 'Free Shipping',
+    nameKey: 'free_shipping',
   },
   {
     id: 2,
-    description: 'Free shipping on orders over $50',
+    descriptionKey: 'fast_delivery_desc',
     image: '/images/demo-icon-delivery.png',
-    name: 'Free Shipping',
+    nameKey: 'fast_delivery',
   },
   {
     id: 3,
-    description: 'Free shipping on orders over $50',
+    descriptionKey: 'secure_payment_desc',
     image: '/images/demo-icon-delivery.png',
-    name: 'Free Shipping',
+    nameKey: 'secure_payment',
   },
   {
     id: 4,
-    description: 'Free shipping on orders over $50',
+    descriptionKey: 'easy_returns_desc',
     image: '/images/demo-icon-delivery.png',
-    name: 'Free Shipping',
+    nameKey: 'easy_returns',
   },
 ];
 
@@ -151,16 +151,16 @@ function ShippingConditionCard({ condition }: ShippingConditionCardProps) {
     <div className='flex items-center rounded-lg bg-white p-4 shadow-sm transition hover:bg-gray-50'>
       <Image
         src={condition.image}
-        alt={t(condition.name)}
+        alt={t(condition.nameKey)}
         width={60}
         height={60}
         className='mr-4 size-16 rounded object-cover'
       />
       <div>
         <h3 className='text-sm font-semibold text-gray-900'>
-          {t(condition.name)}
+          {t(condition.nameKey)}
         </h3>
-        <p className='text-sm text-gray-500'>{t(condition.description)}</p>
+        <p className='text-sm text-gray-500'>{t(condition.descriptionKey)}</p>
       </div>
     </div>
   );

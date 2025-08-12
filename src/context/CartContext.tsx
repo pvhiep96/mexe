@@ -10,7 +10,7 @@ import {
 
 interface Product {
   id: string | number;
-  nameKey: string;
+  name: string;
   price: number;
   discountedPrice?: number;
   image: string;
