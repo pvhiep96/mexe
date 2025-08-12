@@ -264,9 +264,9 @@ export default function Banner() {
   return (
     <section className='bg-gray-100 py-8'>
       {/* Desktop Layout */}
-      <div className='slider-index m-4 hidden lg:flex'>
+      <div className='slider-index m-4 hidden lg:flex relative'>
         <div
-          className={`slider-sidebar relative mr-4 w-[${width}px] rounded-lg bg-white shadow-md`}
+          className={`slider-sidebar mr-4 w-[${width}px] rounded-lg bg-white shadow-md h-[600px]`}
           style={
             activeTab === 'thuonghieu'
               ? {
@@ -296,68 +296,51 @@ export default function Banner() {
               </a>
             </li>
           </ul>
-          <div className='tab-content flex w-full'>
+          
+          <div className='tab-content h-[calc(600px-48px)] overflow-y-auto'>
             <div
-              className={`tab-pane min-w-[400px] ${activeTab === 'danhmuc' ? 'block' : 'hidden'} min-w-0 flex-1`}
+              className={`tab-pane ${activeTab === 'danhmuc' ? 'block' : 'hidden'} h-full`}
             >
-              {categories.map((item, idx) => (
-                <div
-                  key={idx}
-                  className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} px-4 py-1 relative`}
-                  onMouseEnter={() => {
-                    if (item.submenu) {
-                      setHoveredSubmenu(item.label);
-                    } else {
-                      setHoveredSubmenu(null);
-                    }
-                  }}
-                >
-                  <div className='sidebar-icon-wrap flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'>
-                    <img
-                      width='30'
-                      height='30'
-                      src={item.icon}
-                      alt={`icon_sidebar_${idx + 1}.png`}
-                      className='mr-3'
-                    />
-                    <a
-                      href={item.href}
-                      target='_blank'
-                      className='text-sm text-gray-700'
-                      rel='noreferrer'
-                    >
-                      {item.label}
-                    </a>
-                  </div>
-                  
-                  {/* Submenu positioned inline with the item */}
-                  {item.submenu && (
-                    <div
-                      className={`absolute left-full top-0 ml-2 z-20 min-w-[250px] rounded-lg bg-white shadow-lg ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
-                      onMouseEnter={() => setHoveredSubmenu(item.label)}
-                      onMouseLeave={() => setHoveredSubmenu(null)}
-                    >
-                      {item.submenu.map((sub, subIdx) => (
-                        <a
-                          key={subIdx}
-                          href={sub.href}
-                          target='_blank'
-                          className='m-2 block cursor-pointer rounded-lg bg-gray-100 p-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'
-                          rel='noreferrer'
-                        >
-                          {sub.label}
-                        </a>
-                      ))}
+              <div className='space-y-1 p-2'>
+                {categories.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} relative`}
+                    onMouseEnter={() => {
+                      if (item.submenu) {
+                        setHoveredSubmenu(item.label);
+                      } else {
+                        setHoveredSubmenu(null);
+                      }
+                    }}
+                  >
+                    <div className='sidebar-icon-wrap flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'>
+                      <img
+                        width='30'
+                        height='30'
+                        src={item.icon}
+                        alt={`icon_sidebar_${idx + 1}.png`}
+                        className='mr-3 flex-shrink-0'
+                      />
+                      <a
+                        href={item.href}
+                        target='_blank'
+                        className='text-sm text-gray-700 truncate'
+                        rel='noreferrer'
+                      >
+                        {item.label}
+                      </a>
                     </div>
-                  )}
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
+            
             <div
-              className={`tab-pane min-w-[400px] ${activeTab === 'thuonghieu' ? 'block' : 'hidden'} min-w-0 flex-1`}
+              className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'} h-full`}
               id='thuonghieu'
             >
-              <div className='menu-vendor-list grid h-full w-full grid-cols-2 gap-4'>
+              <div className='menu-vendor-list grid h-full w-full grid-cols-2 gap-3 p-3'>
                 {vendors.map((vendor, idx) => (
                   <a
                     key={idx}
@@ -384,10 +367,39 @@ export default function Banner() {
                 ))}
               </div>
             </div>
-
-
           </div>
         </div>
+
+        {/* Submenu container positioned outside sidebar to overlay banner */}
+        {categories.map((item, idx) => (
+          item.submenu && (
+            <div
+              key={`submenu-${idx}`}
+              className={`absolute z-50 min-w-[300px] rounded-lg bg-white shadow-xl border border-gray-200 ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
+              style={{
+                left: `${width + 32}px`, // 32px margin để có khoảng cách hợp lý với item
+                top: `${48 + (idx * 60)}px` // 48px cho header + 60px cho mỗi item - căn với cạnh trên của item
+              }}
+              onMouseEnter={() => setHoveredSubmenu(item.label)}
+              onMouseLeave={() => setHoveredSubmenu(null)}
+            >
+              <div className='p-2'>
+                {item.submenu.map((sub, subIdx) => (
+                  <a
+                    key={subIdx}
+                    href={sub.href}
+                    target='_blank'
+                    className='block cursor-pointer px-3 py-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white rounded-lg bg-gray-100 mb-1'
+                    rel='noreferrer'
+                  >
+                    {sub.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )
+        ))}
+
         <div
           className='slider-index-wrap'
           style={{ width: `calc(100vw - 450px)` }}
@@ -401,7 +413,7 @@ export default function Banner() {
                     alt={image.alt}
                     width={image.width}
                     height={image.height}
-                    className='h-[700px] w-full rounded-xl'
+                    className='h-[600px] w-full rounded-xl'
                   />
                 </Link>
               </div>
