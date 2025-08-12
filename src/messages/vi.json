@@ -361,7 +361,15 @@
     "decrease_quantity": "Giảm số lượng",
     "increase_quantity": "Tăng số lượng",
     "quantity_updated": "Cập nhật số lượng thành công!",
-    "cart_banner_alt": "Banner giỏ hàng"
+    "cart_banner_alt": "Banner giỏ hàng",
+    "free_shipping": "Miễn Phí Vận Chuyển",
+    "free_shipping_desc": "Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ",
+    "fast_delivery": "Giao Hàng Nhanh",
+    "fast_delivery_desc": "Giao hàng siêu tốc trong 24 giờ",
+    "secure_payment": "Thanh Toán Bảo Mật",
+    "secure_payment_desc": "Các tùy chọn thanh toán an toàn và bảo mật",
+    "easy_returns": "Đổi Trả Dễ Dàng",
+    "easy_returns_desc": "Đổi trả dễ dàng trong vòng 30 ngày"
   },
   "checkout": {
     "title": "Thanh Toán",
