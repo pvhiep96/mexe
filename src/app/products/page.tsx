@@ -1,8 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import Sidebar from '@/components/Sidebar';
 import ProductGrid from '@/components/ProductGrid';
 // @ts-ignore: no types for react-slick
 import Slider from 'react-slick';
@@ -449,7 +447,6 @@ export default function ProductListPage() {
 
   return (
     <div className='flex min-h-screen flex-col'>
-      <Navbar />
       <main className='grow'>
         {/* Banner */}
         {/* <div className="w-full bg-white border-b">
