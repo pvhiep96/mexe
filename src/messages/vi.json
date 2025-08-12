@@ -29,7 +29,7 @@
   },
   "product_detail": {
     "add_to_cart_success": "Đã thêm sản phẩm vào giỏ hàng thành công!",
-    "add_to_cart": "Thêm vào giỏ hàng"
+    "add_to_cart": "Mua hàng"
   },
   "header": {
     "home": "Trang Chủ",
@@ -234,7 +234,47 @@
     "about_us": "Về Chúng Tôi",
     "introduction": "Giới Thiệu",
     "operating_terms": "Điều Khoản Vận Hành",
-    "recruitment": "Tuyển Dụng",
+    "recruitment": {
+      "title": "Tuyển Dụng",
+      "hero_subtitle": "GREAT VISION, WITHOUT GREAT PEOPLE IS IRRELEVANT",
+      "hero_description": "Tham gia cùng Mexe để xây dựng tương lai của ngành công nghiệp ô tô Việt Nam",
+      "filter_title": "CHỌN VỊ TRÍ PHÙ HỢP VỚI BẠN",
+      "job_type_label": "Loại hình công việc:",
+      "department_label": "Phòng ban:",
+      "all": "Tất cả",
+      "fulltime": "Toàn thời gian",
+      "parttime": "Bán thời gian",
+      "intern": "Thực tập",
+      "no_jobs_found": "Không tìm thấy vị trí phù hợp",
+      "no_jobs_description": "Hãy thử thay đổi bộ lọc hoặc quay lại sau",
+      "why_join_title": "TẠI SAO CHỌN MEXE?",
+      "why_join_items": {
+        "environment": {
+          "title": "Môi trường năng động",
+          "description": "Làm việc trong môi trường trẻ trung, sáng tạo và không ngừng đổi mới"
+        },
+        "career_growth": {
+          "title": "Cơ hội thăng tiến",
+          "description": "Lộ trình phát triển rõ ràng với nhiều cơ hội thăng tiến trong sự nghiệp"
+        },
+        "training": {
+          "title": "Đào tạo liên tục",
+          "description": "Được đào tạo và phát triển kỹ năng thường xuyên từ các chuyên gia"
+        },
+        "benefits": {
+          "title": "Đãi ngộ hấp dẫn",
+          "description": "Lương thưởng cạnh tranh, bảo hiểm đầy đủ và nhiều phúc lợi khác"
+        }
+      },
+      "contact_title": "SẴN SÀNG THAM GIA CÙNG CHÚNG TÔI?",
+      "contact_description": "Nếu bạn không tìm thấy vị trí phù hợp, hãy gửi CV để chúng tôi có thể liên hệ khi có cơ hội",
+      "send_cv": "Gửi CV ngay",
+      "contact_consultation": "Liên hệ tư vấn",
+      "apply_now": "Ứng tuyển ngay",
+      "requirements": "Yêu cầu:",
+      "benefits": "Quyền lợi:",
+      "hot": "HOT"
+    },
     "sitemap": "Sơ Đồ Trang Web",
     "car_news": "Tin Tức Ô Tô",
     "service_pricing": "Bảng Giá Dịch Vụ",
@@ -352,7 +392,7 @@
     }
   },
   "products": {
-    "add_to_cart": "Thêm vào giỏ",
+    "add_to_cart": "Mua hàng",
     "add_to_cart_success": "Đã thêm vào giỏ hàng thành công!"
   },
   "new_products": {

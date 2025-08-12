@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 const PRODUCT_MOCK = {
   id: 'den-led-xe-o-to-cao-cap',
   name: 'Đèn LED Xe Ô Tô Cao Cấp – Ánh sáng trắng sáng, thiết kế hiện đại, tương thích đa dòng xe',
+  nameKey: 'den-led-xe-o-to-cao-cap',
   price: 1250000,
   image:
     'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
@@ -48,6 +49,7 @@ const PRODUCT_MOCK = {
 interface Product {
   id: string;
   name: string;
+  nameKey: string;
   price: number;
   image: string;
   discount?: number;
@@ -258,49 +260,48 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             </div>
 
             {/* Quantity Selector and Action Buttons */}
-            <div className='flex items-center space-x-4'>
+            <div className='flex flex-row items-center gap-2 sm:gap-3'>
               {/* Quantity Selector */}
-              <div className='flex items-center rounded-lg border border-gray-300 bg-gray-50'>
+              <div className='flex h-[48px] items-center rounded-lg border border-gray-300 bg-gray-50 min-w-[120px] sm:min-w-[140px]'>
                 <button
                   onClick={() => handleQuantityChange('decrease')}
-                  className='cursor-pointer px-3 py-2 text-gray-700 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-50'
+                  className='cursor-pointer px-3 sm:px-4 py-2 text-gray-700 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 text-sm sm:text-base'
                   disabled={quantity <= 1}
                 >
                   -
                 </button>
-                <span className='min-w-[60px] border-x border-gray-300 bg-white px-4 py-2 text-center font-medium text-gray-900'>
+                <span className='min-w-[60px] sm:min-w-[70px] border-x border-gray-300 bg-white px-3 sm:px-4 py-2 text-center font-medium text-gray-900 text-sm sm:text-base'>
                   {quantity}
                 </span>
                 <button
                   onClick={() => handleQuantityChange('increase')}
-                  className='cursor-pointer px-3 py-2 text-gray-700 hover:text-gray-900'
+                  className='cursor-pointer px-3 sm:px-4 py-2 text-gray-700 hover:text-gray-900 text-sm sm:text-base'
                 >
                   +
                 </button>
               </div>
 
               {/* Add to Cart Button */}
-              <button className='flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200'>
+              <button className='flex h-[48px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 sm:px-6 py-2 text-gray-700 transition-colors hover:bg-gray-200 min-w-[60px] sm:min-w-[70px]'>
                 <div className='relative'>
-                  <ShoppingCartIcon className='h-8 w-8' />
-                  <div className='absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-gray-700'>
+                  <ShoppingCartIcon className='h-6 w-6 sm:h-8 sm:w-8' />
+                  <div className='absolute -top-1 -right-1 flex h-3 w-3 sm:h-4 sm:w-4 items-center justify-center rounded-full bg-gray-700'>
                     <span className='text-xs font-bold text-white'>+</span>
                   </div>
                 </div>
               </button>
 
               {/* Buy Now Button */}
-
               <div className='relative inline-block'>
                 <button
                   onClick={handleAddToCart}
-                  className='flex-1 cursor-pointer rounded-lg bg-gray-800 px-6 py-3 font-bold text-white transition-colors hover:bg-gray-900'
+                  className='flex-1 cursor-pointer rounded-lg bg-gray-800 px-4 sm:px-8 py-2 sm:py-3 font-bold text-white transition-colors hover:bg-gray-900 h-[48px] flex items-center justify-center text-sm sm:text-base whitespace-nowrap min-w-[100px] sm:min-w-[120px]'
                 >
                   {t('add_to_cart')}
                 </button>
                 {successMessage && (
                   <div className='animate-fade-in absolute bottom-full left-1/2 mb-2 w-100 -translate-x-1/2 transform rounded-lg bg-green-600 px-4 py-2 text-sm text-white shadow-lg'>
-                    {successMessage}"Product added to cart successfully!"
+                    {successMessage}
                   </div>
                 )}
               </div>

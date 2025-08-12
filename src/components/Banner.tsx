@@ -47,7 +47,7 @@ export default function Banner() {
       height: 200,
     },
     {
-      src: '/images/demo-banner/banner-2.jpg',
+      src: '/images/demo-banner/banner-1.jpg',
       alt: 'Placeholder 3',
       width: 300,
       height: 200,
@@ -303,11 +303,14 @@ export default function Banner() {
               {categories.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} px-4 py-1`}
-                  onMouseEnter={() =>
-                    item.submenu && setHoveredSubmenu(item.label)
-                  }
-                  onMouseLeave={() => item.submenu && setHoveredSubmenu(null)}
+                  className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} px-4 py-1 relative`}
+                  onMouseEnter={() => {
+                    if (item.submenu) {
+                      setHoveredSubmenu(item.label);
+                    } else {
+                      setHoveredSubmenu(null);
+                    }
+                  }}
                 >
                   <div className='sidebar-icon-wrap flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'>
                     <img
@@ -326,6 +329,27 @@ export default function Banner() {
                       {item.label}
                     </a>
                   </div>
+                  
+                  {/* Submenu positioned inline with the item */}
+                  {item.submenu && (
+                    <div
+                      className={`absolute left-full top-0 ml-2 z-20 min-w-[250px] rounded-lg bg-white shadow-lg ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
+                      onMouseEnter={() => setHoveredSubmenu(item.label)}
+                      onMouseLeave={() => setHoveredSubmenu(null)}
+                    >
+                      {item.submenu.map((sub, subIdx) => (
+                        <a
+                          key={subIdx}
+                          href={sub.href}
+                          target='_blank'
+                          className='m-2 block cursor-pointer rounded-lg bg-gray-100 p-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'
+                          rel='noreferrer'
+                        >
+                          {sub.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -361,34 +385,7 @@ export default function Banner() {
               </div>
             </div>
 
-            {categories.map((item, idx) => (
-              <div
-                key={idx}
-                className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} py-1`}
-                onMouseEnter={() =>
-                  item.submenu && setHoveredSubmenu(item.label)
-                }
-                onMouseLeave={() => item.submenu && setHoveredSubmenu(null)}
-              >
-                {item.submenu && (
-                  <div
-                    className={`absolute top-[80px] left-[390px] z-10 min-w-[250px] w-[${width}px] rounded-lg bg-white ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
-                  >
-                    {item.submenu.map((sub, subIdx) => (
-                      <a
-                        key={subIdx}
-                        href={sub.href}
-                        target='_blank'
-                        className='m-2 block cursor-pointer rounded-lg bg-gray-100 p-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'
-                        rel='noreferrer'
-                      >
-                        {sub.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+
           </div>
         </div>
         <div
@@ -404,7 +401,7 @@ export default function Banner() {
                     alt={image.alt}
                     width={image.width}
                     height={image.height}
-                    className='h-[806px] w-full rounded-xl'
+                    className='h-[700px] w-full rounded-xl'
                   />
                 </Link>
               </div>

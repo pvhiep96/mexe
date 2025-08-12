@@ -32,7 +32,7 @@ const products: Product[] = [
       '/images/demo-new-products/new-pro-3.png',
     ],
     open_date: '15/07/2025',
-    open_time: new Date('2025-07-15T00:00:00'),
+    open_time: '2025-07-15T00:00:00',
     soldCount: 100000,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
@@ -46,7 +46,7 @@ const products: Product[] = [
       '/images/demo-new-products/new-pro-3.png',
     ],
     open_date: '01/07/2025',
-    open_time: new Date('2025-07-01T00:00:00'),
+    open_time: '2025-07-01T00:00:00',
     soldCount: 85000,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
@@ -60,7 +60,7 @@ const products: Product[] = [
       '/images/demo-new-products/new-pro-3.png',
     ],
     open_date: '03/07/2025',
-    open_time: new Date('2025-07-03T00:00:00'),
+    open_time: '2025-07-03T00:00:00',
     soldCount: 120000,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
@@ -74,7 +74,7 @@ const products: Product[] = [
       '/images/demo-new-products/new-pro-3.png',
     ],
     open_date: '10/07/2025',
-    open_time: new Date('2025-07-10T00:00:00'),
+    open_time: '2025-07-10T00:00:00',
     soldCount: 95000,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
@@ -194,12 +194,40 @@ function ProductSlide({ product, isActive }: ProductSlideProps) {
 
 export default function NewProducts() {
   const t = useTranslations('new_products');
-  const [current, setCurrent] = useState(0);
+  const [slider, setSlider] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const [itemsPerSlide, setItemsPerSlide] = useState(4);
+  const totalSlides = Math.ceil(products.length / itemsPerSlide);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerSlide(1); // Mobile
+      } else if (window.innerWidth < 1024) {
+        setItemsPerSlide(2); // Tablet
+      } else {
+        setItemsPerSlide(4); // Desktop
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Call once to set initial value
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [mounted]);
 
   const getIndex = (idx: number) => (idx + products.length) % products.length;
 
-  const prev = () => setCurrent((prev) => getIndex(prev - 1));
-  const next = () => setCurrent((prev) => getIndex(prev + 1));
+  const prev = () => setSlider((prev) => getIndex(prev - 1));
+  const next = () => setSlider((prev) => getIndex(prev + 1));
 
   return (
     <section className='w-full bg-gray-50 py-6 sm:py-8'>
@@ -230,13 +258,13 @@ export default function NewProducts() {
               {[-1, 0, 1].map((offset) => (
                 <ProductSlide
                   key={`slide${offset}`}
-                  product={products[getIndex(current + offset)]}
+                  product={products[getIndex(slider + offset)]}
                   isActive={offset === 0}
                 />
               ))}
             </div>
             <div className='lg:hidden'>
-              <ProductSlide product={products[current]} isActive={true} />
+              <ProductSlide product={products[slider]} isActive={true} />
             </div>
           </div>
 

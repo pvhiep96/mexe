@@ -144,6 +144,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
 export default function NewBrands() {
   const t = useTranslations('new_brands');
   const [slider, setSlider] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -155,10 +156,14 @@ export default function NewBrands() {
   const totalSlides = Math.ceil(brandProducts.length / itemsPerSlide);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
     const handleResize = () => {
-      if (typeof window === 'undefined') {
-        setItemsPerSlide(4); // Default for SSR
-      } else if (window.innerWidth < 640) {
+      if (window.innerWidth < 640) {
         setItemsPerSlide(1); // Mobile
       } else if (window.innerWidth < 1024) {
         setItemsPerSlide(2); // Tablet
@@ -167,20 +172,19 @@ export default function NewBrands() {
       }
     };
     
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize);
-      handleResize(); // Call once to set initial value
-    }
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Call once to set initial value
+    
     return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', handleResize);
-      }
+      window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
-    const end = new Date('2025-07-30T23:59:59+07:00');
-    const timer = setInterval(() => {
+    if (!mounted) return;
+    
+    const updateTimer = () => {
+      const end = new Date('2025-07-30T23:59:59+07:00');
       const now = new Date();
       const diff = Math.max(0, end.getTime() - now.getTime());
       setTimeLeft({
@@ -189,9 +193,12 @@ export default function NewBrands() {
         minutes: Math.floor((diff / (1000 * 60)) % 60),
         seconds: Math.floor((diff / 1000) % 60),
       });
-    }, 1000);
+    };
+    
+    updateTimer(); // Initial call
+    const timer = setInterval(updateTimer, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [mounted]);
 
   const prev = () => {
     if (slider > 0) setSlider(slider - 1);
