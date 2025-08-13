@@ -39,15 +39,23 @@ const brandProducts: BrandProduct[] = [
   },
   {
     id: 3,
-    name: 'Gofa',
+    name: 'Ứng dụng Gofa - Định vị thông minh',
     image: '/images/demo-new-brands/demo-new-brand-3.png',
     originalPrice: '1,255,000đ',
     discountedPrice: '727,900đ',
     discount: '-42%',
   },
   {
+    id: 4,
+    name: 'Nước hoa oto cao cấp',
+    image: '/images/demo-new-brands/demo-new-brand-4.png',
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
+  },
+  {
     id: 5,
-    name: 'Nước hoa oto',
+    name: 'Nước hoa oto hương gỗ',
     image: '/images/demo-new-brands/demo-new-brand-4.png',
     originalPrice: '1,080,000đ',
     discountedPrice: '680,400đ',
@@ -55,7 +63,7 @@ const brandProducts: BrandProduct[] = [
   },
   {
     id: 6,
-    name: 'Nước hoa oto',
+    name: 'Nước hoa oto hương hoa',
     image: '/images/demo-new-brands/demo-new-brand-4.png',
     originalPrice: '1,080,000đ',
     discountedPrice: '680,400đ',
@@ -63,15 +71,7 @@ const brandProducts: BrandProduct[] = [
   },
   {
     id: 7,
-    name: 'Nước hoa oto',
-    image: '/images/demo-new-brands/demo-new-brand-4.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 4,
-    name: 'Nước hoa oto',
+    name: 'Nước hoa oto hương cam',
     image: '/images/demo-new-brands/demo-new-brand-4.png',
     originalPrice: '1,080,000đ',
     discountedPrice: '680,400đ',
@@ -88,40 +88,50 @@ function BrandProductCard({ product }: BrandProductCardProps) {
   };
 
   return (
-    <div className='relative mx-2 w-full flex-shrink-0 rounded-xl border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px]'>
-      <div className='absolute top-0 left-0 z-10 flex w-full flex-col items-start'>
-        <div className='rounded-tr-xl bg-red-600 px-3 py-1 text-xs font-semibold text-white'>
+    <div className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-xl border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px]'>
+      {/* Badge labels - đặt trong card */}
+      <div className='absolute top-3 left-3 z-10 flex flex-col items-start gap-2'>
+        <div className='rounded-full bg-gradient-to-r from-red-500 to-red-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg'>
           {t('quality_deal')}
         </div>
-        <div className='mt-1 rounded-bl-xl bg-white px-3 py-1 text-xs font-semibold text-red-600'>
+        <div className='rounded-full bg-white px-4 py-1.5 text-xs font-bold text-red-600 shadow-md border border-red-100'>
           {t('ship_now')}
         </div>
       </div>
-      <Image
-        src={product.image}
-        alt={product.name}
-        width={280}
-        height={160}
-        className='h-40 w-full rounded-t-xl object-cover'
-        style={{ width: 'auto', height: 'auto' }}
-      />
-      <div className='p-3'>
-        <h3 className='line-clamp-2 text-sm font-semibold text-gray-900 sm:text-base'>
-          {product.name}
-        </h3>
-        <div className='mt-2 flex items-center gap-2'>
-          <span className='text-sm text-gray-500 line-through'>
-            {product.originalPrice}
-          </span>
+
+      {/* Ảnh sản phẩm - chiều cao tăng lên nhiều hơn */}
+      <div className='h-70 w-full overflow-hidden rounded-t-xl'>
+        <Image
+          src={product.image}
+          alt={product.name}
+          width={280}
+          height={224}
+          className='h-full w-full'
+        />
+      </div>
+
+      {/* Nội dung sản phẩm - chiều cao điều chỉnh */}
+      <div className='flex h-[170px] flex-col justify-between p-3'>
+        <div className='flex-1'>
+          <h3 className='line-clamp-2 text-sm font-semibold text-gray-900 sm:text-base'>
+            {product.name}
+          </h3>
+          <div className='mt-2 flex items-center gap-2'>
+            <span className='text-sm text-gray-500 line-through'>
+              {product.originalPrice}
+            </span>
+          </div>
+          <div className='mt-1 flex items-center gap-2'>
+            <span className='text-lg font-bold text-red-600'>
+              {product.discountedPrice}
+            </span>
+            <span className='rounded bg-red-600 px-2 py-0.5 text-xs font-semibold text-white'>
+              {product.discount}
+            </span>
+          </div>
         </div>
-        <div className='mt-1 flex items-center gap-2'>
-          <span className='text-lg font-bold text-red-600'>
-            {product.discountedPrice}
-          </span>
-          <span className='rounded bg-red-600 px-2 py-0.5 text-xs font-semibold text-white'>
-            {product.discount}
-          </span>
-        </div>
+        
+        {/* Nút hành động - giảm khoảng cách với thông tin phía trên */}
         <div className='mt-3 flex gap-2'>
           <a
             href={`/products/${product.id}`}
@@ -152,33 +162,11 @@ export default function NewBrands() {
     seconds: 0,
   });
 
-  const [itemsPerSlide, setItemsPerSlide] = useState(4);
-  const totalSlides = Math.ceil(brandProducts.length / itemsPerSlide);
+  const visible = 4; // Số sản phẩm hiển thị cùng lúc
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setItemsPerSlide(1); // Mobile
-      } else if (window.innerWidth < 1024) {
-        setItemsPerSlide(2); // Tablet
-      } else {
-        setItemsPerSlide(4); // Desktop
-      }
-    };
-    
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Call once to set initial value
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [mounted]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -201,26 +189,25 @@ export default function NewBrands() {
   }, [mounted]);
 
   const prev = () => {
-    if (slider > 0) setSlider(slider - 1);
+    if (slider > 0) {
+      setSlider(slider - 1);
+    }
   };
 
   const next = () => {
-    if (slider < totalSlides - 1) setSlider(slider + 1);
+    if (slider < brandProducts.length - visible) {
+      setSlider(slider + 1);
+    }
   };
 
   const goToSlide = (index: number) => {
     setSlider(index);
   };
 
-  const visibleProducts = brandProducts.slice(
-    slider * itemsPerSlide,
-    (slider + 1) * itemsPerSlide
-  );
-
   return (
     <section className='w-full bg-transparent py-6 sm:py-8'>
       <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className='absolute inset-x-0 top-0 z-0 h-[300px] rounded-2xl bg-red-600 sm:h-[320px]'></div>
+        <div className='absolute inset-x-0 top-0 z-0 h-[300px] rounded-2xl bg-orange-500 sm:h-[320px]'></div>
         <div className='relative z-10'>
           <div className='mb-4 flex flex-col items-start justify-between px-4 pt-4 sm:mb-6 sm:flex-row sm:items-center'>
             <div className='flex items-center gap-3'>
@@ -231,19 +218,19 @@ export default function NewBrands() {
             </div>
             <Link
               href='/brands'
-              className='mt-2 flex items-center gap-2 rounded-full border border-white px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-white hover:text-red-600 sm:mt-0'
+              className='mt-2 flex items-center gap-2 rounded-full border border-white px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-white hover:text-orange-500 sm:mt-0'
             >
               {t('view_more')} <ChevronRightIcon className='h-4 w-4' />
             </Link>
           </div>
           <div className='mb-4 flex w-fit items-center gap-4 rounded-full bg-white px-4 py-2 sm:mb-6 sm:gap-6 sm:py-3'>
-            <span className='text-sm font-semibold text-red-600 sm:text-base'>
+            <span className='text-sm font-semibold text-orange-500 sm:text-base'>
               {t('deal_ends')}
             </span>
             <div className='flex items-center gap-2'>
               {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
                 <div key={unit} className='flex flex-col items-center'>
-                  <span className='text-xl font-bold text-red-600 sm:text-2xl'>
+                  <span className='text-xl font-bold text-orange-500 sm:text-2xl'>
                     {String(timeLeft[unit as keyof typeof timeLeft]).padStart(
                       2,
                       '0'
@@ -254,41 +241,57 @@ export default function NewBrands() {
               ))}
             </div>
           </div>
-          <div className='relative'>
+          
+          {/* Slider với hiệu ứng mượt mà */}
+          <div className='relative flex items-center'>
+            {/* Prev button */}
             <button
               onClick={prev}
               disabled={slider === 0}
-              className='absolute top-1/2 left-0 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:-left-12 sm:h-10 sm:w-10'
+              className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
               aria-label={t('prev_slide')}
             >
-              <ChevronLeftIcon className='h-5 w-5 text-red-600 sm:h-6 sm:w-6' />
+              <ChevronLeftIcon className='h-6 w-6 text-orange-500' />
             </button>
-            <div className='flex snap-x snap-mandatory gap-4 overflow-x-auto sm:grid sm:grid-cols-2 lg:grid-cols-4'>
-              {visibleProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className='w-full snap-center sm:min-w-0 md:min-w-[250px]'
-                >
-                  <BrandProductCard product={product} />
-                </div>
-              ))}
+
+            {/* Slider */}
+            <div className='w-full overflow-hidden'>
+              <div
+                className='flex gap-4 transition-transform duration-500 ease-in-out'
+                style={{
+                  transform: `translateX(-${slider * (280 + 16)}px)`,
+                }}
+              >
+                {brandProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className='w-full flex-shrink-0 sm:w-[280px] md:w-[250px]'
+                  >
+                    <BrandProductCard product={product} />
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {/* Next button */}
             <button
               onClick={next}
-              disabled={slider >= totalSlides - 1}
-              className='absolute top-1/2 right-0 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:-right-12 sm:h-10 sm:w-10'
+              disabled={slider >= brandProducts.length - visible}
+              className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
               aria-label={t('next_slide')}
             >
-              <ChevronRightIcon className='h-5 w-5 text-red-600 sm:h-6 sm:w-6' />
+              <ChevronRightIcon className='h-6 w-6 text-orange-500' />
             </button>
           </div>
-          {totalSlides > 1 && (
+          
+          {/* Pagination dots */}
+          {Math.ceil(brandProducts.length / visible) > 1 && (
             <div className='mt-4 flex justify-center gap-2'>
-              {Array.from({ length: totalSlides }).map((_, idx) => (
+              {Array.from({ length: Math.ceil(brandProducts.length / visible) }).map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => goToSlide(idx)}
-                  className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-red-600' : 'bg-gray-300'}`}
+                  className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-orange-500' : 'bg-gray-300'}`}
                 />
               ))}
             </div>

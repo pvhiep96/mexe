@@ -20,8 +20,7 @@ export default function SPWorkspace() {
               height={200}
               className='h-auto w-full rounded'
             />
-            <h3 className='mt-2 text-base font-semibold'>{t('store_intro')}</h3>
-            <p className='text-sm'>{t('location')}</p>
+            <p className='mt-2 text-sm text-gray-600'>{t('location')}</p>
           </div>
           <div>
             <Image
@@ -31,8 +30,7 @@ export default function SPWorkspace() {
               height={200}
               className='h-auto w-full rounded'
             />
-            <h3 className='mt-2 text-base font-semibold'>{t('store_intro')}</h3>
-            <p className='text-sm'>{t('location')}</p>
+            <p className='mt-2 text-sm text-gray-600'>{t('location')}</p>
           </div>
         </div>
       </div>

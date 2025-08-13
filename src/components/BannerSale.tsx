@@ -17,15 +17,17 @@ export default function BannerSale() {
         />
       </div>
       {/* Mobile version */}
-      <div className='my-2 block flex justify-center lg:hidden'>
-        <Image
-          src='/images/banner-sale.webp'
-          alt='Banner Sale'
-          width={400}
-          height={120}
-          className='w-[92%] rounded-xl shadow-lg'
-          priority
-        />
+      <div className='my-3 block lg:hidden'>
+        <div className='container mx-auto px-4'>
+          <Image
+            src='/images/banner-sale.webp'
+            alt='Banner Sale'
+            width={400}
+            height={200}
+            className='w-full h-[150px] rounded-xl shadow-lg'
+            priority
+          />
+        </div>
       </div>
     </div>
   );

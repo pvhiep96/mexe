@@ -98,12 +98,6 @@ export default function Workspace() {
                     fill
                     className='absolute inset-0 h-full w-full object-cover'
                   />
-                  {/* Overlay Giới thiệu */}
-                  <div className='absolute top-[54%] left-1/2 z-10 flex w-[88%] -translate-x-1/2 items-center justify-center rounded-2xl bg-gray-700/70 px-4 py-2'>
-                    <span className='text-center text-lg font-bold text-white drop-shadow'>
-                      Giới thiệu cửa hàng
-                    </span>
-                  </div>
                   {/* Thông tin dưới */}
                   <div className='absolute bottom-3 left-1/2 z-10 flex w-full -translate-x-1/2 flex-row items-center justify-between gap-2'>
                     <div className='ml-2 flex max-w-[60%] items-center rounded-2xl bg-gray-700/90 px-3 py-1 whitespace-pre-line'>
@@ -150,11 +144,6 @@ export default function Workspace() {
                   fill
                   className='absolute inset-0 h-full w-full object-cover'
                 />
-                <div className='absolute top-[54%] left-1/2 z-10 flex w-[90%] -translate-x-1/2 items-center justify-center rounded-xl bg-gray-700/70 px-2 py-1'>
-                  <span className='text-center text-xs font-bold text-white drop-shadow'>
-                    Giới thiệu cửa hàng
-                  </span>
-                </div>
                 <div className='absolute bottom-2 left-1/2 z-10 flex w-full -translate-x-1/2 flex-row items-center justify-between gap-1'>
                   <div className='ml-1 flex max-w-[60%] items-center rounded-xl bg-gray-700/90 px-2 py-1 whitespace-pre-line'>
                     <MapPinIcon className='mr-1 h-3 w-3 flex-shrink-0 text-red-500' />

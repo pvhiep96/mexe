@@ -9,6 +9,17 @@ export default function SPFooter() {
   return (
     <footer className='bg-gray-800 py-4 text-white'>
       <div className='container mx-auto px-4'>
+        {/* Logo MEXE ở phía trên cùng bên phải */}
+        <div className='mb-4 flex justify-end'>
+          <Image
+            src='/images/logo-mexe.png'
+            alt='Mexe Logo'
+            width={60}
+            height={24}
+            className='h-6 w-auto'
+          />
+        </div>
+        
         <div className='flex flex-col space-y-4'>
           <div>
             <h3 className='mb-2 text-base font-semibold'>
@@ -76,14 +87,6 @@ export default function SPFooter() {
                 </a>
               </li>
             </ul>
-          </div>
-          <div>
-            <Image
-              src='/images/footer-logo.png'
-              alt='Mexe Logo'
-              width={80}
-              height={32}
-            />
           </div>
           <div>
             <h3 className='text-base font-semibold'>{t('company')}</h3>

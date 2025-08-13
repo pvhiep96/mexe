@@ -19,7 +19,6 @@ interface Product {
 
 interface ProductSlideProps {
   product: Product;
-  isActive: boolean;
 }
 
 const products: Product[] = [
@@ -32,7 +31,7 @@ const products: Product[] = [
       '/images/demo-new-products/new-pro-3.png',
     ],
     open_date: '15/07/2025',
-    open_time: '2025-07-15T00:00:00',
+    open_time: new Date('2025-07-15T00:00:00'),
     soldCount: 100000,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
@@ -46,7 +45,7 @@ const products: Product[] = [
       '/images/demo-new-products/new-pro-3.png',
     ],
     open_date: '01/07/2025',
-    open_time: '2025-07-01T00:00:00',
+    open_time: new Date('2025-07-01T00:00:00'),
     soldCount: 85000,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
@@ -60,7 +59,7 @@ const products: Product[] = [
       '/images/demo-new-products/new-pro-3.png',
     ],
     open_date: '03/07/2025',
-    open_time: '2025-07-03T00:00:00',
+    open_time: new Date('2025-07-03T00:00:00'),
     soldCount: 120000,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
@@ -74,14 +73,14 @@ const products: Product[] = [
       '/images/demo-new-products/new-pro-3.png',
     ],
     open_date: '10/07/2025',
-    open_time: '2025-07-10T00:00:00',
+    open_time: new Date('2025-07-10T00:00:00'),
     soldCount: 95000,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
   },
 ];
 
-function ProductSlide({ product, isActive }: ProductSlideProps) {
+function ProductSlide({ product }: ProductSlideProps) {
   const t = useTranslations('new_products');
   const { showTooltip } = useFlashTooltip();
   const [width, setWidth] = useState(375);
@@ -109,11 +108,7 @@ function ProductSlide({ product, isActive }: ProductSlideProps) {
   }, []);
 
   return (
-    <div
-      className={`mx-2 flex flex-col items-center rounded-2xl bg-white p-4 shadow-md transition-all duration-500 ease-in-out sm:flex-row ${
-        isActive ? 'z-20 scale-100' : 'z-10 scale-95 opacity-70'
-      } h-[300px] w-full sm:h-[200px] sm:w-[500px] lg:w-[400px]`}
-    >
+    <div className='mx-2 flex h-[300px] w-[400px] flex-col items-center rounded-2xl bg-white p-4 shadow-md transition-all duration-500 ease-in-out sm:h-[200px] sm:flex-row sm:w-[500px]'>
       {/* Images */}
       <div
         className='mr-[5px] grid grid-cols-2 grid-rows-2 gap-0 overflow-hidden'
@@ -196,87 +191,147 @@ export default function NewProducts() {
   const t = useTranslations('new_products');
   const [slider, setSlider] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [itemsPerSlide, setItemsPerSlide] = useState(4);
-  const totalSlides = Math.ceil(products.length / itemsPerSlide);
+  const visible = 3; // Số sản phẩm hiển thị cùng lúc
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
-    
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setItemsPerSlide(1); // Mobile
-      } else if (window.innerWidth < 1024) {
-        setItemsPerSlide(2); // Tablet
-      } else {
-        setItemsPerSlide(4); // Desktop
-      }
-    };
-    
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Call once to set initial value
-    
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [mounted]);
+  const prev = () => {
+    if (slider > 0) {
+      setSlider(slider - 1);
+    }
+  };
 
-  const getIndex = (idx: number) => (idx + products.length) % products.length;
-
-  const prev = () => setSlider((prev) => getIndex(prev - 1));
-  const next = () => setSlider((prev) => getIndex(prev + 1));
+  const next = () => {
+    if (slider < products.length - visible) {
+      setSlider(slider + 1);
+    }
+  };
 
   return (
-    <section className='w-full bg-gray-50 py-6 sm:py-8'>
-      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className='mb-4 flex flex-col items-center'>
-          <h2 className='text-2xl font-extrabold text-[#0A115F] sm:text-3xl'>
-            {t('title')}
-          </h2>
-          <Link
-            href='/products'
-            className='mt-2 rounded-full bg-gray-400 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-gray-500'
-          >
-            {t('explore_more')}
-          </Link>
-        </div>
-
-        <div className='relative flex items-center justify-center'>
-          <button
-            onClick={prev}
-            className='absolute top-1/2 left-0 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition-all hover:scale-110 sm:h-10 sm:w-10'
-            aria-label={t('prev_slide')}
-          >
-            <ChevronLeftIcon className='h-5 w-5 text-gray-700 sm:h-6 sm:w-6' />
-          </button>
-
-          <div className='flex w-full justify-center overflow-hidden'>
-            <div className='hidden justify-center space-x-4 lg:flex'>
-              {[-1, 0, 1].map((offset) => (
-                <ProductSlide
-                  key={`slide${offset}`}
-                  product={products[getIndex(slider + offset)]}
-                  isActive={offset === 0}
-                />
-              ))}
+    <div>
+      {/* Desktop version */}
+      <div className='hidden lg:block'>
+        <section className='w-full bg-gray-50 py-6 sm:py-8'>
+          <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+            <div className='mb-4 flex flex-col items-center'>
+              <h2 className='text-2xl font-extrabold text-[#0A115F] sm:text-3xl'>
+                {t('title')}
+              </h2>
+              <Link
+                href='/products'
+                className='mt-2 rounded-full bg-gray-400 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-gray-500'
+              >
+                {t('explore_more')}
+              </Link>
             </div>
-            <div className='lg:hidden'>
-              <ProductSlide product={products[slider]} isActive={true} />
+
+            <div className='relative flex items-center justify-center'>
+              {/* Prev button */}
+              <button
+                onClick={prev}
+                disabled={slider === 0}
+                className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                aria-label={t('prev_slide')}
+              >
+                <ChevronLeftIcon className='h-6 w-6 text-gray-700' />
+              </button>
+
+              {/* Slider */}
+              <div className='w-full overflow-hidden'>
+                <div
+                  className='flex transition-transform duration-500 ease-in-out'
+                  style={{
+                    transform: `translateX(-${slider * 420}px)`,
+                  }}
+                >
+                  {products.map((product, idx) => (
+                    <ProductSlide key={product.id} product={product} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Next button */}
+              <button
+                onClick={next}
+                disabled={slider >= products.length - visible}
+                className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                aria-label={t('next_slide')}
+              >
+                <ChevronRightIcon className='h-6 w-6 text-gray-700' />
+              </button>
             </div>
           </div>
-
-          <button
-            onClick={next}
-            className='absolute top-1/2 right-0 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition-all hover:scale-110 sm:h-10 sm:w-10'
-            aria-label={t('next_slide')}
-          >
-            <ChevronRightIcon className='h-5 w-5 text-gray-700 sm:h-6 sm:w-6' />
-          </button>
-        </div>
+        </section>
       </div>
-    </section>
+
+      {/* Mobile version */}
+      <div className='block lg:hidden'>
+        <section className='w-full bg-gray-50 py-4'>
+          <div className='container mx-auto px-4'>
+            <div className='mb-4 flex flex-col items-center'>
+              <h2 className='text-lg font-extrabold text-[#0A115F]'>
+                {t('title')}
+              </h2>
+              <Link
+                href='/products'
+                className='mt-2 rounded-full bg-gray-400 px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-gray-500'
+              >
+                {t('explore_more')}
+              </Link>
+            </div>
+            
+            {/* Mobile slider với khả năng vuốt sang bên */}
+            <div 
+              className='flex gap-3 overflow-x-auto pb-2'
+              style={{
+                scrollbarWidth: 'none', /* Firefox */
+                msOverflowStyle: 'none', /* Internet Explorer 10+ */
+              }}
+            >
+              {/* Ẩn scrollbar cho Webkit browsers (Chrome, Safari, Edge) */}
+              <style jsx>{`
+                div::-webkit-scrollbar {
+                  display: none;
+                }
+              `}</style>
+              
+              {products.map((product) => (
+                <div
+                  key={product.id}
+                  className='flex min-w-[200px] flex-col items-center rounded-xl bg-white p-3 shadow'
+                >
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    width={200}
+                    height={160}
+                    className='mb-2 h-32 w-full rounded object-cover'
+                  />
+                  <div className='mb-2 text-center text-xs font-bold'>
+                    {product.name.length > 50 
+                      ? `${product.name.slice(0, 50)}...` 
+                      : product.name}
+                  </div>
+                  <div className='mb-2 text-center text-xs text-gray-500'>
+                    {t('sold', { count: product.soldCount.toLocaleString('vi-VN') })}
+                  </div>
+                  <button 
+                    onClick={() => {
+                      const { showTooltip } = useFlashTooltip();
+                      showTooltip(t('buy_now_success'), 'success');
+                    }}
+                    className='rounded-full bg-red-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-red-600'
+                  >
+                    {t('buy_now')}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
   );
 }

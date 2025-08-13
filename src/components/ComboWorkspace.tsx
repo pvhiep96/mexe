@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
@@ -21,7 +21,7 @@ interface ComboCardProps {
 const combos: Combo[] = [
   {
     id: 1,
-    name: 'Combo 1',
+    name: 'BẠT PHỦ VẢI DÙ OXFORD',
     image: '/images/demo-combo/demo-combo-1.png',
     tags: [
       'Camera hành trình',
@@ -32,7 +32,7 @@ const combos: Combo[] = [
   },
   {
     id: 2,
-    name: 'Combo 2',
+    name: '2 trong 1 Búa an toàn',
     image: '/images/demo-combo/demo-combo-2.png',
     tags: [
       'Sạc nhanh ô tô',
@@ -43,19 +43,19 @@ const combos: Combo[] = [
   },
   {
     id: 3,
-    name: 'Combo 3',
+    name: 'Camera Hành Trình 3K',
     image: '/images/demo-combo/demo-combo-3.png',
     tags: ['Bơm lốp điện tử', 'Tẩu sạc đa năng', 'Gối tựa đầu', 'Bọc ghế da'],
   },
   {
     id: 4,
-    name: 'Combo 4',
+    name: 'Giá Điện Thoại Ô Tô',
     image: '/images/demo-combo/demo-combo-4.png',
     tags: ['Bọc trần 5D', 'Ốp gương chiếu hậu', 'Ốp tay cửa', 'Chắn bùn'],
   },
   {
     id: 5,
-    name: 'Combo 5',
+    name: 'Quà Tặng Trị Giá 169K',
     image: '/images/demo-combo/demo-combo-5.png',
     tags: [
       'Cảm biến lùi',
@@ -66,13 +66,13 @@ const combos: Combo[] = [
   },
   {
     id: 6,
-    name: 'Combo 6',
+    name: 'GỐI TỰA LƯNG MASSAGE 6 CHẾ ĐỘ',
     image: '/images/demo-combo/demo-combo-6.png',
     tags: ['Gương cầu lồi', 'Ốp bậc lên xuống', 'Tấm che nắng', 'Bọc cần số'],
   },
   {
     id: 7,
-    name: 'Combo 7',
+    name: 'BẠT PHỦ VẢI DÙ OXFORD',
     image: '/images/demo-combo/demo-combo-1.png',
     tags: [
       'Bọc ghế da',
@@ -83,9 +83,54 @@ const combos: Combo[] = [
   },
   {
     id: 8,
-    name: 'Combo 8',
+    name: '2 trong 1 Búa an toàn',
     image: '/images/demo-combo/demo-combo-2.png',
     tags: ['Bọc trần 5D', 'Ốp gương chiếu hậu', 'Ốp tay cửa', 'Chắn bùn'],
+  },
+  // Thêm 4 items mới để tạo trang thứ 2
+  {
+    id: 9,
+    name: 'Đèn LED Nội Thất Ô Tô',
+    image: '/images/demo-combo/demo-combo-3.png',
+    tags: [
+      'Đèn LED trần',
+      'Đèn LED cửa',
+      'Đèn LED khoang hành lý',
+      'Điều khiển từ xa',
+    ],
+  },
+  {
+    id: 10,
+    name: 'Bộ Vệ Sinh Nội Thất Cao Cấp',
+    image: '/images/demo-combo/demo-combo-4.png',
+    tags: [
+      'Chất tẩy rửa da',
+      'Bàn chải chuyên dụng',
+      'Khăn microfiber',
+      'Xịt khử mùi',
+    ],
+  },
+  {
+    id: 11,
+    name: 'Hệ Thống Âm Thanh Ô Tô',
+    image: '/images/demo-combo/demo-combo-5.png',
+    tags: [
+      'Loa subwoofer',
+      'Ampli công suất',
+      'Dây tín hiệu',
+      'Bộ lọc âm thanh',
+    ],
+  },
+  {
+    id: 12,
+    name: 'Bộ Bảo Vệ Động Cơ',
+    image: '/images/demo-combo/demo-combo-6.png',
+    tags: [
+      'Tấm chắn bùn động cơ',
+      'Bảo vệ khung gầm',
+      'Chống va đập',
+      'Chống gỉ sét',
+    ],
   },
 ];
 
@@ -100,14 +145,13 @@ function ComboCard({ combo }: ComboCardProps) {
   };
 
   return (
-    <div className='group relative overflow-hidden rounded-xl bg-black/10 shadow-md'>
+    <div className='group relative h-[258px] overflow-hidden rounded-xl bg-white shadow-md'>
       <Image
         src={combo.image}
         alt={combo.name}
         width={300}
-        height={288}
-        className='h-64 w-full object-cover transition group-hover:brightness-75'
-        style={{ width: 'auto', height: 'auto' }}
+        height={258}
+        className='h-full w-full object-cover transition group-hover:brightness-75'
       />
       <button
         onClick={handleViewClick}
@@ -132,19 +176,37 @@ function ComboCard({ combo }: ComboCardProps) {
 
 export default function ComboWorkspace() {
   const t = useTranslations('combo_workspace');
+  const { showTooltip } = useFlashTooltip();
   const [slider, setSlider] = useState(0);
-  const totalSlides = Math.ceil(combos.length / ITEMS_PER_PAGE);
+  const [currentPage, setCurrentPage] = useState(0); // Thêm state cho current page
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const totalSlides = Math.ceil(combos.length / 8);
 
   const prev = () => {
-    if (slider > 0) setSlider(slider - 1);
+    setSlider((prev) => Math.max(0, prev - 1));
+    setCurrentPage((prev) => Math.max(0, prev - 1)); // Cập nhật current page
   };
 
   const next = () => {
-    if (slider < totalSlides - 1) setSlider(slider + 1);
+    setSlider((prev) => Math.min(totalSlides - 1, prev + 1));
+    setCurrentPage((prev) => Math.min(totalSlides - 1, prev + 1)); // Cập nhật current page
   };
 
   const goToSlide = (index: number) => {
     setSlider(index);
+    setCurrentPage(index); // Cập nhật current page
+  };
+
+  const goToPage = (pageIndex: number) => {
+    if (scrollContainerRef.current) {
+      const containerWidth = scrollContainerRef.current.clientWidth;
+      scrollContainerRef.current.scrollTo({
+        left: pageIndex * containerWidth,
+        behavior: 'smooth'
+      });
+      setCurrentPage(pageIndex);
+    }
   };
 
   const visibleCombos = combos.slice(
@@ -153,60 +215,198 @@ export default function ComboWorkspace() {
   );
 
   return (
-    <section className='w-full bg-gray-50 py-6 sm:py-8'>
-      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className='mb-4 flex flex-col items-center justify-between sm:mb-6 sm:flex-row'>
-          <h2 className='text-2xl font-extrabold text-gray-900 sm:text-3xl'>
-            {t('title')}
-          </h2>
-          <Link
-            href='/combos'
-            className='mt-2 flex items-center gap-2 rounded-full border border-gray-400 px-4 py-1.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white sm:mt-0'
-          >
-            {t('explore_more')} <ChevronRightIcon className='h-4 w-4' />
-          </Link>
-        </div>
-        <div className='relative'>
-          <button
-            onClick={prev}
-            disabled={slider === 0}
-            className='absolute top-1/2 left-0 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 bg-white shadow-md transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:-left-12 sm:h-10 sm:w-10'
-            aria-label={t('prev_slide')}
-          >
-            <ChevronLeftIcon className='h-5 w-5 text-gray-700 sm:h-6 sm:w-6' />
-          </button>
-          <div className='flex snap-x snap-mandatory gap-4 overflow-x-auto sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-4'>
-            {visibleCombos.map((combo) => (
-              <div
-                key={combo.id}
-                className='min-w-[280px] snap-center sm:min-w-0'
+    <>
+      {/* Desktop version */}
+      <div className='hidden lg:block'>
+        <section className='w-full bg-gray-50 py-6 sm:py-8'>
+          <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+            <div className='mb-4 flex flex-col items-center justify-between sm:mb-6 sm:flex-row'>
+              <h2 className='text-2xl font-extrabold text-gray-900 sm:text-3xl'>
+                {t('title')}
+              </h2>
+              <Link
+                href='/combos'
+                className='mt-2 flex items-center gap-2 rounded-full border border-gray-400 px-4 py-1.5 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white sm:mt-0'
               >
-                <ComboCard combo={combo} />
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={next}
-            disabled={slider >= totalSlides - 1}
-            className='absolute top-1/2 right-0 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 bg-white shadow-md transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:-right-12 sm:h-10 sm:w-10'
-            aria-label={t('next_slide')}
-          >
-            <ChevronRightIcon className='h-5 w-5 text-gray-700 sm:h-6 sm:w-6' />
-          </button>
-        </div>
-        {totalSlides > 1 && (
-          <div className='mt-4 flex justify-center gap-2'>
-            {Array.from({ length: totalSlides }).map((_, idx) => (
+                {t('explore_more')} <ChevronRightIcon className='h-4 w-4' />
+              </Link>
+            </div>
+            
+            {/* Slider với hiệu ứng mượt mà */}
+            <div className='relative flex items-center'>
+              {/* Prev button */}
               <button
-                key={idx}
-                onClick={() => goToSlide(idx)}
-                className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-gray-900' : 'bg-gray-300'}`}
-                aria-label={t('go_to_slide', { number: idx + 1 })}
-              />
-            ))}
+                onClick={prev}
+                disabled={slider === 0}
+                className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                aria-label={t('prev_slide')}
+              >
+                <ChevronLeftIcon className='h-6 w-6 text-gray-700' />
+              </button>
+
+              {/* Slider container */}
+              <div className='w-full overflow-hidden bg-white rounded-xl'>
+                <div
+                  className='flex transition-transform duration-500 ease-in-out'
+                  style={{
+                    transform: `translateX(-${slider * 100}%)`,
+                  }}
+                >
+                  {/* Trang 1 */}
+                  <div className='w-full flex-shrink-0 p-4'>
+                    <div className='grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4'>
+                      {combos.slice(0, 8).map((combo) => (
+                        <div key={combo.id}>
+                          <ComboCard combo={combo} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Trang 2 */}
+                  <div className='w-full flex-shrink-0 p-4'>
+                    <div className='grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4'>
+                      {combos.slice(8, 12).map((combo) => (
+                        <div key={combo.id}>
+                          <ComboCard combo={combo} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Next button */}
+              <button
+                onClick={next}
+                disabled={slider >= totalSlides - 1}
+                className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                aria-label={t('next_slide')}
+              >
+                <ChevronRightIcon className='h-6 w-6 text-gray-700' />
+              </button>
+            </div>
+            
+            {/* Pagination dots */}
+            {totalSlides > 1 && (
+              <div className='mt-4 flex justify-center gap-2'>
+                {Array.from({ length: totalSlides }).map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => goToPage(idx)}
+                    className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-gray-900' : 'bg-gray-300'}`}
+                    aria-label={t('go_to_slide', { number: idx + 1 })}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </section>
       </div>
-    </section>
+
+      {/* Mobile version */}
+      <div className='block lg:hidden'>
+        <section className='w-full bg-white py-2 sm:py-3'>
+          <div className='container mx-auto px-2 sm:px-3'>
+            <div className='mb-3 flex flex-col items-center justify-between sm:mb-4 sm:flex-row'>
+              <h2 className='text-sm font-extrabold text-gray-900 sm:text-base lg:text-lg'>
+                {t('title')}
+              </h2>
+              <Link
+                href='/combos'
+                className='mt-1 flex items-center gap-1 rounded-full border border-gray-400 px-2 py-1 text-xs font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white sm:mt-0 sm:gap-2 sm:px-3 sm:text-sm'
+              >
+                {t('explore_more')} <ChevronRightIcon className='h-3 w-3' />
+              </Link>
+            </div>
+            
+            {/* Mobile slider với 8 items 1 trang chia 2 hàng - giống hệt vaithuhay.com */}
+            <div className='relative bg-white rounded-xl overflow-hidden'>
+              <div 
+                ref={scrollContainerRef}
+                className='flex overflow-x-auto bg-white'
+                style={{
+                  scrollbarWidth: 'none', /* Firefox */
+                  msOverflowStyle: 'none', /* Internet Explorer 10+ */
+                }}
+                onScroll={(e) => {
+                  const target = e.target as HTMLDivElement;
+                  const scrollLeft = target.scrollLeft;
+                  const containerWidth = target.clientWidth;
+                  const newPage = Math.round(scrollLeft / containerWidth);
+                  setCurrentPage(newPage);
+                }}
+              >
+                {/* Ẩn scrollbar cho Webkit browsers (Chrome, Safari, Edge) */}
+                <style jsx>{`
+                  div::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}</style>
+                
+                {/* Trang 1 - 8 items chia 2 hàng */}
+                <div className='min-w-[100%] flex-shrink-0 px-3 py-4 bg-white'>
+                  <div className='grid grid-cols-2 gap-3 sm:gap-4'>
+                    {combos.slice(0, 8).map((combo) => (
+                      <div key={combo.id} className='bg-white'>
+                        <MobileComboCard combo={combo} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Trang 2 - 4 items còn lại chia 2 hàng */}
+                <div className='min-w-[100%] flex-shrink-0 px-3 py-4 bg-white'>
+                  <div className='grid grid-cols-2 gap-3 sm:gap-4'>
+                    {combos.slice(8, 12).map((combo) => (
+                      <div key={combo.id} className='bg-white'>
+                        <MobileComboCard combo={combo} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Pagination dots giống hệt vaithuhay.com */}
+              <div className='mt-2 flex justify-center gap-2'>
+                {Array.from({ length: 2 }).map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => goToPage(idx)}
+                    className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${
+                      idx === currentPage ? 'bg-gray-900' : 'border border-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
+  );
+}
+
+// Mobile ComboCard component - giống hệt vaithuhay.com với layout 2x4
+function MobileComboCard({ combo }: ComboCardProps) {
+  const t = useTranslations('combo_workspace');
+  const { showTooltip } = useFlashTooltip();
+
+  const handleViewClick = () => {
+    showTooltip(t('view_alert'), 'noti');
+  };
+
+  return (
+    <div className='group relative h-[110px] sm:h-[120px] md:h-[140px] overflow-hidden rounded-lg bg-white shadow-lg'>
+      <Image
+        src={combo.image}
+        alt={combo.name}
+        width={140}
+        height={140}
+        className='h-full w-full transition group-hover:brightness-75'
+      />
+      
+      {/* Bỏ hoàn toàn các tag hình tròn và nút View - chỉ giữ lại ảnh */}
+    </div>
   );
 }

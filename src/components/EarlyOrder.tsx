@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useState } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
 interface Product {
   id: number;
@@ -27,8 +27,9 @@ interface Tab {
 export default function EarlyOrder() {
   const t = useTranslations('early_order');
   const [activeTab, setActiveTab] = useState(0);
-  const [sliders, setSliders] = useState([0, 0, 0, 0, 0, 0]);
-  const visible = 4;
+  const [sliders, setSliders] = useState([0, 0, 0, 0]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const visible = 3;
 
   const tabs: Tab[] = [
     { name: 'Dự án thịnh hành' },
@@ -429,9 +430,58 @@ export default function EarlyOrder() {
             <h2 className='mb-4 text-center text-lg font-extrabold tracking-wide text-[#0A115F]'>
               ĐẶT HÀNG SỚM
             </h2>
-            {/* Example slider for mobile, repeat for each product */}
-            <div className='flex gap-3 overflow-x-auto pb-2'>
-              {products[0].slice(0, 3).map((product) => (
+            
+            {/* Mobile Custom Dropdown */}
+            <div className='mb-4 flex w-full justify-center'>
+              <div className='relative'>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className='flex items-center justify-between rounded-full border border-gray-300 bg-white px-4 py-2.5 pr-8 text-sm font-medium text-[#0A115F] shadow-sm transition-all duration-200 hover:border-[#0A115F] hover:shadow-md focus:border-[#0A115F] focus:outline-none focus:ring-2 focus:ring-[#0A115F]/20'
+                >
+                  <span className='mr-2'>{tabs[activeTab].name}</span>
+                  <ChevronDownIcon className={`h-4 w-4 text-[#0A115F] transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {/* Dropdown Menu */}
+                {isDropdownOpen && (
+                  <div className='absolute left-0 right-0 top-full z-10 mt-1 rounded-xl border border-gray-200 bg-white py-2 shadow-lg'>
+                    {tabs.map((tab, i) => (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          setActiveTab(i);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full px-4 py-2.5 text-left text-sm transition-colors duration-200 first:rounded-t-xl last:rounded-b-xl hover:bg-[#0A115F]/5 ${
+                          activeTab === i 
+                            ? 'bg-[#0A115F]/10 text-[#0A115F] font-semibold' 
+                            : 'text-gray-700 hover:text-[#0A115F]'
+                        }`}
+                      >
+                        {tab.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {/* Mobile slider với dropdown */}
+            <div 
+              className='flex gap-3 overflow-x-auto pb-2'
+              style={{
+                scrollbarWidth: 'none', /* Firefox */
+                msOverflowStyle: 'none', /* Internet Explorer 10+ */
+              }}
+            >
+              {/* Ẩn scrollbar cho Webkit browsers (Chrome, Safari, Edge) */}
+              <style jsx>{`
+                div::-webkit-scrollbar {
+                  display: none;
+                }
+              `}</style>
+              
+              {products[activeTab].slice(0, 3).map((product) => (
                 <div
                   key={product.id}
                   className='flex min-w-[220px] flex-col items-center rounded-xl bg-white p-3 shadow'

@@ -436,7 +436,7 @@ export default function Banner() {
                       alt={image.alt}
                       width={image.width}
                       height={image.height}
-                      className='h-auto w-full rounded-lg object-cover'
+                      className='h-[280px] w-full rounded-xl object-cover'
                     />
                   </Link>
                 </div>
