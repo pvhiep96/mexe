@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 interface LoginFormProps {
   onSwitchToRegister: () => void;
   onSwitchToForgot: () => void;
-  onLogin: (email: string, password: string) => void;
+  onLogin: (email: string, password: string) => Promise<void>;
 }
 
 export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogin }: LoginFormProps) {
@@ -13,6 +13,8 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
     password: '',
     rememberMe: false,
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -20,11 +22,46 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email là bắt buộc';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email không hợp lệ';
+    }
+    
+    if (!formData.password.trim()) {
+      newErrors.password = 'Mật khẩu là bắt buộc';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onLogin(formData.email, formData.password);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      await onLogin(formData.email, formData.password);
+    } catch (error) {
+      // Error will be handled by parent component
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
@@ -44,10 +81,17 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
           name='email'
           value={formData.email}
           onChange={handleInputChange}
-          className='w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2D6294] focus:outline-none focus:ring-1 focus:ring-[#2D6294]'
+          className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-1 ${
+            errors.email 
+              ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+              : 'border-gray-300 focus:border-[#2D6294] focus:ring-[#2D6294]'
+          }`}
           placeholder='Nhập email của bạn'
           required
         />
+        {errors.email && (
+          <p className='mt-1 text-sm text-red-600'>{errors.email}</p>
+        )}
       </div>
 
       <div>
@@ -60,10 +104,17 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
           name='password'
           value={formData.password}
           onChange={handleInputChange}
-          className='w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2D6294] focus:outline-none focus:ring-1 focus:ring-[#2D6294]'
+          className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-1 ${
+            errors.password 
+              ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
+              : 'border-gray-300 focus:border-[#2D6294] focus:ring-[#2D6294]'
+          }`}
           placeholder='Nhập mật khẩu'
           required
         />
+        {errors.password && (
+          <p className='mt-1 text-sm text-red-600'>{errors.password}</p>
+        )}
       </div>
 
       <div className='flex items-center justify-between'>
@@ -88,9 +139,17 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
 
       <button
         type='submit'
-        className='w-full rounded-lg bg-[#2D6294] px-4 py-3 text-white font-medium hover:bg-[#2D6294]/90 transition-colors'
+        disabled={isLoading}
+        className='w-full rounded-lg bg-[#2D6294] px-4 py-3 text-white font-medium hover:bg-[#2D6294]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
       >
-        Đăng nhập
+        {isLoading ? (
+          <div className='flex items-center justify-center'>
+            <div className='animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2'></div>
+            Đang đăng nhập...
+          </div>
+        ) : (
+          'Đăng nhập'
+        )}
       </button>
 
       {/* Social Login */}

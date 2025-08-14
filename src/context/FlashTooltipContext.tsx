@@ -28,7 +28,7 @@ export function FlashTooltipProvider({ children }: { children: ReactNode }) {
       setIsVisible(false);
       setMessage('');
       setAlertType('success');
-    }, 300000);
+    }, 4000); // 4 seconds
   };
 
   return (

@@ -11,6 +11,7 @@ const locales = ['en', 'vi'];
 import { routing } from '@/i18n/routing';
 import { CartProvider } from '@/context/CartContext';
 import { FlashTooltipProvider } from '@/context/FlashTooltipContext';
+import { AuthProvider } from '@/context/AuthContext';
 import Alert from '@/components/Alert';
 
 export default async function RootLayout({
@@ -90,17 +91,19 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <CartProvider>
             <FlashTooltipProvider>
-              {/* Desktop Header */}
-              <div className='sticky top-0 z-50 hidden bg-white lg:block'>
-                <Header />
-              </div>
-              {/* Mobile Header */}
-              <div className='sticky top-0 z-50 bg-white lg:hidden'>
-                <SPHeader />
-              </div>
-              <Alert />
-              {children}
-              <Footer />
+              <AuthProvider>
+                {/* Desktop Header */}
+                <div className='sticky top-0 z-50 hidden bg-white lg:block'>
+                  <Header />
+                </div>
+                {/* Mobile Header */}
+                <div className='sticky top-0 z-50 bg-white lg:hidden'>
+                  <SPHeader />
+                </div>
+                <Alert />
+                {children}
+                <Footer />
+              </AuthProvider>
             </FlashTooltipProvider>
           </CartProvider>
         </NextIntlClientProvider>
