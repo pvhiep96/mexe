@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
 import { useTranslations } from 'next-intl';
+import { useFlashTooltip } from '@/context/FlashTooltipContext';
 
 const PRODUCT_MOCK = {
   id: 'den-led-xe-o-to-cao-cap',
@@ -78,10 +79,12 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
     }
   };
   const { addToCart } = useCart();
+  const { showTooltip } = useFlashTooltip();
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleAddToCart = () => {
     addToCart(product);
+    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
     setSuccessMessage(t('add_to_cart_success'));
     setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
   };
@@ -282,7 +285,10 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               </div>
 
               {/* Add to Cart Button */}
-              <button className='flex h-[48px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 sm:px-6 py-2 text-gray-700 transition-colors hover:bg-gray-200 min-w-[60px] sm:min-w-[70px]'>
+              <button 
+                onClick={handleAddToCart}
+                className='flex h-[48px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 sm:px-6 py-2 text-gray-700 transition-colors hover:bg-gray-200 min-w-[60px] sm:min-w-[70px]'
+              >
                 <div className='relative'>
                   <ShoppingCartIcon className='h-6 w-6 sm:h-8 sm:w-8' />
                   <div className='absolute -top-1 -right-1 flex h-3 w-3 sm:h-4 sm:w-4 items-center justify-center rounded-full bg-gray-700'>
@@ -294,10 +300,12 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
               {/* Buy Now Button */}
               <div className='relative inline-block'>
                 <button
-                  onClick={handleAddToCart}
+                  onClick={() => {
+                    showTooltip('Đặt hàng thành công!', 'success');
+                  }}
                   className='flex-1 cursor-pointer rounded-lg bg-gray-800 px-4 sm:px-8 py-2 sm:py-3 font-bold text-white transition-colors hover:bg-gray-900 h-[48px] flex items-center justify-center text-sm sm:text-base whitespace-nowrap min-w-[100px] sm:min-w-[120px]'
                 >
-                  {t('add_to_cart')}
+                  Mua hàng
                 </button>
                 {successMessage && (
                   <div className='animate-fade-in absolute bottom-full left-1/2 mb-2 w-100 -translate-x-1/2 transform rounded-lg bg-green-600 px-4 py-2 text-sm text-white shadow-lg'>

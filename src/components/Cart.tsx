@@ -72,8 +72,28 @@ const shippingConditions = [
 ];
 
 function CartItem({ item }: CartItemProps) {
-  const t = useTranslations('cart');
-  const { updateQuantity } = useCart();
+  // Fallback translations if useTranslations fails
+  const fallbackTranslations: Record<string, string> = {
+    'quantity': 'Số lượng',
+    'decrease_quantity': 'Giảm số lượng',
+    'increase_quantity': 'Tăng số lượng',
+    'quantity_updated': 'Cập nhật số lượng thành công!',
+    'remove_item': 'Xóa sản phẩm',
+    'item_removed': 'Đã xóa sản phẩm khỏi giỏ hàng!'
+  };
+
+  // Safe translation function
+  const safeTranslate = (key: string) => {
+    try {
+      const t = useTranslations('cart');
+      return t(key);
+    } catch (error) {
+      console.warn(`Translation failed for key "${key}", using fallback:`, error);
+      return fallbackTranslations[key] || key;
+    }
+  };
+  
+  const { updateQuantity, removeItem } = useCart();
   const { showTooltip } = useFlashTooltip();
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -81,7 +101,20 @@ function CartItem({ item }: CartItemProps) {
     if (newQuantity >= 1) {
       setQuantity(newQuantity);
       updateQuantity(item.id, newQuantity);
-      showTooltip(t('quantity_updated'), 'noti');
+      try {
+        showTooltip(safeTranslate('quantity_updated'), 'noti');
+      } catch (error) {
+        showTooltip('Cập nhật số lượng thành công!', 'noti');
+      }
+    }
+  };
+
+  const handleRemoveItem = () => {
+    removeItem(item.id);
+    try {
+      showTooltip(safeTranslate('item_removed'), 'success');
+    } catch (error) {
+      showTooltip('Đã xóa sản phẩm khỏi giỏ hàng!', 'success');
     }
   };
 
@@ -95,23 +128,23 @@ function CartItem({ item }: CartItemProps) {
         />
         <Image
           src={item.image}
-          alt={t(item.name)}
+          alt={item.name}
           width={80}
           height={80}
           className='size-20 rounded object-cover sm:size-24'
         />
         <div>
           <h3 className='text-base font-semibold text-gray-900 sm:text-lg'>
-            {t(item.name)}
+            {item.name}
           </h3>
           <p className='mt-1 text-sm text-gray-500'>
-            {t('quantity')}: {quantity}
+            {safeTranslate('quantity')}: {quantity}
           </p>
           <div className='mt-2 flex items-center gap-2'>
             <button
               onClick={() => handleQuantityChange(quantity - 1)}
               className='rounded bg-gray-100 px-2 py-1 hover:bg-gray-200'
-              aria-label={t('decrease_quantity')}
+              aria-label={safeTranslate('decrease_quantity')}
             >
               -
             </button>
@@ -119,14 +152,21 @@ function CartItem({ item }: CartItemProps) {
             <button
               onClick={() => handleQuantityChange(quantity + 1)}
               className='rounded bg-gray-100 px-2 py-1 hover:bg-gray-200'
-              aria-label={t('increase_quantity')}
+              aria-label={safeTranslate('increase_quantity')}
             >
               +
             </button>
           </div>
         </div>
       </div>
-      <div className='mt-4 text-right sm:mt-0'>
+      <div className='mt-4 flex flex-col items-end gap-2 sm:mt-0'>
+        <button
+          onClick={handleRemoveItem}
+          className='rounded bg-red-100 px-3 py-1 text-sm text-red-600 hover:bg-red-200 transition-colors'
+          aria-label={safeTranslate('remove_item')}
+        >
+          Xóa
+        </button>
         <p className='text-lg font-semibold text-blue-600'>
           {(item.price * quantity).toLocaleString('vi-VN')}đ
         </p>
@@ -146,28 +186,71 @@ function CartItem({ item }: CartItemProps) {
 }
 
 function ShippingConditionCard({ condition }: ShippingConditionCardProps) {
-  const t = useTranslations('cart');
+  // Fallback translations if useTranslations fails
+  const fallbackTranslations: Record<string, string> = {
+    'free_shipping': 'Miễn Phí Vận Chuyển',
+    'free_shipping_desc': 'Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ',
+    'fast_delivery': 'Giao Hàng Nhanh',
+    'fast_delivery_desc': 'Giao hàng siêu tốc trong 24 giờ',
+    'secure_payment': 'Thanh Toán Bảo Mật',
+    'secure_payment_desc': 'Các tùy chọn thanh toán an toàn và bảo mật',
+    'easy_returns': 'Đổi Trả Dễ Dàng',
+    'easy_returns_desc': 'Đổi trả dễ dàng trong vòng 30 ngày'
+  };
+
+  // Safe translation function
+  const safeTranslate = (key: string) => {
+    try {
+      const t = useTranslations('cart');
+      return t(key);
+    } catch (error) {
+      console.warn(`Translation failed for key "${key}", using fallback:`, error);
+      return fallbackTranslations[key] || key;
+    }
+  };
+  
   return (
     <div className='flex items-center rounded-lg bg-white p-4 shadow-sm transition hover:bg-gray-50'>
       <Image
         src={condition.image}
-        alt={t(condition.nameKey)}
+        alt={safeTranslate(condition.nameKey)}
         width={60}
         height={60}
         className='mr-4 size-16 rounded object-cover'
       />
       <div>
         <h3 className='text-sm font-semibold text-gray-900'>
-          {t(condition.nameKey)}
+          {safeTranslate(condition.nameKey)}
         </h3>
-        <p className='text-sm text-gray-500'>{t(condition.descriptionKey)}</p>
+        <p className='text-sm text-gray-500'>{safeTranslate(condition.descriptionKey)}</p>
       </div>
     </div>
   );
 }
 
 export default function Cart({ order }: CartProps) {
-  const t = useTranslations('cart');
+  // Fallback translations if useTranslations fails
+  const fallbackTranslations: Record<string, string> = {
+    'title': 'Giỏ Hàng',
+    'empty_cart': 'Giỏ hàng trống',
+    'proceed_to_checkout': 'Tiến Hành Thanh Toán',
+    'total': 'Tổng Cộng',
+    'coupon': 'Mã Giảm Giá',
+    'gift': 'Quà Tặng',
+    'cart_banner_alt': 'Banner giỏ hàng'
+  };
+
+  // Safe translation function
+  const safeTranslate = (key: string) => {
+    try {
+      const t = useTranslations('cart');
+      return t(key);
+    } catch (error) {
+      console.warn(`Translation failed for key "${key}", using fallback:`, error);
+      return fallbackTranslations[key] || key;
+    }
+  };
+  
   const cartItems = order.items;
 
   return (
@@ -176,7 +259,7 @@ export default function Cart({ order }: CartProps) {
         <Link href='/'>
           <Image
             src='/images/cart-banner/banner.png'
-            alt={t('cart_banner_alt')}
+            alt={safeTranslate('cart_banner_alt')}
             width={1200}
             height={300}
             className='my-6 w-full rounded-lg object-cover sm:my-8'
@@ -186,12 +269,12 @@ export default function Cart({ order }: CartProps) {
         <div className='flex flex-col items-center'>
           {cartItems.length === 0 ? (
             <div className='text-center text-xl font-bold text-gray-500 sm:text-2xl'>
-              {t('empty_cart')}
+              {safeTranslate('empty_cart')}
             </div>
           ) : (
             <div className='w-full'>
               <h2 className='mb-6 text-2xl font-bold text-gray-900 sm:text-3xl'>
-                {t('title')}
+                {safeTranslate('title')}
               </h2>
               <ul className='space-y-4 sm:space-y-6'>
                 {cartItems.map((item) => (
@@ -204,14 +287,14 @@ export default function Cart({ order }: CartProps) {
                   className='flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 sm:text-base'
                 >
                   <InboxIcon className='mr-2 h-5 w-5' />
-                  {t('proceed_to_checkout')}
+                  {safeTranslate('proceed_to_checkout')}
                 </Link>
                 <Link
                   href='/checkout'
                   className='flex items-center justify-center rounded-full bg-yellow-300 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400 sm:text-base'
                 >
                   <CreditCardIcon className='mr-2 h-5 w-5' />
-                  {t('proceed_to_checkout')}
+                  {safeTranslate('proceed_to_checkout')}
                 </Link>
               </div>
             </div>
@@ -236,20 +319,20 @@ export default function Cart({ order }: CartProps) {
                 className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
               >
                 <CreditCardIcon className='mr-2 h-5 w-5' />
-                {t('coupon')}
+                {safeTranslate('coupon')}
               </Link>
               <Link
                 href='/checkout'
                 className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
               >
                 <GiftIcon className='mr-2 h-5 w-5' />
-                {t('gift')}
+                {safeTranslate('gift')}
               </Link>
             </div>
             <div className='flex items-center gap-4'>
               <div className='text-right'>
                 <h2 className='text-lg font-bold text-white sm:text-xl'>
-                  {t('total')}
+                  {safeTranslate('total')}
                 </h2>
                 <p className='text-base font-semibold text-white sm:text-lg'>
                   {order.total.toLocaleString('vi-VN')}đ
@@ -260,7 +343,7 @@ export default function Cart({ order }: CartProps) {
                 className='flex items-center rounded-full bg-red-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-red-700 sm:text-base'
               >
                 <CreditCardIcon className='mr-2 h-5 w-5' />
-                {t('proceed_to_checkout')}
+                {safeTranslate('proceed_to_checkout')}
               </Link>
             </div>
           </div>

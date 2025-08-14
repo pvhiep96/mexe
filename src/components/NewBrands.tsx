@@ -84,7 +84,8 @@ function BrandProductCard({ product }: BrandProductCardProps) {
   const { showTooltip } = useFlashTooltip();
 
   const handleBuyNow = () => {
-    showTooltip(t('buy_now_success'), 'success');
+    // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
+    showTooltip('Đặt hàng thành công!', 'success');
   };
 
   return (
