@@ -509,9 +509,12 @@ export default function EarlyOrder() {
                       -25%
                     </span>
                   </div>
-                  <button 
-                    className='mt-1 rounded-full bg-[#0A115F] px-2 py-1 text-xs font-bold text-white hover:bg-[#0e1a8a] cursor-pointer transition-colors'
-                    onClick={(e) => e.stopPropagation()}
+                  <button
+                    onClick={() => {
+                      // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
+                      alert('Đặt hàng thành công!');
+                    }}
+                    className='mt-1 rounded-full bg-[#0A115F] px-2 py-1 text-xs font-bold text-white'
                   >
                     MUA NGAY
                   </button>

@@ -45,7 +45,12 @@ export default function SPNewProducts() {
                 <p className='text-xs'>{product.description}</p>
                 <p className='text-xs'>{product.launch}</p>
                 <a
-                  href='/products'
+                  href='#'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
+                    alert('Đặt hàng thành công!');
+                  }}
                   className='mt-2 inline-block rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-700'
                 >
                   {t('buy_now')}

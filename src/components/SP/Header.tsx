@@ -11,10 +11,12 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import { useCart } from '@/context/CartContext';
 
 export default function SPHeader() {
   const t = useTranslations('header');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { order } = useCart();
 
   // Lock body scroll when menu is open
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function SPHeader() {
   ];
 
   return (
-    <header className='text-primary sticky top-0 z-50 w-full border-b border-gray-100 bg-white shadow'>
+    <header className='text-primary sticky top-0 z-50 w-full border-b border-gray-100 bg-white shadow-sm'>
       <div className='px-4 py-3'>
         <div className='flex items-center justify-between'>
           {/* Left side - Menu Button */}
@@ -73,15 +75,15 @@ export default function SPHeader() {
           {/* Right side - Cart and Account Icons */}
           <div className='flex items-center space-x-3'>
             {/* Cart Icon */}
-            <a
-              href='#'
+            <Link
+              href='/cart'
               className='relative p-2 text-gray-600 hover:text-gray-900'
             >
               <ShoppingCartIcon className='h-6 w-6' />
               <span className='absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
-                0
+                {order?.items.length || 0}
               </span>
-            </a>
+            </Link>
 
             {/* Account Icon */}
             <a href='#' className='p-2 text-gray-600 hover:text-gray-900'>
@@ -121,15 +123,15 @@ export default function SPHeader() {
                 </div>
                 
                 <div className='flex items-center space-x-3'>
-                  <a
-                    href='#'
+                  <Link
+                    href='/cart'
                     className='relative p-2 text-gray-600 hover:text-gray-900'
                   >
                     <ShoppingCartIcon className='h-6 w-6' />
                     <span className='absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
-                      0
+                      {order?.items.length || 0}
                     </span>
-                  </a>
+                  </Link>
                   <a href='#' className='p-2 text-gray-600 hover:text-gray-900'>
                     <UserIcon className='h-6 w-6' />
                   </a>

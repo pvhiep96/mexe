@@ -102,56 +102,40 @@ export default function NewsListSP() {
     {
       id: 'cong-nghe',
       name: t('technology'),
-      count: newsData.filter((item) => item.category === 'Công Nghệ').length,
+      count: newsData.filter((item) => item.category === 'Công Nghệ')
+        .length,
     },
     {
       id: 'bao-duong',
       name: t('maintenance'),
-      count: newsData.filter((item) => item.category === 'Bảo Dưỡng').length,
+      count: newsData.filter((item) => item.category === 'Bảo Dưỡng')
+        .length,
     },
     {
       id: 'an-toan',
       name: t('safety'),
-      count: newsData.filter((item) => item.category === 'An Toàn').length,
+      count: newsData.filter((item) => item.category === 'An Toàn')
+        .length,
     },
     {
       id: 'suc-khoe',
       name: t('health'),
-      count: newsData.filter((item) => item.category === 'Sức Khỏe').length,
+      count: newsData.filter((item) => item.category === 'Sức Khỏe')
+        .length,
     },
   ];
 
   const filteredNews =
     selectedCategory === 'all'
       ? newsData
-      : newsData.filter((item) => {
-          const categoryMap: { [key: string]: string } = {
-            'phu-kien-o-to': 'Phụ Kiện Ô Tô',
-            'cong-nghe': 'Công Nghệ',
-            'bao-duong': 'Bảo Dưỡng',
-            'an-toan': 'An Toàn',
-            'suc-khoe': 'Sức Khỏe',
-          };
-          return item.category === categoryMap[selectedCategory];
-        });
+      : newsData.filter((item) => item.category === categories.find(cat => cat.id === selectedCategory)?.name);
 
   const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentNews = filteredNews.slice(startIndex, endIndex);
+  const currentNews = filteredNews.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      {/* Header */}
-      {/* <div className="bg-white shadow-sm">
-        <div className="px-4 py-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('title')}</h1>
-          <p className="text-sm text-gray-600">
-            {t('description')}
-          </p>
-        </div>
-      </div> */}
-
       {/* Category Filter */}
       <div className='border-b border-gray-200 bg-white'>
         <div className='px-4 py-3'>

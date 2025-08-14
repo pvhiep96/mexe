@@ -141,6 +141,11 @@ export default function SPNewBrands() {
                           </a>
                           <a
                             href='#'
+                            onClick={(e) => {
+                              e.preventDefault();
+                              // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
+                              alert('Đặt hàng thành công!');
+                            }}
                             className='flex-1 rounded-full bg-[#0A115F] px-3 py-1.5 text-xs font-semibold text-white text-center transition hover:bg-[#0e1a8a]'
                           >
                             {t('buy_now')}

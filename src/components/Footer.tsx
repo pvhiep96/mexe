@@ -167,10 +167,10 @@ export default function Footer() {
           <div>
             <Image
               src='/images/logo-mexe.png'
-              alt='Mexe Logo 123123'
-              width={80}
-              height={32}
-              style={{ width: '100px', height: 'auto' }}
+              alt='Mexe Logo'
+              width={60}
+              height={24}
+              style={{ width: 'auto', height: 'auto' }}
             />
           </div>
         </div>

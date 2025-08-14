@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
 import { useTranslations } from 'next-intl';
+import { useFlashTooltip } from '@/context/FlashTooltipContext';
 
 interface Product {
   id: string;
@@ -33,6 +34,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showFullProductInfo, setShowFullProductInfo] = useState(true);
   const { addToCart } = useCart();
+  const { showTooltip } = useFlashTooltip();
 
   const handleAddToCart = () => {
     addToCart({
@@ -42,6 +44,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
       image: productData.image,
       quantity: quantity,
     });
+    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
 
   return (
@@ -144,10 +147,10 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
             {/* Add to Cart */}
             <button
               onClick={handleAddToCart}
-              className='flex w-full items-center justify-center space-x-2 rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700'
+              className='flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition-colors'
             >
               <ShoppingCartIcon className='h-5 w-5' />
-              <span>Thêm vào giỏ hàng</span>
+              Thêm vào giỏ hàng
             </button>
 
             {/* Services */}
