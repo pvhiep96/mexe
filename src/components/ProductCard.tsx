@@ -98,7 +98,7 @@ export default function ProductCard({
           </span>
           <Image
             src='https://file.hstatic.net/1000269366/file/div.accordion__toggle_19ccc6ffc4464ae7b11fecc7d634eaab.png'
-            alt='Vài Thứ Hay'
+            alt='Mexe'
             width={16}
             height={16}
             className='absolute top-0 right-0 translate-x-1/2 translate-y-1/2'

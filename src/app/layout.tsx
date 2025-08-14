@@ -4,7 +4,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import Alert from '@/components/Alert';
 
 export const metadata: Metadata = {
-  title: 'Mexe - Vài Thứ Hay',
+  title: 'Mexe',
   description: 'Cửa hàng thiết bị công nghệ hàng đầu',
 };
 
