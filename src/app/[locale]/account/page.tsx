@@ -1,57 +1,57 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import Footer from '@/components/Footer';
 import UnauthenticatedView from '@/components/account/UnauthenticatedView';
 import AuthenticatedView from '@/components/account/AuthenticatedView';
-
-// Mock user data - sau này sẽ được thay thế bằng authentication logic thực tế
-const mockUser = {
-  id: '1',
-  name: 'Nguyễn Văn A',
-  email: 'nguyenvana@example.com',
-  avatar: undefined
-};
+import { useAuth } from '@/context/AuthContext';
+import type { LoginRequest, RegisterRequest } from '@/types';
 
 export default function AccountPage() {
   const router = useRouter();
-  // Mock authentication state - sau này sẽ được thay thế bằng authentication logic thực tế
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(mockUser);
+  const { user, isAuthenticated, login, register, logout, isLoading } = useAuth();
 
-  const handleLogin = (email: string, password: string) => {
-    console.log('Login attempt:', { email, password });
-    // Mock login logic - sau này sẽ được thay thế bằng API call thực tế
-    if (email && password) {
-      setIsAuthenticated(true);
-      setUser({
-        ...mockUser,
-        email: email,
-        name: email.split('@')[0] // Mock name from email
-      });
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const credentials: LoginRequest = { email, password };
+      await login(credentials);
+    } catch (error: any) {
+      // Error message will be shown by AuthContext
+      console.error('Login failed:', error);
     }
   };
 
-  const handleRegister = (name: string, email: string, password: string) => {
-    console.log('Register attempt:', { name, email, password });
-    // Mock register logic - sau này sẽ được thay thế bằng API call thực tế
-    if (name && email && password) {
-      setIsAuthenticated(true);
-      setUser({
-        id: '1',
-        name: name,
-        email: email,
-        avatar: undefined
-      });
+  const handleRegister = async (name: string, email: string, password: string, phone?: string, address?: string) => {
+    try {
+      const userData: RegisterRequest = {
+        user: { name, email, password, phone, address }
+      };
+      await register(userData);
+    } catch (error: any) {
+      // Error message will be shown by AuthContext
+      console.error('Registration failed:', error);
     }
   };
 
-  const handleLogout = () => {
-    console.log('Logout');
-    // Mock logout logic - sau này sẽ được thay thế bằng API call thực tế
-    setIsAuthenticated(false);
-    setUser(mockUser);
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      // Error message will be shown by AuthContext
+      console.error('Logout failed:', error);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className='min-h-screen bg-gray-50 flex items-center justify-center'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-[#2D6294] mx-auto'></div>
+          <p className='mt-4 text-gray-600'>Đang tải...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='min-h-screen bg-gray-50'>

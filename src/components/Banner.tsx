@@ -73,18 +73,18 @@ export default function Banner() {
     },
     {
       icon: '/images/icon-sale.webp',
-      label: 'Sản phẩm khuyến mãi',
-      href: '/collections/san-pham-khuyen-mai',
+      label: 'Phụ kiện khuyến mãi',
+      href: '/collections/phu-kien-khuyen-mai',
     },
     {
       icon: '/images/icon-new.webp',
-      label: 'Sản phẩm mới',
-      href: '/collections/san-pham-moi',
+      label: 'Phụ kiện mới',
+      href: '/collections/phu-kien-moi',
     },
     {
       icon: '/images/icon-preorder.webp',
-      label: 'PRE-ORDER',
-      href: '/collections/pre-order',
+      label: 'ĐẶT TRƯỚC',
+      href: '/collections/dat-truoc',
     },
   ];
 
@@ -96,165 +96,165 @@ export default function Banner() {
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_2.png?v=7371',
-      label: 'Thương hiệu đối tác',
+      label: 'Thương hiệu ô tô',
       href: '/',
       submenu: [
-        { label: 'Hexcal', href: '/collections/hexcal' },
-        { label: 'Nuphy', href: '/collections/nuphy' },
-        { label: 'Upgen', href: '/collections/upgen' },
-        { label: 'Hyperwork', href: '/collections/hyperwork' },
-        { label: 'Jsaux', href: '/collections/jsaux' },
-        { label: 'Satechi', href: '/collections/satechi' },
+        { label: 'Honda', href: '/collections/honda' },
+        { label: 'Toyota', href: '/collections/toyota' },
+        { label: 'Mazda', href: '/collections/mazda' },
+        { label: 'Hyundai', href: '/collections/hyundai' },
+        { label: 'KIA', href: '/collections/kia' },
+        { label: 'Ford', href: '/collections/ford' },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_3.png?v=7371',
-      label: 'Workspace | Góc làm việc hiệu quả',
-      href: '/collections/setup-goc-lam-viec',
+      label: 'Nội thất xe | Trang trí nội thất',
+      href: '/collections/noi-that-xe',
       submenu: [
         {
-          label: 'Bàn phím/chuột/thảm lót chuột',
-          href: '/collections/chuot-tham-lot-chuot',
+          label: 'Thảm lót sàn xe',
+          href: '/collections/tham-lot-san-xe',
         },
-        { label: 'Kệ màn hình', href: '/collections/ke-man-hinh' },
-        { label: 'Hub', href: '/collections/hub' },
+        { label: 'Gối tựa đầu', href: '/collections/goi-tua-dau' },
+        { label: 'Áo trùm ghế', href: '/collections/ao-trum-ghe' },
         {
-          label: 'Giá đỡ màn hình',
-          href: '/collections/gia-do-man-hinh-may-tinh',
+          label: 'Kệ để đồ',
+          href: '/collections/ke-de-do-xe',
         },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_4.png?v=7371',
-      label: 'Sản phẩm công thái học',
-      href: '/collections/san-pham-cong-thai-hoc',
+      label: 'An toàn xe',
+      href: '/collections/an-toan-xe',
       submenu: [
-        { label: 'Ghế công thái học', href: '/collections/ghe-cong-thai-hoc' },
+        { label: 'Camera hành trình', href: '/collections/camera-hanh-trinh' },
         {
-          label: 'Bàn công thái học',
-          href: '/collections/ban-nang-ha-cong-thai-hoc',
+          label: 'Cảm biến lùi',
+          href: '/collections/cam-bien-lui',
         },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_5.png?v=7371',
-      label: 'Showcase - Nơi khám phá những sản phẩm độc đáo',
-      href: 'https://vaithuhay.com/collections/coming-soon',
+      label: 'Showcase - Những sản phẩm hot nhất',
+      href: '/collections/san-pham-hot',
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_6.png?v=7371',
-      label: 'Phụ kiện máy tính',
-      href: '/collections/phu-kien-may-tinh-cong-nghe-chinh-hang-gia-tot',
+      label: 'Phụ kiện ngoại thất',
+      href: '/collections/phu-kien-ngoai-that',
       submenu: [
         {
-          label: 'Cổng hub chuyển, dock sạc phụ kiện hỗ trợ góc làm việc',
-          href: '/collections/hub',
+          label: 'Ốp viền cửa',
+          href: '/collections/op-vien-cua',
         },
-        { label: 'Giá đỡ laptop', href: '/collections/gia-do-laptop' },
+        { label: 'Decal dán xe', href: '/collections/decal-dan-xe' },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_7.png?v=7371',
       label: 'Đồng hồ trang trí',
-      href: '/collections/san-pham-dong-ho-cong-nghe-tai-vaithuhay',
+      href: '/collections/dong-ho-trang-tri-xe',
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_8.png?v=7371',
-      label: 'Đèn công nghệ',
-      href: '/collections/den-cong-nghe-trang-tri-goc-lam-viec-chi-co-tai-vaithuhay',
+      label: 'Đèn trang trí xe',
+      href: '/collections/den-trang-tri-xe',
       submenu: [
-        { label: 'Đèn RGB', href: '/collections/nid-light' },
+        { label: 'Đèn LED nội thất', href: '/collections/den-led-noi-that' },
         {
-          label: 'Đèn bàn, đọc sách',
-          href: '/collections/den-ban-doc-sach-cong-nghe-tai-vaithuhay',
+          label: 'Đèn pha bổ sung',
+          href: '/collections/den-pha-bo-sung',
         },
         {
-          label: 'Đèn trang trí',
-          href: '/collections/den-ban-den-doc-sach-cong-nghe',
+          label: 'Đèn xi nhan',
+          href: '/collections/den-xi-nhan',
         },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_9.png?v=7371',
-      label: 'Sản phẩm sáng tạo',
-      href: '/collections/san-pham-sang-tao',
+      label: 'Công nghệ ô tô',
+      href: '/collections/cong-nghe-oto',
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_10.png?v=7371',
-      label: 'Loa/Tai nghe hay hay',
-      href: '/collections/gravastar-collection-chien-binh-khong-gian',
+      label: 'Âm thanh xe hơi',
+      href: '/collections/am-thanh-xe-hoi',
     },
   ];
 
   const vendors = [
     {
-      href: '/collections/hyperwork',
+      href: '/collections/honda',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_1.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_1.png?v=7371',
     },
     {
-      href: '/collections/9space-turn-on-your-workspace/',
+      href: '/collections/toyota',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_2.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_2.png?v=7371',
     },
     {
-      href: '/collections/setup-goc-lam-viec',
+      href: '/collections/mazda',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_3.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_3.png?v=7371',
     },
     {
-      href: '/collections/hexcal',
+      href: '/collections/hyundai',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_4.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_4.png?v=7371',
     },
     {
-      href: '/collections/gravastar-collection-chien-binh-khong-gian',
+      href: '/collections/kia',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_5.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_5.png?v=7371',
     },
     {
-      href: '/collections/jsaux',
+      href: '/collections/ford',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_6.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_6.png?v=7371',
     },
     {
-      href: 'https://www.facebook.com/groups/503429347670937/?hoisted_section_header_type=recently_seen&multi_permalinks=1164421058238426',
+      href: '/collections/mitsubishi',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_7.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_7.png?v=7371',
     },
     {
-      href: '/collections/nid-light',
+      href: '/collections/nissan',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_8.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_8.png?v=7371',
     },
     {
-      href: '/collections/nuphy-collection',
+      href: '/collections/subaru',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_9.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_9.png?v=7371',
     },
     {
-      href: '/collections/satechi',
+      href: '/collections/suzuki',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_10.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_10.png?v=7371',
     },
     {
-      href: '/collections/upgen',
+      href: '/collections/isuzu',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_11.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_11.png?v=7371',
     },
     {
-      href: '/collections/zen-card-collection',
+      href: '/collections/lexus',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_12.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_12.png?v=7371',
@@ -446,7 +446,7 @@ export default function Banner() {
 
           {/* Categories Grid */}
           <div className='mb-6'>
-            <h3 className='mb-4 text-lg font-bold text-gray-800'>Khám phá theo chủ đề</h3>
+            <h3 className='mb-4 text-lg font-bold text-gray-800'>Khám phá phụ kiện ô tô</h3>
             <div className='grid grid-cols-2 gap-4'>
               {mobileCategories.map((category, index) => (
                 <Link
@@ -470,23 +470,23 @@ export default function Banner() {
           {/* Quick Links */}
           <div className='space-y-3'>
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Setup Góc Làm Việc</h4>
-              <p className='text-sm text-gray-600'>SET UP KHÔNG GIAN GÓC LÀM VIỆC</p>
+              <h4 className='mb-2 font-semibold text-gray-800'>Nội thất xe</h4>
+              <p className='text-sm text-gray-600'>TRANG TRÍ VÀ TIỆN NGHI CHO XE CỦA BẠN</p>
             </div>
             
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Bàn phím hay</h4>
-              <p className='text-sm text-gray-600'>BÀN PHÍM HAY</p>
+              <h4 className='mb-2 font-semibold text-gray-800'>Camera hành trình</h4>
+              <p className='text-sm text-gray-600'>AN TOÀN VÀ BẢO VỆ XE</p>
             </div>
             
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Du Lịch Dã Ngoại</h4>
+              <h4 className='mb-2 font-semibold text-gray-800'>Phụ kiện hot</h4>
               <p className='text-sm text-gray-600'>Ưu đãi tháng 8 - Deal tốt sẵn sàng</p>
             </div>
             
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Loa - Tai Nghe</h4>
-              <p className='text-sm text-gray-600'>Sản phẩm Cyberpunk - Scifi công nghệ</p>
+              <h4 className='mb-2 font-semibold text-gray-800'>Âm thanh xe hơi</h4>
+              <p className='text-sm text-gray-600'>Hệ thống âm thanh chất lượng cao</p>
             </div>
           </div>
         </div>
