@@ -563,7 +563,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       </li>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
-                        Các vấn đề lỗi sản phẩm Vaithuhay sẽ nhận hàng về kiểm
+                        Các vấn đề lỗi sản phẩm Mexe sẽ nhận hàng về kiểm
                         tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày
                         nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác
                         định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
@@ -579,7 +579,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     <ul className='space-y-2 text-gray-600'>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
-                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Vaithuhay chỉ
+                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Mexe chỉ
                         hỗ trợ theo chính sách bảo hành đi kèm.
                       </li>
                       <li className='flex items-start'>
@@ -1164,7 +1164,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       </li>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
-                        Các vấn đề lỗi sản phẩm Vaithuhay sẽ nhận hàng về kiểm
+                        Các vấn đề lỗi sản phẩm Mexe sẽ nhận hàng về kiểm
                         tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày
                         nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác
                         định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
@@ -1178,7 +1178,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     <ul className='space-y-2 text-gray-600'>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
-                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Vaithuhay chỉ
+                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Mexe chỉ
                         hỗ trợ theo chính sách bảo hành đi kèm.
                       </li>
                       <li className='flex items-start'>

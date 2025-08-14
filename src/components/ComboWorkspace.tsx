@@ -320,7 +320,7 @@ export default function ComboWorkspace() {
               </Link>
             </div>
             
-            {/* Mobile slider với 8 items 1 trang chia 2 hàng - giống hệt vaithuhay.com */}
+            {/* Mobile slider với 8 items 1 trang chia 2 hàng - giống hệt mexe.com */}
             <div className='relative bg-white rounded-xl overflow-hidden'>
               <div 
                 ref={scrollContainerRef}
@@ -367,7 +367,7 @@ export default function ComboWorkspace() {
                 </div>
               </div>
               
-              {/* Pagination dots giống hệt vaithuhay.com */}
+              {/* Pagination dots giống hệt mexe.com */}
               <div className='mt-2 flex justify-center gap-2'>
                 {Array.from({ length: 2 }).map((_, idx) => (
                   <button
@@ -387,7 +387,7 @@ export default function ComboWorkspace() {
   );
 }
 
-// Mobile ComboCard component - giống hệt vaithuhay.com với layout 2x4
+// Mobile ComboCard component - giống hệt mexe.com với layout 2x4
 function MobileComboCard({ combo }: ComboCardProps) {
   const t = useTranslations('combo_workspace');
   const { showTooltip } = useFlashTooltip();

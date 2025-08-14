@@ -211,27 +211,27 @@ export default function Header() {
                     {/* Shopee/Lazada links */}
                     <div className='flex w-full items-center justify-between gap-8'>
                       <a
-                        href='https://shopee.vn/vaithuhay'
+                        href='https://shopee.vn/mexe'
                         target='_blank'
                         rel='noopener noreferrer'
                         className='flex flex-1 items-center justify-center rounded-xl bg-[#ee4d2d] py-4 text-xl font-bold text-white transition hover:opacity-90'
                       >
                         <img
                           src='/logo-mexe.png'
-                          alt='vaithuhay'
+                          alt='mexe'
                           className='mr-3 h-8'
                         />{' '}
                         Shopee Mall
                       </a>
                       <a
-                        href='https://www.lazada.vn/shop/vaithuhay'
+                        href='https://www.lazada.vn/shop/mexe'
                         target='_blank'
                         rel='noopener noreferrer'
                         className='flex flex-1 items-center justify-center rounded-xl bg-[#1a73e8] py-4 text-xl font-bold text-white transition hover:opacity-90'
                       >
                         <img
                           src='/logo-mexe.png'
-                          alt='vaithuhay'
+                          alt='mexe'
                           className='mr-3 h-8'
                         />{' '}
                         Lazada

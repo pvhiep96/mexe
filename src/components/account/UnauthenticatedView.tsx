@@ -128,7 +128,7 @@ export default function UnauthenticatedView({ onLogin, onRegister }: Unauthentic
       <div className='mt-8 text-center'>
         <p className='text-sm text-gray-600'>
           Cần hỗ trợ?{' '}
-          <a href='mailto:support@vaithuhay.com' className='text-[#2D6294] hover:underline'>
+          <a href='mailto:support@mexe.com' className='text-[#2D6294] hover:underline'>
             Liên hệ chúng tôi
           </a>
         </p>
