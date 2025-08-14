@@ -51,7 +51,7 @@ export default function SPBrands() {
               <p className='text-xs'>{t(`${brand.id}.founded`)}</p>
               <p className='mt-2 text-xs'>{t(`${brand.id}.story`)}</p>
               <a
-                href='#'
+                href={`/products?brand=${brand.id}`}
                 className='mt-2 inline-block text-xs text-blue-600 hover:underline'
               >
                 {t(`${brand.id}.story_link`)}

@@ -69,22 +69,22 @@ export default function Banner() {
     {
       icon: '/images/icon-grid.webp',
       label: 'Tất cả sản phẩm',
-      href: '/collections/tatcasanpham',
+      href: '/products',
     },
     {
       icon: '/images/icon-sale.webp',
       label: 'Phụ kiện khuyến mãi',
-      href: '/collections/phu-kien-khuyen-mai',
+      href: '/products?sale=true',
     },
     {
       icon: '/images/icon-new.webp',
       label: 'Phụ kiện mới',
-      href: '/collections/phu-kien-moi',
+      href: '/products?new=true',
     },
     {
       icon: '/images/icon-preorder.webp',
       label: 'ĐẶT TRƯỚC',
-      href: '/collections/dat-truoc',
+      href: '/products?preorder=true',
     },
   ];
 
@@ -92,169 +92,169 @@ export default function Banner() {
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_1.png?v=7371',
       label: 'Tất cả sản phẩm',
-      href: '/collections/tatcasanpham',
+      href: '/products',
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_2.png?v=7371',
       label: 'Thương hiệu ô tô',
       href: '/',
       submenu: [
-        { label: 'Honda', href: '/collections/honda' },
-        { label: 'Toyota', href: '/collections/toyota' },
-        { label: 'Mazda', href: '/collections/mazda' },
-        { label: 'Hyundai', href: '/collections/hyundai' },
-        { label: 'KIA', href: '/collections/kia' },
-        { label: 'Ford', href: '/collections/ford' },
+        { label: 'Honda', href: '/products?brand=honda' },
+        { label: 'Toyota', href: '/products?brand=toyota' },
+        { label: 'Mazda', href: '/products?brand=mazda' },
+        { label: 'Hyundai', href: '/products?brand=hyundai' },
+        { label: 'KIA', href: '/products?brand=kia' },
+        { label: 'Ford', href: '/products?brand=ford' },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_3.png?v=7371',
       label: 'Nội thất xe | Trang trí nội thất',
-      href: '/collections/noi-that-xe',
+      href: '/products?category=noi-that-xe',
       submenu: [
         {
           label: 'Thảm lót sàn xe',
-          href: '/collections/tham-lot-san-xe',
+          href: '/products?category=tham-lot-san-xe',
         },
-        { label: 'Gối tựa đầu', href: '/collections/goi-tua-dau' },
-        { label: 'Áo trùm ghế', href: '/collections/ao-trum-ghe' },
+        { label: 'Gối tựa đầu', href: '/products?category=goi-tua-dau' },
+        { label: 'Áo trùm ghế', href: '/products?category=ao-trum-ghe' },
         {
           label: 'Kệ để đồ',
-          href: '/collections/ke-de-do-xe',
+          href: '/products?category=ke-de-do-xe',
         },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_4.png?v=7371',
       label: 'An toàn xe',
-      href: '/collections/an-toan-xe',
+      href: '/products?category=an-toan-xe',
       submenu: [
-        { label: 'Camera hành trình', href: '/collections/camera-hanh-trinh' },
+        { label: 'Camera hành trình', href: '/products?category=camera-hanh-trinh' },
         {
           label: 'Cảm biến lùi',
-          href: '/collections/cam-bien-lui',
+          href: '/products?category=cam-bien-lui',
         },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_5.png?v=7371',
       label: 'Showcase - Những sản phẩm hot nhất',
-      href: '/collections/san-pham-hot',
+      href: '/products?featured=true',
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_6.png?v=7371',
       label: 'Phụ kiện ngoại thất',
-      href: '/collections/phu-kien-ngoai-that',
+      href: '/products?category=phu-kien-ngoai-that',
       submenu: [
         {
           label: 'Ốp viền cửa',
-          href: '/collections/op-vien-cua',
+          href: '/products?category=op-vien-cua',
         },
-        { label: 'Decal dán xe', href: '/collections/decal-dan-xe' },
+        { label: 'Decal dán xe', href: '/products?category=decal-dan-xe' },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_7.png?v=7371',
       label: 'Đồng hồ trang trí',
-      href: '/collections/dong-ho-trang-tri-xe',
+      href: '/products?category=dong-ho-trang-tri-xe',
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_8.png?v=7371',
       label: 'Đèn trang trí xe',
-      href: '/collections/den-trang-tri-xe',
+      href: '/products?category=den-trang-tri-xe',
       submenu: [
-        { label: 'Đèn LED nội thất', href: '/collections/den-led-noi-that' },
+        { label: 'Đèn LED nội thất', href: '/products?category=den-led-noi-that' },
         {
           label: 'Đèn pha bổ sung',
-          href: '/collections/den-pha-bo-sung',
+          href: '/products?category=den-pha-bo-sung',
         },
         {
           label: 'Đèn xi nhan',
-          href: '/collections/den-xi-nhan',
+          href: '/products?category=den-xi-nhan',
         },
       ],
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_9.png?v=7371',
       label: 'Công nghệ ô tô',
-      href: '/collections/cong-nghe-oto',
+      href: '/products?category=cong-nghe-oto',
     },
     {
       icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_10.png?v=7371',
       label: 'Âm thanh xe hơi',
-      href: '/collections/am-thanh-xe-hoi',
+      href: '/products?category=am-thanh-xe-hoi',
     },
   ];
 
   const vendors = [
     {
-      href: '/collections/honda',
+      href: '/products?brand=honda',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_1.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_1.png?v=7371',
     },
     {
-      href: '/collections/toyota',
+      href: '/products?brand=toyota',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_2.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_2.png?v=7371',
     },
     {
-      href: '/collections/mazda',
+      href: '/products?brand=mazda',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_3.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_3.png?v=7371',
     },
     {
-      href: '/collections/hyundai',
+      href: '/products?brand=hyundai',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_4.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_4.png?v=7371',
     },
     {
-      href: '/collections/kia',
+      href: '/products?brand=kia',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_5.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_5.png?v=7371',
     },
     {
-      href: '/collections/ford',
+      href: '/products?brand=ford',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_6.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_6.png?v=7371',
     },
     {
-      href: '/collections/mitsubishi',
+      href: '/products?brand=mitsubishi',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_7.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_7.png?v=7371',
     },
     {
-      href: '/collections/nissan',
+      href: '/products?brand=nissan',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_8.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_8.png?v=7371',
     },
     {
-      href: '/collections/subaru',
+      href: '/products?brand=subaru',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_9.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_9.png?v=7371',
     },
     {
-      href: '/collections/suzuki',
+      href: '/products?brand=suzuki',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_10.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_10.png?v=7371',
     },
     {
-      href: '/collections/isuzu',
+      href: '/products?brand=isuzu',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_11.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_11.png?v=7371',
     },
     {
-      href: '/collections/lexus',
+      href: '/products?brand=lexus',
       img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_12.png?v=7371',
       hoverImg:
         '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_12.png?v=7371',
@@ -297,7 +297,7 @@ export default function Banner() {
             </li>
           </ul>
           
-          <div className='tab-content h-[calc(600px-48px)] overflow-y-auto'>
+          <div className='tab-content h-[calc(600px-48px)] overflow-y-auto min-w-[330px]'>
             <div
               className={`tab-pane ${activeTab === 'danhmuc' ? 'block' : 'hidden'} h-full`}
             >
@@ -314,7 +314,7 @@ export default function Banner() {
                       }
                     }}
                   >
-                    <div className='sidebar-icon-wrap flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'>
+                    <div className='sidebar-icon-wrap group flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white'>
                       <img
                         width='30'
                         height='30'
@@ -325,7 +325,7 @@ export default function Banner() {
                       <a
                         href={item.href}
                         target='_blank'
-                        className='text-sm text-gray-700 truncate'
+                        className='text-sm text-gray-700 truncate group-hover:text-white transition-colors duration-300'
                         rel='noreferrer'
                       >
                         {item.label}
@@ -340,7 +340,7 @@ export default function Banner() {
               className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'} h-full`}
               id='thuonghieu'
             >
-              <div className='menu-vendor-list grid h-full w-full grid-cols-2 gap-3 p-3'>
+              <div className='menu-vendor-list grid h-full w-full grid-cols-2 gap-3 p-3 min-w-[330px]'>
                 {vendors.map((vendor, idx) => (
                   <a
                     key={idx}
@@ -375,10 +375,10 @@ export default function Banner() {
           item.submenu && (
             <div
               key={`submenu-${idx}`}
-              className={`absolute z-50 min-w-[300px] rounded-lg bg-white shadow-xl border border-gray-200 ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
+              className={`absolute z-50 min-w-[300px] rounded-lg bg-white shadow-xl border border-gray-200 transition-all duration-200 ${hoveredSubmenu === item.label ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
               style={{
-                left: `${width + 32}px`, // 32px margin để có khoảng cách hợp lý với item
-                top: `${48 + (idx * 60)}px` // 48px cho header + 60px cho mỗi item - căn với cạnh trên của item
+                left: `${width - 50}px`, // Overlap 2px để không bị mất hover
+                top: `${(idx * 62)}px` // 48px header + 8px padding + 62px mỗi item (height + spacing)
               }}
               onMouseEnter={() => setHoveredSubmenu(item.label)}
               onMouseLeave={() => setHoveredSubmenu(null)}
@@ -407,7 +407,7 @@ export default function Banner() {
           <Slider {...sliderSettings} ref={sliderRef}>
             {images.map((image, index) => (
               <div key={index} className='item rounded-xl'>
-                <Link href='/collections/tatcasanpham'>
+                <Link href='/products'>
                   <Image
                     src={image.src}
                     alt={image.alt}
@@ -430,7 +430,7 @@ export default function Banner() {
             <Slider {...sliderSettings} ref={sliderRef}>
               {images.map((image, index) => (
                 <div key={index} className='px-2'>
-                  <Link href='/collections/tatcasanpham'>
+                  <Link href='/products'>
                     <Image
                       src={image.src}
                       alt={image.alt}

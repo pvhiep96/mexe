@@ -23,7 +23,7 @@ export default function SPNewProducts() {
       <div className='container mx-auto px-4'>
         <div className='mb-4 flex items-center justify-between'>
           <h2 className='text-xl font-bold'>{t('title')}</h2>
-          <a href='#' className='text-sm text-blue-600 hover:underline'>
+          <a href='/products' className='text-sm text-blue-600 hover:underline'>
             {t('explore_more')}
           </a>
         </div>
@@ -45,7 +45,7 @@ export default function SPNewProducts() {
                 <p className='text-xs'>{product.description}</p>
                 <p className='text-xs'>{product.launch}</p>
                 <a
-                  href='#'
+                  href='/products'
                   className='mt-2 inline-block rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-700'
                 >
                   {t('buy_now')}

@@ -88,7 +88,10 @@ function BrandProductCard({ product }: BrandProductCardProps) {
   };
 
   return (
-    <div className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-xl border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px]'>
+    <div 
+      className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-xl border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px] hover:shadow-lg cursor-pointer transition-shadow duration-300'
+      onClick={() => window.open('/products/2', '_blank')}
+    >
       {/* Badge labels - đặt trong card */}
       <div className='absolute top-3 left-3 z-10 flex flex-col items-start gap-2'>
         <div className='rounded-full bg-gradient-to-r from-red-500 to-red-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg'>
@@ -134,13 +137,17 @@ function BrandProductCard({ product }: BrandProductCardProps) {
         {/* Nút hành động - giảm khoảng cách với thông tin phía trên */}
         <div className='mt-3 flex gap-2'>
           <a
-            href={`/products/${product.id}`}
-            className='flex-1 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-800 transition hover:bg-gray-200'
+            href={`/products/2`}
+            className='flex-1 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-800 transition hover:bg-gray-200 cursor-pointer'
+            onClick={(e) => e.stopPropagation()}
           >
             {t('view_details')}
           </a>
           <button
-            onClick={handleBuyNow}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBuyNow();
+            }}
             className='flex-1 rounded-full bg-[#0A115F] px-3 py-1.5 text-xs font-semibold text-white transition hover:cursor-pointer hover:bg-[#0e1a8a]'
           >
             {t('buy_now')}
