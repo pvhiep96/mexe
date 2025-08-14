@@ -338,7 +338,8 @@ export default function EarlyOrder() {
                           {products[activeTab].map((product, idx) => (
                             <div
                               key={product.id}
-                              className='relative mx-2 h-[420px] w-[320px] flex-shrink-0 overflow-hidden rounded-2xl bg-white p-0 shadow-lg transition-all duration-500'
+                              className='relative mx-2 h-[420px] w-[320px] flex-shrink-0 overflow-hidden rounded-2xl bg-white p-0 shadow-lg transition-all duration-500 hover:shadow-xl cursor-pointer'
+                              onClick={() => window.open('/products/2', '_blank')}
                             >
                               {/* Ảnh nền phủ tràn */}
                               <Image
@@ -484,7 +485,8 @@ export default function EarlyOrder() {
               {products[activeTab].slice(0, 3).map((product) => (
                 <div
                   key={product.id}
-                  className='flex min-w-[220px] flex-col items-center rounded-xl bg-white p-3 shadow'
+                  className='flex min-w-[220px] flex-col items-center rounded-xl bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300'
+                  onClick={() => window.open('/products/2', '_blank')}
                 >
                   <Image
                     src={product.img}
@@ -507,7 +509,10 @@ export default function EarlyOrder() {
                       -25%
                     </span>
                   </div>
-                  <button className='mt-1 rounded-full bg-[#0A115F] px-2 py-1 text-xs font-bold text-white'>
+                  <button 
+                    className='mt-1 rounded-full bg-[#0A115F] px-2 py-1 text-xs font-bold text-white hover:bg-[#0e1a8a] cursor-pointer transition-colors'
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     MUA NGAY
                   </button>
                 </div>

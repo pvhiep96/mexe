@@ -108,7 +108,10 @@ function ProductSlide({ product }: ProductSlideProps) {
   }, []);
 
   return (
-    <div className='mx-2 flex h-[300px] w-[400px] flex-col items-center rounded-2xl bg-white p-4 shadow-md transition-all duration-500 ease-in-out sm:h-[200px] sm:flex-row sm:w-[500px]'>
+    <div 
+      className='mx-2 flex h-[300px] w-[400px] flex-col items-center rounded-2xl bg-white p-4 shadow-md transition-all duration-500 ease-in-out sm:h-[200px] sm:flex-row sm:w-[500px] hover:shadow-lg cursor-pointer'
+      onClick={() => window.open('/products/2', '_blank')}
+    >
       {/* Images */}
       <div
         className='mr-[5px] grid grid-cols-2 grid-rows-2 gap-0 overflow-hidden'
@@ -177,7 +180,10 @@ function ProductSlide({ product }: ProductSlideProps) {
           </p>
         </div>
         <button
-          onClick={handleBuyNow}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleBuyNow();
+          }}
           className='mt-2 w-[120px] rounded-full bg-red-500 px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-red-600 sm:text-xs'
         >
           {t('buy_now')}

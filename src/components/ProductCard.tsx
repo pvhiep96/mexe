@@ -55,7 +55,7 @@ export default function ProductCard({
   return (
     <div className='grid cursor-pointer grid-cols-2 gap-4 rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg'>
       <div className='m-auto ml-4'>
-        <Link href={`/products/${product.slug}`} className='cursor-pointer'>
+        <Link href={`/products/2`} className='cursor-pointer'>
           <div className='grid grid-cols-2 place-content-center place-items-center gap-2 justify-self-center'>
             <Image
               src={product.images[0]}

@@ -22,11 +22,11 @@ const learnMoreMenu = [
 ];
 
 const newsMenu = [
-  { label: 'Tin tức thị trường', href: '#' },
-  { label: 'Kinh nghiệm sử dụng xe', href: '#' },
-  { label: 'So sánh sản phẩm', href: '#' },
-  { label: 'Khuyến mãi', href: '#' },
-  { label: 'Câu chuyện khách hàng', href: '#' },
+  { label: 'Tin tức thị trường', href: '/news?category=tin-tuc-thi-truong' },
+  { label: 'Kinh nghiệm sử dụng xe', href: '/news?category=kinh-nghiem-su-dung-xe' },
+  { label: 'So sánh sản phẩm', href: '/news?category=so-sanh-san-pham' },
+  { label: 'Khuyến mãi', href: '/news?category=khuyen-mai' },
+  { label: 'Top 10 phụ kiện ô tô cần thiết', href: '/news/top-10-phu-kien-o-to-can-thiet' },
 ];
 
 const exploreSidebar = [
@@ -40,42 +40,42 @@ const exploreGrid = [
   {
     image: '/images/demo-banner/banner-1.jpg',
     title: 'Đèn LED & Đèn Pha Ô Tô',
-    href: '#',
+    href: '/products?category=den-trang-tri-xe',
   },
   {
     image: '/images/demo-banner/banner-1.jpg',
     title: 'Camera Hành Trình & Cảm Biến Lùi',
-    href: '#',
+    href: '/products?category=camera-hanh-trinh',
   },
   {
     image: '/images/demo-banner/banner-1.jpg',
     title: 'Âm Thanh & Giải Trí Trên Xe',
-    href: '#',
+    href: '/products?category=am-thanh-xe-hoi',
   },
   {
     image: '/images/demo-banner/banner-1.jpg',
     title: 'Phụ Kiện Nội Thất Cao Cấp',
-    href: '#',
+    href: '/products?category=noi-that-xe',
   },
   {
     image: '/images/demo-banner/banner-1.jpg',
     title: 'Phụ Kiện Ngoại Thất & Đồ Chơi Xe',
-    href: '#',
+    href: '/products?category=phu-kien-ngoai-that',
   },
   {
     image: '/images/demo-banner/banner-1.jpg',
     title: 'Chăm Sóc & Bảo Dưỡng Xe',
-    href: '#',
+    href: '/products?category=cham-soc-xe',
   },
   {
     image: '/images/demo-banner/banner-1.jpg',
     title: 'Công Nghệ Tiện Ích Ô Tô',
-    href: '#',
+    href: '/products?category=cong-nghe-oto',
   },
   {
     image: '/images/demo-banner/banner-1.jpg',
     title: 'Lốp, Mâm & Phụ Kiện Lốp',
-    href: '#',
+    href: '/products?category=lop-mam-xe',
   },
 ];
 
@@ -116,6 +116,22 @@ export default function Header() {
                 className='block px-4 py-2 transition-colors hover:font-semibold hover:text-black'
               >
                 Trang chủ
+              </Link>
+            </li>
+            <li>
+              <Link
+                href='/products'
+                className='block px-4 py-2 transition-colors hover:font-semibold hover:text-black'
+              >
+                Sản phẩm
+              </Link>
+            </li>
+            <li>
+              <Link
+                href='/news'
+                className='block px-4 py-2 transition-colors hover:font-semibold hover:text-black'
+              >
+                Tin tức
               </Link>
             </li>
             <li className='group relative'>
@@ -227,39 +243,39 @@ export default function Header() {
                         <div className='text-2xl font-extrabold text-white uppercase'>
                           Mexe News
                         </div>
-                        <a
-                          href='#'
+                        <Link
+                          href='/news'
                           className='flex items-center text-base font-semibold text-white hover:underline'
                         >
                           Xem tất cả <span className='ml-1'>&rarr;</span>
-                        </a>
+                        </Link>
                       </div>
                       <div className='scrollbar-hide flex gap-6 overflow-x-auto'>
                         {/* Bài viết mẫu */}
-                        <div className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg'>
+                        <Link href='/news/top-10-phu-kien-o-to-can-thiet' className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-xl transition-shadow'>
                           <div className='relative h-40 w-full'>
                             <img
                               src='/images/banner-policy.webp'
-                              alt='Pre order'
+                              alt='Top 10 phụ kiện ô tô'
                               className='h-full w-full rounded-t-xl object-cover'
                             />
                           </div>
                           <div className='p-4 text-base font-bold text-black'>
-                            PRE ORDER LÀ GÌ? MỌI ĐIỀU CẦN BIẾT VỀ PRE ORDER
+                            TOP 10 PHỤ KIỆN Ô TÔ CẦN THIẾT NHẤT
                           </div>
-                        </div>
-                        <div className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg'>
+                        </Link>
+                        <Link href='/news/huong-dan-chon-camera-hanh-trinh' className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-xl transition-shadow'>
                           <div className='relative h-40 w-full'>
                             <img
                               src='/images/banner-sale.webp'
-                              alt='Livestream'
+                              alt='Hướng dẫn chọn camera hành trình'
                               className='h-full w-full rounded-t-xl object-cover'
                             />
                           </div>
                           <div className='p-4 text-base font-bold text-black'>
-                            CÁCH LIVESTREAM BÁN HÀNG CỦA DÂN CHUYÊN
+                            HƯỚNG DẪN CHỌN CAMERA HÀNH TRÌNH CHO XE
                           </div>
-                        </div>
+                        </Link>
                         <div className='max-w-[260px] min-w-[260px] flex-shrink-0 overflow-hidden rounded-xl bg-white shadow-lg'>
                           <div className='relative h-40 w-full'>
                             <img
@@ -374,7 +390,7 @@ export default function Header() {
             </span>
           </Link>
           <Link
-            href='/profile'
+            href='/account'
             className='flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-gray-300'
           >
             <UserIcon className='h-8 w-8' />
