@@ -4,11 +4,64 @@ All URIs are relative to */api/v1*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**createOrder**](#createorder) | **POST** /orders | Create a new order|
 |[**getOrder**](#getorder) | **GET** /orders/{id} | Get order details|
 |[**getProduct**](#getproduct) | **GET** /products/{id} | Get product details|
 |[**getUser**](#getuser) | **GET** /users/me | Get authenticated user details|
 |[**listOrders**](#listorders) | **GET** /orders | List all orders for the authenticated user|
 |[**listProducts**](#listproducts) | **GET** /products | List all products|
+
+# **createOrder**
+> Order createOrder(createOrderRequest)
+
+
+### Example
+
+```typescript
+import {
+    DefaultApi,
+    Configuration,
+    CreateOrderRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new DefaultApi(configuration);
+
+let createOrderRequest: CreateOrderRequest; //
+
+const { status, data } = await apiInstance.createOrder(
+    createOrderRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **createOrderRequest** | **CreateOrderRequest**|  | |
+
+
+### Return type
+
+**Order**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**201** | Order created successfully |  -  |
+|**422** | Invalid request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getOrder**
 > OrderDetail getOrder()

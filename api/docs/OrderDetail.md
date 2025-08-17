@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **guest_phone** | **string** |  | [optional] [default to undefined]
 **guest_name** | **string** |  | [optional] [default to undefined]
 **created_at** | **string** |  | [optional] [default to undefined]
-**items** | [**Array&lt;OrderItem&gt;**](OrderItem.md) |  | [optional] [default to undefined]
+**order_items** | [**Array&lt;OrderItem&gt;**](OrderItem.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -53,7 +53,7 @@ const instance: OrderDetail = {
     guest_phone,
     guest_name,
     created_at,
-    items,
+    order_items,
 };
 ```
 

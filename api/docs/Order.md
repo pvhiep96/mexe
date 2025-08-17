@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **payment_status** | **string** |  | [optional] [default to undefined]
 **delivery_type** | **string** |  | [optional] [default to undefined]
 **created_at** | **string** |  | [optional] [default to undefined]
+**order_items** | [**Array&lt;OrderItem&gt;**](OrderItem.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -36,6 +37,7 @@ const instance: Order = {
     payment_status,
     delivery_type,
     created_at,
+    order_items,
 };
 ```
 

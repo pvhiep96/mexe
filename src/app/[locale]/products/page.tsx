@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import ProductListPage from '@/components/Products';
 import { api } from '@/config/api';
 import { ListProducts200Response } from '../../../../api';
@@ -38,9 +39,16 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
     return { products: [], total: 0, page: 1, perPage };
   }
 }
-export default async function Products() {
-  const page = 1;
-  const perPage = 10;
+
+interface PageProps {
+  params: {
+    page: number;
+    perPage: number;
+  };
+}
+
+const ProductsPage: FC<PageProps> = async ({ params }) => {
+  const { page, perPage } = await params;
 
   const {
     products,
@@ -50,4 +58,6 @@ export default async function Products() {
   } = await fetchProducts(page, perPage);
 
   return <ProductListPage allProducts={products} />;
-}
+};
+
+export default ProductsPage;

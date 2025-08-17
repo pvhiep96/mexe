@@ -14,16 +14,16 @@ import { useState } from 'react';
 
 interface Product {
   id: string | number;
-  name: string;
-  price: number;
-  image: string;
+  product_name: string;
+  unit_price: number;
+  product_image: string;
   discount?: number;
   quantity: number;
 }
 
 interface Order {
-  items: Product[];
-  total: number;
+  order_items: Product[];
+  total_amount: number;
 }
 
 interface ShippingCondition {
@@ -94,15 +94,15 @@ function CartItem({ item }: CartItemProps) {
           defaultChecked
         />
         <Image
-          src={item.image}
-          alt={t(item.name)}
+          src={item.product_image}
+          alt={item.product_name}
           width={80}
           height={80}
           className='size-20 rounded object-cover sm:size-24'
         />
         <div>
           <h3 className='text-base font-semibold text-gray-900 sm:text-lg'>
-            {t(item.name)}
+            {item.product_name}
           </h3>
           <p className='mt-1 text-sm text-gray-500'>
             {t('quantity')}: {quantity}
@@ -128,7 +128,7 @@ function CartItem({ item }: CartItemProps) {
       </div>
       <div className='mt-4 text-right sm:mt-0'>
         <p className='text-lg font-semibold text-blue-600'>
-          {(item.price * quantity).toLocaleString('vi-VN')}đ
+          {(item.unit_price * quantity).toLocaleString('vi-VN')}đ
         </p>
         {item.discount && item.discount > 0 && (
           <>
@@ -168,7 +168,7 @@ function ShippingConditionCard({ condition }: ShippingConditionCardProps) {
 
 export default function Cart({ order }: CartProps) {
   const t = useTranslations('cart');
-  const cartItems = order.items;
+  const cartItems = order.order_items;
 
   return (
     <main className='relative py-6 sm:py-8'>
@@ -252,7 +252,7 @@ export default function Cart({ order }: CartProps) {
                   {t('total')}
                 </h2>
                 <p className='text-base font-semibold text-white sm:text-lg'>
-                  {order.total.toLocaleString('vi-VN')}đ
+                  {order.total_amount.toLocaleString('vi-VN')}đ
                 </p>
               </div>
               <Link

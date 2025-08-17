@@ -1,12 +1,14 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 base.ts
 common.ts
 configuration.ts
 docs/Brand.md
 docs/Category.md
+docs/CreateOrderRequest.md
+docs/CreateOrderRequestOrders.md
+docs/CreateOrderRequestOrdersOrderItemsInner.md
 docs/DefaultApi.md
 docs/ListOrders200Response.md
 docs/ListProducts200Response.md

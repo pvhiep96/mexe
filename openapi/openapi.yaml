@@ -87,6 +87,73 @@ paths:
         '404':
           description: Product not found
   "/orders":
+    post:
+      summary: Create a new order
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - order_items
+              - payment_method
+              - delivery_type
+              properties:
+                orders:
+                  type: object
+                  properties:
+                    order_items:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                        - product_id
+                        - quantity
+                        properties:
+                          product_id:
+                            type: integer
+                          variant_id:
+                            type: integer
+                          quantity:
+                            type: integer
+                            minimum: 1
+                    payment_method:
+                      type: string
+                      enum:
+                      - credit_card
+                      - paypal
+                      - bank_transfer
+                      - cod
+                    order_number:
+                      type: string
+                    delivery_type:
+                      type: string
+                      enum:
+                      - home
+                      - store_pickup
+                    delivery_address:
+                      type: string
+                    store_location:
+                      type: string
+                    coupon_code:
+                      type: string
+                    guest_email:
+                      type: string
+                    guest_phone:
+                      type: string
+                    guest_name:
+                      type: string
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Order"
+        '422':
+          description: Invalid request
     get:
       summary: List all orders for the authenticated user
       operationId: listOrders
@@ -309,6 +376,10 @@ components:
         created_at:
           type: string
           format: date-time
+        order_items:
+          type: array
+          items:
+            "$ref": "#/components/schemas/OrderItem"
     OrderDetail:
       type: object
       properties:
@@ -359,7 +430,7 @@ components:
         created_at:
           type: string
           format: date-time
-        items:
+        order_items:
           type: array
           items:
             "$ref": "#/components/schemas/OrderItem"
