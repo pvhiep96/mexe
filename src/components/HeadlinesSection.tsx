@@ -54,7 +54,7 @@ export default function HeadlinesSection() {
           </h1>
         </div>
 
-        <div className='product-loop headline-posts grid grid-cols-1 gap-8 lg:grid-cols-2'>
+        <div className='product-loop headline-posts grid grid-cols-1 gap-6 lg:grid-cols-2'>
           {/* Left Section - 1 Large Item */}
           <div className='headline-post group cursor-pointer'>
             <div className='content'>
@@ -64,11 +64,10 @@ export default function HeadlinesSection() {
                   alt={headlinesArticles[0].alt}
                   width={480}
                   height={320}
-                  className='h-80 w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                  className='h-[543px] w-full transition-transform duration-300 group-hover:scale-105'
                   loading='eager'
                   fetchPriority='high'
                   decoding='sync'
-                  style={{ width: 'auto', height: 'auto' }}
                 />
                 {/* Hover Title Overlay */}
                 <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-4 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
@@ -82,9 +81,9 @@ export default function HeadlinesSection() {
             </div>
           </div>
 
-          {/* Right Section - 3 Items */}
-          <div className='flex flex-col gap-6'>
-            {/* Top Item */}
+          {/* Right Section - 3 Items Stacked */}
+          <div className='flex flex-col gap-4'>
+            {/* Top Item - CHARGESTICK */}
             <div className='headline-post group cursor-pointer'>
               <div className='content'>
                 <div className='inner relative overflow-hidden rounded-lg shadow-lg'>
@@ -93,16 +92,15 @@ export default function HeadlinesSection() {
                     alt={headlinesArticles[1].alt}
                     width={480}
                     height={320}
-                    className='h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                    className='h-[356px] w-full object-cover transition-transform duration-300 group-hover:scale-105'
                     loading='eager'
                     fetchPriority='high'
                     decoding='sync'
-                    style={{ width: 'auto', height: 'auto' }}
                   />
                   {/* Hover Title Overlay */}
                   <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-3 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
                     <Link href={headlinesArticles[1].url} className='block'>
-                      <h4 className='post-title text-lg leading-tight font-semibold'>
+                      <h4 className='post-title text-base leading-tight font-semibold'>
                         {headlinesArticles[1].title}
                       </h4>
                     </Link>
@@ -111,7 +109,7 @@ export default function HeadlinesSection() {
               </div>
             </div>
 
-            {/* Bottom 2 Items */}
+            {/* Bottom 2 Items - DOMONO AQUACAM & 4URPC GEN 2 */}
             <div className='grid grid-cols-2 gap-4'>
               <div className='headline-post group cursor-pointer'>
                 <div className='content'>
@@ -121,11 +119,10 @@ export default function HeadlinesSection() {
                       alt={headlinesArticles[2].alt}
                       width={480}
                       height={320}
-                      className='h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      className='h-[170px] w-full transition-transform duration-300 group-hover:scale-105'
                       loading='eager'
                       fetchPriority='high'
                       decoding='sync'
-                      style={{ width: 'auto', height: 'auto' }}
                     />
                     {/* Hover Title Overlay */}
                     <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-2 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
@@ -147,11 +144,10 @@ export default function HeadlinesSection() {
                       alt={headlinesArticles[3].alt}
                       width={480}
                       height={320}
-                      className='h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      className='h-[170px] w-full transition-transform duration-300 group-hover:scale-105'
                       loading='eager'
                       fetchPriority='high'
                       decoding='sync'
-                      style={{ width: 'auto', height: 'auto' }}
                     />
                     {/* Hover Title Overlay */}
                     <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-2 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>

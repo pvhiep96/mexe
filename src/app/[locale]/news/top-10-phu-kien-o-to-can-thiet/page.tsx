@@ -8,11 +8,11 @@ export default async function Top10AutoAccessoriesArticle() {
   const t = await getTranslations('news');
 
   return (
-    <div className='min-h-screen bg-white'>
+    <div className='min-h-screen bg-white scroll-mt-32'>
       {/* Desktop Version */}
       <div className='hidden md:block'>
         {/* Breadcrumb Navigation */}
-        <div className='border-b bg-white'>
+        <div className='border-b bg-white mt-8'>
           <div className='container mx-auto px-4 py-4'>
             <nav className='flex' aria-label='Breadcrumb'>
               <ol className='inline-flex items-center space-x-1 md:space-x-3'>
@@ -307,7 +307,7 @@ export default async function Top10AutoAccessoriesArticle() {
 
             {/* Sticky Sidebar */}
             <div className='lg:col-span-1'>
-              <div className='sticky top-8'>
+              <div className='sticky top-20'>
                 <div className='rounded-lg bg-gray-50 p-6'>
                   <h3 className='mb-4 text-lg font-bold text-gray-900'>
                     BÀI VIẾT MỚI
@@ -459,7 +459,7 @@ export default async function Top10AutoAccessoriesArticle() {
       {/* Mobile Version */}
       <div className='md:hidden'>
         {/* Mobile Breadcrumb */}
-        <div className='border-b bg-white px-4 py-3'>
+        <div className='border-b bg-white px-4 py-3 mt-4'>
           <nav className='flex' aria-label='Breadcrumb'>
             <ol className='inline-flex items-center space-x-1'>
               <li className='inline-flex items-center'>
@@ -514,55 +514,222 @@ export default async function Top10AutoAccessoriesArticle() {
           </div>
 
           <article className='prose prose-sm max-w-none'>
-            <p className='mb-4 leading-relaxed text-gray-700'>
-              Khi mua xe mới, việc trang bị những phụ kiện phù hợp không chỉ
-              giúp bảo vệ xe mà còn nâng cao trải nghiệm lái xe và đảm bảo an
-              toàn cho gia đình.
+            <h2 className='mb-6 text-2xl font-bold text-gray-900'>
+              <strong>Top 10 phụ kiện ô tô cần thiết cho xe mới</strong>
+            </h2>
+
+            <p className='mb-6 text-lg leading-relaxed text-gray-700'>
+              Khi mua xe mới, việc trang bị những phụ kiện phù hợp không
+              chỉ giúp bảo vệ xe mà còn nâng cao trải nghiệm lái xe và đảm
+              bảo an toàn cho gia đình. Dưới đây là danh sách những phụ
+              kiện quan trọng nhất mà mọi chủ xe mới nên trang bị.
             </p>
 
-            <h2 className='mt-6 mb-3 text-xl font-bold text-gray-900'>
-              Top 10 phụ kiện ô tô cần thiết
-            </h2>
-            <div className='mb-4 space-y-4'>
-              <div className='rounded-lg bg-blue-50 p-3'>
-                <h3 className='mb-1 font-semibold text-blue-900'>
+            <h3 className='mt-8 mb-4 text-xl font-bold text-gray-900'>
+              <strong>Tại sao cần trang bị phụ kiện cho xe mới?</strong>
+            </h3>
+            <p className='mb-4 text-gray-700'>
+              Phụ kiện ô tô mang lại nhiều lợi ích quan trọng:
+            </p>
+            <ul className='mb-6 list-disc pl-6 text-gray-700'>
+              <li>Bảo vệ xe khỏi hư hại và mài mòn</li>
+              <li>Tăng cường an toàn khi lái xe</li>
+              <li>Nâng cao tiện nghi và thoải mái</li>
+              <li>Duy trì giá trị xe theo thời gian</li>
+            </ul>
+
+            <h3 className='mt-8 mb-4 text-xl font-bold text-gray-900'>
+              <strong>Top 10 phụ kiện ô tô cần thiết</strong>
+            </h3>
+
+            <div className='mb-8 space-y-6'>
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
                   1. Camera hành trình
-                </h3>
-                <p className='text-sm text-blue-800'>
-                  Bảo vệ quyền lợi, ghi lại bằng chứng
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Camera hành trình giúp ghi lại mọi hoạt động trên đường,
+                  bảo vệ quyền lợi khi xảy ra tai nạn hoặc tranh chấp giao
+                  thông.
                 </p>
+                <div className='rounded-lg bg-blue-50 p-4'>
+                  <p className='text-sm text-blue-800'>
+                    <strong>Lợi ích:</strong> Bảo vệ quyền lợi, ghi lại
+                    bằng chứng, giám sát xe
+                  </p>
+                </div>
               </div>
-              <div className='rounded-lg bg-green-50 p-3'>
-                <h3 className='mb-1 font-semibold text-green-900'>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
                   2. Thảm sàn ô tô
-                </h3>
-                <p className='text-sm text-green-800'>
-                  Bảo vệ sàn xe, dễ vệ sinh
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Thảm sàn ô tô giúp bảo vệ sàn xe khỏi bụi bẩn, nước và mài
+                  mòn, đặc biệt quan trọng trong điều kiện thời tiết ẩm
+                  ướt.
                 </p>
+                <div className='rounded-lg bg-green-50 p-4'>
+                  <p className='text-sm text-green-800'>
+                    <strong>Lợi ích:</strong> Bảo vệ sàn xe, dễ vệ sinh, chống trơn trượt
+                  </p>
+                </div>
               </div>
-              <div className='rounded-lg bg-purple-50 p-3'>
-                <h3 className='mb-1 font-semibold text-purple-900'>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
                   3. Máy lọc không khí
-                </h3>
-                <p className='text-sm text-purple-800'>
-                  Bảo vệ sức khỏe, không khí sạch
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Máy lọc không khí giúp loại bỏ bụi bẩn, vi khuẩn và mùi hôi trong
+                  xe, đảm bảo không khí sạch sẽ cho người lái và hành khách.
                 </p>
+                <div className='rounded-lg bg-purple-50 p-4'>
+                  <p className='text-sm text-purple-800'>
+                    <strong>Lợi ích:</strong> Bảo vệ sức khỏe, không khí sạch, giảm mùi hôi
+                  </p>
+                </div>
               </div>
-              <div className='rounded-lg bg-orange-50 p-3'>
-                <h3 className='mb-1 font-semibold text-orange-900'>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
                   4. Ghế ngồi trẻ em
-                </h3>
-                <p className='text-sm text-orange-800'>An toàn cho trẻ em</p>
-              </div>
-              <div className='rounded-lg bg-red-50 p-3'>
-                <h3 className='mb-1 font-semibold text-red-900'>
-                  5. Bọc ghế da
-                </h3>
-                <p className='text-sm text-red-800'>
-                  Bảo vệ ghế xe, tăng thẩm mỹ
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Ghế ngồi trẻ em đảm bảo an toàn cho trẻ em khi di chuyển, giảm
+                  thiểu rủi ro chấn thương trong trường hợp tai nạn.
                 </p>
+                <div className='rounded-lg bg-orange-50 p-4'>
+                  <p className='text-sm text-orange-800'>
+                    <strong>Lợi ích:</strong> An toàn cho trẻ em, tuân thủ quy định, giảm rủi ro
+                  </p>
+                </div>
+              </div>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
+                  5. Bọc ghế da
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Bọc ghế da giúp bảo vệ ghế xe khỏi mài mòn, dễ dàng vệ sinh và
+                  tăng tính thẩm mỹ cho nội thất xe.
+                </p>
+                <div className='rounded-lg bg-red-50 p-4'>
+                  <p className='text-sm text-red-800'>
+                    <strong>Lợi ích:</strong> Bảo vệ ghế xe, tăng thẩm mỹ, dễ vệ sinh
+                  </p>
+                </div>
+              </div>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
+                  6. Sạc điện thoại
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Sạc điện thoại trong xe giúp duy trì kết nối liên lạc và sử dụng
+                  các ứng dụng điều hướng trong suốt hành trình.
+                </p>
+                <div className='rounded-lg bg-yellow-50 p-4'>
+                  <p className='text-sm text-yellow-800'>
+                    <strong>Lợi ích:</strong> Tiện lợi, sạc nhanh, nhiều cổng sạc
+                  </p>
+                </div>
+              </div>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
+                  7. Cảm biến áp suất lốp
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Cảm biến áp suất lốp giúp theo dõi áp suất lốp liên tục,
+                  đảm bảo an toàn và tiết kiệm nhiên liệu.
+                </p>
+                <div className='rounded-lg bg-indigo-50 p-4'>
+                  <p className='text-sm text-indigo-800'>
+                    <strong>Lợi ích:</strong> An toàn, tiết kiệm nhiên liệu, bảo vệ lốp
+                  </p>
+                </div>
+              </div>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
+                  8. Nước thơm ô tô
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Nước thơm ô tô giúp tạo mùi hương dễ chịu trong xe, loại
+                  bỏ mùi hôi và tạo cảm giác thoải mái.
+                </p>
+                <div className='rounded-lg bg-pink-50 p-4'>
+                  <p className='text-sm text-pink-800'>
+                    <strong>Lợi ích:</strong> Mùi hương dễ chịu, loại bỏ mùi hôi
+                  </p>
+                </div>
+              </div>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
+                  9. Gối tựa đầu
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Gối tựa đầu giúp tăng sự thoải mái khi ngồi xe, đặc biệt
+                  trong những chuyến đi dài.
+                </p>
+                <div className='rounded-lg bg-teal-50 p-4'>
+                  <p className='text-sm text-teal-800'>
+                    <strong>Lợi ích:</strong> Tăng thoải mái, giảm mệt mỏi
+                  </p>
+                </div>
+              </div>
+
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h4 className='mb-3 text-lg font-semibold text-gray-900'>
+                  10. Bọc vô lăng
+                </h4>
+                <p className='mb-3 text-gray-700'>
+                  Bọc vô lăng giúp bảo vệ vô lăng khỏi mài mòn, tăng độ
+                  bám và tạo cảm giác lái xe tốt hơn.
+                </p>
+                <div className='rounded-lg bg-cyan-50 p-4'>
+                  <p className='text-sm text-cyan-800'>
+                    <strong>Lợi ích:</strong> Bảo vệ vô lăng, tăng độ bám, cảm giác lái tốt
+                  </p>
+                </div>
               </div>
             </div>
+
+            <h3 className='mt-8 mb-4 text-xl font-bold text-gray-900'>
+              <strong>Lưu ý khi chọn phụ kiện ô tô</strong>
+            </h3>
+            <div className='mb-6 border-l-4 border-blue-400 bg-blue-50 p-4'>
+              <ul className='list-disc pl-6 text-gray-700'>
+                <li>
+                  <strong>Chất lượng:</strong> Ưu tiên sản phẩm chất lượng
+                  cao, có thương hiệu uy tín
+                </li>
+                <li>
+                  <strong>Phù hợp:</strong> Chọn phụ kiện phù hợp với loại
+                  xe và nhu cầu sử dụng
+                </li>
+                <li>
+                  <strong>An toàn:</strong> Đảm bảo phụ kiện không ảnh
+                  hưởng đến an toàn lái xe
+                </li>
+                <li>
+                  <strong>Bảo hành:</strong> Chọn sản phẩm có chế độ bảo
+                  hành tốt
+                </li>
+              </ul>
+            </div>
+
+            <h3 className='mt-8 mb-4 text-xl font-bold text-gray-900'>
+              <strong>Kết luận</strong>
+            </h3>
+            <p className='mb-8 text-gray-700'>
+              Việc trang bị đầy đủ phụ kiện ô tô cần thiết không chỉ giúp
+              bảo vệ xe mà còn nâng cao trải nghiệm lái xe và đảm bảo an
+              toàn cho gia đình. Hãy đầu tư vào những phụ kiện chất lượng
+              để có được giá trị tốt nhất cho xe của bạn.
+            </p>
           </article>
         </div>
 

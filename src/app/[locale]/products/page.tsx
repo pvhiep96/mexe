@@ -366,12 +366,51 @@ const allProducts = [
     id: 32,
     name: 'Màn hình Samsung CRG9',
     url: '#',
-    image:
-      'https://file.hstatic.net/1000069970/collection/samsung_crg9_4d816eab8c1c4942940f59d9599beb4b_large.jpg',
+    image: 'https://file.hstatic.net/1000069970/collection/samsung_crg9_4d816eab8c1c4942940f59d9599beb4b_large.jpg',
     description: 'Màn hình ultrawide 49 inch, 5120x1440, 120Hz, FreeSync 2.',
     ordered: 7,
     total: 20,
     endDate: '08/09/2025',
+  },
+  {
+    id: 33,
+    name: 'Bàn phím cơ không dây Logitech MX Keys',
+    url: '#',
+    image: '', // Không có ảnh - sẽ hiển thị placeholder
+    description: 'Bàn phím không dây cao cấp, thiết kế ergonomic, pin lâu.',
+    ordered: 15,
+    total: 45,
+    endDate: '12/09/2025',
+  },
+  {
+    id: 34,
+    name: 'Chuột gaming Logitech G Pro X Superlight',
+    url: '#',
+    image: null, // Không có ảnh - sẽ hiển thị placeholder
+    description: 'Chuột gaming không dây siêu nhẹ, 25K DPI, 70 giờ pin.',
+    ordered: 33,
+    total: 80,
+    endDate: '05/09/2025',
+  },
+  {
+    id: 35,
+    name: 'Loa Bluetooth JBL Charge 5',
+    url: '#',
+    image: undefined, // Không có ảnh - sẽ hiển thị placeholder
+    description: 'Loa Bluetooth portable, waterproof, 20 giờ pin, âm thanh mạnh mẽ.',
+    ordered: 28,
+    total: 75,
+    endDate: '18/09/2025',
+  },
+  {
+    id: 36,
+    name: 'Webcam Logitech Brio 4K',
+    url: '#',
+    image: false, // Không có ảnh - sẽ hiển thị placeholder
+    description: 'Webcam 4K Ultra HD, HDR, autofocus, tích hợp microphone.',
+    ordered: 19,
+    total: 50,
+    endDate: '25/09/2025',
   },
 ];
 

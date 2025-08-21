@@ -1,5 +1,7 @@
 'use client';
 import React, { useState } from 'react';
+import { useCart } from '@/context/CartContext';
+import { useFlashTooltip } from '@/context/FlashTooltipContext';
 
 interface Product {
   id: number;
@@ -34,11 +36,29 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   bannerImage = 'https://file.hstatic.net/1000069970/file/banner_pre_c4eeb4b0068b421dafdc8ce2f9aa7d54_40d9e9e6a2894924b768c57612313211.png',
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const { addToCart } = useCart();
+  const { showTooltip } = useFlashTooltip();
+
   const totalPages = Math.ceil(products.length / itemsPerPage);
-  const paginatedProducts = products.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedProducts = products.slice(startIndex, endIndex);
+
+  const handleAddToCart = (product: Product) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price || 0,
+      image: product.image,
+      quantity: 1,
+    });
+    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
+  };
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -53,8 +73,119 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
   return (
     <div className='relative pb-12'>
-      {/* Background blue rounded container */}
-      <div className='absolute inset-0 top-8 z-0 h-full w-full rounded-t-[60px] bg-[#2D6294]'></div>
+      {/* Background mới trải dài hết trang, kể cả phần trắng ở 2 bên */}
+      <div className='absolute inset-0 z-0 h-full w-screen -left-[calc((100vw-100%)/2)]'>
+        {/* Background chính với màu xám nhạt */}
+        <div className='absolute inset-0 bg-gray-50'></div>
+        
+        {/* Pattern overlay với đường lượn sóng giống ảnh 2 */}
+        <div className='absolute inset-0 overflow-hidden'>
+          {/* Đường lượn sóng trên - giống ảnh 2 với màu xanh nhạt */}
+          <div className='absolute top-0 left-0 w-full h-24'>
+            <svg 
+              className='w-full h-full' 
+              viewBox='0 0 1200 96' 
+              preserveAspectRatio='none'
+            >
+              <defs>
+                <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#e0f2fe" stopOpacity="1"/>
+                  <stop offset="50%" stopColor="#bae6fd" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#e0f2fe" stopOpacity="1"/>
+                </linearGradient>
+              </defs>
+              <path 
+                d='M0,96 Q150,32 300,96 Q450,48 600,96 Q750,32 900,96 Q1050,48 1200,96 L1200,0 L0,0 Z' 
+                fill='url(#waveGradient1)'
+              />
+            </svg>
+          </div>
+          
+          {/* Đường lượn sóng giữa - tạo hiệu ứng 3D giống ảnh 2 */}
+          <div className='absolute top-1/3 left-0 w-full h-20'>
+            <svg 
+              className='w-full h-full' 
+              viewBox='0 0 1200 80' 
+              preserveAspectRatio='none'
+            >
+              <defs>
+                <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#bae6fd" stopOpacity="1"/>
+                  <stop offset="50%" stopColor="#7dd3fc" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#bae6fd" stopOpacity="1"/>
+                </linearGradient>
+              </defs>
+              <path 
+                d='M0,0 Q100,48 200,0 Q300,64 400,0 Q500,48 600,0 Q700,64 800,0 Q900,48 1000,0 Q1100,64 1200,0 L1200,80 L0,80 Z' 
+                fill='url(#waveGradient2)'
+              />
+            </svg>
+          </div>
+          
+          {/* Đường lượn sóng dưới - giống ảnh 2 với màu xanh nhạt */}
+          <div className='absolute bottom-0 left-0 w-full h-24'>
+            <svg 
+              className='w-full h-full' 
+              viewBox='0 0 1200 96' 
+              preserveAspectRatio='none'
+            >
+              <defs>
+                <linearGradient id="waveGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#e0f2fe" stopOpacity="1"/>
+                  <stop offset="50%" stopColor="#bae6fd" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#e0f2fe" stopOpacity="1"/>
+                </linearGradient>
+              </defs>
+              <path 
+                d='M0,0 Q150,48 300,0 Q450,24 600,0 Q750,48 900,0 Q1050,24 1200,0 L1200,96 L0,96 Z' 
+                fill='url(#waveGradient3)'
+              />
+            </svg>
+          </div>
+          
+          {/* Đường lượn sóng phụ - tạo chiều sâu giống ảnh 2 */}
+          <div className='absolute top-1/4 left-0 w-full h-16'>
+            <svg 
+              className='w-full h-full' 
+              viewBox='0 0 1200 64' 
+              preserveAspectRatio='none'
+            >
+              <defs>
+                <linearGradient id="waveGradient4" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#f0f9ff" stopOpacity="1"/>
+                  <stop offset="50%" stopColor="#e0f2fe" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#f0f9ff" stopOpacity="1"/>
+                </linearGradient>
+              </defs>
+              <path 
+                d='M0,32 Q120,0 240,32 Q360,64 480,32 Q600,0 720,32 Q840,64 960,32 Q1080,0 1200,32 L1200,64 L0,64 Z' 
+                fill='url(#waveGradient4)'
+              />
+            </svg>
+          </div>
+          
+          {/* Đường lượn sóng phụ thứ 2 - tạo hiệu ứng mềm mại giống ảnh 2 */}
+          <div className='absolute top-2/3 left-0 w-full h-16'>
+            <svg 
+              className='w-full h-full' 
+              viewBox='0 0 1200 64' 
+              preserveAspectRatio='none'
+            >
+              <defs>
+                <linearGradient id="waveGradient5" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#bae6fd" stopOpacity="1"/>
+                  <stop offset="50%" stopColor="#7dd3fc" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#bae6fd" stopOpacity="1"/>
+                </linearGradient>
+              </defs>
+              <path 
+                d='M0,0 Q120,48 240,0 Q360,16 480,0 Q600,48 720,0 Q840,16 960,0 Q1080,48 1200,0 L1200,64 L0,64 Z' 
+                fill='url(#waveGradient5)'
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
 
       {/* Main content container */}
       <div className='relative z-10 container mx-auto max-w-[1200px] pt-8'>
@@ -72,11 +203,38 @@ const ProductGrid: React.FC<ProductGridProps> = ({
               >
                 {/* Product image container */}
                 <div className='relative flex h-[160px] w-full items-center justify-center bg-[#f7f7f7] sm:h-[220px] lg:h-[245px]'>
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className='h-full w-full rounded-t-3xl object-cover transition-transform duration-300 group-hover:scale-110'
-                  />
+                  {product.image ? (
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className='h-full w-full rounded-t-3xl object-cover transition-transform duration-300 group-hover:scale-110'
+                    />
+                  ) : (
+                    /* Placeholder "No Image" đẹp mắt */
+                    <div className='flex h-full w-full flex-col items-center justify-center rounded-t-3xl bg-gradient-to-br from-gray-100 to-gray-200 p-4'>
+                      <svg
+                        className='mb-2 h-12 w-12 text-gray-400 sm:h-16 sm:w-16 lg:h-20 lg:w-20'
+                        fill='none'
+                        stroke='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={1.5}
+                          d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
+                        />
+                      </svg>
+                      <div className='text-center'>
+                        <p className='text-xs font-medium text-gray-500 sm:text-sm lg:text-base'>
+                          No Image
+                        </p>
+                        <p className='text-xs text-gray-400 sm:text-sm'>
+                          Available
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Product badges */}
                   <div className='absolute top-2 left-2 flex flex-col gap-1'>
@@ -169,7 +327,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
                   {/* Add to cart button */}
                   <div className='mt-auto flex w-full justify-center'>
-                    <button className='flex w-full cursor-pointer items-center justify-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white transition-all hover:bg-red-600 sm:gap-2 sm:px-6 sm:py-2 sm:text-base'>
+                    <button 
+                      onClick={() => handleAddToCart(product)}
+                      className='flex w-full cursor-pointer items-center justify-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white transition-all hover:bg-red-600 sm:gap-2 sm:px-6 sm:py-2 sm:text-base'
+                    >
                       <svg
                         className='h-3 w-3 sm:h-6 sm:w-6 lg:h-7 lg:w-7'
                         fill='none'
@@ -206,21 +367,18 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className='mt-8 flex flex-col items-center gap-4 px-2 sm:px-0'>
-            {/* Page info */}
-            <div className='text-center text-sm text-white font-semibold sm:text-base'>
+          <div className='mt-4 flex flex-col items-center space-y-4'>
+            <div className='text-sm text-gray-700 font-medium'>
               Trang {currentPage} của {totalPages} ({products.length} sản phẩm)
             </div>
-            
-            <div className='flex justify-center gap-2 sm:gap-4'>
-              {/* Previous button */}
+            <div className='flex items-center space-x-2'>
               <button
-                className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-xl font-bold shadow transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-gray-100 sm:h-16 sm:w-16 sm:text-2xl'
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => goToPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
+                className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
               >
                 <svg
-                  className='h-6 w-6 sm:h-7 sm:w-7'
+                  className='h-5 w-5'
                   fill='none'
                   viewBox='0 0 24 24'
                 >
@@ -233,8 +391,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                   />
                 </svg>
               </button>
-
-              {/* Page numbers with ellipsis */}
               {(() => {
                 const maxVisiblePages = 7;
                 const pages = [];
@@ -280,12 +436,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                       </div>
                     ) : (
                       <button
-                        className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-lg font-normal shadow transition-all sm:h-14 sm:w-14 sm:text-2xl ${
+                        className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border text-sm font-medium transition-colors ${
                           currentPage === page
-                            ? 'bg-white font-bold text-[#2D6294]'
-                            : 'bg-white/90 text-[#2D6294] hover:bg-white hover:shadow-lg'
+                            ? 'border-blue-600 bg-blue-600 text-white'
+                            : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                         }`}
-                        onClick={() => setCurrentPage(page as number)}
+                        onClick={() => goToPage(page as number)}
                       >
                         {page}
                       </button>
@@ -293,15 +449,13 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                   </React.Fragment>
                 ));
               })()}
-
-              {/* Next button */}
               <button
-                className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-xl font-bold shadow transition disabled:cursor-not-allowed disabled:opacity-50 hover:bg-gray-100 sm:h-16 sm:w-16 sm:text-2xl'
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => goToPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
+                className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
               >
                 <svg
-                  className='h-6 w-6 sm:h-7 sm:w-7'
+                  className='h-5 w-5'
                   fill='none'
                   viewBox='0 0 24 24'
                 >

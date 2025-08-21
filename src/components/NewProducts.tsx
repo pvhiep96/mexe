@@ -325,8 +325,8 @@ export default function NewProducts() {
                   </div>
                   <button 
                     onClick={() => {
-                      const { showTooltip } = useFlashTooltip();
-                      showTooltip(t('buy_now_success'), 'success');
+                      // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
+                      alert('Đặt hàng thành công!');
                     }}
                     className='rounded-full bg-red-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-red-600'
                   >

@@ -13,8 +13,10 @@ export default async function NewsPage({
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      {/* Headlines Section */}
-      <HeadlinesSection />
+      {/* Headlines Section - Desktop Only */}
+      <div className='hidden md:block'>
+        <HeadlinesSection />
+      </div>
 
       {/* Desktop Version */}
       <div className='hidden md:block'>
