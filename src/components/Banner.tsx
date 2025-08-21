@@ -90,26 +90,32 @@ export default function Banner() {
 
   const categories = [
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_1.png?v=7371',
+      icon: '/images/icon-grid.webp',
       label: 'Tất cả sản phẩm',
       href: '/products',
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_2.png?v=7371',
-      label: 'Thương hiệu ô tô',
+      icon: '/images/icon-more.webp',
+      label: 'Thương hiệu đối tác',
       href: '/',
       submenu: [
-        { label: 'Honda', href: '/products?brand=honda' },
         { label: 'Toyota', href: '/products?brand=toyota' },
-        { label: 'Mazda', href: '/products?brand=mazda' },
-        { label: 'Hyundai', href: '/products?brand=hyundai' },
-        { label: 'KIA', href: '/products?brand=kia' },
-        { label: 'Ford', href: '/products?brand=ford' },
+        { label: 'Honda', href: '/products?brand=honda' },
+        { label: 'Thaco', href: '/products?brand=thaco' },
+        { label: 'Vinfast', href: '/products?brand=vinfast' },
+        { label: 'Tmas', href: '/products?brand=tmas' },
+        { label: 'Icar', href: '/products?brand=icar' },
+        { label: 'Aozoom', href: '/products?brand=aozoom' },
+        { label: 'Auto365', href: '/products?brand=auto365' },
+        { label: 'Chicco', href: '/products?brand=chicco' },
+        { label: 'Vinaquick', href: '/products?brand=vinaquick' },
+        { label: 'Setcar', href: '/products?brand=setcar' },
+        { label: 'Vietmap', href: '/products?brand=vietmap' },
       ],
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_3.png?v=7371',
-      label: 'Nội thất xe | Trang trí nội thất',
+      icon: '/images/icon-new.webp',
+      label: 'Phụ kiện nội/ngoại thất',
       href: '/products?category=noi-that-xe',
       submenu: [
         {
@@ -125,8 +131,8 @@ export default function Banner() {
       ],
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_4.png?v=7371',
-      label: 'An toàn xe',
+      icon: '/images/icon-search.svg',
+      label: 'Ứng dụng/định vị',
       href: '/products?category=an-toan-xe',
       submenu: [
         { label: 'Camera hành trình', href: '/products?category=camera-hanh-trinh' },
@@ -137,13 +143,13 @@ export default function Banner() {
       ],
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_5.png?v=7371',
-      label: 'Showcase - Những sản phẩm hot nhất',
+      icon: '/images/icon-new.webp',
+      label: 'Đồ chơi xe',
       href: '/products?featured=true',
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_6.png?v=7371',
-      label: 'Phụ kiện ngoại thất',
+      icon: '/images/icon-more.webp',
+      label: 'Camping',
       href: '/products?category=phu-kien-ngoai-that',
       submenu: [
         {
@@ -154,13 +160,13 @@ export default function Banner() {
       ],
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_7.png?v=7371',
-      label: 'Đồng hồ trang trí',
+      icon: '/images/icon-more.webp',
+      label: 'Thiết bị an toàn',
       href: '/products?category=dong-ho-trang-tri-xe',
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_8.png?v=7371',
-      label: 'Đèn trang trí xe',
+      icon: '/images/icon-sale.webp',
+      label: 'Pin – sạc – xe điện',
       href: '/products?category=den-trang-tri-xe',
       submenu: [
         { label: 'Đèn LED nội thất', href: '/products?category=den-led-noi-that' },
@@ -174,90 +180,80 @@ export default function Banner() {
         },
       ],
     },
-    {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_9.png?v=7371',
-      label: 'Công nghệ ô tô',
-      href: '/products?category=cong-nghe-oto',
-    },
-    {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_10.png?v=7371',
-      label: 'Âm thanh xe hơi',
-      href: '/products?category=am-thanh-xe-hoi',
-    },
   ];
 
   const vendors = [
     {
-      href: '/products?brand=honda',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_1.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_1.png?v=7371',
-    },
-    {
       href: '/products?brand=toyota',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_2.png?v=7371',
+      img: '/images/brands/toyota.png',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_2.png?v=7371',
+        '/images/brands/toyota.png',
     },
     {
-      href: '/products?brand=mazda',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_3.png?v=7371',
+      href: '/products?brand=honda',
+      img: '/images/brands/honda.png',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_3.png?v=7371',
+        '/images/brands/honda.png',
     },
     {
-      href: '/products?brand=hyundai',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_4.png?v=7371',
+      href: '/products?brand=thaco',
+      img: '/images/brands/thaco.png',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_4.png?v=7371',
+        '/images/brands/thaco.png',
     },
     {
-      href: '/products?brand=kia',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_5.png?v=7371',
+      href: '/products?brand=vinfast',
+      img: '/images/brands/vinfast.webp',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_5.png?v=7371',
+        '/images/brands/vinfast.webp',
     },
     {
-      href: '/products?brand=ford',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_6.png?v=7371',
+      href: '/products?brand=tmas',
+      img: '/images/brands/tmas.svg',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_6.png?v=7371',
+        '/images/brands/tmas.svg',
     },
     {
-      href: '/products?brand=mitsubishi',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_7.png?v=7371',
+      href: '/products?brand=icar',
+      img: '/images/brands/icar.jpg',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_7.png?v=7371',
+        '/images/brands/icar.jpg',
     },
     {
-      href: '/products?brand=nissan',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_8.png?v=7371',
+      href: '/products?brand=aozoom',
+      img: '/images/brands/aozoom.svg',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_8.png?v=7371',
+        '/images/brands/aozoom.svg',
     },
     {
-      href: '/products?brand=subaru',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_9.png?v=7371',
+      href: '/products?brand=auto365',
+      img: '/images/brands/auto365.png',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_9.png?v=7371',
+        '/images/brands/auto365.png',
     },
     {
-      href: '/products?brand=suzuki',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_10.png?v=7371',
+      href: '/products?brand=chicco',
+      img: '/images/brands/chicco.webp',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_10.png?v=7371',
+        '/images/brands/chicco.webp',
     },
     {
-      href: '/products?brand=isuzu',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_11.png?v=7371',
+      href: '/products?brand=vinaquick',
+      img: '/images/brands/vinaquick.png',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_11.png?v=7371',
+        '/images/brands/vinaquick.png',
     },
     {
-      href: '/products?brand=lexus',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_12.png?v=7371',
+      href: '/products?brand=setcar',
+      img: '/images/brands/setcar.png',
       hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_12.png?v=7371',
+        '/images/brands/setcar.png',
+    },
+    {
+      href: '/products?brand=vietmap',
+      img: '/images/brands/vietmap.webp',
+      hoverImg:
+        '/images/brands/vietmap.webp',
     },
   ];
 
@@ -314,23 +310,16 @@ export default function Banner() {
                       }
                     }}
                   >
-                    <div className='sidebar-icon-wrap group flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white'>
-                      <img
-                        width='30'
-                        height='30'
-                        src={item.icon}
-                        alt={`icon_sidebar_${idx + 1}.png`}
-                        className='mr-3 flex-shrink-0'
-                      />
-                      <a
-                        href={item.href}
-                        target='_blank'
-                        className='text-sm text-gray-700 truncate group-hover:text-white transition-colors duration-300'
-                        rel='noreferrer'
-                      >
-                        {item.label}
-                      </a>
-                    </div>
+                                          <div className='sidebar-icon-wrap group flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white h-[55px]'>
+                        <a
+                          href={item.href}
+                          target='_blank'
+                          className='text-sm text-gray-700 truncate group-hover:text-white transition-colors duration-300 flex items-center justify-center w-full'
+                          rel='noreferrer'
+                        >
+                          {item.label}
+                        </a>
+                      </div>
                   </div>
                 ))}
               </div>
@@ -350,18 +339,18 @@ export default function Banner() {
                     rel='noreferrer'
                   >
                     <img
-                      width='100'
-                      height='50'
+                      width='140'
+                      height='60'
                       src={vendor.img}
                       alt={`vendor_${idx + 1}`}
-                      className='img-vendor h-auto w-full max-w-[120px] object-contain'
+                      className='img-vendor w-[140px] h-[60px] object-contain'
                     />
                     <img
-                      width='100'
-                      height='50'
+                      width='140'
+                      height='60'
                       src={vendor.hoverImg}
                       alt={`vendor_hover_${idx + 1}`}
-                      className='img-vendor-hover hidden h-auto w-full max-w-[120px] object-contain hover:block'
+                      className='img-vendor-hover hidden w-[140px] h-[60px] object-contain hover:block'
                     />
                   </a>
                 ))}
@@ -378,7 +367,7 @@ export default function Banner() {
               className={`absolute z-50 min-w-[300px] rounded-lg bg-white shadow-xl border border-gray-200 transition-all duration-200 ${hoveredSubmenu === item.label ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
               style={{
                 left: `${width - 50}px`, // Overlap 2px để không bị mất hover
-                top: `${(idx * 62)}px` // 48px header + 8px padding + 62px mỗi item (height + spacing)
+                top: `${(idx * 55)}px` // 48px header + 8px padding + 55px mỗi item (height)
               }}
               onMouseEnter={() => setHoveredSubmenu(item.label)}
               onMouseLeave={() => setHoveredSubmenu(null)}
