@@ -10,7 +10,7 @@ export default function SPFooter() {
     <footer className='bg-gray-800 py-4 text-white'>
       <div className='container mx-auto px-4'>
         {/* Hàng đầu tiên: Hỗ Trợ Khách Hàng và Logo MEXE */}
-        <div className='flex justify-between items-start mb-6'>
+        <div className='mb-6 flex items-start justify-between'>
           <div className='flex-1 pr-4'>
             <h3 className='mb-2 text-base font-semibold'>
               {t('customer_support')}
@@ -38,7 +38,7 @@ export default function SPFooter() {
               </li>
             </ul>
           </div>
-          
+
           {/* Logo MEXE nhỏ ở bên phải */}
           <div className='flex-shrink-0'>
             <Image
@@ -50,7 +50,7 @@ export default function SPFooter() {
             />
           </div>
         </div>
-        
+
         {/* Các sections khác */}
         <div className='space-y-4'>
           <div>

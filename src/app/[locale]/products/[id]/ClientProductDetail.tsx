@@ -68,7 +68,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
         <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>
           {/* Images */}
           <div className='space-y-4'>
-            <div className='aspect-square overflow-hidden rounded-lg bg-white'>
+            <div className='aspect-square overflow-hidden rounded-2xl bg-white shadow-lg'>
               <Image
                 src={productData.images[selectedImage]}
                 alt={productData.name}
@@ -82,8 +82,8 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`aspect-square overflow-hidden rounded border-2 ${
-                    selectedImage === index ? 'border-blue-500' : 'border-gray-200'
+                  className={`aspect-square overflow-hidden rounded-full border-2 transition-all duration-200 hover:scale-105 cursor-pointer ${
+                    selectedImage === index ? 'border-blue-500 shadow-lg' : 'border-gray-200'
                   }`}
                 >
                   <Image
@@ -115,11 +115,12 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
                   <button
                     key={color.value}
                     onClick={() => setSelectedColor(color.value)}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${
-                      selectedColor === color.value ? 'border-blue-500' : 'border-gray-300'
+                    className={`flex items-center justify-center px-4 py-2 rounded-full border-2 transition-all duration-200 hover:scale-105 cursor-pointer ${
+                      selectedColor === color.value ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-md' : 'border-gray-300 bg-gray-100 text-gray-700'
                     }`}
-                    style={{ backgroundColor: color.value }}
-                  />
+                  >
+                    <span className='text-sm font-medium'>{color.name}</span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -127,31 +128,46 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
             {/* Quantity */}
             <div>
               <h3 className='mb-3 text-sm font-medium'>Số lượng</h3>
-              <div className='flex items-center space-x-2'>
+              <div className='flex items-center shadow-sm'>
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className='flex h-8 w-8 items-center justify-center rounded border border-gray-300 hover:bg-gray-50'
+                  className='flex h-10 w-10 items-center justify-center rounded-l-full border border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer bg-gray-100 text-gray-700 font-medium border-r-0 hover:scale-105'
                 >
                   -
                 </button>
-                <span className='px-4 py-1 border border-gray-300 rounded'>{quantity}</span>
+                <span className='px-4 py-2 border border-gray-300 bg-white text-center min-w-[4rem] flex items-center justify-center text-gray-700 font-medium'>{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className='flex h-8 w-8 items-center justify-center rounded border border-gray-300 hover:bg-gray-50'
+                  className='flex h-10 w-10 items-center justify-center rounded-r-full border border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer bg-gray-100 text-gray-700 font-medium border-l-0 hover:scale-105'
                 >
                   +
                 </button>
               </div>
             </div>
 
-            {/* Add to Cart */}
-            <button
-              onClick={handleAddToCart}
-              className='flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition-colors'
-            >
-              <ShoppingCartIcon className='h-5 w-5' />
-              Thêm vào giỏ hàng
-            </button>
+            {/* Action Buttons */}
+            <div className='flex gap-3'>
+              {/* Add to Cart */}
+              <button
+                onClick={handleAddToCart}
+                className='flex items-center justify-center rounded-full bg-gray-100 px-4 py-3 text-gray-700 hover:bg-gray-200 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer border border-gray-200 font-medium w-12 h-12'
+              >
+                <div className='relative'>
+                  <ShoppingCartIcon className='h-6 w-6' />
+                  <div className='absolute -top-1 -right-1 w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center'>
+                    <span className='text-white text-xs font-bold'>+</span>
+                  </div>
+                </div>
+              </button>
+              
+              {/* Buy Now */}
+              <button
+                onClick={handleAddToCart}
+                className='flex flex-1 items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer font-medium'
+              >
+                Mua hàng
+              </button>
+            </div>
 
             {/* Services */}
             <div className='grid grid-cols-2 gap-4'>

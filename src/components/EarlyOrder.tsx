@@ -34,7 +34,6 @@ export default function EarlyOrder() {
   const tabs: Tab[] = [
     { name: 'Dự án thịnh hành' },
     { name: 'Mới ra mắt' },
-    { name: 'Mở bán đợt 2' },
     { name: 'Sắp kết thúc' },
     { name: 'Sắp về hàng' },
     { name: 'Xem tất cả' },
@@ -171,69 +170,12 @@ export default function EarlyOrder() {
         tagText: 'text-white',
       },
     ],
-    [
-      {
-        id: 10,
-        name: 'Sản phẩm demo tab 3',
-        img: '/images/demo-preorder/preorder-1.png',
-        badge: 'MỞ BÁN ĐỢT 2',
-        badgeColor: 'bg-gray-600',
-        ordered: 0,
-        total: 50,
-        end: '',
-        percent: 0,
-        tag: 'Sắp mở bán',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 11,
-        name: 'Sản phẩm test slide',
-        img: '/images/demo-preorder/preorder-2.png',
-        badge: 'MỞ BÁN ĐỢT 2',
-        badgeColor: 'bg-gray-600',
-        ordered: 3,
-        total: 10,
-        end: '',
-        percent: 30,
-        tag: 'Sắp mở bán',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 12,
-        name: 'Sản phẩm 3',
-        img: '/images/demo-preorder/preorder-3.png',
-        badge: 'MỞ BÁN ĐỢT 2',
-        badgeColor: 'bg-gray-600',
-        ordered: 2,
-        total: 20,
-        end: '',
-        percent: 10,
-        tag: 'Sắp mở bán',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 13,
-        name: 'Sản phẩm 4',
-        img: '/images/demo-preorder/preorder-1.png',
-        badge: 'MỞ BÁN ĐỢT 2',
-        badgeColor: 'bg-gray-600',
-        ordered: 1,
-        total: 5,
-        end: '',
-        percent: 20,
-        tag: 'Sắp mở bán',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-    ],
     [],
     [],
     [],
   ];
 
+  // Logic băng chuyền vô tận - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
   const prev = () => {
     if (sliders[activeTab] > 0) {
       const newSliders = [...sliders];
@@ -243,11 +185,40 @@ export default function EarlyOrder() {
   };
 
   const next = () => {
-    if (sliders[activeTab] < products[activeTab].length - visible) {
-      const newSliders = [...sliders];
-      newSliders[activeTab]++;
-      setSliders(newSliders);
+    // Luôn tăng lên, tạo hiệu ứng băng chuyền liên tục
+    // Khi slider dương, chúng ta sẽ thấy items từ đầu
+    // Khi slider = 0, bấm next sẽ hiển thị items từ đầu
+    const newSliders = [...sliders];
+    newSliders[activeTab]++;
+    setSliders(newSliders);
+  };
+
+  // Tạo mảng products lặp lại để tạo băng chuyền vô tận
+  const getVisibleProducts = (tabIndex: number) => {
+    const currentProducts = products[tabIndex];
+    if (!currentProducts || currentProducts.length === 0) return [];
+
+    // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
+    let conveyorProducts = [];
+
+    // Thêm products gốc
+    conveyorProducts.push(...currentProducts);
+
+    // Thêm products lặp lại 5 lần để đảm bảo đủ items
+    for (let i = 0; i < 5; i++) {
+      conveyorProducts.push(...currentProducts);
     }
+
+    // Thêm products lặp lại 5 lần ở đầu cho Prev
+    for (let i = 0; i < 5; i++) {
+      conveyorProducts.unshift(...currentProducts);
+    }
+
+    return conveyorProducts.map((product, index) => ({
+      ...product,
+      key: `product-${tabIndex}-${index}`,
+      originalIndex: index % currentProducts.length,
+    }));
   };
 
   const getTagText = (tabIndex: number) => {
@@ -256,8 +227,6 @@ export default function EarlyOrder() {
         return 'Mới ra mắt';
       case 1:
         return 'Đã bán đợt 1: 300';
-      case 2:
-        return 'Sắp mở bán';
       default:
         return '';
     }
@@ -272,8 +241,6 @@ export default function EarlyOrder() {
       return `Chiến dịch kết thúc: ${product.end}`;
     } else if (tabIndex === 1) {
       return 'Sản phẩm đang về hàng';
-    } else if (tabIndex === 2) {
-      return 'Sắp mở bán';
     }
     return '';
   };
@@ -322,7 +289,10 @@ export default function EarlyOrder() {
                       <button
                         onClick={prev}
                         disabled={sliders[activeTab] === 0}
-                        className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                        className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
+                        style={{
+                          cursor: sliders[activeTab] === 0 ? 'not-allowed !important' : 'pointer !important'
+                        }}
                       >
                         <ChevronLeftIcon className='h-6 w-6 text-gray-700' />
                       </button>
@@ -335,9 +305,9 @@ export default function EarlyOrder() {
                             transform: `translateX(-${sliders[activeTab] * 340}px)`,
                           }}
                         >
-                          {products[activeTab].map((product, idx) => (
+                          {getVisibleProducts(activeTab).map((product, idx) => (
                             <div
-                              key={product.id}
+                              key={product.key}
                               className='relative mx-2 h-[420px] w-[320px] flex-shrink-0 overflow-hidden rounded-2xl bg-white p-0 shadow-lg transition-all duration-500 hover:shadow-xl cursor-pointer'
                               onClick={() => window.open('/products/2', '_blank')}
                             >
@@ -400,14 +370,13 @@ export default function EarlyOrder() {
                         </div>
                       </div>
 
-                      {/* Next button */}
+                      {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
                       <button
                         onClick={next}
-                        disabled={
-                          sliders[activeTab] >=
-                          products[activeTab].length - visible
-                        }
-                        className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                        className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 cursor-pointer'
+                        style={{
+                          cursor: 'pointer !important'
+                        }}
                       >
                         <ChevronRightIcon className='h-6 w-6 text-gray-700' />
                       </button>
@@ -445,7 +414,7 @@ export default function EarlyOrder() {
                 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div className='absolute left-0 right-0 top-full z-10 mt-1 rounded-xl border border-gray-200 bg-white py-2 shadow-lg'>
+                  <div className='absolute left-0 right-0 top-full z-10 mt-1 rounded-lg border border-gray-200 bg-white py-2 shadow-lg'>
                     {tabs.map((tab, i) => (
                       <button
                         key={i}
@@ -482,10 +451,10 @@ export default function EarlyOrder() {
                 }
               `}</style>
               
-              {products[activeTab].slice(0, 3).map((product) => (
+              {products[activeTab].slice(0, 3).map((product, index) => (
                 <div
-                  key={product.id}
-                  className='flex min-w-[220px] flex-col items-center rounded-xl bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300'
+                  key={`mobile-early-${activeTab}-${index}`}
+                  className='flex min-w-[220px] flex-col items-center rounded-lg bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300'
                   onClick={() => window.open('/products/2', '_blank')}
                 >
                   <Image

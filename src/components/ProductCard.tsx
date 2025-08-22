@@ -31,8 +31,15 @@ export default function ProductCard({
   handleMouseOut,
 }: ProductCardProps) {
   const [timeLeft, setTimeLeft] = useState(0);
+  const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  useEffect(() => {
+    if (!mounted) return;
+    
     const targetDate = new Date('2025-07-25T00:00:00').getTime();
     const updateTime = () => {
       setTimeLeft(Math.max(0, targetDate - Date.now()));
@@ -42,7 +49,7 @@ export default function ProductCard({
     const interval = setInterval(updateTime, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [mounted]);
 
 
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -119,23 +126,25 @@ export default function ProductCard({
             <span>Dự kiến ra mắt:</span>
           </div>
           <p className='text-center text-sm'>0 giờ sáng</p>
-          <time className='m-1 flex w-full justify-center rounded-xl bg-green-700 p-2 text-center text-sm font-semibold text-white'>
+          <time className='m-1 flex w-full justify-center rounded-lg bg-green-700 p-2 text-center text-sm font-semibold text-white'>
             {product.releaseDate}
           </time>
-          <div className='mt-1 grid grid-cols-4 gap-2 text-center text-sm'>
-            <div className='rounded p-2'>
-              <span className='font-semibold'>{days}</span> ngày
+          {mounted && (
+            <div className='mt-1 grid grid-cols-4 gap-2 text-center text-sm'>
+              <div className='rounded p-2'>
+                <span className='font-semibold'>{days}</span> ngày
+              </div>
+              <div className='rounded p-2'>
+                <span className='font-semibold'>{hours}</span> giờ
+              </div>
+              <div className='rounded p-2'>
+                <span className='font-semibold'>{minutes}</span> phút
+              </div>
+              <div className='rounded p-2'>
+                <span className='font-semibold'>{seconds}</span> giây
+              </div>
             </div>
-            <div className='rounded p-2'>
-              <span className='font-semibold'>{hours}</span> giờ
-            </div>
-            <div className='rounded p-2'>
-              <span className='font-semibold'>{minutes}</span> phút
-            </div>
-            <div className='rounded p-2'>
-              <span className='font-semibold'>{seconds}</span> giây
-            </div>
-          </div>
+          )}
         </div>
         <div className='mt-4'>
           <Link

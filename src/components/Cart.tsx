@@ -88,7 +88,7 @@ function CartItem({ item }: CartItemProps) {
       const t = useTranslations('cart');
       return t(key);
     } catch (error) {
-      console.warn(`Translation failed for key "${key}", using fallback:`, error);
+      // Translation failed for key "${key}", using fallback
       return fallbackTranslations[key] || key;
     }
   };
@@ -162,7 +162,7 @@ function CartItem({ item }: CartItemProps) {
       <div className='mt-4 flex flex-col items-end gap-2 sm:mt-0'>
         <button
           onClick={handleRemoveItem}
-          className='rounded bg-red-100 px-3 py-1 text-sm text-red-600 hover:bg-red-200 transition-colors'
+          className='rounded bg-red-100 px-3 py-1 text-sm text-red-600 hover:bg-red-200 transition-colors cursor-pointer'
           aria-label={safeTranslate('remove_item')}
         >
           Xóa
@@ -204,7 +204,7 @@ function ShippingConditionCard({ condition }: ShippingConditionCardProps) {
       const t = useTranslations('cart');
       return t(key);
     } catch (error) {
-      console.warn(`Translation failed for key "${key}", using fallback:`, error);
+      // Translation failed for key "${key}", using fallback
       return fallbackTranslations[key] || key;
     }
   };
@@ -246,7 +246,7 @@ export default function Cart({ order }: CartProps) {
       const t = useTranslations('cart');
       return t(key);
     } catch (error) {
-      console.warn(`Translation failed for key "${key}", using fallback:`, error);
+      // Translation failed for key "${key}", using fallback
       return fallbackTranslations[key] || key;
     }
   };
@@ -284,13 +284,6 @@ export default function Cart({ order }: CartProps) {
               <div className='mt-6 flex flex-col justify-end gap-4 sm:flex-row'>
                 <Link
                   href='/checkout'
-                  className='flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 sm:text-base'
-                >
-                  <InboxIcon className='mr-2 h-5 w-5' />
-                  {safeTranslate('proceed_to_checkout')}
-                </Link>
-                <Link
-                  href='/checkout'
                   className='flex items-center justify-center rounded-full bg-yellow-300 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400 sm:text-base'
                 >
                   <CreditCardIcon className='mr-2 h-5 w-5' />
@@ -308,47 +301,50 @@ export default function Cart({ order }: CartProps) {
             ))}
           </div>
         </div>
-      </div>
 
-      {cartItems.length > 0 && (
-        <div className='bg-opacity-90 fixed bottom-0 left-0 w-full bg-gray-800 backdrop-blur-sm'>
-          <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-4 sm:flex-row sm:px-6 lg:px-8'>
-            <div className='flex gap-2'>
-              <Link
-                href='/checkout'
-                className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
-              >
-                <CreditCardIcon className='mr-2 h-5 w-5' />
-                {safeTranslate('coupon')}
-              </Link>
-              <Link
-                href='/checkout'
-                className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
-              >
-                <GiftIcon className='mr-2 h-5 w-5' />
-                {safeTranslate('gift')}
-              </Link>
-            </div>
-            <div className='flex items-center gap-4'>
-              <div className='text-right'>
-                <h2 className='text-lg font-bold text-white sm:text-xl'>
-                  {safeTranslate('total')}
-                </h2>
-                <p className='text-base font-semibold text-white sm:text-lg'>
-                  {order.total.toLocaleString('vi-VN')}đ
-                </p>
+        {/* Cart Summary - Di chuyển xuống dưới service commitment và không sticky */}
+        {cartItems.length > 0 && (
+          <div className='mt-8 sm:mt-10'>
+            <div className='bg-gray-800 rounded-lg p-6'>
+              <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row'>
+                <div className='flex gap-2'>
+                  <Link
+                    href='/checkout'
+                    className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
+                  >
+                    <CreditCardIcon className='mr-2 h-5 w-5' />
+                    {safeTranslate('coupon')}
+                  </Link>
+                  <Link
+                    href='/checkout'
+                    className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
+                  >
+                    <GiftIcon className='mr-2 h-5 w-5' />
+                    {safeTranslate('gift')}
+                  </Link>
+                </div>
+                <div className='flex items-center gap-4'>
+                  <div className='text-right'>
+                    <h2 className='text-lg font-bold text-white sm:text-xl'>
+                      {safeTranslate('total')}
+                    </h2>
+                    <p className='text-base font-semibold text-white sm:text-lg'>
+                      {order.total.toLocaleString('vi-VN')}đ
+                    </p>
+                  </div>
+                  <Link
+                    href='/checkout'
+                    className='flex items-center rounded-full bg-yellow-300 px-6 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400 sm:text-base'
+                  >
+                    <CreditCardIcon className='mr-2 h-5 w-5' />
+                    {safeTranslate('proceed_to_checkout')}
+                  </Link>
+                </div>
               </div>
-              <Link
-                href='/checkout'
-                className='flex items-center rounded-full bg-red-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-red-700 sm:text-base'
-              >
-                <CreditCardIcon className='mr-2 h-5 w-5' />
-                {safeTranslate('proceed_to_checkout')}
-              </Link>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </main>
   );
 }

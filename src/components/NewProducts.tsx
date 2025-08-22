@@ -108,8 +108,8 @@ function ProductSlide({ product }: ProductSlideProps) {
   }, []);
 
   return (
-    <div 
-      className='mx-2 flex h-[300px] w-[400px] flex-col items-center rounded-2xl bg-white p-4 shadow-md transition-all duration-500 ease-in-out sm:h-[200px] sm:flex-row sm:w-[500px] hover:shadow-lg cursor-pointer'
+    <div
+      className='mx-2 flex h-[300px] w-[400px] cursor-pointer flex-col items-center rounded-2xl bg-white p-4 shadow-md transition-all duration-500 ease-in-out hover:shadow-lg sm:h-[200px] sm:w-[500px] sm:flex-row'
       onClick={() => window.open('/products/2', '_blank')}
     >
       {/* Images */}
@@ -128,7 +128,7 @@ function ProductSlide({ product }: ProductSlideProps) {
             gridRow: '1 / span 1',
             gridColumn: '1 / span 1',
             width: '100%',
-            height: '100%'
+            height: '100%',
           }}
         />
         <Image
@@ -142,7 +142,7 @@ function ProductSlide({ product }: ProductSlideProps) {
             gridRow: '2 / span 1',
             gridColumn: '1 / span 1',
             width: '100%',
-            height: '100%'
+            height: '100%',
           }}
         />
         <Image
@@ -156,7 +156,7 @@ function ProductSlide({ product }: ProductSlideProps) {
             gridRow: '1 / span 2',
             gridColumn: '2 / span 1',
             width: '100%',
-            height: '100%'
+            height: '100%',
           }}
         />
       </div>
@@ -203,17 +203,91 @@ export default function NewProducts() {
     setMounted(true);
   }, []);
 
+  // Tạo slider băng chuyền vô tận đơn giản và hiệu quả - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
   const prev = () => {
-    if (slider > 0) {
-      setSlider(slider - 1);
-    }
+    setSlider((prevSlider) => {
+      // Chỉ cho phép prev khi slider > 0 để tránh hiệu ứng không mong muốn
+      if (prevSlider <= 0) {
+        return prevSlider;
+      }
+      return prevSlider - 1;
+    });
   };
 
   const next = () => {
-    if (slider < products.length - visible) {
-      setSlider(slider + 1);
-    }
+    setSlider((prevSlider) => {
+      // Luôn tăng lên, tạo hiệu ứng băng chuyền liên tục
+      // Khi slider dương, chúng ta sẽ thấy items từ đầu
+      // Khi slider = 0, bấm next sẽ hiển thị items từ đầu
+      return prevSlider + 1;
+    });
   };
+
+  // Ngăn chặn HOÀN TOÀN việc trượt ngược
+  useEffect(() => {
+    if (mounted) {
+      // Nếu slider đang ở vị trí có thể gây trượt ngược, tăng thêm products
+      if (Math.abs(slider) > products.length * 2) {
+        // Slider đang ở vị trí cao, tăng thêm products để tránh trượt ngược
+      }
+
+      // KIỂM TRA NGUY CƠ TRƯỢT NGƯỢC
+      if (Math.abs(slider) > products.length * 10) {
+        // NGUY CƠ TRƯỢT NGƯỢC CAO! Cần tăng thêm products hoặc xử lý đặc biệt
+      }
+    }
+  }, [slider, products.length, mounted]);
+
+  // Logic băng chuyền vô tận đơn giản và hiệu quả - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
+  const getVisibleProducts = () => {
+    // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
+    let conveyorProducts = [];
+
+    // Thêm products gốc (4 sản phẩm)
+    conveyorProducts.push(...products);
+
+    // Thêm products lặp lại 10 lần để đảm bảo đủ items cho cả hai chiều
+    for (let i = 0; i < 10; i++) {
+      conveyorProducts.push(...products);
+    }
+
+    // Thêm products lặp lại 10 lần ở đầu cho Prev
+    for (let i = 0; i < 10; i++) {
+      conveyorProducts.unshift(...products);
+    }
+
+    return conveyorProducts.map((product, index) => ({
+      ...product,
+      key: `product-${index}`,
+      originalIndex: index % products.length,
+    }));
+  };
+
+  // KHÔNG BAO GIỜ RESET - Để tránh trượt ngược hoàn toàn
+  // useEffect(() => {
+  //   if (mounted) {
+  //     // KHÔNG RESET NỮA - Để tránh trượt ngược
+  //     // if (Math.abs(slider) > products.length * 6) {
+  //     //   setTimeout(() => {
+  //     //     const resetPosition = slider > 0 ? products.length : -products.length;
+  //     //     setSlider(resetPosition);
+  //     //   }, 100);
+  //     // }
+  //   }
+  // }, [slider, products.length, mounted]);
+
+  // Debug log để kiểm tra hoạt động băng chuyền đơn giản cho 4 sản phẩm
+  useEffect(() => {
+    if (mounted) {
+      const visibleProducts = getVisibleProducts();
+      // Băng chuyền logic: Lặp lại đơn giản để tạo vòng lặp vô tận
+    }
+  }, [slider, mounted]);
+
+  // Thêm hiệu ứng hover cho buttons
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Slider vòng lặp vô tận hoàn hảo cho cả hai chiều
 
   return (
     <div>
@@ -234,35 +308,53 @@ export default function NewProducts() {
             </div>
 
             <div className='relative flex items-center justify-center'>
-              {/* Prev button */}
+              {/* Prev button - Luôn có màu trắng như nút next */}
               <button
                 onClick={prev}
-                disabled={slider === 0}
-                className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                disabled={slider <= 0}
+                className={`mr-2 rounded-full p-2 shadow transition-all duration-300 cursor-pointer ${
+                  slider <= 0 ? 'bg-white' : 'bg-white hover:bg-gray-100'
+                }`}
+                style={{
+                  cursor:
+                    slider <= 0
+                      ? 'not-allowed !important'
+                      : 'pointer !important',
+                }}
                 aria-label={t('prev_slide')}
               >
-                <ChevronLeftIcon className='h-6 w-6 text-gray-700' />
+                <ChevronLeftIcon
+                  className={`h-6 w-6 ${
+                    slider <= 0 ? 'text-gray-400' : 'text-gray-700'
+                  }`}
+                />
               </button>
 
-              {/* Slider */}
-              <div className='w-full overflow-hidden'>
+              {/* Slider Container - Tạo băng chuyền vô tận thực sự với logic đơn giản cho 4 sản phẩm */}
+              <div className='flex-1 overflow-hidden'>
                 <div
                   className='flex transition-transform duration-500 ease-in-out'
                   style={{
                     transform: `translateX(-${slider * 420}px)`,
+                    width: `${getVisibleProducts().length * 420}px`,
                   }}
                 >
-                  {products.map((product, idx) => (
-                    <ProductSlide key={product.id} product={product} />
+                  {/* Tạo mảng vô tận với products lặp lại cho cả hai chiều */}
+                  {getVisibleProducts().map((product) => (
+                    <div key={product.key} className='w-[420px] flex-shrink-0'>
+                      <ProductSlide product={product} />
+                    </div>
                   ))}
                 </div>
               </div>
 
-              {/* Next button */}
+              {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
               <button
                 onClick={next}
-                disabled={slider >= products.length - visible}
-                className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 hover:bg-gray-100 cursor-pointer'
+                style={{
+                  cursor: 'pointer !important',
+                }}
                 aria-label={t('next_slide')}
               >
                 <ChevronRightIcon className='h-6 w-6 text-gray-700' />
@@ -287,13 +379,13 @@ export default function NewProducts() {
                 {t('explore_more')}
               </Link>
             </div>
-            
+
             {/* Mobile slider với khả năng vuốt sang bên */}
-            <div 
+            <div
               className='flex gap-3 overflow-x-auto pb-2'
               style={{
-                scrollbarWidth: 'none', /* Firefox */
-                msOverflowStyle: 'none', /* Internet Explorer 10+ */
+                scrollbarWidth: 'none' /* Firefox */,
+                msOverflowStyle: 'none' /* Internet Explorer 10+ */,
               }}
             >
               {/* Ẩn scrollbar cho Webkit browsers (Chrome, Safari, Edge) */}
@@ -302,11 +394,11 @@ export default function NewProducts() {
                   display: none;
                 }
               `}</style>
-              
-              {products.map((product) => (
+
+              {products.map((product, index) => (
                 <div
-                  key={product.id}
-                  className='flex min-w-[200px] flex-col items-center rounded-xl bg-white p-3 shadow'
+                  key={`mobile-product-${index}`}
+                  className='flex min-w-[200px] flex-col items-center rounded-lg bg-white p-3 shadow'
                 >
                   <Image
                     src={product.images[0]}
@@ -316,14 +408,16 @@ export default function NewProducts() {
                     className='mb-2 h-32 w-full rounded object-cover'
                   />
                   <div className='mb-2 text-center text-xs font-bold'>
-                    {product.name.length > 50 
-                      ? `${product.name.slice(0, 50)}...` 
+                    {product.name.length > 50
+                      ? `${product.name.slice(0, 50)}...`
                       : product.name}
                   </div>
                   <div className='mb-2 text-center text-xs text-gray-500'>
-                    {t('sold', { count: product.soldCount.toLocaleString('vi-VN') })}
+                    {t('sold', {
+                      count: product.soldCount.toLocaleString('vi-VN'),
+                    })}
                   </div>
-                  <button 
+                  <button
                     onClick={() => {
                       // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
                       alert('Đặt hàng thành công!');

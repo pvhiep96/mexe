@@ -9,7 +9,7 @@ import Link from 'next/link';
 export default function Banner() {
   const t = useTranslations('banner');
   const [activeTab, setActiveTab] = useState('danhmuc');
-  const [hoveredSubmenu, setHoveredSubmenu] = useState<string | null>(null);
+
   const sliderRef = useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [width, setWidth] = useState(375);
@@ -135,7 +135,10 @@ export default function Banner() {
       label: 'Ứng dụng/định vị',
       href: '/products?category=an-toan-xe',
       submenu: [
-        { label: 'Camera hành trình', href: '/products?category=camera-hanh-trinh' },
+        {
+          label: 'Camera hành trình',
+          href: '/products?category=camera-hanh-trinh',
+        },
         {
           label: 'Cảm biến lùi',
           href: '/products?category=cam-bien-lui',
@@ -169,7 +172,10 @@ export default function Banner() {
       label: 'Pin – sạc – xe điện',
       href: '/products?category=den-trang-tri-xe',
       submenu: [
-        { label: 'Đèn LED nội thất', href: '/products?category=den-led-noi-that' },
+        {
+          label: 'Đèn LED nội thất',
+          href: '/products?category=den-led-noi-that',
+        },
         {
           label: 'Đèn pha bổ sung',
           href: '/products?category=den-pha-bo-sung',
@@ -186,83 +192,71 @@ export default function Banner() {
     {
       href: '/products?brand=toyota',
       img: '/images/brands/toyota.png',
-      hoverImg:
-        '/images/brands/toyota.png',
+      hoverImg: '/images/brands/toyota.png',
     },
     {
       href: '/products?brand=honda',
       img: '/images/brands/honda.png',
-      hoverImg:
-        '/images/brands/honda.png',
+      hoverImg: '/images/brands/honda.png',
     },
     {
       href: '/products?brand=thaco',
       img: '/images/brands/thaco.png',
-      hoverImg:
-        '/images/brands/thaco.png',
+      hoverImg: '/images/brands/thaco.png',
     },
     {
       href: '/products?brand=vinfast',
       img: '/images/brands/vinfast.webp',
-      hoverImg:
-        '/images/brands/vinfast.webp',
+      hoverImg: '/images/brands/vinfast.webp',
     },
     {
       href: '/products?brand=tmas',
       img: '/images/brands/tmas.svg',
-      hoverImg:
-        '/images/brands/tmas.svg',
+      hoverImg: '/images/brands/tmas.svg',
     },
     {
       href: '/products?brand=icar',
       img: '/images/brands/icar.jpg',
-      hoverImg:
-        '/images/brands/icar.jpg',
+      hoverImg: '/images/brands/icar.jpg',
     },
     {
       href: '/products?brand=aozoom',
       img: '/images/brands/aozoom.svg',
-      hoverImg:
-        '/images/brands/aozoom.svg',
+      hoverImg: '/images/brands/aozoom.svg',
     },
     {
       href: '/products?brand=auto365',
       img: '/images/brands/auto365.png',
-      hoverImg:
-        '/images/brands/auto365.png',
+      hoverImg: '/images/brands/auto365.png',
     },
     {
       href: '/products?brand=chicco',
       img: '/images/brands/chicco.webp',
-      hoverImg:
-        '/images/brands/chicco.webp',
+      hoverImg: '/images/brands/chicco.webp',
     },
     {
       href: '/products?brand=vinaquick',
       img: '/images/brands/vinaquick.png',
-      hoverImg:
-        '/images/brands/vinaquick.png',
+      hoverImg: '/images/brands/vinaquick.png',
     },
     {
       href: '/products?brand=setcar',
       img: '/images/brands/setcar.png',
-      hoverImg:
-        '/images/brands/setcar.png',
+      hoverImg: '/images/brands/setcar.png',
     },
     {
       href: '/products?brand=vietmap',
       img: '/images/brands/vietmap.webp',
-      hoverImg:
-        '/images/brands/vietmap.webp',
+      hoverImg: '/images/brands/vietmap.webp',
     },
   ];
 
   return (
     <section className='bg-gray-100 py-8'>
       {/* Desktop Layout */}
-      <div className='slider-index m-4 hidden lg:flex relative'>
+      <div className='slider-index relative m-4 hidden lg:flex'>
         <div
-          className={`slider-sidebar mr-4 w-[${width}px] rounded-lg bg-white shadow-md h-[600px]`}
+          className={`slider-sidebar mr-4 w-[${width}px] h-[600px] rounded-lg bg-white shadow-md`}
           style={
             activeTab === 'thuonghieu'
               ? {
@@ -292,44 +286,34 @@ export default function Banner() {
               </a>
             </li>
           </ul>
-          
-          <div className='tab-content h-[calc(600px-48px)] overflow-y-auto min-w-[330px]'>
+
+          <div className='tab-content h-[calc(600px-48px)] min-w-[330px] overflow-y-auto'>
             <div
               className={`tab-pane ${activeTab === 'danhmuc' ? 'block' : 'hidden'} h-full`}
             >
               <div className='space-y-1 p-2'>
                 {categories.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} relative`}
-                    onMouseEnter={() => {
-                      if (item.submenu) {
-                        setHoveredSubmenu(item.label);
-                      } else {
-                        setHoveredSubmenu(null);
-                      }
-                    }}
-                  >
-                                          <div className='sidebar-icon-wrap group flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white h-[55px]'>
-                        <a
-                          href={item.href}
-                          target='_blank'
-                          className='text-sm text-gray-700 truncate group-hover:text-white transition-colors duration-300 flex items-center justify-center w-full'
-                          rel='noreferrer'
-                        >
-                          {item.label}
-                        </a>
-                      </div>
+                  <div key={idx} className='ega-item-sidebar relative'>
+                    <div className='sidebar-icon-wrap group flex h-[55px] cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white'>
+                      <a
+                        href={item.href}
+                        target='_blank'
+                        className='flex w-full items-center justify-center truncate text-sm text-gray-700 transition-colors duration-300 group-hover:text-white'
+                        rel='noreferrer'
+                      >
+                        {item.label}
+                      </a>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-            
+
             <div
               className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'} h-full`}
               id='thuonghieu'
             >
-              <div className='menu-vendor-list grid h-full w-full grid-cols-2 gap-3 p-3 min-w-[330px]'>
+              <div className='menu-vendor-list grid h-full w-full min-w-[330px] grid-cols-2 gap-3 p-3'>
                 {vendors.map((vendor, idx) => (
                   <a
                     key={idx}
@@ -343,14 +327,14 @@ export default function Banner() {
                       height='60'
                       src={vendor.img}
                       alt={`vendor_${idx + 1}`}
-                      className='img-vendor w-[140px] h-[60px] object-contain'
+                      className='img-vendor h-[60px] w-[140px] object-contain'
                     />
                     <img
                       width='140'
                       height='60'
                       src={vendor.hoverImg}
                       alt={`vendor_hover_${idx + 1}`}
-                      className='img-vendor-hover hidden w-[140px] h-[60px] object-contain hover:block'
+                      className='img-vendor-hover hidden h-[60px] w-[140px] object-contain hover:block'
                     />
                   </a>
                 ))}
@@ -358,36 +342,6 @@ export default function Banner() {
             </div>
           </div>
         </div>
-
-        {/* Submenu container positioned outside sidebar to overlay banner */}
-        {categories.map((item, idx) => (
-          item.submenu && (
-            <div
-              key={`submenu-${idx}`}
-              className={`absolute z-50 min-w-[300px] rounded-lg bg-white shadow-xl border border-gray-200 transition-all duration-200 ${hoveredSubmenu === item.label ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
-              style={{
-                left: `${width - 50}px`, // Overlap 2px để không bị mất hover
-                top: `${(idx * 55)}px` // 48px header + 8px padding + 55px mỗi item (height)
-              }}
-              onMouseEnter={() => setHoveredSubmenu(item.label)}
-              onMouseLeave={() => setHoveredSubmenu(null)}
-            >
-              <div className='p-2'>
-                {item.submenu.map((sub, subIdx) => (
-                  <a
-                    key={subIdx}
-                    href={sub.href}
-                    target='_blank'
-                    className='block cursor-pointer px-3 py-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white rounded-lg bg-gray-100 mb-1'
-                    rel='noreferrer'
-                  >
-                    {sub.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )
-        ))}
 
         <div
           className='slider-index-wrap'
@@ -435,7 +389,9 @@ export default function Banner() {
 
           {/* Categories Grid */}
           <div className='mb-6'>
-            <h3 className='mb-4 text-lg font-bold text-gray-800'>Khám phá phụ kiện ô tô</h3>
+            <h3 className='mb-4 text-lg font-bold text-gray-800'>
+              Khám phá phụ kiện ô tô
+            </h3>
             <div className='grid grid-cols-2 gap-4'>
               {mobileCategories.map((category, index) => (
                 <Link
@@ -450,7 +406,9 @@ export default function Banner() {
                     height={24}
                     className='mr-3'
                   />
-                  <span className='text-sm font-medium text-gray-700'>{category.label}</span>
+                  <span className='text-sm font-medium text-gray-700'>
+                    {category.label}
+                  </span>
                 </Link>
               ))}
             </div>
@@ -460,22 +418,32 @@ export default function Banner() {
           <div className='space-y-3'>
             <div className='rounded-lg bg-white p-4 shadow-sm'>
               <h4 className='mb-2 font-semibold text-gray-800'>Nội thất xe</h4>
-              <p className='text-sm text-gray-600'>TRANG TRÍ VÀ TIỆN NGHI CHO XE CỦA BẠN</p>
+              <p className='text-sm text-gray-600'>
+                TRANG TRÍ VÀ TIỆN NGHI CHO XE CỦA BẠN
+              </p>
             </div>
-            
+
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Camera hành trình</h4>
+              <h4 className='mb-2 font-semibold text-gray-800'>
+                Camera hành trình
+              </h4>
               <p className='text-sm text-gray-600'>AN TOÀN VÀ BẢO VỆ XE</p>
             </div>
-            
+
             <div className='rounded-lg bg-white p-4 shadow-sm'>
               <h4 className='mb-2 font-semibold text-gray-800'>Phụ kiện hot</h4>
-              <p className='text-sm text-gray-600'>Ưu đãi tháng 8 - Deal tốt sẵn sàng</p>
+              <p className='text-sm text-gray-600'>
+                Ưu đãi tháng 8 - Deal tốt sẵn sàng
+              </p>
             </div>
-            
+
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Âm thanh xe hơi</h4>
-              <p className='text-sm text-gray-600'>Hệ thống âm thanh chất lượng cao</p>
+              <h4 className='mb-2 font-semibold text-gray-800'>
+                Âm thanh xe hơi
+              </h4>
+              <p className='text-sm text-gray-600'>
+                Hệ thống âm thanh chất lượng cao
+              </p>
             </div>
           </div>
         </div>

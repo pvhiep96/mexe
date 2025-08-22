@@ -6,7 +6,6 @@ import EarlyOrder from '@/components/EarlyOrder';
 import NewBrands from '@/components/NewBrands';
 import ComboWorkspace from '@/components/ComboWorkspace';
 import BannerSale from '@/components/BannerSale';
-import Workspace from '@/components/Workspace';
 import Videos from '@/components/Videos';
 import ServiceCommitment from '@/components/ServiceCommitment';
 import Brands from '@/components/Brands';
@@ -23,7 +22,6 @@ export default function Home() {
       <NewBrands />
       <ComboWorkspace />
       <BannerSale />
-      <Workspace />
       <Videos />
       <ServiceCommitment />
       <Brands />

@@ -225,7 +225,10 @@ export default function NewsList() {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className='rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+              className='rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50'
+              style={{
+                cursor: currentPage === 1 ? 'not-allowed !important' : 'pointer !important'
+              }}
             >
               {t('previous')}
             </button>
@@ -239,6 +242,9 @@ export default function NewsList() {
                     ? 'bg-blue-600 text-white'
                     : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                 }`}
+                style={{
+                  cursor: 'pointer !important'
+                }}
               >
                 {page}
               </button>
@@ -249,7 +255,10 @@ export default function NewsList() {
                 setCurrentPage(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages}
-              className='rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+              className='rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50'
+              style={{
+                cursor: currentPage === totalPages ? 'not-allowed !important' : 'pointer !important'
+              }}
             >
               {t('next')}
             </button>

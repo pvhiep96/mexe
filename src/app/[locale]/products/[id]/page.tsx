@@ -250,7 +250,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   <button
                     key={color.value}
                     onClick={() => setSelectedColor(color.value)}
-                    className={`rounded-full border-2 px-6 py-2 transition-all ${
+                    className={`cursor-pointer rounded-full border-2 px-6 py-2 transition-all ${
                       selectedColor === color.value
                         ? 'border-[#2D6294] bg-[#2D6294]/10'
                         : 'border-gray-300 hover:border-gray-400'
@@ -265,33 +265,36 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
             {/* Quantity Selector and Action Buttons */}
             <div className='flex flex-row items-center gap-2 sm:gap-3'>
               {/* Quantity Selector */}
-              <div className='flex h-[48px] items-center rounded-lg border border-gray-300 bg-gray-50 min-w-[120px] sm:min-w-[140px]'>
+              <div className='flex h-[48px] min-w-[120px] items-center rounded-full border border-gray-300 bg-gray-50 sm:min-w-[140px]'>
                 <button
                   onClick={() => handleQuantityChange('decrease')}
-                  className='cursor-pointer px-3 sm:px-4 py-2 text-gray-700 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 text-sm sm:text-base'
+                  className='px-3 py-2 text-sm text-gray-700 hover:text-gray-900 disabled:opacity-50 sm:px-4 sm:text-base'
                   disabled={quantity <= 1}
+                  style={{
+                    cursor: quantity <= 1 ? 'not-allowed !important' : 'pointer'
+                  }}
                 >
                   -
                 </button>
-                <span className='min-w-[60px] sm:min-w-[70px] border-x border-gray-300 bg-white px-3 sm:px-4 py-2 text-center font-medium text-gray-900 text-sm sm:text-base'>
+                <span className='min-w-[60px] border-x border-gray-300 bg-white px-3 py-2 text-center text-sm font-medium text-gray-900 sm:min-w-[70px] sm:px-4 sm:text-base'>
                   {quantity}
                 </span>
                 <button
                   onClick={() => handleQuantityChange('increase')}
-                  className='cursor-pointer px-3 sm:px-4 py-2 text-gray-700 hover:text-gray-900 text-sm sm:text-base'
+                  className='cursor-pointer px-3 py-2 text-sm text-gray-700 hover:text-gray-900 sm:px-4 sm:text-base'
                 >
                   +
                 </button>
               </div>
 
               {/* Add to Cart Button */}
-              <button 
+              <button
                 onClick={handleAddToCart}
-                className='flex h-[48px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 sm:px-6 py-2 text-gray-700 transition-colors hover:bg-gray-200 min-w-[60px] sm:min-w-[70px]'
+                className='flex h-[48px] min-w-[60px] cursor-pointer items-center justify-center rounded-full border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200 sm:min-w-[70px] sm:px-6'
               >
                 <div className='relative'>
                   <ShoppingCartIcon className='h-6 w-6 sm:h-8 sm:w-8' />
-                  <div className='absolute -top-1 -right-1 flex h-3 w-3 sm:h-4 sm:w-4 items-center justify-center rounded-full bg-gray-700'>
+                  <div className='absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-gray-700 sm:h-4 sm:w-4'>
                     <span className='text-xs font-bold text-white'>+</span>
                   </div>
                 </div>
@@ -303,7 +306,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                   onClick={() => {
                     showTooltip('Đặt hàng thành công!', 'success');
                   }}
-                  className='flex-1 cursor-pointer rounded-lg bg-gray-800 px-4 sm:px-8 py-2 sm:py-3 font-bold text-white transition-colors hover:bg-gray-900 h-[48px] flex items-center justify-center text-sm sm:text-base whitespace-nowrap min-w-[100px] sm:min-w-[120px]'
+                  className='flex h-[48px] min-w-[100px] flex-1 cursor-pointer items-center justify-center rounded-full bg-gray-800 px-4 py-2 text-sm font-bold whitespace-nowrap text-white transition-colors hover:bg-gray-900 sm:min-w-[120px] sm:px-8 sm:py-3 sm:text-base'
                 >
                   Mua hàng
                 </button>
@@ -571,10 +574,10 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       </li>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
-                        Các vấn đề lỗi sản phẩm Mexe sẽ nhận hàng về kiểm
-                        tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày
-                        nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác
-                        định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
+                        Các vấn đề lỗi sản phẩm Mexe sẽ nhận hàng về kiểm tra
+                        phản hồi trong vòng 14 ngày làm việc (kể từ ngày nhận
+                        được hàng chuyển về kiểm tra). Lý do: vì cần xác định
+                        lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
                       </li>
                     </ul>
                   </div>
@@ -587,8 +590,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     <ul className='space-y-2 text-gray-600'>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
-                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Mexe chỉ
-                        hỗ trợ theo chính sách bảo hành đi kèm.
+                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Mexe chỉ hỗ
+                        trợ theo chính sách bảo hành đi kèm.
                       </li>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
@@ -1172,10 +1175,10 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                       </li>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
-                        Các vấn đề lỗi sản phẩm Mexe sẽ nhận hàng về kiểm
-                        tra phản hồi trong vòng 14 ngày làm việc (kể từ ngày
-                        nhận được hàng chuyển về kiểm tra). Lý do: vì cần xác
-                        định lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
+                        Các vấn đề lỗi sản phẩm Mexe sẽ nhận hàng về kiểm tra
+                        phản hồi trong vòng 14 ngày làm việc (kể từ ngày nhận
+                        được hàng chuyển về kiểm tra). Lý do: vì cần xác định
+                        lỗi sản xuất hay loại sử dụng không đúng hướng dẫn.
                       </li>
                     </ul>
                   </div>
@@ -1186,8 +1189,8 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     <ul className='space-y-2 text-gray-600'>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>
-                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Mexe chỉ
-                        hỗ trợ theo chính sách bảo hành đi kèm.
+                        Sản phẩm bị hư hỏng do lỗi của khách hàng, Mexe chỉ hỗ
+                        trợ theo chính sách bảo hành đi kèm.
                       </li>
                       <li className='flex items-start'>
                         <span className='mt-1 mr-2 text-[#2D6294]'>•</span>

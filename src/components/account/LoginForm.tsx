@@ -140,7 +140,10 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
       <button
         type='submit'
         disabled={isLoading}
-        className='w-full rounded-lg bg-[#2D6294] px-4 py-3 text-white font-medium hover:bg-[#2D6294]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+        className='w-full rounded-lg bg-[#2D6294] px-4 py-3 text-white font-medium hover:bg-[#2D6294]/90 transition-colors disabled:opacity-50'
+        style={{
+          cursor: isLoading ? 'not-allowed !important' : 'pointer'
+        }}
       >
         {isLoading ? (
           <div className='flex items-center justify-center'>
