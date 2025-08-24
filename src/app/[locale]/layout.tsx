@@ -13,6 +13,7 @@ import { CartProvider } from '@/context/CartContext';
 import { FlashTooltipProvider } from '@/context/FlashTooltipContext';
 import { AuthProvider } from '@/context/AuthContext';
 import Alert from '@/components/Alert';
+import ScrollToTop from '@/components/ScrollToTop';
 
 export default async function RootLayout({
   children,
@@ -103,6 +104,7 @@ export default async function RootLayout({
                 <Alert />
                 {children}
                 <Footer />
+                <ScrollToTop />
               </AuthProvider>
             </FlashTooltipProvider>
           </CartProvider>

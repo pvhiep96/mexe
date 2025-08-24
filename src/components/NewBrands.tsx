@@ -14,6 +14,7 @@ interface BrandProduct {
   originalPrice: string;
   discountedPrice: string;
   discount: string;
+  originalIndex?: number;
 }
 
 interface BrandProductCardProps {
@@ -90,8 +91,8 @@ function BrandProductCard({ product }: BrandProductCardProps) {
 
   return (
     <div 
-      className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-xl border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px] hover:shadow-lg cursor-pointer transition-shadow duration-300'
-      onClick={() => window.open('/products/2', '_blank')}
+      className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-lg border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px] hover:shadow-lg cursor-pointer transition-shadow duration-300'
+      onClick={() => window.open(`/products/${product.originalIndex + 1}`, '_blank')}
     >
       {/* Badge labels - đặt trong card */}
       <div className='absolute top-3 left-3 z-10 flex flex-col items-start gap-2'>
@@ -104,7 +105,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
       </div>
 
       {/* Ảnh sản phẩm - chiều cao tăng lên nhiều hơn */}
-      <div className='h-70 w-full overflow-hidden rounded-t-xl'>
+      <div className='h-70 w-full overflow-hidden rounded-t-lg'>
         <Image
           src={product.image}
           alt={product.name}
@@ -138,7 +139,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
         {/* Nút hành động - giảm khoảng cách với thông tin phía trên */}
         <div className='mt-3 flex gap-2'>
           <a
-            href={`/products/2`}
+            href={`/products/${product.originalIndex + 1}`}
             className='flex-1 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-800 transition hover:bg-gray-200 cursor-pointer'
             onClick={(e) => e.stopPropagation()}
           >
@@ -196,6 +197,7 @@ export default function NewBrands() {
     return () => clearInterval(timer);
   }, [mounted]);
 
+  // Logic băng chuyền vô tận - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
   const prev = () => {
     if (slider > 0) {
       setSlider(slider - 1);
@@ -203,9 +205,38 @@ export default function NewBrands() {
   };
 
   const next = () => {
-    if (slider < brandProducts.length - visible) {
-      setSlider(slider + 1);
+    // Luôn tăng lên, tạo hiệu ứng băng chuyền liên tục
+    // Khi slider dương, chúng ta sẽ thấy items từ đầu
+    // Khi slider = 0, bấm next sẽ hiển thị items từ đầu
+    setSlider(slider + 1);
+  };
+
+  // Tạo mảng products lặp lại để tạo băng chuyền vô tận
+  const getVisibleProducts = () => {
+    // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
+    let conveyorProducts = [];
+
+    // Thêm products gốc
+    brandProducts.forEach((product, originalIndex) => {
+      conveyorProducts.push({
+        ...product,
+        key: `original-${originalIndex}`,
+        originalIndex,
+      });
+    });
+
+    // Thêm products lặp lại 3 lần để đảm bảo đủ items cho băng chuyền
+    for (let i = 0; i < 3; i++) {
+      brandProducts.forEach((product, originalIndex) => {
+        conveyorProducts.push({
+          ...product,
+          key: `repeat-${i}-${originalIndex}`,
+          originalIndex,
+        });
+      });
     }
+
+    return conveyorProducts;
   };
 
   const goToSlide = (index: number) => {
@@ -256,12 +287,15 @@ export default function NewBrands() {
               {/* Slider với hiệu ứng mượt mà */}
               <div className='relative flex items-center'>
                 {/* Prev button */}
-                <button
-                  onClick={prev}
-                  disabled={slider === 0}
-                  className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
-                  aria-label={t('prev_slide')}
-                >
+                              <button
+                onClick={prev}
+                disabled={slider === 0}
+                className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
+                style={{
+                  cursor: slider === 0 ? 'not-allowed !important' : 'pointer !important'
+                }}
+                aria-label={t('prev_slide')}
+              >
                   <ChevronLeftIcon className='h-6 w-6 text-orange-500' />
                 </button>
 
@@ -273,9 +307,9 @@ export default function NewBrands() {
                       transform: `translateX(-${slider * (280 + 16)}px)`,
                     }}
                   >
-                    {brandProducts.map((product) => (
+                    {getVisibleProducts().map((product) => (
                       <div
-                        key={product.id}
+                        key={product.key}
                         className='w-full flex-shrink-0 sm:w-[280px] md:w-[250px]'
                       >
                         <BrandProductCard product={product} />
@@ -284,15 +318,17 @@ export default function NewBrands() {
                   </div>
                 </div>
 
-                {/* Next button */}
+                {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
                 <button
                   onClick={next}
-                  disabled={slider >= brandProducts.length - visible}
-                  className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                  className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 cursor-pointer'
+                  style={{
+                    cursor: 'pointer !important'
+                  }}
                   aria-label={t('next_slide')}
-                >
-                  <ChevronRightIcon className='h-6 w-6 text-orange-500' />
-                </button>
+              >
+                <ChevronRightIcon className='h-6 w-6 text-orange-500' />
+              </button>
               </div>
               
               {/* Pagination dots */}
@@ -303,6 +339,9 @@ export default function NewBrands() {
                       key={idx}
                       onClick={() => goToSlide(idx)}
                       className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-orange-500' : 'bg-gray-300'}`}
+                      style={{
+                        cursor: 'pointer !important'
+                      }}
                     />
                   ))}
                 </div>
@@ -370,8 +409,8 @@ export default function NewBrands() {
                     }
                   `}</style>
                   
-                  {brandProducts.map((product) => (
-                    <div key={product.id} className='flex min-w-[220px] flex-col items-center rounded-xl bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300 border border-gray-200'>
+                  {brandProducts.map((product, index) => (
+                    <div key={`mobile-brand-${index}`} className='flex min-w-[220px] flex-col items-center rounded-lg bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300 border border-gray-200'>
                       <Image
                         src={product.image}
                         alt={product.name}

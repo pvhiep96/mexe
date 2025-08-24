@@ -10,9 +10,7 @@ export default function Footer() {
     <footer className='bg-[url(/images/footer-background.jpg)] bg-cover bg-center bg-no-repeat py-8 text-white'>
       <div className='container mx-auto px-4'>
         {/* Mobile layout */}
-        <div className='md:hidden flex justify-between'>
-          
-          
+        <div className='flex justify-between md:hidden'>
           {/* Các phần còn lại nằm bên trái */}
           <div className='grid grid-cols-1 gap-8'>
             <div>
@@ -20,6 +18,11 @@ export default function Footer() {
                 {t('customer_support')}
               </h3>
               <ul className='space-y-2'>
+                <li>
+                  <a href='/order-status' className='hover:underline'>
+                    Kiểm tra đơn hàng
+                  </a>
+                </li>
                 <li>
                   <a href='#' className='hover:underline'>
                     {t('policies')}
@@ -67,21 +70,6 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div>
-              <h3 className='mb-4 text-lg font-semibold'>{t('car_news')}</h3>
-              <ul className='space-y-2'>
-                <li>
-                  <a href='#' className='hover:underline'>
-                    {t('service_pricing')}
-                  </a>
-                </li>
-                <li>
-                  <a href='#' className='hover:underline'>
-                    {t('auto_academy')}
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
           {/* Logo ở phía trên bên phải */}
           <div className='mb-6 flex justify-end'>
@@ -90,18 +78,23 @@ export default function Footer() {
               alt='Mexe Logo'
               width={80}
               height={32}
-              style={{ width: '60px', height: '60px' }}
+              style={{ width: '65px', height: '65px' }}
             />
           </div>
         </div>
 
         {/* Desktop layout - giữ nguyên */}
-        <div className='hidden md:grid md:grid-cols-4 gap-8'>
+        <div className='hidden gap-8 md:grid md:grid-cols-3'>
           <div>
             <h3 className='mb-4 text-lg font-semibold'>
               {t('customer_support')}
             </h3>
             <ul className='space-y-2'>
+              <li>
+                <a href='/order-status' className='hover:underline'>
+                  Kiểm tra đơn hàng
+                </a>
+              </li>
               <li>
                 <a href='#' className='hover:underline'>
                   {t('policies')}
@@ -150,27 +143,12 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className='mb-4 text-lg font-semibold'>{t('car_news')}</h3>
-            <ul className='space-y-2'>
-              <li>
-                <a href='#' className='hover:underline'>
-                  {t('service_pricing')}
-                </a>
-              </li>
-              <li>
-                <a href='#' className='hover:underline'>
-                  {t('auto_academy')}
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
             <Image
               src='/images/logo-mexe.png'
               alt='Mexe Logo'
               width={60}
               height={24}
-              style={{ width: 'auto', height: 'auto' }}
+              style={{ width: '200px', height: 'auto' }}
             />
           </div>
         </div>

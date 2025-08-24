@@ -91,7 +91,7 @@ export default function SPNewBrands() {
             {/* Prev button */}
             <button
               onClick={prevSlide}
-              className='absolute left-2 z-20 rounded-full bg-white p-2 shadow-lg transition-all duration-300 hover:bg-gray-50'
+              className='absolute left-2 z-20 rounded-full bg-white p-2 shadow-lg transition-all duration-300 hover:bg-gray-50 cursor-pointer'
             >
               <ChevronLeftIcon className='h-5 w-5 text-orange-500' />
             </button>
@@ -161,7 +161,7 @@ export default function SPNewBrands() {
             {/* Next button */}
             <button
               onClick={nextSlide}
-              className='absolute right-2 z-20 rounded-full bg-white p-2 shadow-lg transition-all duration-300 hover:bg-gray-50'
+              className='absolute right-2 z-20 rounded-full bg-white p-2 shadow-lg transition-all duration-300 hover:bg-gray-50 cursor-pointer'
             >
               <ChevronRightIcon className='h-5 w-5 text-orange-500' />
             </button>

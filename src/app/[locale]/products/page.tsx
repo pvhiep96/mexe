@@ -8,13 +8,13 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faSortAlphaDown, 
-  faSortAlphaUp, 
-  faClock, 
-  faStar, 
-  faSortNumericUp, 
-  faSortNumericDown 
+import {
+  faSortAlphaDown,
+  faSortAlphaUp,
+  faClock,
+  faStar,
+  faSortNumericUp,
+  faSortNumericDown
 } from '@fortawesome/free-solid-svg-icons';
 
 // Tất cả sản phẩm
@@ -518,18 +518,7 @@ const reviews = [
   },
 ];
 
-const hashtags: { label: string; url: string }[] = [
-  { label: '#VàiThứHay', url: '/products?category=vai-thu-hay' },
-  { label: '#NORESTOCK', url: '/products?category=no-restock' },
-  { label: '#ShopeeMall', url: '/products?category=shopee-mall' },
-  { label: '#LazMall', url: '/products?category=laz-mall' },
-  { label: '#Tiki', url: '/products?category=tiki' },
-  { label: '#Groupbuy', url: '/products?category=groupbuy' },
-  { label: '#SetupDecor', url: '/products?category=setup-decor' },
-  { label: '#SảnPhẩmHOT', url: '/products?category=san-pham-hot' },
-  { label: '#ĐènRGB', url: '/products?category=den-rgb' },
-  { label: '#LoaLạLạ', url: '/products?category=loa-la-la' },
-];
+const hashtags: { label: string; url: string }[] = [];
 
 const sortOptions = [
   {
@@ -574,7 +563,7 @@ export default function ProductListPage() {
     // Trong thực tế, bạn sẽ lấy category từ URL params
     // const searchParams = new URLSearchParams(window.location.search);
     // const category = searchParams.get('category');
-    
+
     // Demo: Trả về tất cả sản phẩm
     return allProducts;
   };
@@ -591,7 +580,7 @@ export default function ProductListPage() {
     return (
       <button
         className={
-          `${className} z-10 flex !h-[50px] !w-[50px] items-center justify-center rounded-full border-none bg-[#ffe066] text-[32px] shadow-none transition outline-none` +
+          `${className} z-10 flex !h-[50px] !w-[50px] items-center justify-center rounded-full border-none bg-[#ffe066] text-[32px] shadow-none transition outline-none cursor-pointer` +
           (type === 'prev' ? ' !left-[-30px]' : ' !right-[-30px]')
         }
         style={{
@@ -707,19 +696,17 @@ export default function ProductListPage() {
 
         {/* Hashtag */}
         <div className='mb-8'>
-          <div className='hidden py-4 sm:block'>
-            <div className='grid grid-cols-2 justify-items-center gap-4 sm:grid-cols-5'>
-              {hashtags.slice(0, 4).map((tag: { label: string; url: string }) => (
-                <button
-                  key={tag.label}
-                  className={`rounded-full bg-white px-7 py-2 text-base font-semibold text-black shadow-sm transition-all hover:bg-sky-400 hover:font-bold hover:text-white cursor-pointer`}
-                  style={{ minWidth: 140 }}
-                  onClick={() => handleHashtagClick(tag.url)}
-                >
-                  {tag.label}
-                </button>
-              ))}
-            </div>
+          <div className='grid grid-cols-2 justify-items-center gap-4 sm:grid-cols-5'>
+            {hashtags.slice(0, 4).map((tag: { label: string; url: string }) => (
+              <button
+                key={tag.label}
+                className={`rounded-full bg-white px-7 py-2 text-base font-semibold text-black shadow-sm transition-all hover:bg-sky-400 hover:font-bold hover:text-white cursor-pointer`}
+                style={{ minWidth: 140 }}
+                onClick={() => handleHashtagClick(tag.url)}
+              >
+                {tag.label}
+              </button>
+            ))}
           </div>
           {/* Coupon */}
           <div className='mb-8'>
@@ -754,80 +741,7 @@ export default function ProductListPage() {
               ))}
             </div>
           </div>
-          {/* Danh mục icon */}
-          <div className='mb-8 hidden sm:block'>
-            <div className='mb-4 flex items-center justify-between sm:mb-6'>
-              <h2 className='text-lg font-bold sm:text-2xl'>
-                Khám phá các danh mục khác:
-              </h2>
-              <button 
-                className='flex items-center gap-1 rounded-full bg-[#E30613] px-4 py-1.5 text-sm font-bold text-white shadow transition hover:bg-red-700 sm:gap-2 sm:px-8 sm:py-2 sm:text-lg cursor-pointer'
-                onClick={() => handleHashtagClick('/products?category=all-categories')}
-              >
-                <span className='flex gap-0.5 sm:gap-1'>
-                  <svg
-                    className='h-4 w-4 sm:h-5 sm:w-5'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                  >
-                    <path
-                      d='M15 19l-7-7 7-7'
-                      stroke='white'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    />
-                  </svg>
-                  <svg
-                    className='h-4 w-4 sm:h-5 sm:w-5'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                  >
-                    <path
-                      d='M15 19l-7-7 7-7'
-                      stroke='white'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    />
-                  </svg>
-                  <svg
-                    className='h-4 w-4 sm:h-5 sm:w-5'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                  >
-                    <path
-                      d='M15 19l-7-7 7-7'
-                      stroke='white'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    />
-                  </svg>
-                </span>
-                <span className='hidden sm:inline'>Xem thêm</span>
-                <span className='sm:hidden'>Xem</span>
-              </button>
-            </div>
-            <div className='mx-auto grid max-w-6xl grid-cols-4 gap-3 sm:grid-cols-2 sm:gap-6 md:grid-cols-4 lg:grid-cols-8'>
-              {categories.map((cat) => (
-                <div
-                  key={cat.name}
-                  className='flex h-16 min-h-[64px] w-16 min-w-[64px] flex-col items-center justify-center rounded-2xl bg-white shadow transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer sm:h-28 sm:min-h-[96px] sm:w-28 sm:min-w-[96px]'
-                  onClick={() => handleHashtagClick(cat.url)}
-                >
-                  <img
-                    src={cat.icon}
-                    alt={cat.name}
-                    className='mb-1 h-6 w-6 object-contain sm:mb-2 sm:h-10 sm:w-10'
-                  />
-                  <div className='text-center text-xs leading-tight font-semibold text-black sm:text-sm'>
-                    {cat.name}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+
           {/* Sắp xếp */}
           <div className='flex flex-col items-center'>
             <span className='mb-3 text-lg font-semibold sm:mb-4 sm:text-2xl'>
@@ -837,11 +751,10 @@ export default function ProductListPage() {
               {sortOptions.map((opt, idx) => (
                 <button
                   key={opt.label}
-                  className={`group flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow transition-all duration-200 hover:scale-105 sm:h-14 sm:w-14 ${
-                    selectedSort === idx
+                  className={`group flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow transition-all duration-200 hover:scale-105 sm:h-14 sm:w-14 ${selectedSort === idx
                       ? 'bg-[#2D6294] text-white shadow-lg'
                       : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-[#2D6294] shadow'
-                  }`}
+                    }`}
                   onClick={() => setSelectedSort(idx)}
                   onMouseEnter={() => setHoverIdx(idx)}
                   onMouseLeave={() => setHoverIdx(null)}
@@ -854,11 +767,10 @@ export default function ProductListPage() {
               {sortOptions.map((opt, idx) => (
                 <div
                   key={idx}
-                  className={`absolute top-0 flex h-8 items-center justify-center rounded-full px-4 py-1.5 text-center text-sm font-medium transition-all duration-300 sm:h-10 sm:px-6 sm:py-2 sm:text-base whitespace-nowrap ${
-                    hoverIdx === idx
-                      ? 'bg-[#2D6294] text-white shadow-lg transform translate-y-0 opacity-100 z-10' 
+                  className={`absolute top-0 flex h-8 items-center justify-center rounded-full px-4 py-1.5 text-center text-sm font-medium transition-all duration-300 sm:h-10 sm:px-6 sm:py-2 sm:text-base whitespace-nowrap ${hoverIdx === idx
+                      ? 'bg-[#2D6294] text-white shadow-lg transform translate-y-0 opacity-100 z-10'
                       : 'bg-transparent text-transparent shadow-none transform translate-y-1 opacity-0 pointer-events-none'
-                  }`}
+                    }`}
                   style={{
                     left: `${(idx * 100) / sortOptions.length}%`,
                     transform: hoverIdx === idx ? 'translateX(-50%)' : 'translateX(-50%) translateY(1rem)',
@@ -877,7 +789,7 @@ export default function ProductListPage() {
             bannerIndex={8}
             bannerImage='https://file.hstatic.net/1000069970/file/banner_pre_c4eeb4b0068b421dafdc8ce2f9aa7d54_40d9e9e6a2894924b768c57612313211.png'
           />
-                    {/* Review slider */}
+          {/* Review slider */}
           <div className='mt-12 w-full py-10'>
             <div className='container mx-auto max-w-[1200px] px-4'>
               <h3 className='mb-6 text-center text-2xl font-extrabold tracking-wide sm:mb-8 sm:text-3xl'>
@@ -943,12 +855,12 @@ export default function ProductListPage() {
                   <Slider {...reviewSliderSettings}>
                     {reviews.map((r, idx) => (
                       <div key={idx} className='px-3'>
-                        <div className='mx-auto flex h-[440px] w-full max-w-[320px] flex-col overflow-hidden rounded-3xl border-2 border-[#2D6294] bg-white shadow-lg'>
+                        <div className='mx-auto flex h-[440px] w-full max-w-[320px] flex-col overflow-hidden rounded-lg border-2 border-[#2D6294] bg-white shadow-lg'>
                           <div className='relative flex h-[240px] w-full items-center justify-center'>
                             <img
                               src={`https://img.youtube.com/vi/${r.videoId}/hqdefault.jpg`}
                               alt={r.title}
-                              className='h-full w-full rounded-t-3xl object-cover'
+                              className='h-full w-full rounded-t-lg object-cover'
                             />
                             {/* Text overlay on thumbnail */}
                             <div className='absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-2'>

@@ -198,7 +198,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             <React.Fragment key={product.id}>
               {/* Product card */}
               <div
-                className='group relative flex h-[320px] w-full max-w-[195px] cursor-pointer flex-col items-center overflow-hidden rounded-3xl border-2 border-[#2D6294] bg-white p-0 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:h-[420px] sm:max-w-[245px] lg:h-[450px]'
+                className='group relative flex h-[320px] w-full max-w-[195px] cursor-pointer flex-col items-center overflow-hidden rounded-lg border-2 border-[#2D6294] bg-white p-0 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:h-[420px] sm:max-w-[245px] lg:h-[450px]'
                 style={{ boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)' }}
               >
                 {/* Product image container */}
@@ -207,7 +207,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                     <img
                       src={product.image}
                       alt={product.name}
-                      className='h-full w-full rounded-t-3xl object-cover transition-transform duration-300 group-hover:scale-110'
+                      className='h-full w-full rounded-t-lg object-cover transition-transform duration-300 group-hover:scale-110'
                     />
                   ) : (
                     /* Placeholder "No Image" đẹp mắt */
@@ -375,7 +375,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
               <button
                 onClick={() => goToPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50'
+                style={{
+                  cursor: currentPage === 1 ? 'not-allowed !important' : 'pointer !important'
+                }}
               >
                 <svg
                   className='h-5 w-5'
@@ -452,7 +455,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
               <button
                 onClick={() => goToPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
-                className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50'
+                className='flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50'
+                style={{
+                  cursor: currentPage === totalPages ? 'not-allowed !important' : 'pointer !important'
+                }}
               >
                 <svg
                   className='h-5 w-5'

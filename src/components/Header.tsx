@@ -13,6 +13,7 @@ import { useCart } from '@/context/CartContext';
 
 const learnMoreMenu = [
   { label: 'Về Mexe', href: '#' },
+  { label: 'Kiểm tra đơn hàng', href: '/order-status' },
   { label: 'Chính sách bảo hành', href: '#' },
   { label: 'Chính sách đổi trả', href: '#' },
   { label: 'Hướng dẫn mua hàng', href: '#' },
@@ -214,7 +215,7 @@ export default function Header() {
                         href='https://shopee.vn/mexe'
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='flex flex-1 items-center justify-center rounded-xl bg-[#ee4d2d] py-4 text-xl font-bold text-white transition hover:opacity-90'
+                        className='flex flex-1 items-center justify-center rounded-lg bg-[#ee4d2d] py-4 text-xl font-bold text-white transition hover:opacity-90'
                       >
                         <img
                           src='/logo-mexe.png'
@@ -227,7 +228,7 @@ export default function Header() {
                         href='https://www.lazada.vn/shop/mexe'
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='flex flex-1 items-center justify-center rounded-xl bg-[#1a73e8] py-4 text-xl font-bold text-white transition hover:opacity-90'
+                        className='flex flex-1 items-center justify-center rounded-lg bg-[#1a73e8] py-4 text-xl font-bold text-white transition hover:opacity-90'
                       >
                         <img
                           src='/logo-mexe.png'

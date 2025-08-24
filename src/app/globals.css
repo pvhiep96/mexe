@@ -49,6 +49,32 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Global disabled button cursor styles - Đảm bảo cursor not-allowed hiển thị */
+button:disabled {
+  cursor: not-allowed !important;
+}
+
+button:disabled:hover {
+  cursor: not-allowed !important;
+}
+
+button:disabled:focus {
+  cursor: not-allowed !important;
+}
+
+/* Override any conflicting cursor styles */
+button[disabled] {
+  cursor: not-allowed !important;
+}
+
+button[disabled]:hover {
+  cursor: not-allowed !important;
+}
+
+button[disabled]:focus {
+  cursor: not-allowed !important;
+}
+
 .slick-list {
   position: relative;
   display: block;

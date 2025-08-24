@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
 import Image from 'next/image';
@@ -39,20 +39,21 @@ interface CheckoutProps {
   order: Order;
 }
 
-const stores = [
-  { value: 'HCM', label: 'Ho Chi Minh City' },
-  { value: 'HN', label: 'Hanoi' },
-  { value: 'HP', label: 'Hai Phong' },
-];
-
-const couponTypes = [
-  { value: 'none', label: 'No Coupon' },
-  { value: '10off', label: '10% Off' },
-  { value: '20off', label: '20% Off' },
-];
-
 export default function Checkout({ order }: CheckoutProps) {
   const t = useTranslations('checkout');
+  
+  // Move arrays inside component to use t function
+  const stores = [
+    { value: 'HCM', label: t('stores.hcm') },
+    { value: 'HN', label: t('stores.hn') },
+    { value: 'HP', label: t('stores.hp') },
+  ];
+
+  const couponTypes = [
+    { value: 'none', label: t('coupon_types.none') },
+    { value: '10off', label: t('coupon_types.10off') },
+    { value: '20off', label: t('coupon_types.20off') },
+  ];
   const [deliveryType, setDeliveryType] = useState<'home' | 'store'>('home');
 
   const {
@@ -65,10 +66,15 @@ export default function Checkout({ order }: CheckoutProps) {
     defaultValues: {
       deliveryType: 'home',
       national: 'Vietnam', // Fixed value
-      deliveryAddress: t('delivery_address_placeholder'), // Placeholder
+      deliveryAddress: '', // Empty string, will be set via useEffect
       paymentMethod: 'card',
     },
   });
+
+  // Set delivery address placeholder after component mounts
+  useEffect(() => {
+    setValue('deliveryAddress', t('delivery_address_placeholder'));
+  }, [setValue, t]);
 
   const onSubmit = (data: CheckoutForm) => {
     // TODO: Handle form submission (e.g., API call)
@@ -76,7 +82,7 @@ export default function Checkout({ order }: CheckoutProps) {
 
   const handleCouponSubmit = () => {
     // Mock coupon application
-    console.log('Coupon applied');
+            // Coupon applied
   };
 
   return (
@@ -343,6 +349,46 @@ export default function Checkout({ order }: CheckoutProps) {
                   {errors.paymentMethod.message}
                 </p>
               )}
+            </div>
+            
+            {/* Payment Method Icons */}
+            <div className='mt-4 pt-4 border-t border-gray-200'>
+              <p className='mb-3 text-sm font-medium text-gray-700'>
+                {t('payment_method.supported_methods')}
+              </p>
+              <div className='flex items-center gap-4'>
+                {/* MoMo */}
+                <div className='flex flex-col items-center'>
+                  <div className='w-12 h-8 bg-pink-100 rounded-lg flex items-center justify-center mb-1'>
+                    <span className='text-pink-600 font-bold text-xs'>MoMo</span>
+                  </div>
+                  <span className='text-xs text-gray-600'>MoMo</span>
+                </div>
+                
+                {/* VNPay */}
+                <div className='flex flex-col items-center'>
+                  <div className='w-12 h-8 bg-blue-100 rounded-lg flex items-center justify-center mb-1'>
+                    <span className='text-blue-600 font-bold text-xs'>VNPay</span>
+                  </div>
+                  <span className='text-xs text-gray-600'>VNPay</span>
+                </div>
+                
+                {/* Visa */}
+                <div className='flex flex-col items-center'>
+                  <div className='w-12 h-8 bg-blue-900 rounded-lg flex items-center justify-center mb-1'>
+                    <span className='text-white font-bold text-xs'>VISA</span>
+                  </div>
+                  <span className='text-xs text-gray-600'>Visa</span>
+                </div>
+                
+                {/* ZaloPay */}
+                <div className='flex flex-col items-center'>
+                  <div className='w-12 h-8 bg-blue-500 rounded-lg flex items-center justify-center mb-1'>
+                    <span className='text-white font-bold text-xs'>Zalo</span>
+                  </div>
+                  <span className='text-xs text-gray-600'>ZaloPay</span>
+                </div>
+              </div>
             </div>
           </section>
 

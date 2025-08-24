@@ -78,7 +78,10 @@ export default function Workspace() {
             <button
               onClick={prev}
               disabled={slider === 0}
-              className='absolute top-1/2 left-0 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 hover:bg-white disabled:opacity-50'
+              className='absolute top-1/2 left-0 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 hover:bg-white disabled:opacity-50 cursor-pointer'
+              style={{
+                cursor: slider === 0 ? 'not-allowed !important' : 'pointer !important'
+              }}
             >
               <ChevronLeftIcon className='h-6 w-6 text-gray-700' />
             </button>
@@ -114,7 +117,10 @@ export default function Workspace() {
             <button
               onClick={next}
               disabled={slider >= totalSlides - 1}
-              className='absolute top-1/2 right-0 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 hover:bg-white disabled:opacity-50'
+              className='absolute top-1/2 right-0 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 hover:bg-white disabled:opacity-50 cursor-pointer'
+              style={{
+                cursor: slider >= totalSlides - 1 ? 'not-allowed !important' : 'pointer !important'
+              }}
             >
               <ChevronRightIcon className='h-6 w-6 text-gray-700' />
             </button>
@@ -134,10 +140,10 @@ export default function Workspace() {
           </div>
           <div className='flex justify-center space-x-2 overflow-x-auto pb-2'>
             {workspaces.map((workspace) => (
-              <div
-                key={workspace.id}
-                className='relative flex aspect-[5/4] max-w-[140px] min-w-[140px] flex-col overflow-hidden rounded-xl bg-white/10 shadow-lg'
-              >
+                              <div
+                  key={workspace.id}
+                  className='relative flex aspect-[5/4] max-w-[140px] min-w-[140px] flex-col overflow-hidden rounded-lg bg-white/10 shadow-lg'
+                >
                 <Image
                   src={workspace.image}
                   alt={workspace.title}
@@ -145,7 +151,7 @@ export default function Workspace() {
                   className='absolute inset-0 h-full w-full object-cover'
                 />
                 <div className='absolute bottom-2 left-1/2 z-10 flex w-full -translate-x-1/2 flex-row items-center justify-between gap-1'>
-                  <div className='ml-1 flex max-w-[60%] items-center rounded-xl bg-gray-700/90 px-2 py-1 whitespace-pre-line'>
+                  <div className='ml-1 flex max-w-[60%] items-center rounded-lg bg-gray-700/90 px-2 py-1 whitespace-pre-line'>
                     <MapPinIcon className='mr-1 h-3 w-3 flex-shrink-0 text-red-500' />
                     <span className='text-[10px] leading-tight font-bold text-white'>
                       {workspace.location}
