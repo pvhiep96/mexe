@@ -41,7 +41,7 @@ interface CheckoutProps {
 
 export default function Checkout({ order }: CheckoutProps) {
   const t = useTranslations('checkout');
-  
+
   // Move arrays inside component to use t function
   const stores = [
     { value: 'HCM', label: t('stores.hcm') },
@@ -82,7 +82,7 @@ export default function Checkout({ order }: CheckoutProps) {
 
   const handleCouponSubmit = () => {
     // Mock coupon application
-            // Coupon applied
+    // Coupon applied
   };
 
   return (
@@ -350,41 +350,45 @@ export default function Checkout({ order }: CheckoutProps) {
                 </p>
               )}
             </div>
-            
+
             {/* Payment Method Icons */}
-            <div className='mt-4 pt-4 border-t border-gray-200'>
+            <div className='mt-4 border-t border-gray-200 pt-4'>
               <p className='mb-3 text-sm font-medium text-gray-700'>
                 {t('payment_method.supported_methods')}
               </p>
               <div className='flex items-center gap-4'>
                 {/* MoMo */}
                 <div className='flex flex-col items-center'>
-                  <div className='w-12 h-8 bg-pink-100 rounded-lg flex items-center justify-center mb-1'>
-                    <span className='text-pink-600 font-bold text-xs'>MoMo</span>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-pink-100'>
+                    <span className='text-xs font-bold text-pink-600'>
+                      MoMo
+                    </span>
                   </div>
                   <span className='text-xs text-gray-600'>MoMo</span>
                 </div>
-                
+
                 {/* VNPay */}
                 <div className='flex flex-col items-center'>
-                  <div className='w-12 h-8 bg-blue-100 rounded-lg flex items-center justify-center mb-1'>
-                    <span className='text-blue-600 font-bold text-xs'>VNPay</span>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-blue-100'>
+                    <span className='text-xs font-bold text-blue-600'>
+                      VNPay
+                    </span>
                   </div>
                   <span className='text-xs text-gray-600'>VNPay</span>
                 </div>
-                
+
                 {/* Visa */}
                 <div className='flex flex-col items-center'>
-                  <div className='w-12 h-8 bg-blue-900 rounded-lg flex items-center justify-center mb-1'>
-                    <span className='text-white font-bold text-xs'>VISA</span>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-blue-900'>
+                    <span className='text-xs font-bold text-white'>VISA</span>
                   </div>
                   <span className='text-xs text-gray-600'>Visa</span>
                 </div>
-                
+
                 {/* ZaloPay */}
                 <div className='flex flex-col items-center'>
-                  <div className='w-12 h-8 bg-blue-500 rounded-lg flex items-center justify-center mb-1'>
-                    <span className='text-white font-bold text-xs'>Zalo</span>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-blue-500'>
+                    <span className='text-xs font-bold text-white'>Zalo</span>
                   </div>
                   <span className='text-xs text-gray-600'>ZaloPay</span>
                 </div>
@@ -424,7 +428,8 @@ export default function Checkout({ order }: CheckoutProps) {
                   <div className='grow'>
                     <p className='font-medium'>{item.name}</p>
                     <p className='text-sm'>
-                      {t('cart_preview.price')}: {item.price.toLocaleString('vi-VN')}đ
+                      {t('cart_preview.price')}:{' '}
+                      {item.price.toLocaleString('vi-VN')}đ
                     </p>
                     {item.discount && (
                       <p className='text-sm text-red-500'>
@@ -503,7 +508,7 @@ export default function Checkout({ order }: CheckoutProps) {
               </div>
               <div className='flex justify-between font-bold'>
                 <span>{t('summary.total')}</span>
-                                    <span>{order.total.toLocaleString('vi-VN')}đ</span>
+                <span>{order.total.toLocaleString('vi-VN')}đ</span>
               </div>
             </div>
             <button

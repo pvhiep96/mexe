@@ -131,8 +131,8 @@
   },
   "header": {
     "home": "Home",
-    "explore": "Explore",
-    "explore_by_theme": "Explore by Theme",
+    "explore": "Categories",
+    "explore_by_theme": "Categories by Theme",
     "workspace_setup": "Workspace Setup",
     "monthly_offers": "Monthly Offers",
     "newest_products": "Newest Products",

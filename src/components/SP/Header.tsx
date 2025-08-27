@@ -32,18 +32,17 @@ export default function SPHeader() {
   }, [isMenuOpen]);
 
   const exploreThemes = [
-    t('workspace_setup'),
-    t('monthly_offers'),
-    t('newest_products'),
-    t('diy_steampunk'),
+    'Tất cả sản phẩm',
+    'Thương hiệu đối tác',
+    'Phụ kiện nội/ngoại thất',
+    'Ứng dụng/định vị',
+    'Đồ chơi xe',
+    'Camping',
+    'Thiết bị an toàn',
+    'Pin - sạc – xe điện',
   ];
 
-  const mexeCornerItems = [
-    { title: t('pre_order_info'), href: '#' },
-    { title: t('livestream_sales'), href: '#' },
-    { title: t('creative_clocks'), href: '#' },
-    { title: t('keyboard_mouse_sets'), href: '#' },
-  ];
+
 
   return (
     <header className='text-primary sticky top-0 z-50 w-full border-b border-gray-100 bg-white shadow-sm'>
@@ -174,9 +173,6 @@ export default function SPHeader() {
                     </span>
                     <div className='space-y-3 pl-4'>
                       <div className='border-l-2 border-gray-200 pl-4'>
-                        <h4 className='mb-3 text-sm font-medium text-gray-700'>
-                          {t('explore_by_theme')}
-                        </h4>
                         <ul className='space-y-2'>
                           {exploreThemes.map((theme) => (
                             <li key={theme}>
@@ -192,33 +188,7 @@ export default function SPHeader() {
                         </ul>
                       </div>
 
-                      <div className='border-l-2 border-gray-200 pl-4'>
-                        <h4 className='mb-3 text-sm font-medium text-gray-700'>
-                          {t('mexe_corner')}
-                        </h4>
-                        <ul className='space-y-2'>
-                          {mexeCornerItems.map((item) => (
-                            <li key={item.title}>
-                              <Link
-                                href={item.href}
-                                className='block py-2 text-sm text-gray-600 hover:text-blue-600'
-                                onClick={() => setIsMenuOpen(false)}
-                              >
-                                {item.title}
-                              </Link>
-                            </li>
-                          ))}
-                          <li>
-                            <Link
-                              href='#'
-                              className='block py-2 text-sm text-gray-600 hover:text-blue-600'
-                              onClick={() => setIsMenuOpen(false)}
-                            >
-                              {t('view_all')}
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
+
                     </div>
                   </div>
 
