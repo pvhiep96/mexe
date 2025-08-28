@@ -5,8 +5,11 @@ import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import Slider from 'react-slick';
 import Link from 'next/link';
-
-export default function Banner() {
+import { Category } from '../../api';
+interface BannerProps {
+  categories: Category[];
+}
+export default function Banner({ categories: defaultCategories }: BannerProps) {
   const t = useTranslations('banner');
   const [activeTab, setActiveTab] = useState('danhmuc');
 
@@ -94,6 +97,17 @@ export default function Banner() {
       label: 'Tất cả sản phẩm',
       href: '/products',
     },
+    ...defaultCategories.map((category) => ({
+      icon: category.image || '/images/icon-more.webp',
+      label: category.name,
+      href: `/products?category=${category.slug}`,
+      submenu: category.subcategories
+        ? category.subcategories.map((sub) => ({
+            label: sub.name,
+            href: `/products?category=${sub.slug}`,
+          }))
+        : undefined,
+    })),
     {
       icon: '/images/icon-more.webp',
       label: 'Thương hiệu đối tác',

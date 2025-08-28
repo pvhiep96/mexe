@@ -10,7 +10,12 @@ import Brands from '@/components/Brands';
 import Contact from '@/components/Contact';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { DefaultApi, ListProducts200Response } from '../../../api';
+import {
+  DefaultApi,
+  ListProducts200Response,
+  Listbrands200Response,
+  Listcategory200Response,
+} from '../../../api';
 import { Configuration } from '../../../api';
 
 const configuration = new Configuration({
@@ -40,6 +45,28 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
   }
 }
 
+const fetchbrands = async () => {
+  try {
+    const response = await api.listbrands();
+    const data: Listbrands200Response = response.data;
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch brands:', error);
+    return [];
+  }
+};
+
+const fetchCategories = async () => {
+  try {
+    const response = await api.listcategory();
+    const data: Listcategory200Response = response.data;
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch brands:', error);
+    return [];
+  }
+};
+
 export default async function Home() {
   const page = 1;
   const perPage = 10;
@@ -51,17 +78,20 @@ export default async function Home() {
     perPage: itemsPerPage,
   } = await fetchProducts(page, perPage);
 
+  // const [branchs] = await Promise.all([fetchbranch.]);
+  const brands = await fetchbrands();
+  const categories = await fetchCategories();
   return (
     <main className='flex min-h-screen flex-col'>
-      <Banner />
-      <NewProducts />
+      <Banner categories={categories} />
+      <NewProducts products={products} />
       <EarlyOrder />
       <NewBrands />
       <ComboWorkspace />
       <BannerSale />
       <Videos />
       <ServiceCommitment />
-      <Brands />
+      <Brands brands={brands} />
       <Contact />
     </main>
   );

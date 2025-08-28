@@ -266,6 +266,45 @@ export interface ListProducts200ResponseMeta {
 /**
  * 
  * @export
+ * @interface ListStores200Response
+ */
+export interface ListStores200Response {
+    /**
+     * 
+     * @type {Array<Store>}
+     * @memberof ListStores200Response
+     */
+    'stores'?: Array<Store>;
+}
+/**
+ * 
+ * @export
+ * @interface Listbrands200Response
+ */
+export interface Listbrands200Response {
+    /**
+     * 
+     * @type {Array<Brand>}
+     * @memberof Listbrands200Response
+     */
+    'stores'?: Array<Brand>;
+}
+/**
+ * 
+ * @export
+ * @interface Listcategory200Response
+ */
+export interface Listcategory200Response {
+    /**
+     * 
+     * @type {Array<Category>}
+     * @memberof Listcategory200Response
+     */
+    'stores'?: Array<Category>;
+}
+/**
+ * 
+ * @export
  * @interface Order
  */
 export interface Order {
@@ -916,6 +955,73 @@ export interface ProductVariant {
 /**
  * 
  * @export
+ * @interface Store
+ */
+export interface Store {
+    /**
+     * Unique identifier for the store.
+     * @type {number}
+     * @memberof Store
+     */
+    'id'?: number;
+    /**
+     * Name of the store.
+     * @type {string}
+     * @memberof Store
+     */
+    'name'?: string;
+    /**
+     * Full address of the store.
+     * @type {string}
+     * @memberof Store
+     */
+    'address'?: string;
+    /**
+     * Contact phone number of the store.
+     * @type {string}
+     * @memberof Store
+     */
+    'phone'?: string | null;
+    /**
+     * Contact email of the store.
+     * @type {string}
+     * @memberof Store
+     */
+    'email'?: string | null;
+    /**
+     * City where the store is located.
+     * @type {string}
+     * @memberof Store
+     */
+    'city'?: string;
+    /**
+     * Indicates if the store is active.
+     * @type {boolean}
+     * @memberof Store
+     */
+    'is_active'?: boolean;
+    /**
+     * JSON object containing the store\'s opening hours.
+     * @type {object}
+     * @memberof Store
+     */
+    'opening_hours'?: object | null;
+    /**
+     * Timestamp when the store was created.
+     * @type {string}
+     * @memberof Store
+     */
+    'created_at'?: string;
+    /**
+     * Timestamp when the store was last updated.
+     * @type {string}
+     * @memberof Store
+     */
+    'updated_at'?: string;
+}
+/**
+ * 
+ * @export
  * @interface User
  */
 export interface User {
@@ -1312,6 +1418,96 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary List all stores
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listStores: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/stores`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary List all brands
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listbrands: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/brands`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary List all Cagegory
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listcategory: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/categories`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1405,6 +1601,42 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.listProducts']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary List all stores
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listStores(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListStores200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listStores(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.listStores']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary List all brands
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listbrands(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Listbrands200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listbrands(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.listbrands']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary List all Cagegory
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listcategory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Listcategory200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listcategory(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.listcategory']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -1479,6 +1711,33 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         listProducts(page?: number, perPage?: number, categoryId?: number, brandId?: number, isActive?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<ListProducts200Response> {
             return localVarFp.listProducts(page, perPage, categoryId, brandId, isActive, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List all stores
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listStores(options?: RawAxiosRequestConfig): AxiosPromise<ListStores200Response> {
+            return localVarFp.listStores(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List all brands
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listbrands(options?: RawAxiosRequestConfig): AxiosPromise<Listbrands200Response> {
+            return localVarFp.listbrands(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List all Cagegory
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listcategory(options?: RawAxiosRequestConfig): AxiosPromise<Listcategory200Response> {
+            return localVarFp.listcategory(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1565,6 +1824,39 @@ export class DefaultApi extends BaseAPI {
      */
     public listProducts(page?: number, perPage?: number, categoryId?: number, brandId?: number, isActive?: boolean, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).listProducts(page, perPage, categoryId, brandId, isActive, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List all stores
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public listStores(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).listStores(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List all brands
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public listbrands(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).listbrands(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List all Cagegory
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public listcategory(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).listcategory(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

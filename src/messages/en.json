@@ -303,7 +303,8 @@
     "product_3_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
     "product_4_title": "Smart LED Desk Lamp - Anti-Myopia",
     "product_4_open_date": "07/10/2025",
-    "product_4_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod"
+    "product_4_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
+    "go_to_slide": "Go to Slide {{number}}"
   },
   "news": {
     "title": "News & Articles",

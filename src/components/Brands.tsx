@@ -6,53 +6,53 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
 interface Brand {
   id: string;
-  image: string;
+  logo: string;
   name?: string;
   titleKey: string;
   brandKey: string;
-  fieldKey: string;
-  foundedKey: string;
-  storyKey: string;
+  field: string;
+  founded_year: string;
+  story: string;
 }
 
-const brands: Brand[] = [
-  {
-    id: 'honda1',
-    image: '/images/demo-logo-honda.jpg',
-    titleKey: 'honda_title',
-    brandKey: 'honda_brand',
-    fieldKey: 'honda_field',
-    foundedKey: 'honda_founded',
-    storyKey: 'honda_story',
-  },
-  {
-    id: 'toyota2',
-    image: '/images/demo-logo-honda.jpg',
-    titleKey: 'toyota_title',
-    brandKey: 'toyota_brand',
-    fieldKey: 'toyota_field',
-    foundedKey: 'toyota_founded',
-    storyKey: 'toyota_story',
-  },
-  {
-    id: 'hyundai3',
-    image: '/images/demo-logo-honda.jpg',
-    titleKey: 'hyundai_title',
-    brandKey: 'hyundai_brand',
-    fieldKey: 'hyundai_field',
-    foundedKey: 'hyundai_founded',
-    storyKey: 'hyundai_story',
-  },
-  {
-    id: 'ford4',
-    image: '/images/demo-logo-honda.jpg',
-    titleKey: 'ford_title',
-    brandKey: 'ford_brand',
-    fieldKey: 'ford_field',
-    foundedKey: 'ford_founded',
-    storyKey: 'ford_story',
-  },
-];
+// const brands: Brand[] = [
+//   {
+//     id: 'honda1',
+//     image: '/images/demo-logo-honda.jpg',
+//     titleKey: 'honda_title',
+//     brandKey: 'honda_brand',
+//     field: 'honda_field',
+//     founded_year: 'honda_founded',
+//     story: 'honda_story',
+//   },
+//   {
+//     id: 'toyota2',
+//     image: '/images/demo-logo-honda.jpg',
+//     titleKey: 'toyota_title',
+//     brandKey: 'toyota_brand',
+//     field: 'toyota_field',
+//     founded_year: 'toyota_founded',
+//     story: 'toyota_story',
+//   },
+//   {
+//     id: 'hyundai3',
+//     image: '/images/demo-logo-honda.jpg',
+//     titleKey: 'hyundai_title',
+//     brandKey: 'hyundai_brand',
+//     field: 'hyundai_field',
+//     founded_year: 'hyundai_founded',
+//     story: 'hyundai_story',
+//   },
+//   {
+//     id: 'ford4',
+//     image: '/images/demo-logo-honda.jpg',
+//     titleKey: 'ford_title',
+//     brandKey: 'ford_brand',
+//     field: 'ford_field',
+//     founded_year: 'ford_founded',
+//     story: 'ford_story',
+//   },
+// ];
 
 interface BrandCardProps {
   brand: Brand;
@@ -69,32 +69,32 @@ function BrandCard({ brand }: BrandCardProps) {
     <div className='flex h-full max-w-[320px] min-w-[300px] flex-col overflow-hidden rounded-lg bg-white shadow-md'>
       <div className='relative aspect-video'>
         <Image
-          src={brand.image}
-          alt={t(brand.titleKey)}
+          src={brand.logo}
+          alt={brand.titleKey}
           fill
           className='object-cover'
         />
         <div className='absolute inset-0 flex items-center justify-center bg-black/50'>
           <span className='text-lg font-semibold text-white'>
-            {t(brand.titleKey)}
+            {brand.titleKey}
           </span>
         </div>
       </div>
       <div className='bg-black py-2 text-center font-medium text-white'>
-        {t(brand.brandKey)}
+        {brand.brandKey}
       </div>
       <div className='flex-1 p-4 text-sm text-gray-700'>
         <p>
-          <strong>{t('field_label')}:</strong> {t(brand.fieldKey)}
+          <strong>{t('field_label')}:</strong> {brand.field}
         </p>
         <p>
-          <strong>{t('founded_label')}:</strong> {t(brand.foundedKey)}
+          <strong>{t('founded_label')}:</strong> {brand.founded_year}
         </p>
         <p className='mt-2'>
           <strong>{t('story_label')}:</strong>{' '}
-          {t(brand.storyKey).length > 30
-            ? `${t(brand.storyKey).slice(0, 30)}...`
-            : t(brand.storyKey)}
+          {brand.story.length > 30
+            ? `${brand.story.slice(0, 30)}...`
+            : brand.story}
         </p>
       </div>
       <button
@@ -108,7 +108,10 @@ function BrandCard({ brand }: BrandCardProps) {
   );
 }
 
-export default function Brands() {
+interface BrandsProps {
+  brands: Brand[];
+}
+export default function Brands({ brands }: BrandsProps) {
   const t = useTranslations('brands');
 
   return (

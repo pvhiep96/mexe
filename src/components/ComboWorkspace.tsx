@@ -302,7 +302,6 @@ export default function ComboWorkspace() {
                     style={{
                       cursor: 'pointer !important',
                     }}
-                    aria-label={t('go_to_slide', { number: idx + 1 })}
                   />
                 ))}
               </div>
