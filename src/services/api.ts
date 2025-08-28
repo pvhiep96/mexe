@@ -1,5 +1,17 @@
 // API service for communicating with Rails backend
 import { API_CONFIG, API_ENDPOINTS } from '@/config/api';
+import type { 
+  User, 
+  AuthResponse, 
+  LoginRequest, 
+  RegisterRequest, 
+  UpdateProfileRequest, 
+  ChangePasswordRequest,
+  Order,
+  WishlistItem,
+  UserAddress,
+  ApiError 
+} from '@/types';
 
 // Types
 export interface HomeData {
@@ -108,6 +120,91 @@ export interface SearchResponse {
   total_results: number;
 }
 
+// Token management utilities
+class TokenManager {
+  private static readonly TOKEN_KEY = 'authToken';
+  private static readonly BACKUP_TOKEN_KEY = 'authToken_backup';
+  private static readonly LAST_VALID_KEY = 'lastValidToken';
+  
+  static getToken(): string | null {
+    if (typeof window === 'undefined') return null;
+    
+    // Try main token first
+    let token = localStorage.getItem(this.TOKEN_KEY);
+    
+    // If main token is missing, try backup
+    if (!token) {
+      token = localStorage.getItem(this.BACKUP_TOKEN_KEY);
+      if (token) {
+        this.setToken(token); // Restore to main location
+      }
+    }
+    
+    return token;
+  }
+  
+  static setToken(token: string): void {
+    if (typeof window === 'undefined') return;
+    
+    // Store in main location
+    localStorage.setItem(this.TOKEN_KEY, token);
+    
+    // Create backup
+    localStorage.setItem(this.BACKUP_TOKEN_KEY, token);
+    
+    // Store timestamp of last valid token
+    localStorage.setItem(this.LAST_VALID_KEY, Date.now().toString());
+  }
+  
+  static removeToken(): void {
+    if (typeof window === 'undefined') return;
+    
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.BACKUP_TOKEN_KEY);
+    localStorage.removeItem(this.LAST_VALID_KEY);
+  }
+  
+  static getLastValidTokenTime(): number {
+    if (typeof window === 'undefined') return 0;
+    const timestamp = localStorage.getItem(this.LAST_VALID_KEY);
+    return timestamp ? parseInt(timestamp) : 0;
+  }
+  
+  static isTokenValid(): boolean {
+    const token = this.getToken();
+    if (!token) return false;
+    
+    try {
+      // Check JWT format
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        this.removeToken();
+        return false;
+      }
+      
+      // Check expiration with 5 minute buffer
+      const payload = JSON.parse(atob(parts[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      const bufferTime = 5 * 60; // 5 minutes buffer
+      
+      if (!payload.exp) {
+        this.removeToken();
+        return false;
+      }
+      
+      if (payload.exp <= (currentTime + bufferTime)) {
+        this.removeToken();
+        return false;
+      }
+      
+      return true;
+    } catch (error) {
+      this.removeToken();
+      return false;
+    }
+  }
+}
+
 // API Client
 class ApiClient {
   private baseUrl: string;
@@ -116,12 +213,18 @@ class ApiClient {
     this.baseUrl = baseUrl;
   }
 
+  private getAuthHeaders(): Record<string, string> {
+    const token = TokenManager.getToken();
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     
     const defaultOptions: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
         ...options.headers,
       },
       ...options,
@@ -129,14 +232,33 @@ class ApiClient {
 
     try {
       const response = await fetch(url, defaultOptions);
+      const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Handle authentication errors
+        if (response.status === 401) {
+          TokenManager.removeToken();
+        }
+        
+        throw {
+          status: response.status,
+          success: false,
+          message: data.message || 'An error occurred',
+          errors: data.errors || ['An error occurred']
+        };
       }
 
-      return await response.json();
-    } catch (error) {
-      console.error('API request failed:', error);
+      return data;
+    } catch (error: any) {
+      // Network or parsing errors
+      if (!error.status) {
+        throw {
+          status: 0,
+          success: false,
+          message: 'Lỗi kết nối. Vui lòng kiểm tra internet và thử lại.',
+          errors: ['Network error']
+        };
+      }
       throw error;
     }
   }
@@ -235,6 +357,87 @@ class ApiClient {
   // Search
   async search(query: string): Promise<SearchResponse> {
     return this.request<SearchResponse>(`${API_ENDPOINTS.SEARCH}?q=${encodeURIComponent(query)}`);
+  }
+
+  // Authentication
+  async login(credentials: LoginRequest): Promise<AuthResponse> {
+    const response = await this.request<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    });
+    
+    // Store token on successful login
+    if (response.success && response.token) {
+      TokenManager.setToken(response.token);
+    }
+    
+    return response;
+  }
+
+  async register(userData: RegisterRequest): Promise<AuthResponse> {
+    const response = await this.request<AuthResponse>(API_ENDPOINTS.AUTH.REGISTER, {
+      method: 'POST',
+      body: JSON.stringify(userData),
+    });
+    
+    // Store token on successful registration
+    if (response.success && response.token) {
+      TokenManager.setToken(response.token);
+    }
+    
+    return response;
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await this.request(API_ENDPOINTS.AUTH.LOGOUT || '/auth/logout', {
+        method: 'POST',
+      });
+    } catch (error) {
+      // Ignore logout errors
+    } finally {
+      TokenManager.removeToken();
+    }
+  }
+
+  async getProfile(): Promise<{ success: boolean; user: User }> {
+    return this.request<{ success: boolean; user: User }>(API_ENDPOINTS.AUTH.PROFILE);
+  }
+
+  async updateProfile(userData: UpdateProfileRequest): Promise<{ success: boolean; user: User; message: string }> {
+    return this.request<{ success: boolean; user: User; message: string }>(API_ENDPOINTS.AUTH.UPDATE_PROFILE, {
+      method: 'PUT',
+      body: JSON.stringify(userData),
+    });
+  }
+
+  async changePassword(passwordData: ChangePasswordRequest): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, {
+      method: 'POST',
+      body: JSON.stringify(passwordData),
+    });
+  }
+
+  // User Data
+  async getUserOrders(): Promise<Order[]> {
+    return this.request<Order[]>(API_ENDPOINTS.USER.ORDERS);
+  }
+
+  async getUserWishlist(): Promise<WishlistItem[]> {
+    return this.request<WishlistItem[]>(API_ENDPOINTS.USER.FAVORITES);
+  }
+
+  async getUserAddresses(): Promise<UserAddress[]> {
+    return this.request<UserAddress[]>(API_ENDPOINTS.USER.ADDRESSES);
+  }
+
+  // Token management
+  isAuthenticated(): boolean {
+    return TokenManager.isTokenValid();
+  }
+
+  getToken(): string | null {
+    return TokenManager.getToken();
   }
 }
 

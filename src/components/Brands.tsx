@@ -61,7 +61,9 @@ interface BrandCardProps {
 function BrandCard({ brand }: BrandCardProps) {
   const t = useTranslations('brands');
 
-  const handleStoryClick = () => {};
+  const handleStoryClick = () => {
+    window.open(`/products?brand=${brand.id.replace(/\d+$/, '')}`, '_blank');
+  };
 
   return (
     <div className='flex h-full max-w-[320px] min-w-[300px] flex-col overflow-hidden rounded-lg bg-white shadow-md'>

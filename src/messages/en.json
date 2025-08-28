@@ -131,8 +131,8 @@
   },
   "header": {
     "home": "Home",
-    "explore": "Explore",
-    "explore_by_theme": "Explore by Theme",
+    "explore": "Categories",
+    "explore_by_theme": "Categories by Theme",
     "workspace_setup": "Workspace Setup",
     "monthly_offers": "Monthly Offers",
     "newest_products": "Newest Products",
@@ -323,59 +323,63 @@
   },
   "checkout": {
     "title": "Checkout",
-    "delivery_address_placeholder": "Enter your delivery address",
-    "delivery_info": {
-      "title": "Delivery Information",
-      "home": "Home Delivery",
-      "store": "At the Store",
-      "name": "Name",
-      "mobile": "Mobile",
-      "email": "Email",
-      "national": "National",
-      "address": "Address",
-      "city": "City",
-      "store": "Select Store",
-      "select_store": "Select a store"
-    },
-    "delivery_method": {
-      "title": "Delivery Method",
-      "address": "Delivery Address",
-      "delivery_address_placeholder": "Based on delivery information"
-    },
-    "payment_method": {
-      "title": "Payment Method",
-      "card": "Credit/Debit Card",
-      "cod": "Cash on Delivery",
-      "bank": "Bank Transfer"
-    },
-    "note": {
-      "title": "Note",
-      "placeholder": "Add any special instructions"
-    },
-    "cart_preview": {
-      "title": "Cart Preview",
-      "price": "Price",
-      "discount": "Discount",
-      "quantity": "Quantity"
-    },
-    "coupon": {
-      "title": "Coupon",
-      "type": "Coupon Type",
-      "code": "Coupon Code",
-      "code_placeholder": "Enter coupon code",
-      "submit": "Apply Coupon"
-    },
-    "summary": {
-      "title": "Summary",
-      "total_items": "Total Items",
-      "shipping": "Shipping",
-      "shipping_value": "Calculated at next step",
-      "total": "Total",
-      "checkout": "Place Order"
-    },
-    "errors": {
-      "required": "This field is required"
-    }
+    "subtitle": "Complete your order",
+    "customer_info": "Customer Information",
+    "full_name": "Full Name",
+    "full_name_placeholder": "Enter your full name",
+    "phone": "Phone Number",
+    "phone_placeholder": "Enter your phone number",
+    "email": "Email",
+    "email_placeholder": "Enter your email address",
+    "address": "Shipping Address",
+    "address_placeholder": "Enter your detailed shipping address",
+    "city": "City",
+    "city_placeholder": "Select city",
+    "district": "District",
+    "district_placeholder": "Select district",
+    "ward": "Ward",
+    "ward_placeholder": "Select ward",
+    "payment_method": "Payment Method",
+    "supported_methods": "Supported Payment Methods",
+    "order_summary": "Order Summary",
+    "subtotal": "Subtotal",
+    "shipping_fee": "Shipping Fee",
+    "total": "Total",
+    "place_order": "Place Order",
+    "order_success": "Order placed successfully!",
+    "order_success_message": "Thank you for your order. We will process your order as soon as possible."
+  },
+  "order_status": {
+    "title": "Check Order Status",
+    "subtitle": "Track your order status",
+    "check_order_title": "Check order status",
+    "check_order_description": "Enter your order number to view detailed information and shipping status",
+    "order_number_label": "Order Number",
+    "order_number_placeholder": "Enter order number",
+    "order_number_required": "Please enter your order number",
+    "order_number_invalid": "Order number must be at least 6 characters",
+    "check_order_button": "Check Order",
+    "checking": "Checking...",
+    "order_number_help": "Order number is sent to your email after successful order placement",
+    "order_number_example": "Example: ORD123456",
+    "need_help": "Need Help?",
+    "tracking_info": "Tracking Information",
+    "tracking_description": "Track your order from placement to delivery",
+    "delivery_time": "Delivery Time",
+    "delivery_description": "Estimated delivery time and status updates",
+    "order": "Order",
+    "ordered_on": "Ordered on",
+    "customer_info": "Customer Information",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "delivery_info": "Delivery Information",
+    "estimated_delivery": "Estimated Delivery",
+    "total_amount": "Total Amount",
+    "order_items": "Ordered Items",
+    "quantity": "Quantity",
+    "total": "Total",
+    "order_timeline": "Order Timeline"
   },
   "product_detail": {
     "add_to_cart_success": "Product added to cart successfully!",

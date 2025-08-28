@@ -20,6 +20,21 @@ export const API_ENDPOINTS = {
   FEATURED_PRODUCTS: '/products/featured',
   NEW_PRODUCTS: '/products/new',
   HOT_PRODUCTS: '/products/hot',
+  // Authentication endpoints
+  AUTH: {
+    LOGIN: '/auth/login',
+    REGISTER: '/auth/register',
+    LOGOUT: '/auth/logout',
+    PROFILE: '/auth/profile',
+    UPDATE_PROFILE: '/auth/update_profile',
+    CHANGE_PASSWORD: '/auth/change_password',
+  },
+  // User endpoints
+  USER: {
+    ORDERS: '/users/orders',
+    FAVORITES: '/users/favorites',
+    ADDRESSES: '/users/addresses',
+  },
 };
 
 const configuration = new Configuration({

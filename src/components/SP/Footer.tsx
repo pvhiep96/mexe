@@ -9,19 +9,9 @@ export default function SPFooter() {
   return (
     <footer className='bg-gray-800 py-4 text-white'>
       <div className='container mx-auto px-4'>
-        {/* Logo MEXE ở phía trên cùng bên phải */}
-        <div className='mb-4 flex justify-end'>
-          <Image
-            src='/images/logo-mexe.png'
-            alt='Mexe Logo'
-            width={60}
-            height={24}
-            className='h-6 w-auto'
-          />
-        </div>
-        
-        <div className='flex flex-col space-y-4'>
-          <div>
+        {/* Hàng đầu tiên: Hỗ Trợ Khách Hàng và Logo MEXE */}
+        <div className='mb-6 flex items-start justify-between'>
+          <div className='flex-1 pr-4'>
             <h3 className='mb-2 text-base font-semibold'>
               {t('customer_support')}
             </h3>
@@ -48,6 +38,21 @@ export default function SPFooter() {
               </li>
             </ul>
           </div>
+
+          {/* Logo MEXE nhỏ ở bên phải */}
+          <div className='flex-shrink-0'>
+            <Image
+              src='/images/logo-mexe.png'
+              alt='Mexe Logo'
+              width={40}
+              height={16}
+              className='h-4 w-auto'
+            />
+          </div>
+        </div>
+
+        {/* Các sections khác */}
+        <div className='space-y-4'>
           <div>
             <h3 className='mb-2 text-base font-semibold'>{t('about_us')}</h3>
             <ul className='space-y-1'>
@@ -98,7 +103,7 @@ export default function SPFooter() {
             <p className='text-sm'>{t('content_responsible')}</p>
             <p className='text-sm'>{t('terms_note')}</p>
             <h3 className='mt-2 text-base font-semibold'>{t('address.hq')}</h3>
-            <p className='text-sm'>{t('address.hanoi_business')}</p>
+            <p className='mb-2 text-sm'>{t('address.hanoi_business')}</p>
             <p className='text-sm'>☎️ {t('address.hotline')}</p>
             <p className='text-sm'>{t('address.hcm_office')}</p>
             <p className='text-sm'>☎️ {t('address.hotline')}</p>

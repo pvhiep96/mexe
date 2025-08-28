@@ -91,7 +91,7 @@ export default function SPNewBrands() {
             {/* Prev button */}
             <button
               onClick={prevSlide}
-              className='absolute left-2 z-20 rounded-full bg-white p-2 shadow-lg transition-all duration-300 hover:bg-gray-50'
+              className='absolute left-2 z-20 rounded-full bg-white p-2 shadow-lg transition-all duration-300 hover:bg-gray-50 cursor-pointer'
             >
               <ChevronLeftIcon className='h-5 w-5 text-orange-500' />
             </button>
@@ -141,6 +141,11 @@ export default function SPNewBrands() {
                           </a>
                           <a
                             href='#'
+                            onClick={(e) => {
+                              e.preventDefault();
+                              // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
+                              alert('Đặt hàng thành công!');
+                            }}
                             className='flex-1 rounded-full bg-[#0A115F] px-3 py-1.5 text-xs font-semibold text-white text-center transition hover:bg-[#0e1a8a]'
                           >
                             {t('buy_now')}
@@ -156,7 +161,7 @@ export default function SPNewBrands() {
             {/* Next button */}
             <button
               onClick={nextSlide}
-              className='absolute right-2 z-20 rounded-full bg-white p-2 shadow-lg transition-all duration-300 hover:bg-gray-50'
+              className='absolute right-2 z-20 rounded-full bg-white p-2 shadow-lg transition-all duration-300 hover:bg-gray-50 cursor-pointer'
             >
               <ChevronRightIcon className='h-5 w-5 text-orange-500' />
             </button>

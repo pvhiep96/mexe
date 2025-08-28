@@ -31,8 +31,15 @@ export default function ProductCard({
   handleMouseOut,
 }: ProductCardProps) {
   const [timeLeft, setTimeLeft] = useState(0);
+  const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  useEffect(() => {
+    if (!mounted) return;
+    
     const targetDate = new Date('2025-07-25T00:00:00').getTime();
     const updateTime = () => {
       setTimeLeft(Math.max(0, targetDate - Date.now()));
@@ -42,7 +49,7 @@ export default function ProductCard({
     const interval = setInterval(updateTime, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [mounted]);
 
 
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -55,7 +62,7 @@ export default function ProductCard({
   return (
     <div className='grid cursor-pointer grid-cols-2 gap-4 rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg'>
       <div className='m-auto ml-4'>
-        <Link href={`/products/${product.slug}`} className='cursor-pointer'>
+        <Link href={`/products/2`} className='cursor-pointer'>
           <div className='grid grid-cols-2 place-content-center place-items-center gap-2 justify-self-center'>
             <Image
               src={product.images[0]}
@@ -86,7 +93,7 @@ export default function ProductCard({
           onMouseOver={(e) =>
             handleMouseOver(
               e,
-              'Comming soon là trạng thái một sản phẩm mới đã sẵn sàng ra mắt người dùng, tuy nhiên chúng tôi cần thời gian chuẩn bị một số khâu cuối cùng để đưa sản phẩm ra mắt chỉnh chu nhất đến các khách hàng của Vaithuhay. Ngày ra mắt của sản phẩm là ngày mà khách hàng có thể chính thức đặt hàng được, tuy nhiên bạn cũng có thể đăng ký sớm các slot giá tốt ở thời điểm hiện tại để được ưu tiên giữ các slot khuyến mãi này.'
+              'Comming soon là trạng thái một sản phẩm mới đã sẵn sàng ra mắt người dùng, tuy nhiên chúng tôi cần thời gian chuẩn bị một số khâu cuối cùng để đưa sản phẩm ra mắt chỉnh chu nhất đến các khách hàng của Mexe. Ngày ra mắt của sản phẩm là ngày mà khách hàng có thể chính thức đặt hàng được, tuy nhiên bạn cũng có thể đăng ký sớm các slot giá tốt ở thời điểm hiện tại để được ưu tiên giữ các slot khuyến mãi này.'
             )
           }
           onMouseOut={handleMouseOut}
@@ -98,7 +105,7 @@ export default function ProductCard({
           </span>
           <Image
             src='https://file.hstatic.net/1000269366/file/div.accordion__toggle_19ccc6ffc4464ae7b11fecc7d634eaab.png'
-            alt='Vài Thứ Hay'
+            alt='Mexe'
             width={16}
             height={16}
             className='absolute top-0 right-0 translate-x-1/2 translate-y-1/2'
@@ -119,23 +126,25 @@ export default function ProductCard({
             <span>Dự kiến ra mắt:</span>
           </div>
           <p className='text-center text-sm'>0 giờ sáng</p>
-          <time className='m-1 flex w-full justify-center rounded-xl bg-green-700 p-2 text-center text-sm font-semibold text-white'>
+          <time className='m-1 flex w-full justify-center rounded-lg bg-green-700 p-2 text-center text-sm font-semibold text-white'>
             {product.releaseDate}
           </time>
-          <div className='mt-1 grid grid-cols-4 gap-2 text-center text-sm'>
-            <div className='rounded p-2'>
-              <span className='font-semibold'>{days}</span> ngày
+          {mounted && (
+            <div className='mt-1 grid grid-cols-4 gap-2 text-center text-sm'>
+              <div className='rounded p-2'>
+                <span className='font-semibold'>{days}</span> ngày
+              </div>
+              <div className='rounded p-2'>
+                <span className='font-semibold'>{hours}</span> giờ
+              </div>
+              <div className='rounded p-2'>
+                <span className='font-semibold'>{minutes}</span> phút
+              </div>
+              <div className='rounded p-2'>
+                <span className='font-semibold'>{seconds}</span> giây
+              </div>
             </div>
-            <div className='rounded p-2'>
-              <span className='font-semibold'>{hours}</span> giờ
-            </div>
-            <div className='rounded p-2'>
-              <span className='font-semibold'>{minutes}</span> phút
-            </div>
-            <div className='rounded p-2'>
-              <span className='font-semibold'>{seconds}</span> giây
-            </div>
-          </div>
+          )}
         </div>
         <div className='mt-4'>
           <Link

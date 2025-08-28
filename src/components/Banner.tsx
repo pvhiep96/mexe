@@ -9,7 +9,7 @@ import Link from 'next/link';
 export default function Banner() {
   const t = useTranslations('banner');
   const [activeTab, setActiveTab] = useState('danhmuc');
-  const [hoveredSubmenu, setHoveredSubmenu] = useState<string | null>(null);
+
   const sliderRef = useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [width, setWidth] = useState(375);
@@ -69,204 +69,194 @@ export default function Banner() {
     {
       icon: '/images/icon-grid.webp',
       label: 'Tất cả sản phẩm',
-      href: '/collections/tatcasanpham',
+      href: '/products',
     },
     {
       icon: '/images/icon-sale.webp',
-      label: 'Sản phẩm khuyến mãi',
-      href: '/collections/san-pham-khuyen-mai',
+      label: 'Phụ kiện khuyến mãi',
+      href: '/products?sale=true',
     },
     {
       icon: '/images/icon-new.webp',
-      label: 'Sản phẩm mới',
-      href: '/collections/san-pham-moi',
+      label: 'Phụ kiện mới',
+      href: '/products?new=true',
     },
     {
       icon: '/images/icon-preorder.webp',
-      label: 'PRE-ORDER',
-      href: '/collections/pre-order',
+      label: 'ĐẶT TRƯỚC',
+      href: '/products?preorder=true',
     },
   ];
 
   const categories = [
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_1.png?v=7371',
+      icon: '/images/icon-grid.webp',
       label: 'Tất cả sản phẩm',
-      href: '/collections/tatcasanpham',
+      href: '/products',
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_2.png?v=7371',
+      icon: '/images/icon-more.webp',
       label: 'Thương hiệu đối tác',
       href: '/',
       submenu: [
-        { label: 'Hexcal', href: '/collections/hexcal' },
-        { label: 'Nuphy', href: '/collections/nuphy' },
-        { label: 'Upgen', href: '/collections/upgen' },
-        { label: 'Hyperwork', href: '/collections/hyperwork' },
-        { label: 'Jsaux', href: '/collections/jsaux' },
-        { label: 'Satechi', href: '/collections/satechi' },
+        { label: 'Toyota', href: '/products?brand=toyota' },
+        { label: 'Honda', href: '/products?brand=honda' },
+        { label: 'Thaco', href: '/products?brand=thaco' },
+        { label: 'Vinfast', href: '/products?brand=vinfast' },
+        { label: 'Tmas', href: '/products?brand=tmas' },
+        { label: 'Icar', href: '/products?brand=icar' },
+        { label: 'Aozoom', href: '/products?brand=aozoom' },
+        { label: 'Auto365', href: '/products?brand=auto365' },
+        { label: 'Chicco', href: '/products?brand=chicco' },
+        { label: 'Vinaquick', href: '/products?brand=vinaquick' },
+        { label: 'Setcar', href: '/products?brand=setcar' },
+        { label: 'Vietmap', href: '/products?brand=vietmap' },
       ],
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_3.png?v=7371',
-      label: 'Workspace | Góc làm việc hiệu quả',
-      href: '/collections/setup-goc-lam-viec',
+      icon: '/images/icon-new.webp',
+      label: 'Phụ kiện nội/ngoại thất',
+      href: '/products?category=noi-that-xe',
       submenu: [
         {
-          label: 'Bàn phím/chuột/thảm lót chuột',
-          href: '/collections/chuot-tham-lot-chuot',
+          label: 'Thảm lót sàn xe',
+          href: '/products?category=tham-lot-san-xe',
         },
-        { label: 'Kệ màn hình', href: '/collections/ke-man-hinh' },
-        { label: 'Hub', href: '/collections/hub' },
+        { label: 'Gối tựa đầu', href: '/products?category=goi-tua-dau' },
+        { label: 'Áo trùm ghế', href: '/products?category=ao-trum-ghe' },
         {
-          label: 'Giá đỡ màn hình',
-          href: '/collections/gia-do-man-hinh-may-tinh',
+          label: 'Kệ để đồ',
+          href: '/products?category=ke-de-do-xe',
         },
       ],
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_4.png?v=7371',
-      label: 'Sản phẩm công thái học',
-      href: '/collections/san-pham-cong-thai-hoc',
-      submenu: [
-        { label: 'Ghế công thái học', href: '/collections/ghe-cong-thai-hoc' },
-        {
-          label: 'Bàn công thái học',
-          href: '/collections/ban-nang-ha-cong-thai-hoc',
-        },
-      ],
-    },
-    {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_5.png?v=7371',
-      label: 'Showcase - Nơi khám phá những sản phẩm độc đáo',
-      href: 'https://vaithuhay.com/collections/coming-soon',
-    },
-    {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_6.png?v=7371',
-      label: 'Phụ kiện máy tính',
-      href: '/collections/phu-kien-may-tinh-cong-nghe-chinh-hang-gia-tot',
+      icon: '/images/icon-search.svg',
+      label: 'Ứng dụng/định vị',
+      href: '/products?category=an-toan-xe',
       submenu: [
         {
-          label: 'Cổng hub chuyển, dock sạc phụ kiện hỗ trợ góc làm việc',
-          href: '/collections/hub',
+          label: 'Camera hành trình',
+          href: '/products?category=camera-hanh-trinh',
         },
-        { label: 'Giá đỡ laptop', href: '/collections/gia-do-laptop' },
+        {
+          label: 'Cảm biến lùi',
+          href: '/products?category=cam-bien-lui',
+        },
       ],
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_7.png?v=7371',
-      label: 'Đồng hồ trang trí',
-      href: '/collections/san-pham-dong-ho-cong-nghe-tai-vaithuhay',
+      icon: '/images/icon-new.webp',
+      label: 'Đồ chơi xe',
+      href: '/products?featured=true',
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_8.png?v=7371',
-      label: 'Đèn công nghệ',
-      href: '/collections/den-cong-nghe-trang-tri-goc-lam-viec-chi-co-tai-vaithuhay',
+      icon: '/images/icon-more.webp',
+      label: 'Camping',
+      href: '/products?category=phu-kien-ngoai-that',
       submenu: [
-        { label: 'Đèn RGB', href: '/collections/nid-light' },
         {
-          label: 'Đèn bàn, đọc sách',
-          href: '/collections/den-ban-doc-sach-cong-nghe-tai-vaithuhay',
+          label: 'Ốp viền cửa',
+          href: '/products?category=op-vien-cua',
         },
-        {
-          label: 'Đèn trang trí',
-          href: '/collections/den-ban-den-doc-sach-cong-nghe',
-        },
+        { label: 'Decal dán xe', href: '/products?category=decal-dan-xe' },
       ],
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_9.png?v=7371',
-      label: 'Sản phẩm sáng tạo',
-      href: '/collections/san-pham-sang-tao',
+      icon: '/images/icon-more.webp',
+      label: 'Thiết bị an toàn',
+      href: '/products?category=dong-ho-trang-tri-xe',
     },
     {
-      icon: '//theme.hstatic.net/1000069970/1001119059/14/icon_sidebar_10.png?v=7371',
-      label: 'Loa/Tai nghe hay hay',
-      href: '/collections/gravastar-collection-chien-binh-khong-gian',
+      icon: '/images/icon-sale.webp',
+      label: 'Pin – sạc – xe điện',
+      href: '/products?category=den-trang-tri-xe',
+      submenu: [
+        {
+          label: 'Đèn LED nội thất',
+          href: '/products?category=den-led-noi-that',
+        },
+        {
+          label: 'Đèn pha bổ sung',
+          href: '/products?category=den-pha-bo-sung',
+        },
+        {
+          label: 'Đèn xi nhan',
+          href: '/products?category=den-xi-nhan',
+        },
+      ],
     },
   ];
 
   const vendors = [
     {
-      href: '/collections/hyperwork',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_1.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_1.png?v=7371',
+      href: '/products?brand=toyota',
+      img: '/images/brands/toyota.png',
+      hoverImg: '/images/brands/toyota.png',
     },
     {
-      href: '/collections/9space-turn-on-your-workspace/',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_2.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_2.png?v=7371',
+      href: '/products?brand=honda',
+      img: '/images/brands/honda.png',
+      hoverImg: '/images/brands/honda.png',
     },
     {
-      href: '/collections/setup-goc-lam-viec',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_3.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_3.png?v=7371',
+      href: '/products?brand=thaco',
+      img: '/images/brands/thaco.png',
+      hoverImg: '/images/brands/thaco.png',
     },
     {
-      href: '/collections/hexcal',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_4.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_4.png?v=7371',
+      href: '/products?brand=vinfast',
+      img: '/images/brands/vinfast.webp',
+      hoverImg: '/images/brands/vinfast.webp',
     },
     {
-      href: '/collections/gravastar-collection-chien-binh-khong-gian',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_5.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_5.png?v=7371',
+      href: '/products?brand=tmas',
+      img: '/images/brands/tmas.svg',
+      hoverImg: '/images/brands/tmas.svg',
     },
     {
-      href: '/collections/jsaux',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_6.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_6.png?v=7371',
+      href: '/products?brand=icar',
+      img: '/images/brands/icar.jpg',
+      hoverImg: '/images/brands/icar.jpg',
     },
     {
-      href: 'https://www.facebook.com/groups/503429347670937/?hoisted_section_header_type=recently_seen&multi_permalinks=1164421058238426',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_7.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_7.png?v=7371',
+      href: '/products?brand=aozoom',
+      img: '/images/brands/aozoom.svg',
+      hoverImg: '/images/brands/aozoom.svg',
     },
     {
-      href: '/collections/nid-light',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_8.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_8.png?v=7371',
+      href: '/products?brand=auto365',
+      img: '/images/brands/auto365.png',
+      hoverImg: '/images/brands/auto365.png',
     },
     {
-      href: '/collections/nuphy-collection',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_9.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_9.png?v=7371',
+      href: '/products?brand=chicco',
+      img: '/images/brands/chicco.webp',
+      hoverImg: '/images/brands/chicco.webp',
     },
     {
-      href: '/collections/satechi',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_10.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_10.png?v=7371',
+      href: '/products?brand=vinaquick',
+      img: '/images/brands/vinaquick.png',
+      hoverImg: '/images/brands/vinaquick.png',
     },
     {
-      href: '/collections/upgen',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_11.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_11.png?v=7371',
+      href: '/products?brand=setcar',
+      img: '/images/brands/setcar.png',
+      hoverImg: '/images/brands/setcar.png',
     },
     {
-      href: '/collections/zen-card-collection',
-      img: '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_12.png?v=7371',
-      hoverImg:
-        '//theme.hstatic.net/1000069970/1001119059/14/img_vendor_hover_12.png?v=7371',
+      href: '/products?brand=vietmap',
+      img: '/images/brands/vietmap.webp',
+      hoverImg: '/images/brands/vietmap.webp',
     },
   ];
 
   return (
     <section className='bg-gray-100 py-8'>
       {/* Desktop Layout */}
-      <div className='slider-index m-4 hidden lg:flex relative'>
+      <div className='slider-index relative m-4 hidden lg:flex'>
         <div
-          className={`slider-sidebar mr-4 w-[${width}px] rounded-lg bg-white shadow-md h-[600px]`}
+          className={`slider-sidebar mr-4 w-[${width}px] h-[600px] rounded-lg bg-white shadow-md`}
           style={
             activeTab === 'thuonghieu'
               ? {
@@ -296,36 +286,19 @@ export default function Banner() {
               </a>
             </li>
           </ul>
-          
-          <div className='tab-content h-[calc(600px-48px)] overflow-y-auto'>
+
+          <div className='tab-content h-[calc(600px-48px)] min-w-[330px] overflow-y-auto'>
             <div
               className={`tab-pane ${activeTab === 'danhmuc' ? 'block' : 'hidden'} h-full`}
             >
               <div className='space-y-1 p-2'>
                 {categories.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className={`ega-item-sidebar ${item.submenu ? 'has-submenu' : ''} relative`}
-                    onMouseEnter={() => {
-                      if (item.submenu) {
-                        setHoveredSubmenu(item.label);
-                      } else {
-                        setHoveredSubmenu(null);
-                      }
-                    }}
-                  >
-                    <div className='sidebar-icon-wrap flex cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-gray-900'>
-                      <img
-                        width='30'
-                        height='30'
-                        src={item.icon}
-                        alt={`icon_sidebar_${idx + 1}.png`}
-                        className='mr-3 flex-shrink-0'
-                      />
+                  <div key={idx} className='ega-item-sidebar relative'>
+                    <div className='sidebar-icon-wrap group flex h-[55px] cursor-pointer items-center rounded-lg bg-gray-100 p-3 text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white'>
                       <a
                         href={item.href}
                         target='_blank'
-                        className='text-sm text-gray-700 truncate'
+                        className='flex w-full items-center justify-center truncate text-sm text-gray-700 transition-colors duration-300 group-hover:text-white'
                         rel='noreferrer'
                       >
                         {item.label}
@@ -335,12 +308,12 @@ export default function Banner() {
                 ))}
               </div>
             </div>
-            
+
             <div
               className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'} h-full`}
               id='thuonghieu'
             >
-              <div className='menu-vendor-list grid h-full w-full grid-cols-2 gap-3 p-3'>
+              <div className='menu-vendor-list grid h-full w-full min-w-[330px] grid-cols-2 gap-3 p-3'>
                 {vendors.map((vendor, idx) => (
                   <a
                     key={idx}
@@ -350,18 +323,18 @@ export default function Banner() {
                     rel='noreferrer'
                   >
                     <img
-                      width='100'
-                      height='50'
+                      width='140'
+                      height='60'
                       src={vendor.img}
                       alt={`vendor_${idx + 1}`}
-                      className='img-vendor h-auto w-full max-w-[120px] object-contain'
+                      className='img-vendor h-[60px] w-[140px] object-contain'
                     />
                     <img
-                      width='100'
-                      height='50'
+                      width='140'
+                      height='60'
                       src={vendor.hoverImg}
                       alt={`vendor_hover_${idx + 1}`}
-                      className='img-vendor-hover hidden h-auto w-full max-w-[120px] object-contain hover:block'
+                      className='img-vendor-hover hidden h-[60px] w-[140px] object-contain hover:block'
                     />
                   </a>
                 ))}
@@ -370,36 +343,6 @@ export default function Banner() {
           </div>
         </div>
 
-        {/* Submenu container positioned outside sidebar to overlay banner */}
-        {categories.map((item, idx) => (
-          item.submenu && (
-            <div
-              key={`submenu-${idx}`}
-              className={`absolute z-50 min-w-[300px] rounded-lg bg-white shadow-xl border border-gray-200 ${hoveredSubmenu === item.label ? 'block' : 'hidden'}`}
-              style={{
-                left: `${width + 32}px`, // 32px margin để có khoảng cách hợp lý với item
-                top: `${48 + (idx * 60)}px` // 48px cho header + 60px cho mỗi item - căn với cạnh trên của item
-              }}
-              onMouseEnter={() => setHoveredSubmenu(item.label)}
-              onMouseLeave={() => setHoveredSubmenu(null)}
-            >
-              <div className='p-2'>
-                {item.submenu.map((sub, subIdx) => (
-                  <a
-                    key={subIdx}
-                    href={sub.href}
-                    target='_blank'
-                    className='block cursor-pointer px-3 py-3 text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:bg-[#2D6294] hover:text-white rounded-lg bg-gray-100 mb-1'
-                    rel='noreferrer'
-                  >
-                    {sub.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )
-        ))}
-
         <div
           className='slider-index-wrap'
           style={{ width: `calc(100vw - 450px)` }}
@@ -407,7 +350,7 @@ export default function Banner() {
           <Slider {...sliderSettings} ref={sliderRef}>
             {images.map((image, index) => (
               <div key={index} className='item rounded-xl'>
-                <Link href='/collections/tatcasanpham'>
+                <Link href='/products'>
                   <Image
                     src={image.src}
                     alt={image.alt}
@@ -430,7 +373,7 @@ export default function Banner() {
             <Slider {...sliderSettings} ref={sliderRef}>
               {images.map((image, index) => (
                 <div key={index} className='px-2'>
-                  <Link href='/collections/tatcasanpham'>
+                  <Link href='/products'>
                     <Image
                       src={image.src}
                       alt={image.alt}
@@ -446,7 +389,9 @@ export default function Banner() {
 
           {/* Categories Grid */}
           <div className='mb-6'>
-            <h3 className='mb-4 text-lg font-bold text-gray-800'>Khám phá theo chủ đề</h3>
+            <h3 className='mb-4 text-lg font-bold text-gray-800'>
+              Khám phá phụ kiện ô tô
+            </h3>
             <div className='grid grid-cols-2 gap-4'>
               {mobileCategories.map((category, index) => (
                 <Link
@@ -461,7 +406,9 @@ export default function Banner() {
                     height={24}
                     className='mr-3'
                   />
-                  <span className='text-sm font-medium text-gray-700'>{category.label}</span>
+                  <span className='text-sm font-medium text-gray-700'>
+                    {category.label}
+                  </span>
                 </Link>
               ))}
             </div>
@@ -470,23 +417,33 @@ export default function Banner() {
           {/* Quick Links */}
           <div className='space-y-3'>
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Setup Góc Làm Việc</h4>
-              <p className='text-sm text-gray-600'>SET UP KHÔNG GIAN GÓC LÀM VIỆC</p>
+              <h4 className='mb-2 font-semibold text-gray-800'>Nội thất xe</h4>
+              <p className='text-sm text-gray-600'>
+                TRANG TRÍ VÀ TIỆN NGHI CHO XE CỦA BẠN
+              </p>
             </div>
-            
+
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Bàn phím hay</h4>
-              <p className='text-sm text-gray-600'>BÀN PHÍM HAY</p>
+              <h4 className='mb-2 font-semibold text-gray-800'>
+                Camera hành trình
+              </h4>
+              <p className='text-sm text-gray-600'>AN TOÀN VÀ BẢO VỆ XE</p>
             </div>
-            
+
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Du Lịch Dã Ngoại</h4>
-              <p className='text-sm text-gray-600'>Ưu đãi tháng 8 - Deal tốt sẵn sàng</p>
+              <h4 className='mb-2 font-semibold text-gray-800'>Phụ kiện hot</h4>
+              <p className='text-sm text-gray-600'>
+                Ưu đãi tháng 8 - Deal tốt sẵn sàng
+              </p>
             </div>
-            
+
             <div className='rounded-lg bg-white p-4 shadow-sm'>
-              <h4 className='mb-2 font-semibold text-gray-800'>Loa - Tai Nghe</h4>
-              <p className='text-sm text-gray-600'>Sản phẩm Cyberpunk - Scifi công nghệ</p>
+              <h4 className='mb-2 font-semibold text-gray-800'>
+                Âm thanh xe hơi
+              </h4>
+              <p className='text-sm text-gray-600'>
+                Hệ thống âm thanh chất lượng cao
+              </p>
             </div>
           </div>
         </div>

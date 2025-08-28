@@ -11,7 +11,9 @@ interface Combo {
   id: number;
   name: string;
   image: string;
-  tags: string[];
+  originalPrice: string;
+  discountedPrice: string;
+  discount: string;
 }
 
 interface ComboCardProps {
@@ -23,114 +25,98 @@ const combos: Combo[] = [
     id: 1,
     name: 'BẠT PHỦ VẢI DÙ OXFORD',
     image: '/images/demo-combo/demo-combo-1.png',
-    tags: [
-      'Camera hành trình',
-      'Cảm biến áp suất lốp',
-      'Thảm lót sàn',
-      'Máy lọc không khí',
-    ],
+    originalPrice: '1,300,000đ',
+    discountedPrice: '975,000đ',
+    discount: '-25%',
   },
   {
     id: 2,
     name: '2 trong 1 Búa an toàn',
     image: '/images/demo-combo/demo-combo-2.png',
-    tags: [
-      'Sạc nhanh ô tô',
-      'Bọc vô lăng',
-      'Nước hoa ô tô',
-      'HUD hiển thị tốc độ',
-    ],
+    originalPrice: '1,140,000đ',
+    discountedPrice: '741,000đ',
+    discount: '-35%',
   },
   {
     id: 3,
     name: 'Camera Hành Trình 3K',
     image: '/images/demo-combo/demo-combo-3.png',
-    tags: ['Bơm lốp điện tử', 'Tẩu sạc đa năng', 'Gối tựa đầu', 'Bọc ghế da'],
+    originalPrice: '1,255,000đ',
+    discountedPrice: '727,900đ',
+    discount: '-42%',
   },
   {
     id: 4,
     name: 'Giá Điện Thoại Ô Tô',
     image: '/images/demo-combo/demo-combo-4.png',
-    tags: ['Bọc trần 5D', 'Ốp gương chiếu hậu', 'Ốp tay cửa', 'Chắn bùn'],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
   {
     id: 5,
     name: 'Quà Tặng Trị Giá 169K',
     image: '/images/demo-combo/demo-combo-5.png',
-    tags: [
-      'Cảm biến lùi',
-      'Đèn LED nội thất',
-      'Màn hình Android',
-      'Dán phim cách nhiệt',
-    ],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
   {
     id: 6,
     name: 'GỐI TỰA LƯNG MASSAGE 6 CHẾ ĐỘ',
     image: '/images/demo-combo/demo-combo-6.png',
-    tags: ['Gương cầu lồi', 'Ốp bậc lên xuống', 'Tấm che nắng', 'Bọc cần số'],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
   {
     id: 7,
     name: 'BẠT PHỦ VẢI DÙ OXFORD',
     image: '/images/demo-combo/demo-combo-1.png',
-    tags: [
-      'Bọc ghế da',
-      'Tựa lưng massage',
-      'Tấm chắn nắng kính lái',
-      'Bọc dây an toàn',
-    ],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
   {
     id: 8,
     name: '2 trong 1 Búa an toàn',
     image: '/images/demo-combo/demo-combo-2.png',
-    tags: ['Bọc trần 5D', 'Ốp gương chiếu hậu', 'Ốp tay cửa', 'Chắn bùn'],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
   // Thêm 4 items mới để tạo trang thứ 2
   {
     id: 9,
     name: 'Đèn LED Nội Thất Ô Tô',
     image: '/images/demo-combo/demo-combo-3.png',
-    tags: [
-      'Đèn LED trần',
-      'Đèn LED cửa',
-      'Đèn LED khoang hành lý',
-      'Điều khiển từ xa',
-    ],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
   {
     id: 10,
     name: 'Bộ Vệ Sinh Nội Thất Cao Cấp',
     image: '/images/demo-combo/demo-combo-4.png',
-    tags: [
-      'Chất tẩy rửa da',
-      'Bàn chải chuyên dụng',
-      'Khăn microfiber',
-      'Xịt khử mùi',
-    ],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
   {
     id: 11,
     name: 'Hệ Thống Âm Thanh Ô Tô',
     image: '/images/demo-combo/demo-combo-5.png',
-    tags: [
-      'Loa subwoofer',
-      'Ampli công suất',
-      'Dây tín hiệu',
-      'Bộ lọc âm thanh',
-    ],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
   {
     id: 12,
     name: 'Bộ Bảo Vệ Động Cơ',
     image: '/images/demo-combo/demo-combo-6.png',
-    tags: [
-      'Tấm chắn bùn động cơ',
-      'Bảo vệ khung gầm',
-      'Chống va đập',
-      'Chống gỉ sét',
-    ],
+    originalPrice: '1,080,000đ',
+    discountedPrice: '680,400đ',
+    discount: '-37%',
   },
 ];
 
@@ -145,7 +131,7 @@ function ComboCard({ combo }: ComboCardProps) {
   };
 
   return (
-    <div className='group relative h-[258px] overflow-hidden rounded-xl bg-white shadow-md'>
+    <div className='group relative h-[258px] overflow-hidden rounded-lg bg-white shadow-md'>
       <Image
         src={combo.image}
         alt={combo.name}
@@ -160,15 +146,21 @@ function ComboCard({ combo }: ComboCardProps) {
       >
         {t('view')}
       </button>
-      <div className='absolute bottom-0 left-0 flex w-full flex-wrap gap-2 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3'>
-        {combo.tags.map((tagKey) => (
-          <span
-            key={tagKey}
-            className='rounded-full border border-white px-2 py-0.5 text-xs text-white transition hover:bg-white hover:text-black'
-          >
-            {tagKey}
+      <div className='absolute bottom-0 left-0 flex w-full flex-col bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3'>
+        <div className='mb-1 line-clamp-2 text-sm font-semibold text-white'>
+          {combo.name}
+        </div>
+        <div className='flex items-center gap-2'>
+          <span className='text-xs text-gray-300 line-through'>
+            {combo.originalPrice}
           </span>
-        ))}
+          <span className='text-sm font-bold text-white'>
+            {combo.discountedPrice}
+          </span>
+          <span className='rounded bg-red-500 px-1.5 py-0.5 text-xs font-semibold text-white'>
+            {combo.discount}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -203,7 +195,7 @@ export default function ComboWorkspace() {
       const containerWidth = scrollContainerRef.current.clientWidth;
       scrollContainerRef.current.scrollTo({
         left: pageIndex * containerWidth,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
       setCurrentPage(pageIndex);
     }
@@ -231,21 +223,27 @@ export default function ComboWorkspace() {
                 {t('explore_more')} <ChevronRightIcon className='h-4 w-4' />
               </Link>
             </div>
-            
+
             {/* Slider với hiệu ứng mượt mà */}
             <div className='relative flex items-center'>
               {/* Prev button */}
               <button
                 onClick={prev}
                 disabled={slider === 0}
-                className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                className='mr-2 cursor-pointer rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40'
+                style={{
+                  cursor:
+                    slider === 0
+                      ? 'not-allowed !important'
+                      : 'pointer !important',
+                }}
                 aria-label={t('prev_slide')}
               >
                 <ChevronLeftIcon className='h-6 w-6 text-gray-700' />
               </button>
 
               {/* Slider container */}
-              <div className='w-full overflow-hidden bg-white rounded-xl'>
+              <div className='w-full overflow-hidden rounded-lg bg-white'>
                 <div
                   className='flex transition-transform duration-500 ease-in-out'
                   style={{
@@ -280,13 +278,19 @@ export default function ComboWorkspace() {
               <button
                 onClick={next}
                 disabled={slider >= totalSlides - 1}
-                className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
+                className='ml-2 cursor-pointer rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40'
+                style={{
+                  cursor:
+                    slider >= totalSlides - 1
+                      ? 'not-allowed !important'
+                      : 'pointer !important',
+                }}
                 aria-label={t('next_slide')}
               >
                 <ChevronRightIcon className='h-6 w-6 text-gray-700' />
               </button>
             </div>
-            
+
             {/* Pagination dots */}
             {totalSlides > 1 && (
               <div className='mt-4 flex justify-center gap-2'>
@@ -295,6 +299,9 @@ export default function ComboWorkspace() {
                     key={idx}
                     onClick={() => goToPage(idx)}
                     className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-gray-900' : 'bg-gray-300'}`}
+                    style={{
+                      cursor: 'pointer !important',
+                    }}
                     aria-label={t('go_to_slide', { number: idx + 1 })}
                   />
                 ))}
@@ -319,15 +326,15 @@ export default function ComboWorkspace() {
                 {t('explore_more')} <ChevronRightIcon className='h-3 w-3' />
               </Link>
             </div>
-            
-            {/* Mobile slider với 8 items 1 trang chia 2 hàng - giống hệt vaithuhay.com */}
-            <div className='relative bg-white rounded-xl overflow-hidden'>
-              <div 
+
+            {/* Mobile slider với 8 items 1 trang chia 2 hàng - giống hệt mexe.com */}
+            <div className='relative overflow-hidden rounded-lg bg-white'>
+              <div
                 ref={scrollContainerRef}
                 className='flex overflow-x-auto bg-white'
                 style={{
-                  scrollbarWidth: 'none', /* Firefox */
-                  msOverflowStyle: 'none', /* Internet Explorer 10+ */
+                  scrollbarWidth: 'none' /* Firefox */,
+                  msOverflowStyle: 'none' /* Internet Explorer 10+ */,
                 }}
                 onScroll={(e) => {
                   const target = e.target as HTMLDivElement;
@@ -343,9 +350,9 @@ export default function ComboWorkspace() {
                     display: none;
                   }
                 `}</style>
-                
+
                 {/* Trang 1 - 8 items chia 2 hàng */}
-                <div className='min-w-[100%] flex-shrink-0 px-3 py-4 bg-white'>
+                <div className='min-w-[100%] flex-shrink-0 bg-white px-3 py-4'>
                   <div className='grid grid-cols-2 gap-3 sm:gap-4'>
                     {combos.slice(0, 8).map((combo) => (
                       <div key={combo.id} className='bg-white'>
@@ -354,9 +361,9 @@ export default function ComboWorkspace() {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Trang 2 - 4 items còn lại chia 2 hàng */}
-                <div className='min-w-[100%] flex-shrink-0 px-3 py-4 bg-white'>
+                <div className='min-w-[100%] flex-shrink-0 bg-white px-3 py-4'>
                   <div className='grid grid-cols-2 gap-3 sm:gap-4'>
                     {combos.slice(8, 12).map((combo) => (
                       <div key={combo.id} className='bg-white'>
@@ -366,15 +373,17 @@ export default function ComboWorkspace() {
                   </div>
                 </div>
               </div>
-              
-              {/* Pagination dots giống hệt vaithuhay.com */}
+
+              {/* Pagination dots giống hệt mexe.com */}
               <div className='mt-2 flex justify-center gap-2'>
                 {Array.from({ length: 2 }).map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => goToPage(idx)}
                     className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${
-                      idx === currentPage ? 'bg-gray-900' : 'border border-gray-300'
+                      idx === currentPage
+                        ? 'bg-gray-900'
+                        : 'border border-gray-300'
                     }`}
                   />
                 ))}
@@ -387,7 +396,7 @@ export default function ComboWorkspace() {
   );
 }
 
-// Mobile ComboCard component - giống hệt vaithuhay.com với layout 2x4
+// Mobile ComboCard component - giống hệt mexe.com với layout 2x4
 function MobileComboCard({ combo }: ComboCardProps) {
   const t = useTranslations('combo_workspace');
   const { showTooltip } = useFlashTooltip();
@@ -397,7 +406,7 @@ function MobileComboCard({ combo }: ComboCardProps) {
   };
 
   return (
-    <div className='group relative h-[110px] sm:h-[120px] md:h-[140px] overflow-hidden rounded-lg bg-white shadow-lg'>
+    <div className='group relative h-[110px] overflow-hidden rounded-lg bg-white shadow-lg sm:h-[120px] md:h-[140px]'>
       <Image
         src={combo.image}
         alt={combo.name}
@@ -405,8 +414,24 @@ function MobileComboCard({ combo }: ComboCardProps) {
         height={140}
         className='h-full w-full transition group-hover:brightness-75'
       />
-      
-      {/* Bỏ hoàn toàn các tag hình tròn và nút View - chỉ giữ lại ảnh */}
+
+      {/* Hiển thị tên sản phẩm và giá */}
+      <div className='absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-2'>
+        <div className='mb-1 line-clamp-1 text-xs font-semibold text-white'>
+          {combo.name}
+        </div>
+        <div className='flex items-center gap-1'>
+          <span className='text-[10px] text-gray-300 line-through'>
+            {combo.originalPrice}
+          </span>
+          <span className='text-xs font-bold text-white'>
+            {combo.discountedPrice}
+          </span>
+          <span className='rounded bg-red-500 px-1 py-0.5 text-[10px] font-semibold text-white'>
+            {combo.discount}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }

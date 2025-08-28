@@ -3,11 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import {
-  CreditCardIcon,
-  GiftIcon,
-  InboxIcon,
-} from '@heroicons/react/24/outline';
+import { CreditCardIcon, GiftIcon } from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import { useState } from 'react';
@@ -72,8 +68,28 @@ const shippingConditions = [
 ];
 
 function CartItem({ item }: CartItemProps) {
-  const t = useTranslations('cart');
-  const { updateQuantity } = useCart();
+  // Fallback translations if useTranslations fails
+  const fallbackTranslations: Record<string, string> = {
+    quantity: 'Số lượng',
+    decrease_quantity: 'Giảm số lượng',
+    increase_quantity: 'Tăng số lượng',
+    quantity_updated: 'Cập nhật số lượng thành công!',
+    remove_item: 'Xóa sản phẩm',
+    item_removed: 'Đã xóa sản phẩm khỏi giỏ hàng!',
+  };
+
+  // Safe translation function
+  const safeTranslate = (key: string) => {
+    try {
+      const t = useTranslations('cart');
+      return t(key);
+    } catch (error) {
+      // Translation failed for key "${key}", using fallback
+      return fallbackTranslations[key] || key;
+    }
+  };
+
+  const { updateQuantity, removeItem } = useCart();
   const { showTooltip } = useFlashTooltip();
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -81,7 +97,20 @@ function CartItem({ item }: CartItemProps) {
     if (newQuantity >= 1) {
       setQuantity(newQuantity);
       updateQuantity(item.id, newQuantity);
-      showTooltip(t('quantity_updated'), 'noti');
+      try {
+        showTooltip(safeTranslate('quantity_updated'), 'noti');
+      } catch (error) {
+        showTooltip('Cập nhật số lượng thành công!', 'noti');
+      }
+    }
+  };
+
+  const handleRemoveItem = () => {
+    removeItem(item.id);
+    try {
+      showTooltip(safeTranslate('item_removed'), 'success');
+    } catch (error) {
+      showTooltip('Đã xóa sản phẩm khỏi giỏ hàng!', 'success');
     }
   };
 
@@ -105,13 +134,13 @@ function CartItem({ item }: CartItemProps) {
             {item.product_name}
           </h3>
           <p className='mt-1 text-sm text-gray-500'>
-            {t('quantity')}: {quantity}
+            {safeTranslate('quantity')}: {quantity}
           </p>
           <div className='mt-2 flex items-center gap-2'>
             <button
               onClick={() => handleQuantityChange(quantity - 1)}
               className='rounded bg-gray-100 px-2 py-1 hover:bg-gray-200'
-              aria-label={t('decrease_quantity')}
+              aria-label={safeTranslate('decrease_quantity')}
             >
               -
             </button>
@@ -119,14 +148,21 @@ function CartItem({ item }: CartItemProps) {
             <button
               onClick={() => handleQuantityChange(quantity + 1)}
               className='rounded bg-gray-100 px-2 py-1 hover:bg-gray-200'
-              aria-label={t('increase_quantity')}
+              aria-label={safeTranslate('increase_quantity')}
             >
               +
             </button>
           </div>
         </div>
       </div>
-      <div className='mt-4 text-right sm:mt-0'>
+      <div className='mt-4 flex flex-col items-end gap-2 sm:mt-0'>
+        <button
+          onClick={handleRemoveItem}
+          className='cursor-pointer rounded bg-red-100 px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-200'
+          aria-label={safeTranslate('remove_item')}
+        >
+          Xóa
+        </button>
         <p className='text-lg font-semibold text-blue-600'>
           {(item.unit_price * quantity).toLocaleString('vi-VN')}đ
         </p>
@@ -146,21 +182,45 @@ function CartItem({ item }: CartItemProps) {
 }
 
 function ShippingConditionCard({ condition }: ShippingConditionCardProps) {
+  // Fallback translations if useTranslations fails
+  const fallbackTranslations: Record<string, string> = {
+    free_shipping: 'Miễn Phí Vận Chuyển',
+    free_shipping_desc: 'Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ',
+    fast_delivery: 'Giao Hàng Nhanh',
+    fast_delivery_desc: 'Giao hàng siêu tốc trong 24 giờ',
+    secure_payment: 'Thanh Toán Bảo Mật',
+    secure_payment_desc: 'Các tùy chọn thanh toán an toàn và bảo mật',
+    easy_returns: 'Đổi Trả Dễ Dàng',
+    easy_returns_desc: 'Đổi trả dễ dàng trong vòng 30 ngày',
+  };
+
   const t = useTranslations('cart');
+  // Safe translation function
+  const safeTranslate = (key: string) => {
+    try {
+      return t(key);
+    } catch (error) {
+      // Translation failed for key "${key}", using fallback
+      return fallbackTranslations[key] || key;
+    }
+  };
+
   return (
     <div className='flex items-center rounded-lg bg-white p-4 shadow-sm transition hover:bg-gray-50'>
       <Image
         src={condition.image}
-        alt={t(condition.nameKey)}
+        alt={safeTranslate(condition.nameKey)}
         width={60}
         height={60}
         className='mr-4 size-16 rounded object-cover'
       />
       <div>
         <h3 className='text-sm font-semibold text-gray-900'>
-          {t(condition.nameKey)}
+          {safeTranslate(condition.nameKey)}
         </h3>
-        <p className='text-sm text-gray-500'>{t(condition.descriptionKey)}</p>
+        <p className='text-sm text-gray-500'>
+          {safeTranslate(condition.descriptionKey)}
+        </p>
       </div>
     </div>
   );
@@ -169,6 +229,22 @@ function ShippingConditionCard({ condition }: ShippingConditionCardProps) {
 export default function Cart({ order }: CartProps) {
   const t = useTranslations('cart');
   const cartItems = order.order_items;
+  const fallbackTranslations: Record<string, string> = {
+    quantity: 'Số lượng',
+    decrease_quantity: 'Giảm số lượng',
+    increase_quantity: 'Tăng số lượng',
+    quantity_updated: 'Cập nhật số lượng thành công!',
+    remove_item: 'Xóa sản phẩm',
+    item_removed: 'Đã xóa sản phẩm khỏi giỏ hàng!',
+  };
+  const safeTranslate = (key: string) => {
+    try {
+      return t(key);
+    } catch (error) {
+      // Translation failed for key "${key}", using fallback
+      return fallbackTranslations[key] || key;
+    }
+  };
 
   return (
     <main className='relative py-6 sm:py-8'>
@@ -176,7 +252,7 @@ export default function Cart({ order }: CartProps) {
         <Link href='/'>
           <Image
             src='/images/cart-banner/banner.png'
-            alt={t('cart_banner_alt')}
+            alt={safeTranslate('cart_banner_alt')}
             width={1200}
             height={300}
             className='my-6 w-full rounded-lg object-cover sm:my-8'
@@ -186,12 +262,12 @@ export default function Cart({ order }: CartProps) {
         <div className='flex flex-col items-center'>
           {cartItems.length === 0 ? (
             <div className='text-center text-xl font-bold text-gray-500 sm:text-2xl'>
-              {t('empty_cart')}
+              {safeTranslate('empty_cart')}
             </div>
           ) : (
             <div className='w-full'>
               <h2 className='mb-6 text-2xl font-bold text-gray-900 sm:text-3xl'>
-                {t('title')}
+                {safeTranslate('title')}
               </h2>
               <ul className='space-y-4 sm:space-y-6'>
                 {cartItems.map((item) => (
@@ -201,17 +277,10 @@ export default function Cart({ order }: CartProps) {
               <div className='mt-6 flex flex-col justify-end gap-4 sm:flex-row'>
                 <Link
                   href='/checkout'
-                  className='flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 sm:text-base'
-                >
-                  <InboxIcon className='mr-2 h-5 w-5' />
-                  {t('proceed_to_checkout')}
-                </Link>
-                <Link
-                  href='/checkout'
                   className='flex items-center justify-center rounded-full bg-yellow-300 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400 sm:text-base'
                 >
                   <CreditCardIcon className='mr-2 h-5 w-5' />
-                  {t('proceed_to_checkout')}
+                  {safeTranslate('proceed_to_checkout')}
                 </Link>
               </div>
             </div>
@@ -225,47 +294,40 @@ export default function Cart({ order }: CartProps) {
             ))}
           </div>
         </div>
-      </div>
 
-      {cartItems.length > 0 && (
-        <div className='bg-opacity-90 fixed bottom-0 left-0 w-full bg-gray-800 backdrop-blur-sm'>
-          <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-4 sm:flex-row sm:px-6 lg:px-8'>
-            <div className='flex gap-2'>
-              <Link
-                href='/checkout'
-                className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
-              >
-                <CreditCardIcon className='mr-2 h-5 w-5' />
-                {t('coupon')}
-              </Link>
-              <Link
-                href='/checkout'
-                className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
-              >
-                <GiftIcon className='mr-2 h-5 w-5' />
-                {t('gift')}
-              </Link>
-            </div>
-            <div className='flex items-center gap-4'>
-              <div className='text-right'>
-                <h2 className='text-lg font-bold text-white sm:text-xl'>
-                  {t('total')}
-                </h2>
-                <p className='text-base font-semibold text-white sm:text-lg'>
-                  {order.total_amount.toLocaleString('vi-VN')}đ
-                </p>
+        {cartItems.length > 0 && (
+          <div className='bg-opacity-90 fixed bottom-0 left-0 w-full bg-gray-800 backdrop-blur-sm'>
+            <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-4 sm:flex-row sm:px-6 lg:px-8'>
+              <div className='flex gap-2'>
+                <Link
+                  href='/checkout'
+                  className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
+                >
+                  <CreditCardIcon className='mr-2 h-5 w-5' />
+                  {t('coupon')}
+                </Link>
+                <Link
+                  href='/checkout'
+                  className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
+                >
+                  <GiftIcon className='mr-2 h-5 w-5' />
+                  {t('gift')}
+                </Link>
               </div>
-              <Link
-                href='/checkout'
-                className='flex items-center rounded-full bg-red-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-red-700 sm:text-base'
-              >
-                <CreditCardIcon className='mr-2 h-5 w-5' />
-                {t('proceed_to_checkout')}
-              </Link>
+              <div className='flex items-center gap-4'>
+                <div className='text-right'>
+                  <h2 className='text-lg font-bold text-white sm:text-xl'>
+                    {t('total')}
+                  </h2>
+                  <p className='text-base font-semibold text-white sm:text-lg'>
+                    {order.total_amount.toLocaleString('vi-VN')}đ
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </main>
   );
 }

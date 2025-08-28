@@ -121,36 +121,182 @@ export default function NewsListSP() {
     },
   ];
 
+  const headlinesArticles = [
+    {
+      id: '1',
+      title: 'NOMI - Người Bạn Đồng Hành Thông Minh Trong Xe của Bạn',
+      image: '/images/demo-banner/banner-1.jpg',
+      url: '/news/nomi-nguoi-ban-dong-hanh-thong-minh-trong-xe-cua-ban',
+      alt: 'NOMI - Người Bạn Đồng Hành Thông Minh Trong Xe của Bạn',
+    },
+    {
+      id: '2',
+      title: 'ChargeStick: Sạc Không Dây Siêu Nhỏ Gọn 4-in-1',
+      image: '/images/demo-banner/banner-2.jpg',
+      url: '/news/chargestick-sac-khong-day-sieu-nho-gon-4-in-1',
+      alt: 'ChargeStick: Sạc Không Dây Siêu Nhỏ Gọn 4-in-1',
+    },
+    {
+      id: '3',
+      title:
+        'Domono AquaCam – Camera thông minh chống nước, đồng hành mọi hành trình.',
+      image: '/images/demo-combo/demo-combo-1.png',
+      url: '/news/domono-aquacam-camera-thong-minh-chong-nuoc',
+      alt: 'Domono AquaCam – Camera thông minh chống nước, đồng hành mọi hành trình.',
+    },
+    {
+      id: '4',
+      title: '4URPC Gen 2: Bộ Truyền Không Dây True Wireless 4K Đột Phá',
+      image: '/images/demo-combo/demo-combo-2.png',
+      url: '/news/4urpc-gen-2-bo-truyen-khong-day-true-wireless-4k-dot-pha',
+      alt: '4URPC Gen 2: Bộ Truyền Không Dây True Wireless 4K Đột Phá',
+    },
+  ];
+
   const filteredNews =
     selectedCategory === 'all'
       ? newsData
       : newsData.filter((item) => {
-          const categoryMap: { [key: string]: string } = {
-            'phu-kien-o-to': 'Phụ Kiện Ô Tô',
-            'cong-nghe': 'Công Nghệ',
-            'bao-duong': 'Bảo Dưỡng',
-            'an-toan': 'An Toàn',
-            'suc-khoe': 'Sức Khỏe',
-          };
-          return item.category === categoryMap[selectedCategory];
+          if (selectedCategory === 'phu-kien-o-to') {
+            return item.category === 'Phụ Kiện Ô Tô';
+          } else if (selectedCategory === 'cong-nghe') {
+            return item.category === 'Công Nghệ';
+          } else if (selectedCategory === 'bao-duong') {
+            return item.category === 'Bảo Dưỡng';
+          } else if (selectedCategory === 'an-toan') {
+            return item.category === 'An Toàn';
+          } else if (selectedCategory === 'suc-khoe') {
+            return item.category === 'Sức Khỏe';
+          }
+          return false;
         });
 
   const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentNews = filteredNews.slice(startIndex, endIndex);
+  const currentNews = filteredNews.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      {/* Header */}
-      {/* <div className="bg-white shadow-sm">
-        <div className="px-4 py-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('title')}</h1>
-          <p className="text-sm text-gray-600">
-            {t('description')}
-          </p>
+      {/* Headlines Section - Tin Tức & Bài Viết */}
+      <div className='headlines bg-[#2F6194] py-6'>
+        <div className='container mx-auto px-4'>
+          <div className='title-outer mb-6 text-center'>
+            <h1 className='headlines-title text-2xl font-bold text-white'>
+              Tin Tức & Bài Viết
+            </h1>
+          </div>
+
+          <div className='product-loop headline-posts grid grid-cols-1 gap-4'>
+            {/* Left Section - 1 Large Item */}
+            <div className='headline-post group cursor-pointer'>
+              <div className='content'>
+                <div className='inner relative overflow-hidden rounded-lg shadow-lg'>
+                  <Image
+                    src={headlinesArticles[0].image}
+                    alt={headlinesArticles[0].alt}
+                    width={480}
+                    height={320}
+                    className='h-[280px] w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                    loading='eager'
+                    fetchPriority='high'
+                    decoding='sync'
+                  />
+                  {/* Hover Title Overlay */}
+                  <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-3 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
+                    <Link href={headlinesArticles[0].url} className='block'>
+                      <h4 className='post-title text-lg leading-tight font-semibold'>
+                        {headlinesArticles[0].title}
+                      </h4>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Section - 3 Items Stacked */}
+            <div className='flex flex-col gap-3'>
+              {/* Top Item - CHARGESTICK */}
+              <div className='headline-post group cursor-pointer'>
+                <div className='content'>
+                  <div className='inner relative overflow-hidden rounded-lg shadow-lg'>
+                    <Image
+                      src={headlinesArticles[1].image}
+                      alt={headlinesArticles[1].alt}
+                      width={480}
+                      height={320}
+                      className='h-[130px] w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      loading='eager'
+                      fetchPriority='high'
+                      decoding='sync'
+                    />
+                    {/* Hover Title Overlay */}
+                    <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-2 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
+                      <Link href={headlinesArticles[1].url} className='block'>
+                        <h4 className='post-title text-sm leading-tight font-semibold'>
+                          {headlinesArticles[1].title}
+                        </h4>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom 2 Items - DOMONO AQUACAM & 4URPC GEN 2 */}
+              <div className='grid grid-cols-2 gap-3'>
+                <div className='headline-post group cursor-pointer'>
+                  <div className='content'>
+                    <div className='inner relative overflow-hidden rounded-lg shadow-lg'>
+                      <Image
+                        src={headlinesArticles[2].image}
+                        alt={headlinesArticles[2].alt}
+                        width={480}
+                        height={320}
+                        className='h-[130px] w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading='eager'
+                        fetchPriority='high'
+                        decoding='sync'
+                      />
+                      {/* Hover Title Overlay */}
+                      <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-2 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
+                        <Link href={headlinesArticles[2].url} className='block'>
+                          <h4 className='post-title text-xs leading-tight font-semibold'>
+                            {headlinesArticles[2].title}
+                          </h4>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='headline-post group cursor-pointer'>
+                  <div className='content'>
+                    <div className='inner relative overflow-hidden rounded-lg shadow-lg'>
+                      <Image
+                        src={headlinesArticles[3].image}
+                        alt={headlinesArticles[3].alt}
+                        width={480}
+                        height={320}
+                        className='h-[130px] w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading='eager'
+                        fetchPriority='high'
+                        decoding='sync'
+                      />
+                      {/* Hover Title Overlay */}
+                      <div className='absolute right-0 bottom-0 left-0 translate-y-full transform bg-[rgba(0,0,0,0.45)] p-2 text-white transition-transform duration-[135ms] group-hover:translate-y-0'>
+                        <Link href={headlinesArticles[3].url} className='block'>
+                          <h4 className='post-title text-xs leading-tight font-semibold'>
+                            {headlinesArticles[3].title}
+                          </h4>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div> */}
+      </div>
 
       {/* Category Filter */}
       <div className='border-b border-gray-200 bg-white'>
@@ -231,7 +377,10 @@ export default function NewsListSP() {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className='rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50'
+              className='rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-200 disabled:opacity-50'
+              style={{
+                cursor: currentPage === 1 ? 'not-allowed !important' : 'pointer !important'
+              }}
             >
               {t('previous')}
             </button>
@@ -247,6 +396,9 @@ export default function NewsListSP() {
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
+                    style={{
+                      cursor: 'pointer !important'
+                    }}
                   >
                     {page}
                   </button>
@@ -259,7 +411,10 @@ export default function NewsListSP() {
                 setCurrentPage(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages}
-              className='rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50'
+              className='rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-200 disabled:opacity-50'
+              style={{
+                cursor: currentPage === totalPages ? 'not-allowed !important' : 'pointer !important'
+              }}
             >
               {t('next')}
             </button>

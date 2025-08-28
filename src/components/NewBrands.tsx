@@ -14,6 +14,7 @@ interface BrandProduct {
   originalPrice: string;
   discountedPrice: string;
   discount: string;
+  originalIndex?: number;
 }
 
 interface BrandProductCardProps {
@@ -84,11 +85,15 @@ function BrandProductCard({ product }: BrandProductCardProps) {
   const { showTooltip } = useFlashTooltip();
 
   const handleBuyNow = () => {
-    showTooltip(t('buy_now_success'), 'success');
+    // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
+    showTooltip('Đặt hàng thành công!', 'success');
   };
 
   return (
-    <div className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-xl border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px]'>
+    <div 
+      className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-lg border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px] hover:shadow-lg cursor-pointer transition-shadow duration-300'
+      onClick={() => window.open(`/products/${product.originalIndex + 1}`, '_blank')}
+    >
       {/* Badge labels - đặt trong card */}
       <div className='absolute top-3 left-3 z-10 flex flex-col items-start gap-2'>
         <div className='rounded-full bg-gradient-to-r from-red-500 to-red-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg'>
@@ -100,7 +105,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
       </div>
 
       {/* Ảnh sản phẩm - chiều cao tăng lên nhiều hơn */}
-      <div className='h-70 w-full overflow-hidden rounded-t-xl'>
+      <div className='h-70 w-full overflow-hidden rounded-t-lg'>
         <Image
           src={product.image}
           alt={product.name}
@@ -134,13 +139,17 @@ function BrandProductCard({ product }: BrandProductCardProps) {
         {/* Nút hành động - giảm khoảng cách với thông tin phía trên */}
         <div className='mt-3 flex gap-2'>
           <a
-            href={`/products/${product.id}`}
-            className='flex-1 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-800 transition hover:bg-gray-200'
+            href={`/products/${product.originalIndex + 1}`}
+            className='flex-1 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-800 transition hover:bg-gray-200 cursor-pointer'
+            onClick={(e) => e.stopPropagation()}
           >
             {t('view_details')}
           </a>
           <button
-            onClick={handleBuyNow}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBuyNow();
+            }}
             className='flex-1 rounded-full bg-[#0A115F] px-3 py-1.5 text-xs font-semibold text-white transition hover:cursor-pointer hover:bg-[#0e1a8a]'
           >
             {t('buy_now')}
@@ -188,6 +197,7 @@ export default function NewBrands() {
     return () => clearInterval(timer);
   }, [mounted]);
 
+  // Logic băng chuyền vô tận - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
   const prev = () => {
     if (slider > 0) {
       setSlider(slider - 1);
@@ -195,9 +205,38 @@ export default function NewBrands() {
   };
 
   const next = () => {
-    if (slider < brandProducts.length - visible) {
-      setSlider(slider + 1);
+    // Luôn tăng lên, tạo hiệu ứng băng chuyền liên tục
+    // Khi slider dương, chúng ta sẽ thấy items từ đầu
+    // Khi slider = 0, bấm next sẽ hiển thị items từ đầu
+    setSlider(slider + 1);
+  };
+
+  // Tạo mảng products lặp lại để tạo băng chuyền vô tận
+  const getVisibleProducts = () => {
+    // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
+    let conveyorProducts = [];
+
+    // Thêm products gốc
+    brandProducts.forEach((product, originalIndex) => {
+      conveyorProducts.push({
+        ...product,
+        key: `original-${originalIndex}`,
+        originalIndex,
+      });
+    });
+
+    // Thêm products lặp lại 3 lần để đảm bảo đủ items cho băng chuyền
+    for (let i = 0; i < 3; i++) {
+      brandProducts.forEach((product, originalIndex) => {
+        conveyorProducts.push({
+          ...product,
+          key: `repeat-${i}-${originalIndex}`,
+          originalIndex,
+        });
+      });
     }
+
+    return conveyorProducts;
   };
 
   const goToSlide = (index: number) => {
@@ -205,99 +244,224 @@ export default function NewBrands() {
   };
 
   return (
-    <section className='w-full bg-transparent py-6 sm:py-8'>
-      <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        <div className='absolute inset-x-0 top-0 z-0 h-[300px] rounded-2xl bg-orange-500 sm:h-[320px]'></div>
-        <div className='relative z-10'>
-          <div className='mb-4 flex flex-col items-start justify-between px-4 pt-4 sm:mb-6 sm:flex-row sm:items-center'>
-            <div className='flex items-center gap-3'>
-              <span className='text-2xl sm:text-3xl'>⚡</span>
-              <h2 className='text-2xl font-extrabold text-white sm:text-3xl'>
-                {t('title')}
-              </h2>
-            </div>
-            <Link
-              href='/brands'
-              className='mt-2 flex items-center gap-2 rounded-full border border-white px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-white hover:text-orange-500 sm:mt-0'
-            >
-              {t('view_more')} <ChevronRightIcon className='h-4 w-4' />
-            </Link>
-          </div>
-          <div className='mb-4 flex w-fit items-center gap-4 rounded-full bg-white px-4 py-2 sm:mb-6 sm:gap-6 sm:py-3'>
-            <span className='text-sm font-semibold text-orange-500 sm:text-base'>
-              {t('deal_ends')}
-            </span>
-            <div className='flex items-center gap-2'>
-              {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
-                <div key={unit} className='flex flex-col items-center'>
-                  <span className='text-xl font-bold text-orange-500 sm:text-2xl'>
-                    {String(timeLeft[unit as keyof typeof timeLeft]).padStart(
-                      2,
-                      '0'
-                    )}
-                  </span>
-                  <span className='text-xs text-gray-500'>{t(unit)}</span>
+    <div>
+      {/* Desktop version */}
+      <div className='hidden lg:block'>
+        <section className='w-full bg-transparent py-6 sm:py-8'>
+          <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+            <div className='absolute inset-x-0 top-0 z-0 h-[300px] rounded-2xl bg-orange-500 sm:h-[320px]'></div>
+            <div className='relative z-10'>
+              <div className='mb-4 flex flex-col items-start justify-between px-4 pt-4 sm:mb-6 sm:flex-row sm:items-center'>
+                <div className='flex items-center gap-3'>
+                  <span className='text-2xl sm:text-3xl'>⚡</span>
+                  <h2 className='text-2xl font-extrabold text-white sm:text-3xl'>
+                    {t('title')}
+                  </h2>
                 </div>
-              ))}
+                <Link
+                  href='/brands'
+                  className='mt-2 flex items-center gap-2 rounded-full border border-white px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-white hover:text-orange-500 sm:mt-0'
+                >
+                  {t('view_more')} <ChevronRightIcon className='h-4 w-4' />
+                </Link>
+              </div>
+              <div className='mb-4 flex w-fit items-center gap-4 rounded-full bg-white px-4 py-2 sm:mb-6 sm:gap-6 sm:py-3'>
+                <span className='text-sm font-semibold text-orange-500 sm:text-base'>
+                  {t('deal_ends')}
+                </span>
+                <div className='flex items-center gap-2'>
+                  {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
+                    <div key={unit} className='flex flex-col items-center'>
+                      <span className='text-xl font-bold text-orange-500 sm:text-2xl'>
+                        {String(timeLeft[unit as keyof typeof timeLeft]).padStart(
+                          2,
+                          '0'
+                        )}
+                      </span>
+                      <span className='text-xs text-gray-500'>{t(unit)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Slider với hiệu ứng mượt mà */}
+              <div className='relative flex items-center'>
+                {/* Prev button */}
+                              <button
+                onClick={prev}
+                disabled={slider === 0}
+                className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
+                style={{
+                  cursor: slider === 0 ? 'not-allowed !important' : 'pointer !important'
+                }}
+                aria-label={t('prev_slide')}
+              >
+                  <ChevronLeftIcon className='h-6 w-6 text-orange-500' />
+                </button>
+
+                {/* Slider */}
+                <div className='w-full overflow-hidden'>
+                  <div
+                    className='flex gap-4 transition-transform duration-500 ease-in-out'
+                    style={{
+                      transform: `translateX(-${slider * (280 + 16)}px)`,
+                    }}
+                  >
+                    {getVisibleProducts().map((product) => (
+                      <div
+                        key={product.key}
+                        className='w-full flex-shrink-0 sm:w-[280px] md:w-[250px]'
+                      >
+                        <BrandProductCard product={product} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
+                <button
+                  onClick={next}
+                  className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 cursor-pointer'
+                  style={{
+                    cursor: 'pointer !important'
+                  }}
+                  aria-label={t('next_slide')}
+              >
+                <ChevronRightIcon className='h-6 w-6 text-orange-500' />
+              </button>
+              </div>
+              
+              {/* Pagination dots */}
+              {Math.ceil(brandProducts.length / visible) > 1 && (
+                <div className='mt-4 flex justify-center gap-2'>
+                  {Array.from({ length: Math.ceil(brandProducts.length / visible) }).map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => goToSlide(idx)}
+                      className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-orange-500' : 'bg-gray-300'}`}
+                      style={{
+                        cursor: 'pointer !important'
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-          
-          {/* Slider với hiệu ứng mượt mà */}
-          <div className='relative flex items-center'>
-            {/* Prev button */}
-            <button
-              onClick={prev}
-              disabled={slider === 0}
-              className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
-              aria-label={t('prev_slide')}
-            >
-              <ChevronLeftIcon className='h-6 w-6 text-orange-500' />
-            </button>
-
-            {/* Slider */}
-            <div className='w-full overflow-hidden'>
-              <div
-                className='flex gap-4 transition-transform duration-500 ease-in-out'
-                style={{
-                  transform: `translateX(-${slider * (280 + 16)}px)`,
-                }}
-              >
-                {brandProducts.map((product) => (
-                  <div
-                    key={product.id}
-                    className='w-full flex-shrink-0 sm:w-[280px] md:w-[250px]'
-                  >
-                    <BrandProductCard product={product} />
-                  </div>
-                ))}
+        </section>
+      </div>
+      
+      {/* Mobile version với slide trượt (vuốt sang phải) */}
+      <div className='block lg:hidden'>
+        <section className='w-full bg-transparent py-6'>
+          <div className='relative mx-auto w-full px-4'>
+            {/* Background cam giống desktop - kéo dài xuống dưới để bao quanh items */}
+            <div className='absolute inset-x-0 top-0 z-0 h-[280px] bg-orange-500'></div>
+            
+            <div className='relative z-10'>
+              {/* Header với title và button */}
+              <div className='mb-4 flex flex-col items-start justify-between px-4 pt-4'>
+                <div className='flex items-center gap-3'>
+                  <span className='text-xl'>⚡</span>
+                  <h2 className='text-lg font-extrabold text-white'>
+                    {t('title')}
+                  </h2>
+                </div>
+                <Link
+                  href='/brands'
+                  className='mt-2 flex items-center gap-2 rounded-full border border-white px-3 py-1 text-sm font-semibold text-white transition hover:bg-white hover:text-orange-500'
+                >
+                  {t('view_more')} <ChevronRightIcon className='h-3 w-3' />
+                </Link>
+              </div>
+              
+              {/* Countdown timer */}
+              <div className='mb-4 flex w-fit items-center gap-3 rounded-full bg-white px-3 py-2 mx-4'>
+                <span className='text-xs font-semibold text-orange-500'>
+                  {t('deal_ends')}
+                </span>
+                <div className='flex items-center gap-1.5'>
+                  {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
+                    <div key={unit} className='flex flex-col items-center'>
+                      <span className='text-lg font-bold text-orange-500'>
+                        {String(timeLeft[unit as keyof typeof timeLeft]).padStart(2, '0')}
+                      </span>
+                      <span className='text-xs text-gray-500'>{t(unit)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Mobile slider với slide trượt (vuốt sang phải) */}
+              <div className='relative'>
+                {/* Slider container */}
+                <div 
+                  className='flex gap-3 overflow-x-auto pb-4'
+                  style={{
+                    scrollbarWidth: 'none', /* Firefox */
+                    msOverflowStyle: 'none', /* Internet Explorer 10+ */
+                  }}
+                >
+                  {/* Ẩn scrollbar cho Webkit browsers (Chrome, Safari, Edge) */}
+                  <style jsx>{`
+                    div::-webkit-scrollbar {
+                      display: none;
+                    }
+                  `}</style>
+                  
+                  {brandProducts.map((product, index) => (
+                    <div key={`mobile-brand-${index}`} className='flex min-w-[220px] flex-col items-center rounded-lg bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300 border border-gray-200'>
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        width={220}
+                        height={176}
+                        className='mb-1 h-36 sm:h-40 w-full rounded object-cover'
+                      />
+                      <div className='mb-1 text-center text-xs font-semibold text-red-600'>
+                        {t('quality_deal')}
+                      </div>
+                      <div className='mb-1 text-center text-xs font-semibold text-red-600'>
+                        {t('ship_now')}
+                      </div>
+                      <div className='mb-1 text-center text-xs font-semibold text-gray-900 line-clamp-2'>
+                        {product.name}
+                      </div>
+                      <div className='mb-1 flex items-center gap-1'>
+                        <span className='text-xs text-gray-500 line-through'>
+                          {product.originalPrice}
+                        </span>
+                        <span className='text-xs font-bold text-red-600'>
+                          {product.discountedPrice}
+                        </span>
+                        <span className='rounded bg-red-600 px-1 py-0.5 text-[10px] font-bold text-white'>
+                          {product.discount}
+                        </span>
+                      </div>
+                      <div className='flex gap-2 w-full mt-1'>
+                        <a href='#' className='flex-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-800 text-center transition hover:bg-gray-200'>
+                          {t('view_details')}
+                        </a>
+                        <a
+                          href='#'
+                          onClick={(e) => {
+                            e.preventDefault();
+                            // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
+                            alert('Đặt hàng thành công!');
+                          }}
+                          className='flex-1 rounded-full bg-[#0A115F] px-2 py-1 text-xs font-bold text-white text-center transition hover:bg-[#0e1a8a]'
+                        >
+                          {t('buy_now')}
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-
-            {/* Next button */}
-            <button
-              onClick={next}
-              disabled={slider >= brandProducts.length - visible}
-              className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40'
-              aria-label={t('next_slide')}
-            >
-              <ChevronRightIcon className='h-6 w-6 text-orange-500' />
-            </button>
           </div>
-          
-          {/* Pagination dots */}
-          {Math.ceil(brandProducts.length / visible) > 1 && (
-            <div className='mt-4 flex justify-center gap-2'>
-              {Array.from({ length: Math.ceil(brandProducts.length / visible) }).map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => goToSlide(idx)}
-                  className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-orange-500' : 'bg-gray-300'}`}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+        </section>
       </div>
-    </section>
+    </div>
   );
 }
