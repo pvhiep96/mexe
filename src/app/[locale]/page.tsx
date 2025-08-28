@@ -1,5 +1,3 @@
-'use client';
-
 import Banner from '@/components/Banner';
 import NewProducts from '@/components/NewProducts';
 import EarlyOrder from '@/components/EarlyOrder';
@@ -12,19 +10,88 @@ import Brands from '@/components/Brands';
 import Contact from '@/components/Contact';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import {
+  DefaultApi,
+  ListProducts200Response,
+  Listbrands200Response,
+  Listcategory200Response,
+} from '../../../api';
+import { Configuration } from '../../../api';
 
-export default function Home() {
+const configuration = new Configuration({
+  basePath: 'http://localhost:3005/api/v1',
+});
+const api = new DefaultApi(configuration);
+
+async function fetchProducts(page: number = 1, perPage: number = 10) {
+  try {
+    const response = await api.listProducts(
+      page,
+      perPage,
+      undefined,
+      undefined,
+      true
+    );
+    const data: ListProducts200Response = response.data;
+    return {
+      products: data.products || [],
+      total: data.meta?.total || 0,
+      page: data.meta?.page || 1,
+      perPage: data.meta?.per_page || perPage,
+    };
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+    return { products: [], total: 0, page: 1, perPage };
+  }
+}
+
+const fetchbrands = async () => {
+  try {
+    const response = await api.listbrands();
+    const data: Listbrands200Response = response.data;
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch brands:', error);
+    return [];
+  }
+};
+
+const fetchCategories = async () => {
+  try {
+    const response = await api.listcategory();
+    const data: Listcategory200Response = response.data;
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch brands:', error);
+    return [];
+  }
+};
+
+export default async function Home() {
+  const page = 1;
+  const perPage = 10;
+
+  const {
+    products,
+    total,
+    page: currentPage,
+    perPage: itemsPerPage,
+  } = await fetchProducts(page, perPage);
+
+  // const [branchs] = await Promise.all([fetchbranch.]);
+  const brands = await fetchbrands();
+  const categories = await fetchCategories();
   return (
     <main className='flex min-h-screen flex-col'>
-      <Banner />
-      <NewProducts />
+      <Banner categories={categories} />
+      <NewProducts products={products} />
       <EarlyOrder />
       <NewBrands />
       <ComboWorkspace />
       <BannerSale />
       <Videos />
       <ServiceCommitment />
-      <Brands />
+      <Brands brands={brands} />
       <Contact />
     </main>
   );

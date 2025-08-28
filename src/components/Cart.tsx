@@ -3,27 +3,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import {
-  CreditCardIcon,
-  GiftIcon,
-  InboxIcon,
-} from '@heroicons/react/24/outline';
+import { CreditCardIcon, GiftIcon } from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import { useState } from 'react';
 
 interface Product {
   id: string | number;
-  name: string;
-  price: number;
-  image: string;
+  product_name: string;
+  unit_price: number;
+  product_image: string;
   discount?: number;
   quantity: number;
 }
 
 interface Order {
-  items: Product[];
-  total: number;
+  order_items: Product[];
+  total_amount: number;
 }
 
 interface ShippingCondition {
@@ -74,12 +70,12 @@ const shippingConditions = [
 function CartItem({ item }: CartItemProps) {
   // Fallback translations if useTranslations fails
   const fallbackTranslations: Record<string, string> = {
-    'quantity': 'Số lượng',
-    'decrease_quantity': 'Giảm số lượng',
-    'increase_quantity': 'Tăng số lượng',
-    'quantity_updated': 'Cập nhật số lượng thành công!',
-    'remove_item': 'Xóa sản phẩm',
-    'item_removed': 'Đã xóa sản phẩm khỏi giỏ hàng!'
+    quantity: 'Số lượng',
+    decrease_quantity: 'Giảm số lượng',
+    increase_quantity: 'Tăng số lượng',
+    quantity_updated: 'Cập nhật số lượng thành công!',
+    remove_item: 'Xóa sản phẩm',
+    item_removed: 'Đã xóa sản phẩm khỏi giỏ hàng!',
   };
 
   // Safe translation function
@@ -92,7 +88,7 @@ function CartItem({ item }: CartItemProps) {
       return fallbackTranslations[key] || key;
     }
   };
-  
+
   const { updateQuantity, removeItem } = useCart();
   const { showTooltip } = useFlashTooltip();
   const [quantity, setQuantity] = useState(item.quantity);
@@ -127,15 +123,15 @@ function CartItem({ item }: CartItemProps) {
           defaultChecked
         />
         <Image
-          src={item.image}
-          alt={item.name}
+          src={item.product_image}
+          alt={item.product_name}
           width={80}
           height={80}
           className='size-20 rounded object-cover sm:size-24'
         />
         <div>
           <h3 className='text-base font-semibold text-gray-900 sm:text-lg'>
-            {item.name}
+            {item.product_name}
           </h3>
           <p className='mt-1 text-sm text-gray-500'>
             {safeTranslate('quantity')}: {quantity}
@@ -162,13 +158,13 @@ function CartItem({ item }: CartItemProps) {
       <div className='mt-4 flex flex-col items-end gap-2 sm:mt-0'>
         <button
           onClick={handleRemoveItem}
-          className='rounded bg-red-100 px-3 py-1 text-sm text-red-600 hover:bg-red-200 transition-colors cursor-pointer'
+          className='cursor-pointer rounded bg-red-100 px-3 py-1 text-sm text-red-600 transition-colors hover:bg-red-200'
           aria-label={safeTranslate('remove_item')}
         >
           Xóa
         </button>
         <p className='text-lg font-semibold text-blue-600'>
-          {(item.price * quantity).toLocaleString('vi-VN')}đ
+          {(item.unit_price * quantity).toLocaleString('vi-VN')}đ
         </p>
         {item.discount && item.discount > 0 && (
           <>
@@ -188,27 +184,27 @@ function CartItem({ item }: CartItemProps) {
 function ShippingConditionCard({ condition }: ShippingConditionCardProps) {
   // Fallback translations if useTranslations fails
   const fallbackTranslations: Record<string, string> = {
-    'free_shipping': 'Miễn Phí Vận Chuyển',
-    'free_shipping_desc': 'Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ',
-    'fast_delivery': 'Giao Hàng Nhanh',
-    'fast_delivery_desc': 'Giao hàng siêu tốc trong 24 giờ',
-    'secure_payment': 'Thanh Toán Bảo Mật',
-    'secure_payment_desc': 'Các tùy chọn thanh toán an toàn và bảo mật',
-    'easy_returns': 'Đổi Trả Dễ Dàng',
-    'easy_returns_desc': 'Đổi trả dễ dàng trong vòng 30 ngày'
+    free_shipping: 'Miễn Phí Vận Chuyển',
+    free_shipping_desc: 'Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ',
+    fast_delivery: 'Giao Hàng Nhanh',
+    fast_delivery_desc: 'Giao hàng siêu tốc trong 24 giờ',
+    secure_payment: 'Thanh Toán Bảo Mật',
+    secure_payment_desc: 'Các tùy chọn thanh toán an toàn và bảo mật',
+    easy_returns: 'Đổi Trả Dễ Dàng',
+    easy_returns_desc: 'Đổi trả dễ dàng trong vòng 30 ngày',
   };
 
+  const t = useTranslations('cart');
   // Safe translation function
   const safeTranslate = (key: string) => {
     try {
-      const t = useTranslations('cart');
       return t(key);
     } catch (error) {
       // Translation failed for key "${key}", using fallback
       return fallbackTranslations[key] || key;
     }
   };
-  
+
   return (
     <div className='flex items-center rounded-lg bg-white p-4 shadow-sm transition hover:bg-gray-50'>
       <Image
@@ -222,36 +218,33 @@ function ShippingConditionCard({ condition }: ShippingConditionCardProps) {
         <h3 className='text-sm font-semibold text-gray-900'>
           {safeTranslate(condition.nameKey)}
         </h3>
-        <p className='text-sm text-gray-500'>{safeTranslate(condition.descriptionKey)}</p>
+        <p className='text-sm text-gray-500'>
+          {safeTranslate(condition.descriptionKey)}
+        </p>
       </div>
     </div>
   );
 }
 
 export default function Cart({ order }: CartProps) {
-  // Fallback translations if useTranslations fails
+  const t = useTranslations('cart');
+  const cartItems = order.order_items;
   const fallbackTranslations: Record<string, string> = {
-    'title': 'Giỏ Hàng',
-    'empty_cart': 'Giỏ hàng trống',
-    'proceed_to_checkout': 'Tiến Hành Thanh Toán',
-    'total': 'Tổng Cộng',
-    'coupon': 'Mã Giảm Giá',
-    'gift': 'Quà Tặng',
-    'cart_banner_alt': 'Banner giỏ hàng'
+    quantity: 'Số lượng',
+    decrease_quantity: 'Giảm số lượng',
+    increase_quantity: 'Tăng số lượng',
+    quantity_updated: 'Cập nhật số lượng thành công!',
+    remove_item: 'Xóa sản phẩm',
+    item_removed: 'Đã xóa sản phẩm khỏi giỏ hàng!',
   };
-
-  // Safe translation function
   const safeTranslate = (key: string) => {
     try {
-      const t = useTranslations('cart');
       return t(key);
     } catch (error) {
       // Translation failed for key "${key}", using fallback
       return fallbackTranslations[key] || key;
     }
   };
-  
-  const cartItems = order.items;
 
   return (
     <main className='relative py-6 sm:py-8'>
@@ -302,43 +295,33 @@ export default function Cart({ order }: CartProps) {
           </div>
         </div>
 
-        {/* Cart Summary - Di chuyển xuống dưới service commitment và không sticky */}
         {cartItems.length > 0 && (
-          <div className='mt-8 sm:mt-10'>
-            <div className='bg-gray-800 rounded-lg p-6'>
-              <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row'>
-                <div className='flex gap-2'>
-                  <Link
-                    href='/checkout'
-                    className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
-                  >
-                    <CreditCardIcon className='mr-2 h-5 w-5' />
-                    {safeTranslate('coupon')}
-                  </Link>
-                  <Link
-                    href='/checkout'
-                    className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
-                  >
-                    <GiftIcon className='mr-2 h-5 w-5' />
-                    {safeTranslate('gift')}
-                  </Link>
-                </div>
-                <div className='flex items-center gap-4'>
-                  <div className='text-right'>
-                    <h2 className='text-lg font-bold text-white sm:text-xl'>
-                      {safeTranslate('total')}
-                    </h2>
-                    <p className='text-base font-semibold text-white sm:text-lg'>
-                      {order.total.toLocaleString('vi-VN')}đ
-                    </p>
-                  </div>
-                  <Link
-                    href='/checkout'
-                    className='flex items-center rounded-full bg-yellow-300 px-6 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400 sm:text-base'
-                  >
-                    <CreditCardIcon className='mr-2 h-5 w-5' />
-                    {safeTranslate('proceed_to_checkout')}
-                  </Link>
+          <div className='bg-opacity-90 fixed bottom-0 left-0 w-full bg-gray-800 backdrop-blur-sm'>
+            <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-4 sm:flex-row sm:px-6 lg:px-8'>
+              <div className='flex gap-2'>
+                <Link
+                  href='/checkout'
+                  className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
+                >
+                  <CreditCardIcon className='mr-2 h-5 w-5' />
+                  {t('coupon')}
+                </Link>
+                <Link
+                  href='/checkout'
+                  className='flex items-center rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-yellow-400'
+                >
+                  <GiftIcon className='mr-2 h-5 w-5' />
+                  {t('gift')}
+                </Link>
+              </div>
+              <div className='flex items-center gap-4'>
+                <div className='text-right'>
+                  <h2 className='text-lg font-bold text-white sm:text-xl'>
+                    {t('total')}
+                  </h2>
+                  <p className='text-base font-semibold text-white sm:text-lg'>
+                    {order.total_amount.toLocaleString('vi-VN')}đ
+                  </p>
                 </div>
               </div>
             </div>

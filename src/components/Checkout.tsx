@@ -7,9 +7,10 @@ import Image from 'next/image';
 import { BuildingStorefrontIcon, TruckIcon } from '@heroicons/react/24/outline';
 
 interface Product {
-  name: string;
-  price: number;
-  image: string;
+  id: string | number;
+  product_name: string;
+  unit_price: number;
+  product_image: string;
   discount?: number;
   quantity: number;
 }
@@ -17,6 +18,7 @@ interface Product {
 interface Order {
   items: Product[];
   total: number;
+  orderNumber: string;
 }
 
 interface CheckoutForm {
@@ -33,13 +35,17 @@ interface CheckoutForm {
   note?: string;
   couponCode?: string;
   couponType?: string;
+  amount: number;
+  orderNumber: string;
 }
 
 interface CheckoutProps {
   order: Order;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  checkout: (formData: any) => Promise<void>;
 }
 
-export default function Checkout({ order }: CheckoutProps) {
+export default function Checkout({ order, checkout }: CheckoutProps) {
   const t = useTranslations('checkout');
 
   // Move arrays inside component to use t function
@@ -64,10 +70,12 @@ export default function Checkout({ order }: CheckoutProps) {
     setValue,
   } = useForm<CheckoutForm>({
     defaultValues: {
+      amount: order.total,
       deliveryType: 'home',
       national: 'Vietnam', // Fixed value
       deliveryAddress: '', // Empty string, will be set via useEffect
       paymentMethod: 'card',
+      orderNumber: order.orderNumber,
     },
   });
 
@@ -77,7 +85,10 @@ export default function Checkout({ order }: CheckoutProps) {
   }, [setValue, t]);
 
   const onSubmit = (data: CheckoutForm) => {
+    console.log(order);
+
     // TODO: Handle form submission (e.g., API call)
+    checkout({ ...data, orderInfo: order.orderNumber });
   };
 
   const handleCouponSubmit = () => {
@@ -419,17 +430,17 @@ export default function Checkout({ order }: CheckoutProps) {
               {order.items.map((item, index) => (
                 <div key={index} className='flex items-center space-x-4'>
                   <Image
-                    src={item.image}
-                    alt={item.name}
+                    src={item.product_image}
+                    alt={item.product_name}
                     width={80}
                     height={80}
                     className='rounded'
                   />
                   <div className='grow'>
-                    <p className='font-medium'>{item.name}</p>
+                    <p className='font-medium'>{item.product_name}</p>
                     <p className='text-sm'>
                       {t('cart_preview.price')}:{' '}
-                      {item.price.toLocaleString('vi-VN')}đ
+                      {item.unit_price.toLocaleString('vi-VN')}đ
                     </p>
                     {item.discount && (
                       <p className='text-sm text-red-500'>

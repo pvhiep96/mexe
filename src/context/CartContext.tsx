@@ -20,6 +20,7 @@ interface Product {
 interface Order {
   items: Product[];
   total: number;
+  order_number?: string;
 }
 
 interface CartContextType {
@@ -51,7 +52,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!mounted) return;
-    
+
     try {
       const savedOrder = localStorage.getItem('cart');
       if (savedOrder) {
@@ -70,7 +71,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   // Save cart to local storage on update
   useEffect(() => {
     if (!mounted || !order) return;
-    
+
     try {
       localStorage.setItem('cart', JSON.stringify(order));
     } catch (error) {
@@ -78,39 +79,68 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [order, mounted]);
 
-  const addToCart = (product: Product) => {
-    setOrder((prevOrder) => {
-      const quantity = product.quantity || 1;
-      const newItem = { ...product, quantity };
+  const addToCart = async (product: Product) => {
+    try {
+      // Make API call to create order
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: product.id,
+          quantity: product.quantity || 1,
+          price: product.discountedPrice || product.price,
+          order_number: order?.order_number,
+        }),
+      });
 
-      if (!prevOrder) {
-        const total = (product.discountedPrice || product.price) * quantity;
-        return { items: [newItem], total };
+      if (!response.ok) {
+        throw new Error('Failed to create order');
       }
+      const responseData = await response.json();
+      console.log(responseData);
+      // Update local state after successful API call
 
-      const existingItem = prevOrder.items.find(
-        (item) => item.id === product.id
-      );
-      let updatedItems: Product[];
+      setOrder((prevOrder) => {
+        const quantity = product.quantity || 1;
+        const newItem = {
+          ...product,
+          quantity,
+        };
+        const order_number = responseData.order.order_number;
+        if (!prevOrder) {
+          const total = (product.discountedPrice || product.price) * quantity;
+          return { items: [newItem], total };
+        }
 
-      if (existingItem) {
-        updatedItems = prevOrder.items.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+        const existingItem = prevOrder.items.find(
+          (item) => item.id === product.id
         );
-      } else {
-        updatedItems = [...prevOrder.items, newItem];
-      }
+        let updatedItems: Product[];
 
-      const total = updatedItems.reduce(
-        (sum, item) =>
-          sum + (item.discountedPrice || item.price) * item.quantity,
-        0
-      );
+        if (existingItem) {
+          updatedItems = prevOrder.items.map((item) =>
+            item.id === product.id
+              ? { ...item, quantity: item.quantity + quantity }
+              : item
+          );
+        } else {
+          updatedItems = [...prevOrder.items, newItem];
+        }
 
-      return { items: updatedItems, total };
-    });
+        const total = updatedItems.reduce(
+          (sum, item) =>
+            sum + (item.discountedPrice || item.price) * item.quantity,
+          0
+        );
+
+        return { items: updatedItems, total, order_number };
+      });
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      // Optionally, you could show a user-friendly error message here
+    }
   };
 
   const updateQuantity = (id: string | number, quantity: number) => {

@@ -21,64 +21,64 @@ interface ProductSlideProps {
   product: Product;
 }
 
-const products: Product[] = [
-  {
-    id: 1,
-    name: 'Bàn Phím Cơ NuPhy Kick75 | Bàn Phím Cơ Không Dây',
-    images: [
-      '/images/demo-new-products/new-pro-1.png',
-      '/images/demo-new-products/new-pro-2.png',
-      '/images/demo-new-products/new-pro-3.png',
-    ],
-    open_date: '15/07/2025',
-    open_time: new Date('2025-07-15T00:00:00'),
-    soldCount: 100000,
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
-  },
-  {
-    id: 2,
-    name: '(WAREHOUSE DEAL) Bàn Làm Việc Thông Minh Gỗ Sồi',
-    images: [
-      '/images/demo-new-products/new-pro-1.png',
-      '/images/demo-new-products/new-pro-2.png',
-      '/images/demo-new-products/new-pro-3.png',
-    ],
-    open_date: '01/07/2025',
-    open_time: new Date('2025-07-01T00:00:00'),
-    soldCount: 85000,
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
-  },
-  {
-    id: 3,
-    name: 'Máy Ảnh Polaroid Mini D1 Pro - Tự Do In Ảnh',
-    images: [
-      '/images/demo-new-products/new-pro-1.png',
-      '/images/demo-new-products/new-pro-2.png',
-      '/images/demo-new-products/new-pro-3.png',
-    ],
-    open_date: '03/07/2025',
-    open_time: new Date('2025-07-03T00:00:00'),
-    soldCount: 120000,
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
-  },
-  {
-    id: 4,
-    name: 'Đèn Bàn LED Chống Cận Thông Minh',
-    images: [
-      '/images/demo-new-products/new-pro-1.png',
-      '/images/demo-new-products/new-pro-2.png',
-      '/images/demo-new-products/new-pro-3.png',
-    ],
-    open_date: '10/07/2025',
-    open_time: new Date('2025-07-10T00:00:00'),
-    soldCount: 95000,
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
-  },
-];
+// const products: Product[] = [
+//   {
+//     id: 1,
+//     name: 'Bàn Phím Cơ NuPhy Kick75 | Bàn Phím Cơ Không Dây',
+//     images: [
+//       '/images/demo-new-products/new-pro-1.png',
+//       '/images/demo-new-products/new-pro-2.png',
+//       '/images/demo-new-products/new-pro-3.png',
+//     ],
+//     open_date: '15/07/2025',
+//     open_time: new Date('2025-07-15T00:00:00'),
+//     soldCount: 100000,
+//     description:
+//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
+//   },
+//   {
+//     id: 2,
+//     name: '(WAREHOUSE DEAL) Bàn Làm Việc Thông Minh Gỗ Sồi',
+//     images: [
+//       '/images/demo-new-products/new-pro-1.png',
+//       '/images/demo-new-products/new-pro-2.png',
+//       '/images/demo-new-products/new-pro-3.png',
+//     ],
+//     open_date: '01/07/2025',
+//     open_time: new Date('2025-07-01T00:00:00'),
+//     soldCount: 85000,
+//     description:
+//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
+//   },
+//   {
+//     id: 3,
+//     name: 'Máy Ảnh Polaroid Mini D1 Pro - Tự Do In Ảnh',
+//     images: [
+//       '/images/demo-new-products/new-pro-1.png',
+//       '/images/demo-new-products/new-pro-2.png',
+//       '/images/demo-new-products/new-pro-3.png',
+//     ],
+//     open_date: '03/07/2025',
+//     open_time: new Date('2025-07-03T00:00:00'),
+//     soldCount: 120000,
+//     description:
+//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
+//   },
+//   {
+//     id: 4,
+//     name: 'Đèn Bàn LED Chống Cận Thông Minh',
+//     images: [
+//       '/images/demo-new-products/new-pro-1.png',
+//       '/images/demo-new-products/new-pro-2.png',
+//       '/images/demo-new-products/new-pro-3.png',
+//     ],
+//     open_date: '10/07/2025',
+//     open_time: new Date('2025-07-10T00:00:00'),
+//     soldCount: 95000,
+//     description:
+//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod',
+//   },
+// ];
 
 function ProductSlide({ product }: ProductSlideProps) {
   const t = useTranslations('new_products');
@@ -170,7 +170,7 @@ function ProductSlide({ product }: ProductSlideProps) {
               : product.name}
           </h3>
           <p className='text-xs text-gray-500'>
-            {t('sold', { count: product.soldCount.toLocaleString('vi-VN') })}
+            {/* {t('sold', { count: product.soldCount.toLocaleString('vi-VN') })} */}
           </p>
           <h4 className='mt-1 text-xs font-medium sm:text-sm'>
             {t('product_info')}
@@ -193,7 +193,10 @@ function ProductSlide({ product }: ProductSlideProps) {
   );
 }
 
-export default function NewProducts() {
+interface NewProductsProps {
+  products: Product[];
+}
+export default function NewProducts({ products }: NewProductsProps) {
   const t = useTranslations('new_products');
   const [slider, setSlider] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -241,7 +244,7 @@ export default function NewProducts() {
   // Logic băng chuyền vô tận đơn giản và hiệu quả - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
   const getVisibleProducts = () => {
     // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
-    let conveyorProducts = [];
+    const conveyorProducts = [];
 
     // Thêm products gốc (4 sản phẩm)
     conveyorProducts.push(...products);
@@ -312,7 +315,7 @@ export default function NewProducts() {
               <button
                 onClick={prev}
                 disabled={slider <= 0}
-                className={`mr-2 rounded-full p-2 shadow transition-all duration-300 cursor-pointer ${
+                className={`mr-2 cursor-pointer rounded-full p-2 shadow transition-all duration-300 ${
                   slider <= 0 ? 'bg-white' : 'bg-white hover:bg-gray-100'
                 }`}
                 style={{
@@ -351,7 +354,7 @@ export default function NewProducts() {
               {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
               <button
                 onClick={next}
-                className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 hover:bg-gray-100 cursor-pointer'
+                className='ml-2 cursor-pointer rounded-full bg-white p-2 shadow transition-all duration-300 hover:bg-gray-100'
                 style={{
                   cursor: 'pointer !important',
                 }}
@@ -413,9 +416,9 @@ export default function NewProducts() {
                       : product.name}
                   </div>
                   <div className='mb-2 text-center text-xs text-gray-500'>
-                    {t('sold', {
+                    {/* {t('sold', {
                       count: product.soldCount.toLocaleString('vi-VN'),
-                    })}
+                    })} */}
                   </div>
                   <button
                     onClick={() => {

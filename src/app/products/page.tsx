@@ -11,14 +11,14 @@ const sampleProducts = [
     id: 1,
     name: 'Product 1',
     price: 100000,
-    image: '/images/demo-item.webp'
+    image: '/images/demo-item.webp',
   },
   {
     id: 2,
     name: 'Product 2',
     price: 200000,
-    image: '/images/demo-item.webp'
-  }
+    image: '/images/demo-item.webp',
+  },
 ];
 
 export default function ProductsPage() {
@@ -27,18 +27,18 @@ export default function ProductsPage() {
   return (
     <main className='min-h-screen bg-gray-50 py-8'>
       <div className='container mx-auto px-4'>
-        <h1 className='text-3xl font-bold text-center mb-8'>Products</h1>
-        
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <h1 className='mb-8 text-center text-3xl font-bold'>Products</h1>
+
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
           {products.map((product) => (
-            <div key={product.id} className='bg-white rounded-lg shadow-md p-4'>
-              <h3 className='text-lg font-semibold mb-2'>{product.name}</h3>
-              <p className='text-xl font-bold text-blue-600 mb-4'>
+            <div key={product.id} className='rounded-lg bg-white p-4 shadow-md'>
+              <h3 className='mb-2 text-lg font-semibold'>{product.name}</h3>
+              <p className='mb-4 text-xl font-bold text-blue-600'>
                 {product.price.toLocaleString()}đ
               </p>
               <Link
                 href={`/products/${product.id}`}
-                className='inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors'
+                className='inline-block rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700'
               >
                 View Details
               </Link>
@@ -46,15 +46,15 @@ export default function ProductsPage() {
           ))}
         </div>
 
-        <div className='text-center mt-8'>
-          <Link 
-            href="/" 
-            className='inline-block bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors'
+        <div className='mt-8 text-center'>
+          <Link
+            href='/'
+            className='inline-block rounded-lg bg-gray-600 px-6 py-3 text-white transition-colors hover:bg-gray-700'
           >
             Back to Home
           </Link>
         </div>
-        </div>
-      </main>
+      </div>
+    </main>
   );
 }
