@@ -99,21 +99,27 @@ export async function createPaymentUrl(formData: any) {
       vnp_Amount: formatAmount(numAmount),
       vnp_CreateDate: dateFormat(new Date()),
       vnp_CurrCode: VnpCurrCode.VND,
-      vnp_IpAddr: clientIP,
-      vnp_Locale: locale as VnpLocale,
+      vnp_IpAddr: '117.2.113.207',
+      vnp_Locale: 'vn',
       vnp_OrderInfo: orderInfo,
-      vnp_OrderType: orderType as ProductCode,
+      vnp_OrderType: 'topup',
       vnp_ReturnUrl:
-        process.env.VNPAY_RETURN_URL || 'http://localhost:3000/payment/return',
+        process.env.VNPAY_RETURN_URL ||
+        'https://test-mexe.netlify.app/payment/return',
       vnp_TxnRef: orderId,
+      vnp_TmnCode: process.env.VNPAY_TMN_CODE || '5YQD1DBZ',
+      vnp_ExpireDate: dateFormat(
+        new Date(new Date().getTime() + 30 * 60 * 1000)
+      ),
       ...(bankCode && { vnp_BankCode: bankCode }),
     });
-
+    console.log('==========================');
     console.log(`Generated payment URL for order ${orderId}:`, paymentUrl);
 
     // Redirect to VNPay
     // Note: redirect() in Server Actions throws a NEXT_REDIRECT error which is expected behavior
-    redirect(paymentUrl);
+    return paymentUrl;
+    // redirect(paymentUrl);
   } catch (error) {
     // Check if this is a Next.js redirect (expected behavior)
     const isRedirect =

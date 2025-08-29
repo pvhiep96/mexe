@@ -84,11 +84,12 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     setValue('deliveryAddress', t('delivery_address_placeholder'));
   }, [setValue, t]);
 
-  const onSubmit = (data: CheckoutForm) => {
+  const onSubmit = async (data: CheckoutForm) => {
     console.log(order);
 
     // TODO: Handle form submission (e.g., API call)
-    checkout({ ...data, orderInfo: order.orderNumber });
+    const value = await checkout({ ...data, orderInfo: order.orderNumber });
+    console.log(value);
   };
 
   const handleCouponSubmit = () => {

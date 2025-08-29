@@ -25,7 +25,11 @@ interface Order {
 
 interface CartContextType {
   order: Order | null;
-  addToCart: (product: Product) => void;
+  addToCart: (
+    product: Product,
+    quantity: number,
+    selectedColor: string
+  ) => void;
   updateQuantity: (id: string | number, quantity: number) => void;
   removeItem: (id: string | number) => void;
   clearCart: () => void;
@@ -79,7 +83,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [order, mounted]);
 
-  const addToCart = async (product: Product) => {
+  const addToCart = async (
+    product: Product,
+    quantity: number,
+    selectedColor: string
+  ) => {
     try {
       // Make API call to create order
       const response = await fetch('/api/orders', {
@@ -89,8 +97,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         },
         body: JSON.stringify({
           productId: product.id,
-          quantity: product.quantity || 1,
-          price: product.discountedPrice || product.price,
+          quantity: quantity || 1,
+          variant_id: selectedColor,
           order_number: order?.order_number,
         }),
       });

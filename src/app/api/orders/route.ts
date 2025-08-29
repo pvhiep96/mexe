@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
           {
             product_id: body.productId,
             quantity: body.quantity,
+            variant_id: body.variant_id,
           },
         ],
       },
