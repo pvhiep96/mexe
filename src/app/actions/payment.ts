@@ -65,6 +65,17 @@ export async function getLocaleOptions(): Promise<LocaleOption[]> {
   ];
 }
 
+function toTimezoneString(date: Date, offsetHours: number = 7): string {
+  const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+  const local = new Date(utc + offsetHours * 3600000 + offsetHours * 3600000);
+
+  // Format as `YYYY-MM-DDTHH:mm:ss+07:00`
+  const iso = local.toISOString().slice(0, 19);
+  const sign = offsetHours >= 0 ? '+' : '-';
+  const pad = (n: number) => String(Math.abs(n)).padStart(2, '0');
+  return `${iso}${sign}${pad(offsetHours)}:00`;
+}
+
 // Server action to create payment URL and redirect to VNPay
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createPaymentUrl(formData: any) {
@@ -95,9 +106,11 @@ export async function createPaymentUrl(formData: any) {
     const orderId = generateOrderId();
 
     // Build payment URL
+    const now: Date = new Date();
+    const expireDAte = new Date(new Date().getTime() + 30 * 60 * 1000);
     const paymentUrl = vnpay.buildPaymentUrl({
       vnp_Amount: formatAmount(numAmount),
-      vnp_CreateDate: dateFormat(new Date()),
+      vnp_CreateDate: dateFormat(new Date(toTimezoneString(now, 7))),
       vnp_CurrCode: VnpCurrCode.VND,
       vnp_IpAddr: '117.2.113.207',
       vnp_Locale: 'vn',
@@ -108,9 +121,8 @@ export async function createPaymentUrl(formData: any) {
         'https://test-mexe.netlify.app/payment/return',
       vnp_TxnRef: orderId,
       vnp_TmnCode: process.env.VNPAY_TMN_CODE || '5YQD1DBZ',
-      vnp_ExpireDate: dateFormat(
-        new Date(new Date().getTime() + 30 * 60 * 1000)
-      ),
+      vnp_ExpireDate: dateFormat(new Date(toTimezoneString(expireDAte, 7))),
+
       ...(bankCode && { vnp_BankCode: bankCode }),
     });
     console.log('==========================');
