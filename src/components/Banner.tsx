@@ -15,26 +15,10 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
 
   const sliderRef = useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [width, setWidth] = useState(375);
-
-  useEffect(() => {
-    function handleResize() {
-      if (typeof window === 'undefined') return;
-      if (window.innerWidth < 768) {
-        setWidth(0);
-      }
-    }
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize);
-      handleResize();
-    }
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', handleResize);
-      }
-    };
-  }, []);
+  // Fixed dimensions for container and sidebar
+  const containerWidth = 1400;
+  const sidebarWidth = 375;
+  const sidebarHeight = 600;
 
   const images = [
     {
@@ -268,19 +252,19 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
   return (
     <section className='bg-gray-100 py-8'>
       {/* Desktop Layout */}
-      <div className='slider-index relative m-4 hidden lg:flex'>
+      <div className='slider-index relative hidden lg:flex' style={{ width: `${containerWidth}px`, height: `${sidebarHeight}px`, margin: '0 auto' }}>
         <div
-          className={`slider-sidebar mr-4 w-[${width}px] h-[600px] rounded-lg bg-white shadow-md`}
-          style={
-            activeTab === 'thuonghieu'
-              ? {
-                  backgroundImage: "url('/sidebar-menu-bg.png')",
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundColor: '#2F6194',
-                }
-              : {}
-          }
+          className={`slider-sidebar mr-4 rounded-lg bg-white shadow-md`}
+          style={{
+            width: `${sidebarWidth}px`,
+            height: `${sidebarHeight}px`,
+            ...(activeTab === 'thuonghieu' && {
+              backgroundImage: "url('/sidebar-menu-bg.png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundColor: '#2F6194',
+            })
+          }}
         >
           <ul className='grid grid-flow-col space-y-2 rounded-t-lg bg-[#2F6194]'>
             <li className={`nav-item mb-[0px]`}>
@@ -301,7 +285,7 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
             </li>
           </ul>
 
-          <div className='tab-content h-[calc(600px-48px)] min-w-[330px] overflow-y-auto'>
+          <div className='tab-content overflow-y-auto' style={{ height: `${sidebarHeight - 48}px`, minWidth: '330px' }}>
             <div
               className={`tab-pane ${activeTab === 'danhmuc' ? 'block' : 'hidden'} h-full`}
             >
@@ -327,7 +311,7 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
               className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'} h-full`}
               id='thuonghieu'
             >
-              <div className='menu-vendor-list grid h-full w-full min-w-[330px] grid-cols-2 gap-3 p-3'>
+              <div className='menu-vendor-list grid h-full w-full grid-cols-2 gap-3 p-3' style={{ minWidth: '330px' }}>
                 {vendors.map((vendor, idx) => (
                   <a
                     key={idx}
@@ -359,7 +343,7 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
 
         <div
           className='slider-index-wrap'
-          style={{ width: `calc(100vw - 450px)` }}
+          style={{ width: `${containerWidth - sidebarWidth - 32}px` }}
         >
           <Slider {...sliderSettings} ref={sliderRef}>
             {images.map((image, index) => (
