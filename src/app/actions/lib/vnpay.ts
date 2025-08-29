@@ -2,20 +2,20 @@ import { VNPay, HashAlgorithm } from 'vnpay';
 
 // VNPay configuration with fallback values for demo
 const vnpayConfig = {
-  tmnCode: process.env.VNPAY_TMN_CODE || 'DEMO',
-  secureSecret: process.env.VNPAY_SECURE_SECRET || 'DEMOSECRET',
-  vnpayHost: process.env.VNPAY_HOST || 'https://sandbox.vnpayment.vn',
-  testMode: process.env.VNPAY_TEST_MODE === 'true' || true,
-  returnUrl:
-    process.env.VNPAY_RETURN_URL || 'http://localhost:3000/payment/return',
+  //   tmnCode: '5YQD1DBZ',
+  //   secureSecret: '74THGBH7F8IWV7IZ82JWVBFQW8YN705L', // Replace with your actual secure secret
+  //   vnpayHost: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
+  //   testMode: process.env.VNPAY_TEST_MODE === 'true' || true,
+  //   returnUrl:
+  //     process.env.VNPAY_RETURN_URL || 'http://localhost:3000/payment/return',
 };
 
 // Initialize VNPay instance
 export const vnpay = new VNPay({
-  tmnCode: vnpayConfig.tmnCode,
-  secureSecret: vnpayConfig.secureSecret,
-  vnpayHost: vnpayConfig.vnpayHost,
-  testMode: vnpayConfig.testMode,
+  tmnCode: '5YQD1DBZ',
+  secureSecret: '74THGBH7F8IWV7IZ82JWVBFQW8YN705L',
+  vnpayHost: 'https://sandbox.vnpayment.vn',
+  testMode: true,
   hashAlgorithm: HashAlgorithm.SHA512,
   enableLog: true,
 });
