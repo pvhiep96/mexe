@@ -120,11 +120,12 @@ export async function createPaymentUrl(formData: any) {
         process.env.VNPAY_RETURN_URL ||
         'https://test-mexe.netlify.app/payment/return',
       vnp_TxnRef: orderId,
-      vnp_TmnCode: process.env.VNPAY_TMN_CODE || '5YQD1DBZ',
+      vnp_TmnCode: '5YQD1DBZ',
       vnp_ExpireDate: dateFormat(new Date(toTimezoneString(expireDAte, 7))),
 
       ...(bankCode && { vnp_BankCode: bankCode }),
     });
+
     console.log('==========================');
     console.log(`Generated payment URL for order ${orderId}:`, paymentUrl);
 
