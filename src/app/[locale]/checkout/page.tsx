@@ -37,6 +37,7 @@ const CheckoutPage = async () => {
   return (
     <div className='flex min-h-screen flex-col'>
       <main className='grow'>
+        {process.env.API_URL}
         <Checkout order={fallbackOrder} checkout={createPaymentUrl} />
       </main>
     </div>
