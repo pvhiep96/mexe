@@ -85,7 +85,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleAddToCart = () => {
-    addToCart(product);
+    addToCart(product, quantity, selectedColor);
     setSuccessMessage(t('add_to_cart_success'));
     setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
   };

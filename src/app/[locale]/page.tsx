@@ -11,17 +11,12 @@ import Contact from '@/components/Contact';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import {
-  DefaultApi,
   ListProducts200Response,
   Listbrands200Response,
   Listcategory200Response,
 } from '../../../api';
-import { Configuration } from '../../../api';
 
-const configuration = new Configuration({
-  basePath: 'http://localhost:3005/api/v1',
-});
-const api = new DefaultApi(configuration);
+import { api } from '@/config/api';
 
 async function fetchProducts(page: number = 1, perPage: number = 10) {
   try {

@@ -1,9 +1,20 @@
 'use client';
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { apiClient } from '@/services/api';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import { TokenDebugger } from '@/utils/tokenDebugger';
-import type { User, AuthResponse, LoginRequest, RegisterRequest } from '@/types';
+import type {
+  User,
+  AuthResponse,
+  LoginRequest,
+  RegisterRequest,
+} from '@/types';
 
 interface AuthContextType {
   user: User | null;
@@ -30,15 +41,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const healthCheck = setInterval(() => {
       // If user is set but token is missing, something went wrong
       if (user && !apiClient.isAuthenticated()) {
-        console.error('🚨 CRITICAL: User is set but token is missing from localStorage!');
+        console.error(
+          '🚨 CRITICAL: User is set but token is missing from localStorage!'
+        );
         TokenDebugger.logTokenState();
-        
+
         // Try to restore from backup or clear user state
         const token = apiClient.getToken();
         if (!token) {
           console.warn('🔄 No token found, clearing user state');
           setUser(null);
-          showTooltip('Phiên đăng nhập bị mất, vui lòng đăng nhập lại', 'warning');
+          showTooltip(
+            'Phiên đăng nhập bị mất, vui lòng đăng nhập lại',
+            'warning'
+          );
         }
       }
     }, 10000); // Check every 10 seconds
@@ -52,9 +68,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (process.env.NODE_ENV === 'development') {
       TokenDebugger.startMonitoring();
     }
-    
+
     initializeAuth();
-    
+
     // Cleanup on unmount
     return () => {
       if (process.env.NODE_ENV === 'development') {
@@ -66,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const initializeAuth = async () => {
     try {
       setIsLoading(true);
-      
+
       // Check if user has a valid token
       if (!apiClient.isAuthenticated()) {
         console.log('🔒 No valid token found during initialization');
@@ -75,11 +91,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       console.log('🔑 Valid token found, verifying with server...');
-      
+
       // Verify token with server
       const response = await apiClient.getProfile();
       if (response.success && response.user) {
-        console.log('✅ Token verified, user authenticated:', response.user.email);
+        console.log(
+          '✅ Token verified, user authenticated:',
+          response.user.email
+        );
         setUser(response.user);
       } else {
         console.warn('⚠️ Token verification failed');
@@ -87,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (error: any) {
       console.error('❌ Failed to initialize auth:', error);
-      
+
       // Only clear state for clear authentication failures
       if (error.status === 401 || error.status === 403) {
         console.warn('🔒 Authentication failed, clearing user state');
@@ -110,7 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (credentials: LoginRequest) => {
     try {
       const response: AuthResponse = await apiClient.login(credentials);
-      
+
       if (response.success && response.user) {
         setUser(response.user);
         showTooltip(response.message || 'Đăng nhập thành công!', 'success');
@@ -127,7 +146,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (userData: RegisterRequest) => {
     try {
       const response: AuthResponse = await apiClient.register(userData);
-      
+
       if (response.success && response.user) {
         setUser(response.user);
         showTooltip(response.message || 'Đăng ký thành công!', 'success');
@@ -136,7 +155,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (error: any) {
       console.error('Registration failed:', error);
-      const errorMessage = error.errors?.[0] || error.message || 'Đăng ký thất bại';
+      const errorMessage =
+        error.errors?.[0] || error.message || 'Đăng ký thất bại';
       showTooltip(errorMessage, 'error');
       throw error;
     }
@@ -158,16 +178,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateProfile = async (userData: any) => {
     try {
       const response = await apiClient.updateProfile(userData);
-      
+
       if (response.success && response.user) {
         setUser(response.user);
-        showTooltip(response.message || 'Cập nhật thông tin thành công!', 'success');
+        showTooltip(
+          response.message || 'Cập nhật thông tin thành công!',
+          'success'
+        );
       } else {
         throw new Error(response.message || 'Cập nhật thông tin thất bại');
       }
     } catch (error: any) {
       console.error('Profile update failed:', error);
-      const errorMessage = error.errors?.[0] || error.message || 'Cập nhật thông tin thất bại';
+      const errorMessage =
+        error.errors?.[0] || error.message || 'Cập nhật thông tin thất bại';
       showTooltip(errorMessage, 'error');
       throw error;
     }
@@ -188,7 +212,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (error: any) {
       console.error('Failed to refresh user:', error);
-      
+
       // Only logout on authentication errors
       if (error.status === 401 || error.status === 403) {
         await logout();
@@ -207,11 +231,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     refreshUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
