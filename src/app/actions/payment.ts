@@ -126,13 +126,10 @@ export async function createPaymentUrl(formData: any) {
       ...(bankCode && { vnp_BankCode: bankCode }),
     });
 
-    console.log('==========================');
-    console.log(`Generated payment URL for order ${orderId}:`, paymentUrl);
-
     // Redirect to VNPay
     // Note: redirect() in Server Actions throws a NEXT_REDIRECT error which is expected behavior
-    return paymentUrl;
-    // redirect(paymentUrl);
+    // return paymentUrl;
+    redirect(paymentUrl);
   } catch (error) {
     // Check if this is a Next.js redirect (expected behavior)
     const isRedirect =
