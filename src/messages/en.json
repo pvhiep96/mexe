@@ -324,7 +324,32 @@
   },
   "checkout": {
     "title": "Checkout",
-    "delivery_address_placeholder": "Enter your delivery address",
+    "subtitle": "Complete your order",
+    "customer_info": "Customer Information",
+    "full_name": "Full name",
+    "full_name_placeholder": "Enter full name",
+    "phone": "Phone number",
+    "phone_placeholder": "Enter phone number",
+    "email": "Email",
+    "email_placeholder": "Enter email address",
+    "address": "Delivery address",
+    "address_placeholder": "Enter detailed delivery address",
+    "city": "City",
+    "city_placeholder": "Select city",
+    "district": "District",
+    "district_placeholder": "Select district",
+    "ward": "Ward",
+    "ward_placeholder": "Select ward",
+    "payment_method": "Payment Method",
+    "supported_methods": "Supported payment methods",
+    "order_summary": "Order Summary",
+    "subtotal": "Subtotal",
+    "shipping_fee": "Shipping fee",
+    "total": "Total",
+    "place_order": "Place Order",
+    "order_success": "Order placed successfully!",
+    "order_success_message": "Thank you for your order. We will process your order as soon as possible.",
+    "delivery_address_placeholder": "Based on delivery information",
     "delivery_info": {
       "title": "Delivery Information",
       "home": "Home Delivery",
@@ -335,19 +360,18 @@
       "national": "National",
       "address": "Address",
       "city": "City",
-      "store": "Select Store",
       "select_store": "Select a store"
     },
     "delivery_method": {
       "title": "Delivery Method",
-      "address": "Delivery Address",
-      "delivery_address_placeholder": "Based on delivery information"
+      "address": "Delivery Address"
     },
     "payment_method": {
       "title": "Payment Method",
       "card": "Credit/Debit Card",
       "cod": "Cash on Delivery",
-      "bank": "Bank Transfer"
+      "bank": "Bank Transfer",
+      "supported_methods": "Supported payment methods"
     },
     "note": {
       "title": "Note",
@@ -374,9 +398,21 @@
       "total": "Total",
       "checkout": "Place Order"
     },
+    "stores": {
+      "hcm": "Ho Chi Minh City",
+      "hn": "Hanoi",
+      "hp": "Hai Phong"
+    },
+    "coupon_types": {
+      "none": "None",
+      "10off": "10% Off",
+      "20off": "20% Off"
+    },
     "errors": {
-      "required": "This field is required"
-    }
+      "required": "This field is required",
+      "checkout_error": "An error occurred while placing the order. Please try again."
+    },
+    "processing": "Processing..."
   },
   "order_status": {
     "title": "Check Order Status",
@@ -408,7 +444,17 @@
     "order_items": "Ordered Items",
     "quantity": "Quantity",
     "total": "Total",
-    "order_timeline": "Order Timeline"
+    "order_timeline": "Order Timeline",
+    "loading_order": "Loading order information...",
+    "order_not_found": "Order not found",
+    "order_not_found_description": "This order does not exist or you don't have access to it",
+    "error_loading_order": "Error loading order information",
+    "check_another_order": "Check another order",
+    "back_home": "Back to home",
+    "back_to_search": "Back to search",
+    "order_actions": "Order Actions",
+    "print_order": "Print Order",
+    "contact_support": "Contact Support"
   },
   "product_detail": {
     "add_to_cart_success": "Product added to cart successfully!",
@@ -438,5 +484,93 @@
     "product_2_name": "Nuna Car Seat",
     "product_3_name": "Gofa",
     "product_4_name": "Car Air Freshener"
+  },
+  "payment_success": {
+    "title": "Payment Successful!",
+    "description": "Thank you for your order. We have received your payment.",
+    "order_details": "Order Details",
+    "order_number": "Order Number",
+    "amount": "Amount",
+    "transaction_id": "Transaction ID",
+    "payment_method": "Payment Method",
+    "status": "Status",
+    "status_paid": "Paid",
+    "next_steps": "Next Steps",
+    "confirmation_email": "A confirmation email has been sent to your inbox",
+    "processing_time": "Your order will be processed within 1-2 business days",
+    "delivery_update": "You will receive updates on your delivery status",
+    "track_order": "Track Order",
+    "continue_shopping": "Continue Shopping",
+    "auto_redirect": "Automatically redirecting to home in {seconds} seconds",
+    "need_help": "Need Help?",
+    "help_description": "If you have any questions about your order, please contact us",
+    "call_support": "Call Support",
+    "email_support": "Email Support"
+  },
+  "payment_return": {
+    "processing": "Processing payment result...",
+    "invalid_request": "Invalid Request",
+    "invalid_request_description": "Unable to verify payment information. Please try again.",
+    "payment_failed": "Payment Failed",
+    "order_number": "Order Number",
+    "try_again": "Try Again",
+    "back_home": "Back to Home",
+    "need_help": "Need Help?",
+    "support_description": "If you're having trouble with payment, please contact us",
+    "call_support": "Call Support",
+    "email_support": "Email Support",
+    "error_unknown": "Unknown error",
+    "error_suspicious_transaction": "Suspicious transaction (duplicate, modified, attempting to steal information)",
+    "error_card_not_registered": "Card not registered for InternetBanking service at bank",
+    "error_authentication_failed": "Card/account information authentication failed",
+    "error_timeout": "Transaction failed due to timeout",
+    "error_card_locked": "Card locked due to incorrect password attempts exceeding limit",
+    "error_wrong_otp": "Incorrect OTP entered",
+    "error_cancelled": "Customer cancelled transaction",
+    "error_insufficient_funds": "Account insufficient balance for transaction",
+    "error_transaction_limit": "Daily transaction limit exceeded",
+    "error_banking_system": "Bank rejected transaction due to banking system error",
+    "error_exceeds_limit": "Amount exceeds allowable limit",
+    "error_payment_failed": "Payment failed"
+  },
+  "brands": {
+    "page_title": "Leading Automotive Brands",
+    "page_description": "Explore the world's most prestigious and quality automotive brands. Learn about their history, featured products, and unique characteristics of each brand.",
+    "trusted_brands": "trusted brands",
+    "products": "products",
+    "search_brands": "Search brands...",
+    "all_countries": "All countries",
+    "japan": "Japan",
+    "south_korea": "South Korea",
+    "founded_in": "Founded in",
+    "specialties": "Specialties",
+    "popular_models": "Popular models",
+    "more": "more",
+    "rating": "Rating",
+    "established": "Established",
+    "explore_brand": "Explore Brand",
+    "showing_results": "Showing {count} of {total} brands",
+    "no_brands_found": "No brands found",
+    "try_different_search": "Try a different search term or clear filters",
+    "clear_filters": "Clear filters",
+    "cta_title": "Ready to Learn More?",
+    "cta_description": "Contact us for consultation on automotive accessories that match your vehicle brand.",
+    "contact_us": "Contact Us",
+    "view_products": "View Products",
+    "honda_description": "Honda is Japan's leading automotive and motorcycle brand, renowned for high reliability, fuel efficiency, and advanced technology. From compact cars to versatile SUVs, Honda always delivers smart mobility solutions.",
+    "toyota_description": "Toyota is the world's largest automaker, pioneering hybrid technology and famous for superior quality. With over 80 years of experience, Toyota has established its position through durable and safe vehicles.",
+    "hyundai_description": "Hyundai is South Korea's leading automotive brand, distinguished by modern design, advanced technology, and superior value. Hyundai is leading the electric vehicle trend and sustainable mobility solutions.",
+    "reliability": "Reliability",
+    "fuel_efficiency": "Fuel Efficiency",
+    "innovation": "Innovation",
+    "motorcycles": "Motorcycles",
+    "hybrid_technology": "Hybrid Technology",
+    "durability": "Durability",
+    "safety": "Safety",
+    "quality": "Quality",
+    "design": "Design",
+    "value": "Value",
+    "warranty": "Warranty",
+    "electric_vehicles": "Electric Vehicles"
   }
 }

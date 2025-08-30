@@ -111,7 +111,7 @@ export default function SPBanner() {
           </div>
         </div>
 
-        {/* Quick Links */}
+        {/* Quick Links
         <div className='space-y-3'>
           <div className='rounded-lg bg-white p-4 shadow-sm'>
             <h4 className='mb-2 font-semibold text-gray-800'>Setup Góc Làm Việc</h4>
@@ -132,7 +132,7 @@ export default function SPBanner() {
             <h4 className='mb-2 font-semibold text-gray-800'>Loa - Tai Nghe</h4>
             <p className='text-sm text-gray-600'>Sản phẩm Cyberpunk - Scifi công nghệ</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

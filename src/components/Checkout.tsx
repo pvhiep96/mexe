@@ -5,6 +5,8 @@ import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
 import Image from 'next/image';
 import { BuildingStorefrontIcon, TruckIcon } from '@heroicons/react/24/outline';
+import { useRouter } from '@/i18n/navigation';
+import { useFlashTooltip } from '@/context/FlashTooltipContext';
 
 interface Product {
   id: string | number;
@@ -47,6 +49,8 @@ interface CheckoutProps {
 
 export default function Checkout({ order, checkout }: CheckoutProps) {
   const t = useTranslations('checkout');
+  const router = useRouter();
+  const { showTooltip } = useFlashTooltip();
 
   // Move arrays inside component to use t function
   const stores = [
@@ -61,6 +65,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     { value: '20off', label: t('coupon_types.20off') },
   ];
   const [deliveryType, setDeliveryType] = useState<'home' | 'store'>('home');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
@@ -85,11 +90,42 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   }, [setValue, t]);
 
   const onSubmit = async (data: CheckoutForm) => {
-    console.log(order);
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    try {
+      console.log(order);
 
-    // TODO: Handle form submission (e.g., API call)
-    const value = await checkout({ ...data, orderInfo: order.orderNumber });
-    console.log(value);
+      // Show success message for COD orders
+      if (data.paymentMethod === 'cod') {
+        showTooltip(t('order_success_message'), 'success');
+        
+        // Redirect to order status page for COD orders
+        setTimeout(() => {
+          router.push('/order-status');
+        }, 2000);
+      }
+
+      // If payment is required, redirect to payment gateway
+      // Otherwise, just show success message and redirect
+      if (data.paymentMethod === 'card' || data.paymentMethod === 'bank') {
+        // For credit card or bank transfer, redirect to payment gateway
+        await checkout({ ...data, orderInfo: order.orderNumber });
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      // Only redirect to payment if it's not a redirect error
+      const isRedirect = error instanceof Error && 
+        (error.message.includes('NEXT_REDIRECT') || 
+         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         (error as any).digest?.includes('NEXT_REDIRECT'));
+      
+      if (!isRedirect) {
+        showTooltip(t('errors.checkout_error'), 'error');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCouponSubmit = () => {
@@ -371,36 +407,56 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               <div className='flex items-center gap-4'>
                 {/* MoMo */}
                 <div className='flex flex-col items-center'>
-                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-pink-100'>
-                    <span className='text-xs font-bold text-pink-600'>
-                      MoMo
-                    </span>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-white border border-gray-200'>
+                    <Image
+                      src='/images/payment-logos/momo-logo.svg'
+                      alt='MoMo'
+                      width={32}
+                      height={32}
+                      className='object-contain'
+                    />
                   </div>
                   <span className='text-xs text-gray-600'>MoMo</span>
                 </div>
 
                 {/* VNPay */}
                 <div className='flex flex-col items-center'>
-                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-blue-100'>
-                    <span className='text-xs font-bold text-blue-600'>
-                      VNPay
-                    </span>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-white border border-gray-200'>
+                    <Image
+                      src='/images/payment-logos/vnpay-logo.svg'
+                      alt='VNPay'
+                      width={40}
+                      height={32}
+                      className='object-contain'
+                    />
                   </div>
                   <span className='text-xs text-gray-600'>VNPay</span>
                 </div>
 
                 {/* Visa */}
                 <div className='flex flex-col items-center'>
-                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-blue-900'>
-                    <span className='text-xs font-bold text-white'>VISA</span>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-white border border-gray-200'>
+                    <Image
+                      src='/images/payment-logos/visa-logo.png'
+                      alt='Visa'
+                      width={36}
+                      height={32}
+                      className='object-contain'
+                    />
                   </div>
                   <span className='text-xs text-gray-600'>Visa</span>
                 </div>
 
                 {/* ZaloPay */}
                 <div className='flex flex-col items-center'>
-                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-blue-500'>
-                    <span className='text-xs font-bold text-white'>Zalo</span>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-white border border-gray-200'>
+                    <Image
+                      src='/images/payment-logos/zalopay-logo.svg'
+                      alt='ZaloPay'
+                      width={36}
+                      height={32}
+                      className='object-contain'
+                    />
                   </div>
                   <span className='text-xs text-gray-600'>ZaloPay</span>
                 </div>
@@ -525,9 +581,14 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
             </div>
             <button
               type='submit'
-              className='mt-4 w-full cursor-pointer rounded bg-green-600 p-2 text-white hover:bg-green-700'
+              disabled={isSubmitting}
+              className={`mt-4 w-full cursor-pointer rounded p-2 text-white transition-colors ${
+                isSubmitting 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-green-600 hover:bg-green-700'
+              }`}
             >
-              {t('summary.checkout')}
+              {isSubmitting ? t('processing') : t('summary.checkout')}
             </button>
           </section>
         </div>

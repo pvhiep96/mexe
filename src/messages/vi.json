@@ -397,7 +397,71 @@
     "total": "Tổng cộng",
     "place_order": "Đặt Hàng",
     "order_success": "Đặt hàng thành công!",
-    "order_success_message": "Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất có thể."
+    "order_success_message": "Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất có thể.",
+    "delivery_address_placeholder": "Dựa trên thông tin giao hàng",
+    "delivery_info": {
+      "title": "Thông Tin Giao Hàng",
+      "home": "Giao Hàng Tận Nhà",
+      "store": "Tại Cửa Hàng",
+      "name": "Họ và tên",
+      "mobile": "Số điện thoại",
+      "email": "Email",
+      "national": "Quốc gia",
+      "address": "Địa chỉ",
+      "city": "Thành phố",
+      "select_store": "Chọn cửa hàng"
+    },
+    "delivery_method": {
+      "title": "Phương Thức Giao Hàng",
+      "address": "Địa Chỉ Giao Hàng"
+    },
+    "payment_method": {
+      "title": "Phương Thức Thanh Toán",
+      "card": "Thẻ Tín Dụng/Ghi Nợ",
+      "cod": "Thanh Toán Khi Nhận Hàng",
+      "bank": "Chuyển Khoản Ngân Hàng",
+      "supported_methods": "Các phương thức thanh toán được hỗ trợ"
+    },
+    "note": {
+      "title": "Ghi Chú",
+      "placeholder": "Thêm ghi chú đặc biệt"
+    },
+    "cart_preview": {
+      "title": "Xem Trước Giỏ Hàng",
+      "price": "Giá",
+      "discount": "Giảm giá",
+      "quantity": "Số lượng"
+    },
+    "coupon": {
+      "title": "Mã Giảm Giá",
+      "type": "Loại Mã Giảm Giá",
+      "code": "Mã Giảm Giá",
+      "code_placeholder": "Nhập mã giảm giá",
+      "submit": "Áp Dụng Mã"
+    },
+    "summary": {
+      "title": "Tóm Tắt",
+      "total_items": "Tổng Sản Phẩm",
+      "shipping": "Phí Vận Chuyển",
+      "shipping_value": "Tính ở bước tiếp theo",
+      "total": "Tổng Cộng",
+      "checkout": "Đặt Hàng"
+    },
+    "stores": {
+      "hcm": "TP. Hồ Chí Minh",
+      "hn": "Hà Nội",
+      "hp": "Hải Phòng"
+    },
+    "coupon_types": {
+      "none": "Không có",
+      "10off": "Giảm 10%",
+      "20off": "Giảm 20%"
+    },
+    "errors": {
+      "required": "Trường này là bắt buộc",
+      "checkout_error": "Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại."
+    },
+    "processing": "Đang xử lý..."
   },
   "order_status": {
     "title": "Kiểm Tra Đơn Hàng",
@@ -429,7 +493,17 @@
     "order_items": "Sản phẩm đã đặt",
     "quantity": "Số lượng",
     "total": "Tổng",
-    "order_timeline": "Lịch trình đơn hàng"
+    "order_timeline": "Lịch trình đơn hàng",
+    "loading_order": "Đang tải thông tin đơn hàng...",
+    "order_not_found": "Không tìm thấy đơn hàng",
+    "order_not_found_description": "Đơn hàng này không tồn tại hoặc bạn không có quyền truy cập",
+    "error_loading_order": "Có lỗi xảy ra khi tải thông tin đơn hàng",
+    "check_another_order": "Kiểm tra đơn hàng khác",
+    "back_home": "Về trang chủ",
+    "back_to_search": "Quay lại tìm kiếm",
+    "order_actions": "Thao tác đơn hàng",
+    "print_order": "In đơn hàng",
+    "contact_support": "Liên hệ hỗ trợ"
   },
   "products": {
     "add_to_cart": "Mua hàng",
@@ -463,5 +537,93 @@
     "back_to_news": " Quay lại Tin tức",
     "related_articles": "Bài viết liên quan",
     "read_more": "Đọc thêm"
+  },
+  "payment_success": {
+    "title": "Thanh Toán Thành Công!",
+    "description": "Cảm ơn bạn đã đặt hàng. Chúng tôi đã nhận được thanh toán của bạn.",
+    "order_details": "Chi Tiết Đơn Hàng",
+    "order_number": "Mã đơn hàng",
+    "amount": "Số tiền",
+    "transaction_id": "Mã giao dịch",
+    "payment_method": "Phương thức thanh toán",
+    "status": "Trạng thái",
+    "status_paid": "Đã thanh toán",
+    "next_steps": "Bước Tiếp Theo",
+    "confirmation_email": "Email xác nhận đã được gửi đến hộp thư của bạn",
+    "processing_time": "Đơn hàng sẽ được xử lý trong 1-2 ngày làm việc",
+    "delivery_update": "Bạn sẽ nhận được cập nhật về tình trạng giao hàng",
+    "track_order": "Theo Dõi Đơn Hàng",
+    "continue_shopping": "Tiếp Tục Mua Sắm",
+    "auto_redirect": "Tự động chuyển về trang chủ sau {seconds} giây",
+    "need_help": "Cần Hỗ Trợ?",
+    "help_description": "Nếu bạn có bất kỳ câu hỏi nào về đơn hàng, vui lòng liên hệ với chúng tôi",
+    "call_support": "Gọi Hỗ Trợ",
+    "email_support": "Email Hỗ Trợ"
+  },
+  "payment_return": {
+    "processing": "Đang xử lý kết quả thanh toán...",
+    "invalid_request": "Yêu Cầu Không Hợp Lệ",
+    "invalid_request_description": "Không thể xác thực thông tin thanh toán. Vui lòng thử lại.",
+    "payment_failed": "Thanh Toán Thất Bại",
+    "order_number": "Mã đơn hàng",
+    "try_again": "Thử Lại",
+    "back_home": "Về Trang Chủ",
+    "need_help": "Cần Hỗ Trợ?",
+    "support_description": "Nếu bạn gặp sự cố với thanh toán, vui lòng liên hệ với chúng tôi",
+    "call_support": "Gọi Hỗ Trợ",
+    "email_support": "Email Hỗ Trợ",
+    "error_unknown": "Lỗi không xác định",
+    "error_suspicious_transaction": "Giao dịch bị nghi ngờ (trùng lặp, chỉnh sửa, tìm cách lấy cắp thông tin)",
+    "error_card_not_registered": "Thẻ chưa đăng ký dịch vụ InternetBanking tại ngân hàng",
+    "error_authentication_failed": "Xác thực thông tin thẻ/tài khoản không chính xác",
+    "error_timeout": "Giao dịch không thành công do quá thời gian chờ",
+    "error_card_locked": "Thẻ bị khóa do nhập sai mật khẩu quá số lần quy định",
+    "error_wrong_otp": "Nhập sai mã OTP",
+    "error_cancelled": "Khách hàng hủy giao dịch",
+    "error_insufficient_funds": "Tài khoản không đủ số dư để thực hiện giao dịch",
+    "error_transaction_limit": "Vượt quá hạn mức giao dịch trong ngày",
+    "error_banking_system": "Ngân hàng từ chối giao dịch do lỗi hệ thống ngân hàng",
+    "error_exceeds_limit": "Số tiền vượt quá hạn mức cho phép",
+    "error_payment_failed": "Thanh toán thất bại"
+  },
+  "brands": {
+    "page_title": "Thương Hiệu Ô Tô Hàng Đầu",
+    "page_description": "Khám phá các thương hiệu ô tô uy tín và chất lượng nhất thế giới. Tìm hiểu lịch sử, sản phẩm nổi bật và những điểm độc đáo của từng thương hiệu.",
+    "trusted_brands": "thương hiệu uy tín",
+    "products": "sản phẩm",
+    "search_brands": "Tìm kiếm thương hiệu...",
+    "all_countries": "Tất cả quốc gia",
+    "japan": "Nhật Bản",
+    "south_korea": "Hàn Quốc",
+    "founded_in": "Thành lập năm",
+    "specialties": "Chuyên môn",
+    "popular_models": "Dòng xe phổ biến",
+    "more": "thêm",
+    "rating": "Đánh giá",
+    "established": "Thành lập",
+    "explore_brand": "Khám phá thương hiệu",
+    "showing_results": "Hiển thị {count} trong tổng số {total} thương hiệu",
+    "no_brands_found": "Không tìm thấy thương hiệu nào",
+    "try_different_search": "Hãy thử từ khóa tìm kiếm khác hoặc xóa bộ lọc",
+    "clear_filters": "Xóa bộ lọc",
+    "cta_title": "Sẵn sàng tìm hiểu thêm?",
+    "cta_description": "Liên hệ với chúng tôi để được tư vấn về các sản phẩm phụ kiện ô tô phù hợp với thương hiệu xe của bạn.",
+    "contact_us": "Liên hệ chúng tôi",
+    "view_products": "Xem sản phẩm",
+    "honda_description": "Honda là thương hiệu ô tô và xe máy hàng đầu Nhật Bản, nổi tiếng với độ tin cậy cao, tiết kiệm nhiên liệu và công nghệ tiên tiến. Từ những chiếc xe hơi nhỏ gọn đến SUV đa dụng, Honda luôn mang đến những giải pháp di chuyển thông minh.",
+    "toyota_description": "Toyota là nhà sản xuất ô tô lớn nhất thế giới, tiên phong trong công nghệ hybrid và nổi tiếng với chất lượng vượt trội. Với hơn 80 năm kinh nghiệm, Toyota đã khẳng định vị thế qua những mẫu xe bền bỉ và an toàn.",
+    "hyundai_description": "Hyundai là thương hiệu ô tô hàng đầu Hàn Quốc, nổi bật với thiết kế hiện đại, công nghệ tiên tiến và giá trị vượt trội. Hyundai đang dẫn đầu xu hướng xe điện và các giải pháp di chuyển bền vững.",
+    "reliability": "Độ tin cậy",
+    "fuel_efficiency": "Tiết kiệm nhiên liệu",
+    "innovation": "Đổi mới",
+    "motorcycles": "Xe máy",
+    "hybrid_technology": "Công nghệ hybrid",
+    "durability": "Độ bền",
+    "safety": "An toàn",
+    "quality": "Chất lượng",
+    "design": "Thiết kế",
+    "value": "Giá trị",
+    "warranty": "Bảo hành",
+    "electric_vehicles": "Xe điện"
   }
 }
