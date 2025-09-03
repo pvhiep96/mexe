@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import Footer from '@/components/Footer';
+
 import UnauthenticatedView from '@/components/account/UnauthenticatedView';
 import AuthenticatedView from '@/components/account/AuthenticatedView';
 import { useAuth } from '@/context/AuthContext';
@@ -87,7 +87,6 @@ export default function AccountPage() {
           <UnauthenticatedView onLogin={handleLogin} onRegister={handleRegister} />
         )}
       </div>
-      <Footer />
     </div>
   );
 } 
