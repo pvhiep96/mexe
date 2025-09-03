@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 // import Footer from '@/components/Footer';
 import ProductGrid from '@/components/ProductGrid';
@@ -15,7 +15,8 @@ import {
   faSortNumericUp,
   faSortNumericDown,
 } from '@fortawesome/free-solid-svg-icons';
-import { ProductList, Product } from './types';
+import { apiClient } from '@/services/api';
+import type { Product } from '@/services/api';
 import Link from 'next/link';
 
 const sortOptions = [
@@ -169,7 +170,7 @@ const hashtags: { label: string; url: string }[] = [
 ];
 
 type ProductListPageType = {
-  allProducts: ProductList;
+  allProducts: Product[];
 };
 export default function ProductListPage({ allProducts }: ProductListPageType) {
   const router = useRouter();

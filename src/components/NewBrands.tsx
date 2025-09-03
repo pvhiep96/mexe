@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import Link from 'next/link';
+import { BrandWithProducts, Product } from '@/services/api';
 
 interface BrandProduct {
   id: number;
@@ -21,64 +22,29 @@ interface BrandProductCardProps {
   product: BrandProduct;
 }
 
-const brandProducts: BrandProduct[] = [
-  {
-    id: 1,
-    name: 'Ghế ngồi chicco',
-    image: '/images/demo-new-brands/demo-new-brand-1.png',
-    originalPrice: '1,300,000đ',
-    discountedPrice: '975,000đ',
-    discount: '-25%',
-  },
-  {
-    id: 2,
-    name: 'Ghế ngồi oto Nuna',
-    image: '/images/demo-new-brands/demo-new-brand-2.png',
-    originalPrice: '1,140,000đ',
-    discountedPrice: '741,000đ',
-    discount: '-35%',
-  },
-  {
-    id: 3,
-    name: 'Ứng dụng Gofa - Định vị thông minh',
-    image: '/images/demo-new-brands/demo-new-brand-3.png',
-    originalPrice: '1,255,000đ',
-    discountedPrice: '727,900đ',
-    discount: '-42%',
-  },
-  {
-    id: 4,
-    name: 'Nước hoa oto cao cấp',
-    image: '/images/demo-new-brands/demo-new-brand-4.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 5,
-    name: 'Nước hoa oto hương gỗ',
-    image: '/images/demo-new-brands/demo-new-brand-4.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 6,
-    name: 'Nước hoa oto hương hoa',
-    image: '/images/demo-new-brands/demo-new-brand-4.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 7,
-    name: 'Nước hoa oto hương cam',
-    image: '/images/demo-new-brands/demo-new-brand-4.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-];
+interface NewBrandsProps {
+  newBrands?: BrandWithProducts[];
+}
+
+// Helper function to convert API products to component format
+const convertApiProductToBrandProduct = (apiProduct: Product, index: number): BrandProduct => {
+  const primaryImage = apiProduct.images.find(img => img.is_primary) || apiProduct.images[0];
+  const imageUrl = primaryImage?.image_url || '/images/demo-new-brands/demo-new-brand-1.png';
+  
+  const price = parseInt(apiProduct.price);
+  const originalPrice = apiProduct.original_price ? parseInt(apiProduct.original_price) : price;
+  const discountPercent = apiProduct.discount_percent ? parseFloat(apiProduct.discount_percent) : 0;
+  
+  return {
+    id: apiProduct.id,
+    name: apiProduct.name,
+    image: imageUrl,
+    originalPrice: `${originalPrice.toLocaleString()}đ`,
+    discountedPrice: `${price.toLocaleString()}đ`,
+    discount: discountPercent > 0 ? `-${Math.round(discountPercent)}%` : '',
+    originalIndex: index,
+  };
+};
 
 function BrandProductCard({ product }: BrandProductCardProps) {
   const t = useTranslations('new_brands');
@@ -92,7 +58,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
   return (
     <div 
       className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-lg border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px] hover:shadow-lg cursor-pointer transition-shadow duration-300'
-      onClick={() => window.open(`/products/${product.originalIndex + 1}`, '_blank')}
+      onClick={() => window.open(`/products/${(product.originalIndex ?? 0) + 1}`, '_blank')}
     >
       {/* Badge labels - đặt trong card */}
       <div className='absolute top-3 left-3 z-10 flex flex-col items-start gap-2'>
@@ -160,7 +126,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
   );
 }
 
-export default function NewBrands() {
+export default function NewBrands({ newBrands = [] }: NewBrandsProps) {
   const t = useTranslations('new_brands');
   const [slider, setSlider] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -211,8 +177,31 @@ export default function NewBrands() {
     setSlider(slider + 1);
   };
 
+  // Get brand products from API data
+  const getBrandProducts = (): BrandProduct[] => {
+    if (!newBrands.length) {
+      return []; // Return empty array if no brands
+    }
+
+    const allProducts: BrandProduct[] = [];
+    
+    newBrands.forEach((brand) => {
+      brand.featured_products.forEach((product, index) => {
+        allProducts.push(convertApiProductToBrandProduct(product, index));
+      });
+    });
+
+    return allProducts;
+  };
+
   // Tạo mảng products lặp lại để tạo băng chuyền vô tận
   const getVisibleProducts = () => {
+    const brandProducts = getBrandProducts();
+    
+    if (!brandProducts.length) {
+      return [];
+    }
+
     // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
     let conveyorProducts = [];
 
@@ -332,9 +321,9 @@ export default function NewBrands() {
               </div>
               
               {/* Pagination dots */}
-              {Math.ceil(brandProducts.length / visible) > 1 && (
+              {Math.ceil(getBrandProducts().length / visible) > 1 && (
                 <div className='mt-4 flex justify-center gap-2'>
-                  {Array.from({ length: Math.ceil(brandProducts.length / visible) }).map((_, idx) => (
+                  {Array.from({ length: Math.ceil(getBrandProducts().length / visible) }).map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => goToSlide(idx)}
@@ -409,7 +398,7 @@ export default function NewBrands() {
                     }
                   `}</style>
                   
-                  {brandProducts.map((product, index) => (
+                  {getBrandProducts().map((product, index) => (
                     <div key={`mobile-brand-${index}`} className='flex min-w-[220px] flex-col items-center rounded-lg bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300 border border-gray-200'>
                       <Image
                         src={product.image}

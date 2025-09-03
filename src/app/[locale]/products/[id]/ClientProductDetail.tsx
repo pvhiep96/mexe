@@ -43,7 +43,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
       price: productData.price,
       image: productData.image,
       quantity: quantity,
-    });
+    }, quantity, selectedColor);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
 
@@ -70,7 +70,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
           <div className='space-y-4'>
             <div className='aspect-square overflow-hidden rounded-2xl bg-white shadow-lg'>
               <Image
-                src={productData.images[selectedImage]}
+                src={productData.images?.[selectedImage] || '/images/placeholder-product.png'}
                 alt={productData.name}
                 width={600}
                 height={600}
@@ -78,7 +78,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
               />
             </div>
             <div className='grid grid-cols-4 gap-2'>
-              {productData.images.map((image, index) => (
+              {productData.images?.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -87,7 +87,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
                   }`}
                 >
                   <Image
-                    src={image}
+                    src={image || '/images/placeholder-product.png'}
                     alt={`${productData.name} ${index + 1}`}
                     width={150}
                     height={150}
@@ -130,14 +130,38 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
               <h3 className='mb-3 text-sm font-medium'>Số lượng</h3>
               <div className='flex items-center shadow-sm'>
                 <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  onClick={() => {
+                    const newQuantity = Math.max(1, quantity - 1);
+                    setQuantity(newQuantity);
+                    // Thêm vào giỏ hàng với số lượng mới
+                    addToCart({
+                      id: productData.id,
+                      name: productData.name,
+                      price: productData.price,
+                      image: productData.image,
+                      quantity: newQuantity,
+                    }, newQuantity, selectedColor);
+                    showTooltip('Đã cập nhật giỏ hàng!', 'success');
+                  }}
                   className='flex h-10 w-10 items-center justify-center rounded-l-full border border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer bg-gray-100 text-gray-700 font-medium border-r-0 hover:scale-105'
                 >
                   -
                 </button>
                 <span className='px-4 py-2 border border-gray-300 bg-white text-center min-w-[4rem] flex items-center justify-center text-gray-700 font-medium'>{quantity}</span>
                 <button
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={() => {
+                    const newQuantity = quantity + 1;
+                    setQuantity(newQuantity);
+                    // Thêm vào giỏ hàng với số lượng mới
+                    addToCart({
+                      id: productData.id,
+                      name: productData.name,
+                      price: productData.price,
+                      image: productData.image,
+                      quantity: newQuantity,
+                    }, newQuantity, selectedColor);
+                    showTooltip('Đã cập nhật giỏ hàng!', 'success');
+                  }}
                   className='flex h-10 w-10 items-center justify-center rounded-r-full border border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer bg-gray-100 text-gray-700 font-medium border-l-0 hover:scale-105'
                 >
                   +

@@ -15,6 +15,7 @@ interface Product {
   discountedPrice?: number;
   image: string;
   quantity: number;
+  selectedColor?: string;
 }
 
 interface Order {
@@ -28,11 +29,12 @@ interface CartContextType {
   addToCart: (
     product: Product,
     quantity: number,
-    selectedColor: string
+    selectedColor?: string
   ) => void;
   updateQuantity: (id: string | number, quantity: number) => void;
   removeItem: (id: string | number) => void;
   clearCart: () => void;
+  getCartItemCount: () => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -83,72 +85,53 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [order, mounted]);
 
-  const addToCart = async (
+  const addToCart = (
     product: Product,
-    quantity: number,
-    selectedColor: string
+    quantity: number = 1,
+    selectedColor?: string
   ) => {
-    try {
-      // Make API call to create order
-      const response = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          productId: product.id,
-          quantity: quantity || 1,
-          variant_id: selectedColor,
-          order_number: order?.order_number,
-        }),
-      });
+    setOrder((prevOrder) => {
+      const newItem = {
+        ...product,
+        quantity: quantity || 1,
+        selectedColor: selectedColor || product.selectedColor,
+      };
 
-      if (!response.ok) {
-        throw new Error('Failed to create order');
+      if (!prevOrder) {
+        const total = (product.discountedPrice || product.price) * quantity;
+        return { items: [newItem], total };
       }
-      const responseData = await response.json();
-      console.log(responseData);
-      // Update local state after successful API call
 
-      setOrder((prevOrder) => {
-        const quantity = product.quantity || 1;
-        const newItem = {
-          ...product,
-          quantity,
-        };
-        const order_number = responseData.order.order_number;
-        if (!prevOrder) {
-          const total = (product.discountedPrice || product.price) * quantity;
-          return { items: [newItem], total };
+      // Check if product already exists (considering color if available)
+      const existingItemIndex = prevOrder.items.findIndex((item) => {
+        if (selectedColor && item.selectedColor) {
+          return item.id === product.id && item.selectedColor === selectedColor;
         }
-
-        const existingItem = prevOrder.items.find(
-          (item) => item.id === product.id
-        );
-        let updatedItems: Product[];
-
-        if (existingItem) {
-          updatedItems = prevOrder.items.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: item.quantity + quantity }
-              : item
-          );
-        } else {
-          updatedItems = [...prevOrder.items, newItem];
-        }
-
-        const total = updatedItems.reduce(
-          (sum, item) =>
-            sum + (item.discountedPrice || item.price) * item.quantity,
-          0
-        );
-
-        return { items: updatedItems, total, order_number };
+        return item.id === product.id;
       });
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      // Optionally, you could show a user-friendly error message here
-    }
+
+      let updatedItems: Product[];
+
+      if (existingItemIndex !== -1) {
+        // Update existing item quantity
+        updatedItems = [...prevOrder.items];
+        updatedItems[existingItemIndex] = {
+          ...updatedItems[existingItemIndex],
+          quantity: updatedItems[existingItemIndex].quantity + quantity,
+        };
+      } else {
+        // Add new item
+        updatedItems = [...prevOrder.items, newItem];
+      }
+
+      const total = updatedItems.reduce(
+        (sum, item) =>
+          sum + (item.discountedPrice || item.price) * item.quantity,
+        0
+      );
+
+      return { items: updatedItems, total };
+    });
   };
 
   const updateQuantity = (id: string | number, quantity: number) => {
@@ -211,9 +194,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const getCartItemCount = () => {
+    if (!order || !order.items) return 0;
+    return order.items.reduce((total, item) => total + item.quantity, 0);
+  };
+
   return (
     <CartContext.Provider
-      value={{ order, addToCart, updateQuantity, removeItem, clearCart }}
+      value={{ 
+        order, 
+        addToCart, 
+        updateQuantity, 
+        removeItem, 
+        clearCart,
+        getCartItemCount
+      }}
     >
       {mounted ? children : null}
     </CartContext.Provider>

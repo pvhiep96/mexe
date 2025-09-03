@@ -5,7 +5,7 @@ import RegisterForm from './RegisterForm';
 
 interface UnauthenticatedViewProps {
   onLogin: (email: string, password: string) => void;
-  onRegister: (name: string, email: string, password: string) => void;
+  onRegister: (userData: any) => Promise<void>;
 }
 
 export default function UnauthenticatedView({ onLogin, onRegister }: UnauthenticatedViewProps) {

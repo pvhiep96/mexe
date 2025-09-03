@@ -10,11 +10,12 @@ import { useFlashTooltip } from '@/context/FlashTooltipContext';
 
 interface Product {
   id: string | number;
-  product_name: string;
-  unit_price: number;
-  product_image: string;
-  discount?: number;
+  name: string;
+  price: number;
+  discountedPrice?: number;
+  image: string;
   quantity: number;
+  selectedColor?: string;
 }
 
 interface Order {
@@ -94,35 +95,98 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     
     setIsSubmitting(true);
     try {
-      console.log(order);
+      console.log('Form data:', data);
+      console.log('Order data:', order);
 
-      // Show success message for COD orders
+      // Tạo order trong database trước - format theo Rails API
+      const orderData = {
+        orders: {
+          order_number: order.orderNumber,
+          payment_method: data.paymentMethod,
+          delivery_type: data.deliveryType,
+          delivery_address: data.deliveryType === 'home' ? data.address : undefined,
+          store_location: data.deliveryType === 'store' ? data.store : undefined,
+          notes: data.note,
+          guest_name: data.name,
+          guest_email: data.email,
+          guest_phone: data.mobile,
+          shipping_info: {
+            shipping_name: data.name,
+            shipping_phone: data.mobile,
+            shipping_city: data.deliveryType === 'home' ? data.city : undefined,
+            shipping_district: data.deliveryType === 'home' ? 'Quận 1' : undefined, // Default value
+            shipping_ward: data.deliveryType === 'home' ? 'Phường 1' : undefined, // Default value
+            shipping_postal_code: '70000', // Default value
+            delivery_address: data.deliveryType === 'home' ? data.address : undefined
+          },
+          order_items: order.items.map(item => ({
+            product_id: item.id,
+            quantity: item.quantity,
+            variant_id: item.selectedColor || null
+          }))
+        }
+      };
+
+      // Gọi trực tiếp đến backend Rails API
+      const orderResponse = await fetch('http://localhost:3005/api/v1/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!orderResponse.ok) {
+        throw new Error('Failed to create order');
+      }
+
+      const orderResult = await orderResponse.json();
+      console.log('Order created:', orderResult);
+
+      // Lưu order number để hiển thị ở trang order-status
+      localStorage.setItem('lastOrderNumber', order.orderNumber);
+      
+      // Xóa order khỏi localStorage sau khi tạo thành công
+      localStorage.removeItem('currentOrder');
+
+      // Nếu tạo order thành công, xử lý payment
       if (data.paymentMethod === 'cod') {
+        // COD: Hiển thị thông báo thành công và chuyển đến order-status
         showTooltip(t('order_success_message'), 'success');
-        
-        // Redirect to order status page for COD orders
         setTimeout(() => {
           router.push('/order-status');
         }, 2000);
-      }
-
-      // If payment is required, redirect to payment gateway
-      // Otherwise, just show success message and redirect
-      if (data.paymentMethod === 'card' || data.paymentMethod === 'bank') {
-        // For credit card or bank transfer, redirect to payment gateway
-        await checkout({ ...data, orderInfo: order.orderNumber });
+      } else if (data.paymentMethod === 'card' || data.paymentMethod === 'bank') {
+        // Card/Bank: Chuyển đến payment gateway với order đã tạo
+        showTooltip('Đã tạo đơn hàng thành công! Đang chuyển đến trang thanh toán...', 'success');
+        setTimeout(async () => {
+          try {
+            await checkout({ ...data, orderInfo: order.orderNumber });
+          } catch (error) {
+            console.error('Payment redirect error:', error);
+            // Nếu có lỗi payment, vẫn chuyển đến order-status
+            router.push('/order-status');
+          }
+        }, 1500);
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      // Only redirect to payment if it's not a redirect error
-      const isRedirect = error instanceof Error && 
-        (error.message.includes('NEXT_REDIRECT') || 
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-         (error as any).digest?.includes('NEXT_REDIRECT'));
       
-      if (!isRedirect) {
-        showTooltip(t('errors.checkout_error'), 'error');
+      // Hiển thị thông báo lỗi cụ thể
+      if (error instanceof Error) {
+        if (error.message.includes('Failed to create order')) {
+          showTooltip('Không thể tạo đơn hàng. Vui lòng thử lại!', 'error');
+        } else if (error.message.includes('NEXT_REDIRECT')) {
+          // Đây là redirect error, không cần hiển thị
+          return;
+        } else {
+          showTooltip(`Lỗi: ${error.message}`, 'error');
+        }
+      } else {
+        showTooltip('Có lỗi xảy ra khi xử lý đơn hàng!', 'error');
       }
+      
+      // Không redirect nếu có lỗi tạo order
     } finally {
       setIsSubmitting(false);
     }
@@ -142,6 +206,38 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       >
         {/* Left Column: Form Sections */}
         <div className='space-y-8 lg:col-span-2'>
+          {/* Backend Connection Test (chỉ hiển thị trong development) */}
+          {process.env.NODE_ENV === 'development' && (
+            <section className='rounded-lg bg-blue-50 p-4 border border-blue-200'>
+              <div className='flex items-center justify-between'>
+                <div>
+                  <h3 className='text-sm font-medium text-blue-800'>🔌 Backend Connection Test (Port 3500)</h3>
+                  <p className='text-xs text-blue-600 mt-1'>
+                    Test connection to Rails backend on port 3500 before placing order
+                  </p>
+                </div>
+                <button
+                  type='button'
+                  onClick={async () => {
+                    try {
+                      console.log('Testing backend connection on port 3500...');
+                      const response = await fetch('http://localhost:3005/api/v1/orders');
+                      const data = await response.json();
+                      console.log('Backend test response:', data);
+                      showTooltip('✅ Backend connected successfully on port 3500!', 'success');
+                    } catch (error) {
+                      console.error('Backend test error:', error);
+                      showTooltip('❌ Backend test failed!', 'error');
+                    }
+                  }}
+                  className='px-4 py-2 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'
+                >
+                  Test Backend
+                </button>
+              </div>
+            </section>
+          )}
+          
           {/* Section 1: Delivery Information */}
           <section className='rounded-lg bg-white p-6 shadow-md'>
             <h2 className='mb-4 text-xl font-semibold'>
@@ -485,26 +581,26 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
             </h2>
             <div className='space-y-4'>
               {order.items.map((item, index) => (
-                <div key={index} className='flex items-center space-x-4'>
-                  <Image
-                    src={item.product_image}
-                    alt={item.product_name}
-                    width={80}
-                    height={80}
-                    className='rounded'
-                  />
-                  <div className='grow'>
-                    <p className='font-medium'>{item.product_name}</p>
-                    <p className='text-sm'>
-                      {t('cart_preview.price')}:{' '}
-                      {item.unit_price.toLocaleString('vi-VN')}đ
-                    </p>
-                    {item.discount && (
-                      <p className='text-sm text-red-500'>
-                        {t('cart_preview.discount')}:{' '}
-                        {item.discount.toLocaleString('vi-VN')}đ
+                                  <div key={index} className='flex items-center space-x-4'>
+                    <Image
+                      src={item.image || '/images/placeholder-product.png'}
+                      alt={item.name}
+                      width={80}
+                      height={80}
+                      className='rounded'
+                    />
+                    <div className='grow'>
+                      <p className='font-medium'>{item.name}</p>
+                      <p className='text-sm'>
+                        {t('cart_preview.price')}:{' '}
+                        {item.price.toLocaleString('vi-VN')}đ
                       </p>
-                    )}
+                      {item.discountedPrice && (
+                        <p className='text-sm text-red-500'>
+                          {t('cart_preview.discount')}:{' '}
+                          {item.discountedPrice.toLocaleString('vi-VN')}đ
+                        </p>
+                      )}
                     <p className='text-sm'>
                       {t('cart_preview.quantity')}: {item.quantity}
                     </p>
@@ -588,7 +684,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                   : 'bg-green-600 hover:bg-green-700'
               }`}
             >
-              {isSubmitting ? t('processing') : t('summary.checkout')}
+              {isSubmitting ? 'Đang tạo đơn hàng...' : 'Đặt hàng'}
             </button>
           </section>
         </div>

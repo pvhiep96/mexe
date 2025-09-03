@@ -32,10 +32,15 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
       products: products,
       total: data.meta?.total || 0,
       page: data.meta?.page || 1,
-      perPage: data.meta?.per_page || perPage,
+      perPage: data.meta?.per_page || perPage,  
     };
   } catch (error) {
     console.error('Failed to fetch products:', error);
+    console.error('Error details:', {
+      name: (error as any)?.name,
+      message: (error as any)?.message,
+      stack: (error as any)?.stack
+    });
     return { products: [], total: 0, page: 1, perPage };
   }
 }

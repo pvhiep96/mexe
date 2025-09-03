@@ -3,8 +3,9 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
+import { useCart } from '@/context/CartContext';
 import Link from 'next/link';
 
 interface Product {
@@ -15,6 +16,7 @@ interface Product {
   soldCount: number;
   description: string;
   open_time: Date;
+  price?: number;
 }
 
 interface ProductSlideProps {
@@ -83,11 +85,23 @@ interface ProductSlideProps {
 function ProductSlide({ product }: ProductSlideProps) {
   const t = useTranslations('new_products');
   const { showTooltip } = useFlashTooltip();
+  const { addToCart } = useCart();
   const [width, setWidth] = useState(375);
   const maxCharacter = width < 768 ? 40 : 15;
 
   const handleBuyNow = () => {
     showTooltip(t('buy_now_success'), 'success');
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price || 0,
+      image: product.images[0] || '/images/placeholder-product.png',
+      quantity: 1,
+    }, 1);
+    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
 
   useEffect(() => {
@@ -118,7 +132,7 @@ function ProductSlide({ product }: ProductSlideProps) {
         style={{ width: '210px', height: '200px' }}
       >
         <Image
-          src={product.images[0]}
+          src={product.images?.[0] || '/images/placeholder-product.png'}
           alt={product.name}
           width={105}
           height={100}
@@ -132,7 +146,7 @@ function ProductSlide({ product }: ProductSlideProps) {
           }}
         />
         <Image
-          src={product.images[2]}
+          src={product.images?.[2] || product.images?.[0] || '/images/placeholder-product.png'}
           alt={product.name}
           width={105}
           height={100}
@@ -146,7 +160,7 @@ function ProductSlide({ product }: ProductSlideProps) {
           }}
         />
         <Image
-          src={product.images[1]}
+          src={product.images?.[1] || product.images?.[0] || '/images/placeholder-product.png'}
           alt={product.name}
           width={105}
           height={200}
@@ -179,15 +193,27 @@ function ProductSlide({ product }: ProductSlideProps) {
             {product.description}
           </p>
         </div>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleBuyNow();
-          }}
-          className='mt-2 w-[120px] rounded-full bg-red-500 px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-red-600 sm:text-xs'
-        >
-          {t('buy_now')}
-        </button>
+        <div className='flex items-center gap-2'>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBuyNow();
+            }}
+            className='mt-2 w-[120px] rounded-full bg-red-500 px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-red-600 sm:text-xs'
+          >
+            {t('buy_now')}
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart();
+            }}
+            className='mt-2 w-[120px] rounded-full bg-blue-500 px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-blue-600 sm:text-xs'
+          >
+            <ShoppingCartIcon className='h-4 w-4 mr-1' />
+            {t('add_to_cart')}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -404,7 +430,7 @@ export default function NewProducts({ products }: NewProductsProps) {
                   className='flex min-w-[200px] flex-col items-center rounded-lg bg-white p-3 shadow'
                 >
                   <Image
-                    src={product.images[0]}
+                    src={product.images?.[0] || '/images/placeholder-product.png'}
                     alt={product.name}
                     width={200}
                     height={160}

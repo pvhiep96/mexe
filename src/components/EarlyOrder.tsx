@@ -4,6 +4,10 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { Product as APIProduct } from '@/services/api';
+import { useCart } from '@/context/CartContext';
+import { useFlashTooltip } from '@/context/FlashTooltipContext';
+import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 
 interface Product {
   id: number;
@@ -18,14 +22,21 @@ interface Product {
   tag: string;
   tagColor: string;
   tagText: string;
+  price?: number;
 }
 
 interface Tab {
   name: string;
 }
 
-export default function EarlyOrder() {
+interface EarlyOrderProps {
+  featuredProducts?: APIProduct[];
+}
+
+export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
   const t = useTranslations('early_order');
+  const { addToCart } = useCart();
+  const { showTooltip } = useFlashTooltip();
   const [activeTab, setActiveTab] = useState(0);
   const [sliders, setSliders] = useState([0, 0, 0, 0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -39,141 +50,69 @@ export default function EarlyOrder() {
     { name: 'Xem tất cả' },
   ];
 
-  const products: Product[][] = [
-    [
-      {
-        id: 1,
-        name: 'Skoda sắp mở bán',
-        img: '/images/demo-preorder/preorder-1.png',
-        badge: 'PRE-ORDER',
-        badgeColor: 'bg-red-600',
-        ordered: 2,
-        total: 30,
-        end: '25/07/2025',
-        percent: 7,
-        tag: 'Mới ra mắt',
+  // Convert API products to component format
+  const convertApiProductsToLocalFormat = (apiProducts: APIProduct[]): Product[] => {
+    return apiProducts.map((apiProduct, index) => {
+      const primaryImage = apiProduct.images?.find(img => img.is_primary) || apiProduct.images?.[0];
+      const imageUrl = primaryImage?.image_url || '/images/demo-preorder/preorder-1.png';
+      
+      // Calculate mock ordered data based on view count and stock
+      const mockOrdered = Math.min(
+        Math.floor(apiProduct.view_count / 10) || Math.floor(Math.random() * 20) + 5,
+        apiProduct.stock_quantity
+      );
+      const mockTotal = apiProduct.stock_quantity || 100;
+      const mockPercent = Math.floor((mockOrdered / mockTotal) * 100);
+      
+      return {
+        id: apiProduct.id,
+        name: apiProduct.name,
+        img: imageUrl,
+        badge: apiProduct.is_preorder ? 'PRE-ORDER' : 
+               apiProduct.is_new ? 'MỚI RA MẮT' : 
+               apiProduct.is_hot ? 'HOT' : 
+               apiProduct.is_featured ? 'ĐẶC BIỆT' : 'SẢN PHẨM',
+        badgeColor: apiProduct.is_preorder ? 'bg-red-600' : 
+                   apiProduct.is_new ? 'bg-blue-600' : 
+                   apiProduct.is_hot ? 'bg-orange-600' : 
+                   apiProduct.is_featured ? 'bg-purple-600' : 'bg-gray-600',
+        ordered: mockOrdered,
+        total: mockTotal,
+        end: apiProduct.preorder_end_date || '25/12/2025',
+        percent: mockPercent,
+        tag: apiProduct.is_new ? 'Mới ra mắt' : 'Sản phẩm hot',
         tagColor: 'bg-[#0A115F]',
         tagText: 'text-white',
-      },
-      {
-        id: 2,
-        name: 'Suzuki Swift sắp mở bán',
-        img: '/images/demo-preorder/preorder-2.png',
-        badge: 'PRE-ORDER',
-        badgeColor: 'bg-red-600',
-        ordered: 24,
-        total: 100,
-        end: '12/07/2025',
-        percent: 24,
-        tag: 'Mới ra mắt',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 3,
-        name: 'Vin EC sắp mở bán',
-        img: '/images/demo-preorder/preorder-3.png',
-        badge: 'PRE-ORDER',
-        badgeColor: 'bg-red-600',
-        ordered: 9,
-        total: 60,
-        end: '04/07/2025',
-        percent: 15,
-        tag: 'Mới ra mắt',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 4,
-        name: 'Skoda sắp mở bán',
-        img: '/images/demo-preorder/preorder-1.png',
-        badge: 'PRE-ORDER',
-        badgeColor: 'bg-red-600',
-        ordered: 5,
-        total: 20,
-        end: '30/07/2025',
-        percent: 25,
-        tag: 'Mới ra mắt',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 5,
-        name: 'Suzuki Swift sắp mở bán',
-        img: '/images/demo-preorder/preorder-2.png',
-        badge: 'PRE-ORDER',
-        badgeColor: 'bg-red-600',
-        ordered: 12,
-        total: 40,
-        end: '01/08/2025',
-        percent: 30,
-        tag: 'Mới ra mắt',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-    ],
-    [
-      {
-        id: 6,
-        name: 'Cheerdots2 - Chuột Không Dây Thông Minh 4-in-1 | Touchpad, ChatGPT, Ghi Âm, Trình Chiếu Chuyên Nghiệp',
-        img: '/images/demo-preorder/preorder-3.png',
-        badge: 'MỚI RA MẮT',
-        badgeColor: 'bg-blue-600',
-        ordered: 81,
-        total: 300,
-        end: '',
-        percent: 27,
-        tag: 'Đã bán đợt 1: 300',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 7,
-        name: 'Sản phẩm 2',
-        img: '/images/demo-preorder/preorder-1.png',
-        badge: 'MỚI RA MẮT',
-        badgeColor: 'bg-blue-600',
-        ordered: 10,
-        total: 50,
-        end: '',
-        percent: 20,
-        tag: 'Đã bán đợt 1: 300',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 8,
-        name: 'Sản phẩm test slide',
-        img: '/images/demo-preorder/preorder-2.png',
-        badge: 'MỚI RA MẮT',
-        badgeColor: 'bg-blue-600',
-        ordered: 5,
-        total: 20,
-        end: '',
-        percent: 25,
-        tag: 'Đã bán đợt 1: 300',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-      {
-        id: 9,
-        name: 'Sản phẩm 4',
-        img: '/images/demo-preorder/preorder-3.png',
-        badge: 'MỚI RA MẮT',
-        badgeColor: 'bg-blue-600',
-        ordered: 7,
-        total: 30,
-        end: '',
-        percent: 23,
-        tag: 'Đã bán đợt 1: 300',
-        tagColor: 'bg-[#0A115F]',
-        tagText: 'text-white',
-      },
-    ],
-    [],
-    [],
-    [],
-  ];
+        price: parseInt(apiProduct.price),
+      };
+    });
+  };
+
+  // Create product tabs based on API data
+  const createProductTabs = (): Product[][] => {
+    if (!featuredProducts.length) {
+      // Return empty arrays for all tabs if no products
+      return [[], [], [], [], []];
+    }
+
+    const allProducts = convertApiProductsToLocalFormat(featuredProducts);
+    
+    // Filter products by type for different tabs
+    const trendingProjects = allProducts.filter(p => p.badge === 'HOT' || p.badge === 'ĐẶC BIỆT');
+    const newLaunched = allProducts.filter(p => p.badge === 'MỚI RA MẮT');
+    const preorderProducts = allProducts.filter(p => p.badge === 'PRE-ORDER');
+    const comingSoon = allProducts.filter(p => p.badge === 'SẢN PHẨM');
+    
+    return [
+      trendingProjects.length ? trendingProjects : allProducts.slice(0, 5),
+      newLaunched.length ? newLaunched : allProducts.slice(5, 10),
+      preorderProducts.length ? preorderProducts : allProducts.slice(10, 15),
+      comingSoon.length ? comingSoon : allProducts.slice(15, 20),
+      allProducts, // Show all for "Xem tất cả" tab
+    ];
+  };
+
+  const products = createProductTabs();
 
   // Logic băng chuyền vô tận - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
   const prev = () => {
@@ -468,15 +407,19 @@ export default function EarlyOrder() {
                     {product.name}
                   </div>
                   <div className='mb-1 flex items-center gap-1'>
-                    <span className='text-[10px] text-gray-500 line-through'>
-                      1,300,000đ
-                    </span>
+                    {featuredProducts[index]?.original_price && (
+                      <span className='text-[10px] text-gray-500 line-through'>
+                        {parseInt(featuredProducts[index].original_price).toLocaleString()}đ
+                      </span>
+                    )}
                     <span className='text-xs font-bold text-[#E53935]'>
-                      975,000đ
+                      {parseInt(featuredProducts[index]?.price || '0').toLocaleString()}đ
                     </span>
-                    <span className='rounded bg-[#E53935] px-1 py-0.5 text-[10px] font-bold text-white'>
-                      -25%
-                    </span>
+                    {featuredProducts[index]?.discount_percent && (
+                      <span className='rounded bg-[#E53935] px-1 py-0.5 text-[10px] font-bold text-white'>
+                        -{featuredProducts[index].discount_percent}%
+                      </span>
+                    )}
                   </div>
                   <button
                     onClick={() => {
@@ -486,6 +429,24 @@ export default function EarlyOrder() {
                     className='mt-1 rounded-full bg-[#0A115F] px-2 py-1 text-xs font-bold text-white'
                   >
                     MUA NGAY
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Thêm vào giỏ hàng
+                      addToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price || 0,
+                        image: product.img,
+                        quantity: 1,
+                      }, 1);
+                      showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
+                    }}
+                    className='mt-1 rounded-full bg-blue-600 px-2 py-1 text-xs font-bold text-white flex items-center gap-1'
+                  >
+                    <ShoppingCartIcon className='h-3 w-3' />
+                    Thêm giỏ hàng
                   </button>
                 </div>
               ))}

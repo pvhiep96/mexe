@@ -51,8 +51,18 @@ const ProductGrid: React.FC<ProductGridProps> = ({
       price: product.price || 0,
       image: product.image,
       quantity: 1,
-    });
+    }, 1);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
+  };
+
+  const handleProductClick = (product: Product) => {
+    // Redirect đến trang product detail với URL dạng products/[slug]
+    if (product.url) {
+      window.location.href = `/products/${product.url}`;
+    } else {
+      // Fallback: sử dụng product ID nếu không có slug
+      window.location.href = `/products/${product.id}`;
+    }
   };
 
   const goToPage = (page: number) => {
@@ -200,6 +210,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
               <div
                 className='group relative flex h-[320px] w-full max-w-[195px] cursor-pointer flex-col items-center overflow-hidden rounded-lg border-2 border-[#2D6294] bg-white p-0 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:h-[420px] sm:max-w-[245px] lg:h-[450px]'
                 style={{ boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)' }}
+                onClick={() => handleProductClick(product)}
               >
                 {/* Product image container */}
                 <div className='relative flex h-[160px] w-full items-center justify-center bg-[#f7f7f7] sm:h-[220px] lg:h-[245px]'>

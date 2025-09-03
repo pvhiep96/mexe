@@ -1,5 +1,107 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { apiClient, type HomeData, type Product, type Category, type Brand, type Article } from '@/services/api';
+import { useAuth } from '@/context/AuthContext';
+
+interface UseApiOptions {
+  retryCount?: number;
+  retryDelay?: number;
+  onError?: (error: any) => void;
+}
+
+export function useApi<T = any>(options: UseApiOptions = {}) {
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
+  const { user, isAuthenticated } = useAuth();
+  
+  const {
+    retryCount = 3,
+    retryDelay = 1000,
+    onError
+  } = options;
+
+  const execute = useCallback(async (
+    apiCall: () => Promise<T>,
+    retryAttempt = 0
+  ): Promise<T | null> => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const result = await apiCall();
+      setData(result);
+      return result;
+    } catch (err: any) {
+      console.error('API call failed:', err);
+      
+      // Handle retry logic for network errors
+      if (err.status === 0 && retryAttempt < retryCount) {
+        console.log(`🔄 Retrying API call (attempt ${retryAttempt + 1}/${retryCount})...`);
+        
+        // Exponential backoff
+        const delay = retryDelay * Math.pow(2, retryAttempt);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        
+        return execute(apiCall, retryAttempt + 1);
+      }
+      
+      setError(err);
+      if (onError) {
+        onError(err);
+      }
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, [retryCount, retryDelay, onError]);
+
+  // Auto-refresh data when user authentication state changes
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      // User is authenticated, we can make authenticated API calls
+      console.log('✅ User authenticated, API calls enabled');
+    } else {
+      // User is not authenticated, clear sensitive data
+      console.log('🔒 User not authenticated, clearing sensitive data');
+      setData(null);
+    }
+  }, [isAuthenticated, user]);
+
+  return {
+    data,
+    loading,
+    error,
+    execute,
+    isAuthenticated,
+    user
+  };
+}
+
+// Specialized hooks for common API operations
+export function useAuthenticatedApi<T = any>(options: UseApiOptions = {}) {
+  const api = useApi<T>(options);
+  const { isAuthenticated } = useAuth();
+  
+  const execute = useCallback(async (
+    apiCall: () => Promise<T>
+  ): Promise<T | null> => {
+    if (!isAuthenticated) {
+      const error = { message: 'Bạn cần đăng nhập để thực hiện thao tác này' };
+      api.setError?.(error);
+      if (options.onError) {
+        options.onError(error);
+      }
+      return null;
+    }
+    
+    return api.execute(apiCall);
+  }, [isAuthenticated, api, options]);
+
+  return {
+    ...api,
+    execute
+  };
+}
 
 // Custom hook for home data
 export function useHomeData() {

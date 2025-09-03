@@ -14,6 +14,7 @@ export interface User {
 }
 
 export interface AuthResponse {
+  success: boolean;
   user: User;
   token: string;
   message: string;
@@ -26,7 +27,7 @@ export interface LoginRequest {
 
 export interface RegisterRequest {
   user: {
-    name: string;
+    full_name: string;
     email: string;
     password: string;
     phone?: string;

@@ -20,6 +20,7 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isClient: boolean;
   login: (credentials: LoginRequest) => Promise<void>;
   register: (userData: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
@@ -32,7 +33,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
   const { showTooltip } = useFlashTooltip();
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Periodic health check
   useEffect(() => {
@@ -49,11 +56,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Try to restore from backup or clear user state
         const token = apiClient.getToken();
         if (!token) {
-          console.warn('🔄 No token found, clearing user state');
           setUser(null);
           showTooltip(
             'Phiên đăng nhập bị mất, vui lòng đăng nhập lại',
-            'warning'
+            'noti'
           );
         }
       }
@@ -64,6 +70,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Initialize authentication state on mount
   useEffect(() => {
+    if (!isClient) return; // Only run on client side
+
     // Start token monitoring in development
     if (process.env.NODE_ENV === 'development') {
       TokenDebugger.startMonitoring();
@@ -77,48 +85,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         TokenDebugger.stopMonitoring();
       }
     };
-  }, []);
+  }, [isClient]);
 
   const initializeAuth = async () => {
     try {
       setIsLoading(true);
 
-      // Check if user has a valid token
+      // Add a small delay to ensure localStorage is ready (especially for browser reload)
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Try to recover token using ReloadFix BEFORE checking authentication
+      try {
+        const { ReloadFix } = await import('@/utils/reloadFix');
+        ReloadFix.attemptTokenRecovery();
+      } catch (importError) {
+        // ReloadFix import failed, continue without it
+      }
+
+      // Check if user has a valid token AFTER potential recovery
       if (!apiClient.isAuthenticated()) {
-        console.log('🔒 No valid token found during initialization');
         setUser(null);
         return;
       }
 
-      console.log('🔑 Valid token found, verifying with server...');
-
       // Verify token with server
       const response = await apiClient.getProfile();
       if (response.success && response.user) {
-        console.log(
-          '✅ Token verified, user authenticated:',
-          response.user.email
-        );
         setUser(response.user);
       } else {
-        console.warn('⚠️ Token verification failed');
         setUser(null);
       }
     } catch (error: any) {
-      console.error('❌ Failed to initialize auth:', error);
-
       // Only clear state for clear authentication failures
       if (error.status === 401 || error.status === 403) {
-        console.warn('🔒 Authentication failed, clearing user state');
-        showTooltip('Phiên đăng nhập đã hết hạn', 'warning');
+        showTooltip('Phiên đăng nhập đã hết hạn', 'noti');
         setUser(null);
       } else if (error.status === 0) {
         // Network error - keep token, don't set user
-        console.warn('🌐 Network error during auth check, keeping token');
         setUser(null);
       } else {
         // Other errors - be conservative
-        console.warn('⚠️ Unknown error during auth check, keeping token');
         setUser(null);
       }
     } finally {
@@ -130,15 +136,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response: AuthResponse = await apiClient.login(credentials);
 
-      if (response.success && response.user) {
+      if (response && response.success && response.user) {
         setUser(response.user);
         showTooltip(response.message || 'Đăng nhập thành công!', 'success');
       } else {
-        throw new Error(response.message || 'Đăng nhập thất bại');
+        throw new Error(response?.message || 'Đăng nhập thất bại');
       }
     } catch (error: any) {
-      console.error('Login failed:', error);
-      showTooltip(error.message || 'Đăng nhập thất bại', 'error');
+      const errorMessage = error?.message || error?.errors?.[0] || 'Đăng nhập thất bại';
+      showTooltip(errorMessage, 'error');
       throw error;
     }
   };
@@ -154,7 +160,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error(response.message || 'Đăng ký thất bại');
       }
     } catch (error: any) {
-      console.error('Registration failed:', error);
       const errorMessage =
         error.errors?.[0] || error.message || 'Đăng ký thất bại';
       showTooltip(errorMessage, 'error');
@@ -168,7 +173,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null);
       showTooltip('Đăng xuất thành công!', 'success');
     } catch (error: any) {
-      console.error('Logout error:', error);
       // Even if logout fails on server, clear user state
       setUser(null);
       showTooltip('Đăng xuất thành công!', 'success');
@@ -189,7 +193,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error(response.message || 'Cập nhật thông tin thất bại');
       }
     } catch (error: any) {
-      console.error('Profile update failed:', error);
       const errorMessage =
         error.errors?.[0] || error.message || 'Cập nhật thông tin thất bại';
       showTooltip(errorMessage, 'error');
@@ -211,10 +214,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
       }
     } catch (error: any) {
-      console.error('Failed to refresh user:', error);
-
-      // Only logout on authentication errors
-      if (error.status === 401 || error.status === 403) {
+      // Only logout on clear authentication failures for profile endpoint
+      if ((error.status === 401 || error.status === 403) && !apiClient.getToken()) {
+        // Token was removed by the API client, so logout
         await logout();
       }
     }
@@ -224,6 +226,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     user,
     isAuthenticated: !!user,
     isLoading,
+    isClient,
     login,
     register,
     logout,

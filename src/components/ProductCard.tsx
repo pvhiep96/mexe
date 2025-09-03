@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
-import { BellAlertIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
+import { BellAlertIcon, CalendarDaysIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { useCart } from '@/context/CartContext';
+import { useFlashTooltip } from '@/context/FlashTooltipContext';
 
 interface Product {
   id: number;
@@ -17,6 +19,7 @@ interface Product {
     discount: string;
     active?: boolean;
   }[];
+  price?: number;
 }
 
 interface ProductCardProps {
@@ -32,6 +35,8 @@ export default function ProductCard({
 }: ProductCardProps) {
   const [timeLeft, setTimeLeft] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const { addToCart } = useCart();
+  const { showTooltip } = useFlashTooltip();
   
   useEffect(() => {
     setMounted(true);
@@ -51,6 +56,16 @@ export default function ProductCard({
     return () => clearInterval(interval);
   }, [mounted]);
 
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.title,
+      price: product.price || 0,
+      image: product.images[0] || '/images/placeholder-product.png',
+      quantity: 1,
+    }, 1);
+    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
+  };
 
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
@@ -65,21 +80,21 @@ export default function ProductCard({
         <Link href={`/products/2`} className='cursor-pointer'>
           <div className='grid grid-cols-2 place-content-center place-items-center gap-2 justify-self-center'>
             <Image
-              src={product.images[0]}
+              src={product.images[0] || '/images/placeholder-product.png'}
               alt={product.title}
               width={100}
               height={100}
               className=''
             />
             <Image
-              src={product.images[1]}
+              src={product.images[1] || '/images/placeholder-product.png'}
               alt={product.title}
               width={100}
               height={100}
               className=''
             />
             <Image
-              src={product.images[2]}
+              src={product.images[2] || '/images/placeholder-product.png'}
               alt={product.title}
               width={100}
               height={100}
@@ -146,15 +161,22 @@ export default function ProductCard({
             </div>
           )}
         </div>
-        <div className='mt-4'>
+        <div className='mt-4 flex flex-col gap-2'>
           <Link
             href='#'
-            className='inline-flex cursor-pointer items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700'
+            className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700'
             onClick={(e) => e.preventDefault()}
           >
             <b className='text-sm'>Đăng ký đặt trước</b>
             <BellAlertIcon className='size-5' />
           </Link>
+          <button
+            onClick={handleAddToCart}
+            className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700'
+          >
+            <b className='text-sm'>Thêm vào giỏ hàng</b>
+            <ShoppingCartIcon className='size-5' />
+          </button>
         </div>
         <div className='mt-4 hidden'>
           {product.prices.map((price) => (

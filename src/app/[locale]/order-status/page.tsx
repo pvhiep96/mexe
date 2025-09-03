@@ -1,138 +1,126 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { MagnifyingGlassIcon, TruckIcon, CheckCircleIcon, ClockIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import OrderStatusForm from '@/components/OrderStatusForm';
-import OrderStatusDisplay from '@/components/OrderStatusDisplay';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
-export default function OrderStatusPage() {
+const OrderStatusPage = () => {
   const t = useTranslations('order_status');
-  const [orderNumber, setOrderNumber] = useState('');
-  const [orderStatus, setOrderStatus] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleCheckOrder = async (orderNumber: string) => {
-    setIsLoading(true);
-    setOrderNumber(orderNumber);
-    
-    // Simulate API call
-    setTimeout(() => {
-      // Mock order status data
-      const mockStatus = {
-        orderNumber: orderNumber,
-        orderDate: '2024-01-15',
-        customerName: 'Nguyễn Văn A',
-        phone: '0123456789',
-        email: 'nguyenvana@email.com',
-        totalAmount: 2500000,
-        status: 'shipping', // pending, confirmed, processing, shipping, delivered, cancelled
-        statusText: 'Đang giao hàng',
-        estimatedDelivery: '2024-01-20',
-        items: [
-          {
-            id: 1,
-            name: 'Ghế ngồi oto cao cấp',
-            image: '/images/demo-products/product-1.png',
-            quantity: 2,
-            price: 1250000,
-            total: 2500000
-          }
-        ],
-        timeline: [
-          {
-            id: 1,
-            status: 'confirmed',
-            title: 'Đơn hàng đã được xác nhận',
-            description: 'Đơn hàng của bạn đã được xác nhận và đang được xử lý',
-            date: '2024-01-15 10:30',
-            icon: CheckCircleIcon
-          },
-          {
-            id: 2,
-            status: 'processing',
-            title: 'Đang chuẩn bị hàng',
-            description: 'Hàng đang được đóng gói và chuẩn bị giao',
-            date: '2024-01-16 14:20',
-            icon: ClockIcon
-          },
-          {
-            id: 3,
-            status: 'shipping',
-            title: 'Đang giao hàng',
-            description: 'Đơn hàng đang được giao đến địa chỉ của bạn',
-            date: '2024-01-17 09:15',
-            icon: TruckIcon
-          }
-        ]
-      };
-      
-      setOrderStatus(mockStatus);
-      setIsLoading(false);
-    }, 1500);
+  
+  const fallbackTranslations: Record<string, string> = {
+    title: 'Đặt hàng thành công!',
+    message: 'Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm nhất có thể.',
+    order_number: 'Mã đơn hàng',
+    status: 'Trạng thái',
+    pending: 'Đang xử lý',
+    next_steps: 'Các bước tiếp theo',
+    step1: 'Chúng tôi sẽ xác nhận đơn hàng của bạn trong vòng 24 giờ',
+    step2: 'Bạn sẽ nhận được email xác nhận với thông tin chi tiết',
+    step3: 'Đơn hàng sẽ được giao trong 3-5 ngày làm việc',
+    back_to_home: 'Về trang chủ',
+    view_orders: 'Xem đơn hàng của tôi',
   };
 
+  const safeTranslate = (key: string) => {
+    try {
+      return t(key);
+    } catch (error) {
+      return fallbackTranslations[key] || key;
+    }
+  };
+
+  // Lấy order number từ URL params hoặc localStorage
+  const orderNumber = typeof window !== 'undefined' 
+    ? localStorage.getItem('lastOrderNumber') || 'N/A'
+    : 'N/A';
+
   return (
-    <main className='min-h-screen bg-gray-50 py-8'>
-      <div className='mx-auto max-w-4xl px-4 sm:px-6 lg:px-8'>
-        {/* Header */}
-        <div className='text-center mb-8'>
-          <h1 className='text-3xl font-bold text-gray-900 sm:text-4xl'>
-            {t('title')}
-          </h1>
-          <p className='mt-4 text-lg text-gray-600'>
-            {t('subtitle')}
-          </p>
-        </div>
+    <div className='min-h-screen bg-gray-50 py-12'>
+      <div className='mx-auto max-w-3xl px-4 sm:px-6 lg:px-8'>
+        <div className='rounded-lg bg-white p-8 shadow-lg'>
+          {/* Success Icon */}
+          <div className='text-center'>
+            <CheckCircleIcon className='mx-auto h-16 w-16 text-green-500' />
+            <h1 className='mt-4 text-3xl font-bold text-gray-900'>
+              {safeTranslate('title')}
+            </h1>
+            <p className='mt-2 text-lg text-gray-600'>
+              {safeTranslate('message')}
+            </p>
+          </div>
 
-        {/* Order Status Form */}
-        <OrderStatusForm onCheckOrder={handleCheckOrder} isLoading={isLoading} />
-
-        {/* Order Status Display */}
-        {orderStatus && (
-          <OrderStatusDisplay orderStatus={orderStatus} />
-        )}
-
-        {/* Help Section */}
-        <div className='mt-12 bg-white rounded-lg shadow-sm p-6'>
-          <h2 className='text-xl font-semibold text-gray-900 mb-4'>
-            {t('need_help')}
-          </h2>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-            <div className='flex items-start space-x-3'>
-              <div className='flex-shrink-0'>
-                <div className='w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center'>
-                  <TruckIcon className='w-5 h-5 text-blue-600' />
-                </div>
-              </div>
+          {/* Order Details */}
+          <div className='mt-8 rounded-lg bg-gray-50 p-6'>
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
               <div>
-                <h3 className='text-sm font-medium text-gray-900'>
-                  {t('tracking_info')}
-                </h3>
-                <p className='text-sm text-gray-500 mt-1'>
-                  {t('tracking_description')}
+                <p className='text-sm font-medium text-gray-500'>
+                  {safeTranslate('order_number')}
                 </p>
-              </div>
-            </div>
-            
-            <div className='flex items-start space-x-3'>
-              <div className='flex-shrink-0'>
-                <div className='w-8 h-8 bg-green-100 rounded-full flex items-center justify-center'>
-                  <CheckCircleIcon className='w-5 h-5 text-green-600' />
-                </div>
+                <p className='text-lg font-semibold text-gray-900'>{orderNumber}</p>
               </div>
               <div>
-                <h3 className='text-sm font-medium text-gray-900'>
-                  {t('delivery_time')}
-                </h3>
-                <p className='text-sm text-gray-500 mt-1'>
-                  {t('delivery_description')}
+                <p className='text-sm font-medium text-gray-500'>
+                  {safeTranslate('status')}
+                </p>
+                <p className='text-lg font-semibold text-yellow-600'>
+                  {safeTranslate('pending')}
                 </p>
               </div>
             </div>
           </div>
+
+          {/* Next Steps */}
+          <div className='mt-8'>
+            <h2 className='text-xl font-semibold text-gray-900 mb-4'>
+              {safeTranslate('next_steps')}
+            </h2>
+            <div className='space-y-3'>
+              <div className='flex items-start'>
+                <div className='flex-shrink-0'>
+                  <div className='flex h-6 w-6 items-center justify-center rounded-full bg-blue-100'>
+                    <span className='text-sm font-medium text-blue-600'>1</span>
+                  </div>
+                </div>
+                <p className='ml-3 text-gray-700'>{safeTranslate('step1')}</p>
+              </div>
+              <div className='flex items-start'>
+                <div className='flex-shrink-0'>
+                  <div className='flex h-6 w-6 items-center justify-center rounded-full bg-blue-100'>
+                    <span className='text-sm font-medium text-blue-600'>2</span>
+                  </div>
+                </div>
+                <p className='ml-3 text-gray-700'>{safeTranslate('step2')}</p>
+              </div>
+              <div className='flex items-start'>
+                <div className='flex-shrink-0'>
+                  <div className='flex h-6 w-6 items-center justify-center rounded-full bg-blue-100'>
+                    <span className='text-sm font-medium text-blue-600'>3</span>
+                  </div>
+                </div>
+                <p className='ml-3 text-gray-700'>{safeTranslate('step3')}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className='mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center'>
+            <Link
+              href='/'
+              className='inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-base font-medium text-white hover:bg-blue-700 transition-colors'
+            >
+              {safeTranslate('back_to_home')}
+            </Link>
+            <Link
+              href='/orders'
+              className='inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors'
+            >
+              {safeTranslate('view_orders')}
+            </Link>
+          </div>
         </div>
       </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default OrderStatusPage;

@@ -83,7 +83,7 @@ const exploreGrid = [
 export default function Header() {
   const [openMenu, setOpenMenu] = useState<string | null>('null');
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
-  const { order } = useCart();
+  const { getCartItemCount } = useCart();
 
   // Lock body scroll when explore dropdown is open
   // useEffect(() => {
@@ -213,7 +213,7 @@ export default function Header() {
           <Link href='/cart' className='relative'>
             <ShoppingCartIcon className='h-8 w-8' />
             <span className='absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white'>
-              {order?.items.length || 0}
+              {getCartItemCount()}
             </span>
           </Link>
           <Link

@@ -14,6 +14,12 @@ import { FlashTooltipProvider } from '@/context/FlashTooltipContext';
 import { AuthProvider } from '@/context/AuthContext';
 import Alert from '@/components/Alert';
 import ScrollToTop from '@/components/ScrollToTop';
+// Import auth debugger in development
+if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+  import('@/utils/authDebugger');
+  import('@/utils/reloadFix');
+  import('@/utils/testReloadFix');
+}
 
 export default async function RootLayout({
   children,

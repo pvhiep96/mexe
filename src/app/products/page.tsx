@@ -1,60 +1,67 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import Products from '@/components/Products';
+import { apiClient } from '@/services/api';
+import type { Product } from '@/services/api';
 
 // Force client-side rendering
 export const dynamic = 'force-dynamic';
 
-const sampleProducts = [
-  {
-    id: 1,
-    name: 'Product 1',
-    price: 100000,
-    image: '/images/demo-item.webp',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    price: 200000,
-    image: '/images/demo-item.webp',
-  },
-];
-
 export default function ProductsPage() {
-  const [products] = useState(sampleProducts);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  return (
-    <main className='min-h-screen bg-gray-50 py-8'>
-      <div className='container mx-auto px-4'>
-        <h1 className='mb-8 text-center text-3xl font-bold'>Products</h1>
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.getProducts();
+        setProducts(response.products);
+        setError(null);
+      } catch (err: any) {
+        console.error('Error fetching products:', err);
+        setError(err.message || 'Có lỗi xảy ra khi tải danh sách sản phẩm');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
-          {products.map((product) => (
-            <div key={product.id} className='rounded-lg bg-white p-4 shadow-md'>
-              <h3 className='mb-2 text-lg font-semibold'>{product.name}</h3>
-              <p className='mb-4 text-xl font-bold text-blue-600'>
-                {product.price.toLocaleString()}đ
-              </p>
-              <Link
-                href={`/products/${product.id}`}
-                className='inline-block rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700'
-              >
-                View Details
-              </Link>
-            </div>
-          ))}
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <main className='min-h-screen bg-gray-50 py-8'>
+        <div className='container mx-auto px-4'>
+          <h1 className='mb-8 text-center text-3xl font-bold'>Products</h1>
+          <div className='flex justify-center'>
+            <div className='text-lg text-gray-600'>Đang tải sản phẩm...</div>
+          </div>
         </div>
+      </main>
+    );
+  }
 
-        <div className='mt-8 text-center'>
-          <Link
-            href='/'
-            className='inline-block rounded-lg bg-gray-600 px-6 py-3 text-white transition-colors hover:bg-gray-700'
-          >
-            Back to Home
-          </Link>
+  if (error) {
+    return (
+      <main className='min-h-screen bg-gray-50 py-8'>
+        <div className='container mx-auto px-4'>
+          <h1 className='mb-8 text-center text-3xl font-bold'>Products</h1>
+          <div className='text-center'>
+            <div className='text-lg text-red-600 mb-4'>{error}</div>
+            <button 
+              onClick={() => window.location.reload()} 
+              className='rounded-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700'
+            >
+              Thử lại
+            </button>
+          </div>
         </div>
-      </div>
-    </main>
-  );
+      </main>
+    );
+  }
+
+  return <Products allProducts={products} />;
 }

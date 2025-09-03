@@ -15,31 +15,90 @@ import type {
 
 // Types
 export interface HomeData {
-  banners: Banner[];
+  categories: CategoryWithSubcategories[];
+  best_sellers: Product[];
   featured_products: Product[];
-  new_products: Product[];
-  hot_products: Product[];
-  new_brands: Brand[];
-  categories: Category[];
+  new_brands: BrandWithProducts[];
+  essential_accessories: Product[];
+}
+
+export interface CategoryWithSubcategories {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  image_url?: string;
+  subcategories: Category[];
+}
+
+export interface BrandWithProducts {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  logo_url?: string;
+  founded_year?: number;
+  field?: string;
+  product_count: number;
+  featured_products: Product[];
 }
 
 export interface Product {
   id: number;
   name: string;
   slug: string;
-  description: string;
-  price: number;
-  sale_price?: number;
-  images: string[];
-  category_id: number;
-  brand_id: number;
+  sku?: string;
+  description?: string;
+  short_description?: string;
+  price: string;
+  original_price?: string;
+  discount_percent?: string;
+  cost_price?: string;
+  weight?: string;
+  dimensions?: string;
+  stock_quantity: number;
+  min_stock_alert: number;
+  is_active: boolean;
   is_featured: boolean;
   is_new: boolean;
   is_hot: boolean;
+  is_preorder: boolean;
+  preorder_quantity?: number;
+  preorder_end_date?: string;
+  warranty_period?: number;
+  meta_title?: string;
+  meta_description?: string;
+  view_count: number;
+  brand?: Brand;
+  category?: Category;
+  images: ProductImage[];
+  variants: ProductVariant[];
+  specifications: ProductSpecification[];
+}
+
+export interface ProductImage {
+  id: number;
+  image_url: string;
+  alt_text?: string;
+  sort_order: number;
+  is_primary: boolean;
+}
+
+export interface ProductVariant {
+  id: number;
+  variant_name: string;
+  variant_value: string;
+  price_adjustment: string;
   stock_quantity: number;
-  specifications?: Record<string, string>;
-  created_at: string;
-  updated_at: string;
+  sku?: string;
+}
+
+export interface ProductSpecification {
+  id: number;
+  spec_name: string;
+  spec_value: string;
+  sort_order: number;
+  unit?: string;
 }
 
 export interface Category {
@@ -49,18 +108,24 @@ export interface Category {
   description?: string;
   image?: string;
   parent_id?: number;
-  created_at: string;
-  updated_at: string;
+  sort_order: number;
+  is_active: boolean;
+  meta_title?: string;
+  meta_description?: string;
 }
 
 export interface Brand {
   id: number;
   name: string;
   slug: string;
-  description?: string;
   logo?: string;
-  created_at: string;
-  updated_at: string;
+  description?: string;
+  founded_year?: number;
+  field?: string;
+  story?: string;
+  website?: string;
+  is_active?: boolean;
+  sort_order?: number;
 }
 
 export interface Article {
@@ -125,7 +190,8 @@ class TokenManager {
   private static readonly TOKEN_KEY = 'authToken';
   private static readonly BACKUP_TOKEN_KEY = 'authToken_backup';
   private static readonly LAST_VALID_KEY = 'lastValidToken';
-  
+  private static retryCount: number = 0;
+
   static getToken(): string | null {
     if (typeof window === 'undefined') return null;
     
@@ -154,6 +220,9 @@ class TokenManager {
     
     // Store timestamp of last valid token
     localStorage.setItem(this.LAST_VALID_KEY, Date.now().toString());
+    
+    // Reset retry count
+    this.resetRetryCount();
   }
   
   static removeToken(): void {
@@ -169,6 +238,15 @@ class TokenManager {
     const timestamp = localStorage.getItem(this.LAST_VALID_KEY);
     return timestamp ? parseInt(timestamp) : 0;
   }
+
+  static incrementRetryCount(): number {
+    this.retryCount++;
+    return this.retryCount;
+  }
+
+  static resetRetryCount(): void {
+    this.retryCount = 0;
+  }
   
   static isTokenValid(): boolean {
     const token = this.getToken();
@@ -182,10 +260,10 @@ class TokenManager {
         return false;
       }
       
-      // Check expiration with 5 minute buffer
+      // Check expiration with 10 minute buffer (increased from 5)
       const payload = JSON.parse(atob(parts[1]));
       const currentTime = Math.floor(Date.now() / 1000);
-      const bufferTime = 5 * 60; // 5 minutes buffer
+      const bufferTime = 10 * 60; // 10 minutes buffer
       
       if (!payload.exp) {
         this.removeToken();
@@ -202,6 +280,90 @@ class TokenManager {
       this.removeToken();
       return false;
     }
+  }
+
+  // New method to check if token is about to expire
+  static isTokenExpiringSoon(): boolean {
+    const token = this.getToken();
+    if (!token) return false;
+    
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) return false;
+      
+      const payload = JSON.parse(atob(parts[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      const warningTime = 60 * 60; // 1 hour warning
+      
+      if (!payload.exp) return false;
+      
+      return payload.exp <= (currentTime + warningTime);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  // New method to get token info for debugging
+  static getTokenInfo(): any {
+    const token = this.getToken();
+    if (!token) return null;
+    
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) return null;
+      
+      const payload = JSON.parse(atob(parts[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      const timeUntilExpiry = payload.exp - currentTime;
+      
+      return {
+        userId: payload.user_id,
+        email: payload.email,
+        issuedAt: new Date(payload.iat * 1000),
+        expiresAt: new Date(payload.exp * 1000),
+        timeUntilExpiry,
+        hoursUntilExpiry: (timeUntilExpiry / 3600).toFixed(2),
+        isExpired: timeUntilExpiry <= 0,
+        isExpiringSoon: timeUntilExpiry <= 3600, // 1 hour
+        tokenLength: token.length
+      };
+    } catch (error) {
+      console.error('Error parsing token info:', error);
+      return null;
+    }
+  }
+
+  // New method to attempt token recovery
+  static attemptRecovery(): boolean {
+    if (typeof window === 'undefined') return false;
+    
+    const backupToken = localStorage.getItem(this.BACKUP_TOKEN_KEY);
+    if (backupToken) {
+      try {
+        // Validate backup token
+        const parts = backupToken.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(atob(parts[1]));
+          const now = Math.floor(Date.now() / 1000);
+          
+          if (payload.exp > now) {
+            // Backup token is valid, restore it
+            localStorage.setItem(this.TOKEN_KEY, backupToken);
+            console.log('✅ Token recovery successful');
+            return true;
+          } else {
+            console.warn('⚠️ Backup token is expired, removing both tokens');
+            this.removeToken();
+          }
+        }
+      } catch (error) {
+        console.error('❌ Error during token recovery:', error);
+        // Remove corrupted tokens
+        this.removeToken();
+      }
+    }
+    
+    return false;
   }
 }
 
@@ -235,9 +397,30 @@ class ApiClient {
       const data = await response.json();
       
       if (!response.ok) {
-        // Handle authentication errors
+        // Handle 401 errors more intelligently
         if (response.status === 401) {
-          TokenManager.removeToken();
+          const isCoreAuthEndpoint = endpoint.includes('/auth/profile') || 
+                                   endpoint.includes('/auth/login') || 
+                                   endpoint.includes('/auth/register');
+          
+          const isUserEndpoint = endpoint.includes('/users/') || 
+                                endpoint.includes('/orders') ||
+                                endpoint.includes('/favorites') ||
+                                endpoint.includes('/addresses');
+          
+          if (isCoreAuthEndpoint) {
+            TokenManager.removeToken();
+          } else if (isUserEndpoint) {
+            // For user endpoints, don't remove token immediately
+            // Let AuthContext handle the authentication failure
+          } else {
+            // For other endpoints, check if token is actually expired
+            if (TokenManager.isTokenValid()) {
+              // Token is valid, keep it
+            } else {
+              TokenManager.removeToken();
+            }
+          }
         }
         
         throw {
@@ -246,19 +429,30 @@ class ApiClient {
           message: data.message || 'An error occurred',
           errors: data.errors || ['An error occurred']
         };
-      }
+              }
 
-      return data;
+        // Reset retry count on successful request
+        TokenManager.resetRetryCount();
+        return data;
     } catch (error: any) {
-      // Network or parsing errors
-      if (!error.status) {
-        throw {
-          status: 0,
-          success: false,
-          message: 'Lỗi kết nối. Vui lòng kiểm tra internet và thử lại.',
-          errors: ['Network error']
-        };
-      }
+              // Network or parsing errors
+        if (!error.status) {
+          // Increment retry count for network errors
+          const retryCount = TokenManager.incrementRetryCount();
+          const maxRetries = 3;
+          
+          if (retryCount <= maxRetries) {
+            // Don't throw immediately, let the caller handle retry logic
+          }
+          
+          throw {
+            status: 0,
+            success: false,
+            message: 'Lỗi kết nối. Vui lòng kiểm tra internet và thử lại.',
+            errors: ['Network error'],
+            retryCount
+          };
+        }
       throw error;
     }
   }
@@ -299,7 +493,35 @@ class ApiClient {
     const queryString = searchParams.toString();
     const endpoint = `${API_ENDPOINTS.PRODUCTS}${queryString ? `?${queryString}` : ''}`;
     
-    return this.request<ProductsResponse>(endpoint);
+    try {
+      console.log('🛍️ Fetching products from:', endpoint);
+      const response = await this.request<any>(endpoint);
+      console.log('🛍️ Products API response:', response);
+      
+      // Handle new response format
+      if (response.success && response.data) {
+        return {
+          products: response.data,
+          pagination: {
+            current_page: response.pagination?.current_page || 1,
+            total_pages: response.pagination?.total_pages || 1,
+            total_count: response.pagination?.total_count || response.data.length,
+            per_page: response.pagination?.per_page || 20
+          },
+          filters: {
+            categories: [],
+            brands: [],
+            price_range: { min: 0, max: 999999 }
+          }
+        };
+      }
+      
+      // Fallback for old format
+      return response as ProductsResponse;
+    } catch (error) {
+      console.error('🛍️ Products API error:', error);
+      throw error;
+    }
   }
 
   async getProduct(slug: string): Promise<Product> {
@@ -361,14 +583,20 @@ class ApiClient {
 
   // Authentication
   async login(credentials: LoginRequest): Promise<AuthResponse> {
+    console.log('🌐 API Client: Sending login request');
     const response = await this.request<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
     
+    console.log('🌐 API Client: Login response received:', response);
+    
     // Store token on successful login
     if (response.success && response.token) {
+      console.log('🔑 API Client: Storing token');
       TokenManager.setToken(response.token);
+    } else {
+      console.log('⚠️ API Client: No token or success=false in response');
     }
     
     return response;
@@ -431,6 +659,19 @@ class ApiClient {
     return this.request<UserAddress[]>(API_ENDPOINTS.USER.ADDRESSES);
   }
 
+  async addToWishlist(productId: number): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(`${API_ENDPOINTS.USER.FAVORITES}`, {
+      method: 'POST',
+      body: JSON.stringify({ product_id: productId }),
+    });
+  }
+
+  async removeFromWishlist(productId: string): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(`${API_ENDPOINTS.USER.FAVORITES}/${productId}`, {
+      method: 'DELETE',
+    });
+  }
+
   // Token management
   isAuthenticated(): boolean {
     return TokenManager.isTokenValid();
@@ -438,6 +679,34 @@ class ApiClient {
 
   getToken(): string | null {
     return TokenManager.getToken();
+  }
+
+  // Debug method to test authentication
+  async debugAuth(): Promise<any> {
+    try {
+      return this.request<any>('/debug/auth_test');
+    } catch (error) {
+      console.error('Auth debug failed:', error);
+      return { success: false, error };
+    }
+  }
+
+  async debugProtectedCall(): Promise<any> {
+    try {
+      return this.request<any>('/debug/protected_test');
+    } catch (error) {
+      console.error('Protected debug failed:', error);
+      return { success: false, error };
+    }
+  }
+
+  async debugLoginFormat(): Promise<any> {
+    try {
+      return this.request<any>('/debug/test_login');
+    } catch (error) {
+      console.error('Login format debug failed:', error);
+      return { success: false, error };
+    }
   }
 }
 

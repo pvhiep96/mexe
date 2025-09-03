@@ -21,11 +21,8 @@ export default function AccountPage() {
     }
   };
 
-  const handleRegister = async (name: string, email: string, password: string, phone?: string, address?: string) => {
+  const handleRegister = async (userData: any) => {
     try {
-      const userData: RegisterRequest = {
-        user: { name, email, password, phone, address }
-      };
       await register(userData);
     } catch (error: any) {
       // Error message will be shown by AuthContext
@@ -84,7 +81,7 @@ export default function AccountPage() {
         </div>
 
         {/* Conditional Rendering based on Authentication Status */}
-        {isAuthenticated ? (
+        {isAuthenticated && user ? (
           <AuthenticatedView user={user} onLogout={handleLogout} />
         ) : (
           <UnauthenticatedView onLogin={handleLogin} onRegister={handleRegister} />

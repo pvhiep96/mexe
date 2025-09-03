@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void;
-  onRegister: (name: string, email: string, password: string, phone?: string, address?: string) => Promise<void>;
+  onRegister: (userData: any) => Promise<void>;
 }
 
 export default function RegisterForm({ onSwitchToLogin, onRegister }: RegisterFormProps) {
   const [formData, setFormData] = useState({
-    name: '',
+    full_name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -35,10 +35,10 @@ export default function RegisterForm({ onSwitchToLogin, onRegister }: RegisterFo
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     
-    if (!formData.name.trim()) {
-      newErrors.name = 'Họ và tên là bắt buộc';
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Họ và tên phải có ít nhất 2 ký tự';
+    if (!formData.full_name.trim()) {
+      newErrors.full_name = 'Họ và tên là bắt buộc';
+    } else if (formData.full_name.trim().length < 2) {
+      newErrors.full_name = 'Họ và tên phải có ít nhất 2 ký tự';
     }
     
     if (!formData.email.trim()) {
@@ -76,7 +76,15 @@ export default function RegisterForm({ onSwitchToLogin, onRegister }: RegisterFo
     
     setIsLoading(true);
     try {
-      await onRegister(formData.name, formData.email, formData.password, formData.phone, formData.address);
+      await onRegister({
+        user: {
+          full_name: formData.full_name,
+          email: formData.email,
+          password: formData.password,
+          phone: formData.phone,
+          address: formData.address
+        }
+      });
     } catch (error) {
       // Error will be handled by parent component
     } finally {
@@ -87,25 +95,25 @@ export default function RegisterForm({ onSwitchToLogin, onRegister }: RegisterFo
   return (
     <form onSubmit={handleSubmit} className='space-y-6'>
       <div>
-        <label htmlFor='name' className='block text-sm font-medium text-gray-700 mb-2'>
+        <label htmlFor='full_name' className='block text-sm font-medium text-gray-700 mb-2'>
           Họ và tên
         </label>
         <input
           type='text'
-          id='name'
-          name='name'
-          value={formData.name}
+          id='full_name'
+          name='full_name'
+          value={formData.full_name}
           onChange={handleInputChange}
           className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-1 ${
-            errors.name 
+            errors.full_name 
               ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
               : 'border-gray-300 focus:border-[#2D6294] focus:ring-[#2D6294]'
           }`}
           placeholder='Nhập họ và tên'
           required
         />
-        {errors.name && (
-          <p className='mt-1 text-sm text-red-600'>{errors.name}</p>
+        {errors.full_name && (
+          <p className='mt-1 text-sm text-red-600'>{errors.full_name}</p>
         )}
       </div>
 
