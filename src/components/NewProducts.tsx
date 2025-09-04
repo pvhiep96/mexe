@@ -211,7 +211,7 @@ function ProductSlide({ product }: ProductSlideProps) {
             className='mt-2 w-[120px] rounded-full bg-blue-500 px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-blue-600 sm:text-xs'
           >
             <ShoppingCartIcon className='h-4 w-4 mr-1' />
-            {t('add_to_cart')}
+            {t('new_products.add_to_cart')}
           </button>
         </div>
       </div>

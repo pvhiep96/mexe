@@ -2,9 +2,10 @@
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import { Product as APIProduct } from '@/services/api';
+import { Product as APIProduct, apiClient } from '@/services/api';
 import { useCart } from '@/context/CartContext';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
@@ -33,13 +34,23 @@ interface EarlyOrderProps {
   featuredProducts?: APIProduct[];
 }
 
+interface EarlyOrderData {
+  trending: APIProduct[];
+  new_launched: APIProduct[];
+  ending_soon: APIProduct[];
+  arriving_soon: APIProduct[];
+}
+
 export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
   const t = useTranslations('early_order');
   const { addToCart } = useCart();
   const { showTooltip } = useFlashTooltip();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState(0);
   const [sliders, setSliders] = useState([0, 0, 0, 0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [earlyOrderData, setEarlyOrderData] = useState<EarlyOrderData | null>(null);
+  const [loading, setLoading] = useState(false);
   const visible = 3;
 
   const tabs: Tab[] = [
@@ -49,6 +60,42 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
     { name: 'Sắp về hàng' },
     { name: 'Xem tất cả' },
   ];
+
+  // Fetch early order data from API
+  const fetchEarlyOrderData = async () => {
+    try {
+      setLoading(true);
+      const response = await apiClient.getEarlyOrderData();
+      if (response.success) {
+        setEarlyOrderData(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch early order data:', error);
+      showTooltip('Không thể tải dữ liệu sản phẩm', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load data on component mount
+  useEffect(() => {
+    fetchEarlyOrderData();
+  }, []);
+
+  // Handle tab change - chỉ thay đổi tab, không call API
+  const handleTabChange = (tabIndex: number) => {
+    // Nếu là tab "Xem tất cả" (tab cuối cùng), chuyển hướng đến trang products
+    if (tabIndex === tabs.length - 1) {
+      router.push('/vi/products/');
+      return;
+    }
+    
+    setActiveTab(tabIndex);
+    // Reset slider position for new tab
+    const newSliders = [...sliders];
+    newSliders[tabIndex] = 0;
+    setSliders(newSliders);
+  };
 
   // Convert API products to component format
   const convertApiProductsToLocalFormat = (apiProducts: APIProduct[]): Product[] => {
@@ -88,31 +135,45 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
     });
   };
 
-  // Create product tabs based on API data
-  const createProductTabs = (): Product[][] => {
-    if (!featuredProducts.length) {
-      // Return empty arrays for all tabs if no products
-      return [[], [], [], [], []];
+  // Get products for current tab from loaded API data (không call API)
+  const getCurrentTabProducts = (): Product[] => {
+    if (!earlyOrderData) {
+      // Fallback to featured products if API data not loaded yet
+      return convertApiProductsToLocalFormat(featuredProducts);
     }
 
-    const allProducts = convertApiProductsToLocalFormat(featuredProducts);
+    let apiProducts: APIProduct[] = [];
     
-    // Filter products by type for different tabs
-    const trendingProjects = allProducts.filter(p => p.badge === 'HOT' || p.badge === 'ĐẶC BIỆT');
-    const newLaunched = allProducts.filter(p => p.badge === 'MỚI RA MẮT');
-    const preorderProducts = allProducts.filter(p => p.badge === 'PRE-ORDER');
-    const comingSoon = allProducts.filter(p => p.badge === 'SẢN PHẨM');
-    
-    return [
-      trendingProjects.length ? trendingProjects : allProducts.slice(0, 5),
-      newLaunched.length ? newLaunched : allProducts.slice(5, 10),
-      preorderProducts.length ? preorderProducts : allProducts.slice(10, 15),
-      comingSoon.length ? comingSoon : allProducts.slice(15, 20),
-      allProducts, // Show all for "Xem tất cả" tab
-    ];
+    // Lấy dữ liệu từ response đã load sẵn dựa trên tab hiện tại
+    switch (activeTab) {
+      case 0: // Dự án thịnh hành -> trending
+        apiProducts = earlyOrderData.trending;
+        break;
+      case 1: // Mới ra mắt -> new_launched
+        apiProducts = earlyOrderData.new_launched;
+        break;
+      case 2: // Sắp kết thúc -> ending_soon
+        apiProducts = earlyOrderData.ending_soon;
+        break;
+      case 3: // Sắp về hàng -> arriving_soon
+        apiProducts = earlyOrderData.arriving_soon;
+        break;
+      case 4: // Xem tất cả -> gộp tất cả
+        apiProducts = [
+          ...earlyOrderData.trending,
+          ...earlyOrderData.new_launched,
+          ...earlyOrderData.ending_soon,
+          ...earlyOrderData.arriving_soon
+        ];
+        break;
+      default:
+        apiProducts = earlyOrderData.trending;
+    }
+
+    return convertApiProductsToLocalFormat(apiProducts);
   };
 
-  const products = createProductTabs();
+  const currentProducts = getCurrentTabProducts();
 
   // Logic băng chuyền vô tận - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
   const prev = () => {
@@ -133,8 +194,7 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
   };
 
   // Tạo mảng products lặp lại để tạo băng chuyền vô tận
-  const getVisibleProducts = (tabIndex: number) => {
-    const currentProducts = products[tabIndex];
+  const getVisibleProducts = () => {
     if (!currentProducts || currentProducts.length === 0) return [];
 
     // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
@@ -155,7 +215,7 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
 
     return conveyorProducts.map((product, index) => ({
       ...product,
-      key: `product-${tabIndex}-${index}`,
+      key: `product-${activeTab}-${index}`,
       originalIndex: index % currentProducts.length,
     }));
   };
@@ -202,8 +262,8 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
                     {tabs.map((tab, i) => (
                       <button
                         key={i}
-                        onClick={() => setActiveTab(i)}
-                        className={`mx-1 transition-all duration-200 ${
+                        onClick={() => handleTabChange(i)}
+                        className={`mx-1 transition-all duration-200 cursor-pointer ${
                           i === tabs.length - 1
                             ? 'ml-2 flex items-center rounded-full border border-gray-400 bg-white px-6 py-2 font-bold text-[#0A115F] transition hover:bg-gray-100'
                             : activeTab === i
@@ -222,7 +282,11 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
 
                 {/* Tab content as slider */}
                 <div className='relative w-full'>
-                  {products[activeTab].length > 0 ? (
+                  {loading ? (
+                    <div className='py-12 text-center text-gray-500'>
+                      Đang tải dữ liệu...
+                    </div>
+                  ) : currentProducts.length > 0 ? (
                     <div className='flex items-center'>
                       {/* Prev button */}
                       <button
@@ -345,7 +409,7 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
               <div className='relative'>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className='flex items-center justify-between rounded-full border border-gray-300 bg-white px-4 py-2.5 pr-8 text-sm font-medium text-[#0A115F] shadow-sm transition-all duration-200 hover:border-[#0A115F] hover:shadow-md focus:border-[#0A115F] focus:outline-none focus:ring-2 focus:ring-[#0A115F]/20'
+                                          className='flex items-center justify-between rounded-full border border-gray-300 bg-white px-4 py-2.5 pr-8 text-sm font-medium text-[#0A115F] shadow-sm transition-all duration-200 hover:border-[#0A115F] hover:shadow-md focus:border-[#0A115F] focus:outline-none focus:ring-2 focus:ring-[#0A115F]/20 cursor-pointer'
                 >
                   <span className='mr-2'>{tabs[activeTab].name}</span>
                   <ChevronDownIcon className={`h-4 w-4 text-[#0A115F] transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
@@ -358,10 +422,10 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
                       <button
                         key={i}
                         onClick={() => {
-                          setActiveTab(i);
+                          handleTabChange(i);
                           setIsDropdownOpen(false);
                         }}
-                        className={`w-full px-4 py-2.5 text-left text-sm transition-colors duration-200 first:rounded-t-xl last:rounded-b-xl hover:bg-[#0A115F]/5 ${
+                        className={`w-full px-4 py-2.5 text-left text-sm transition-colors duration-200 first:rounded-t-xl last:rounded-b-xl hover:bg-[#0A115F]/5 cursor-pointer ${
                           activeTab === i 
                             ? 'bg-[#0A115F]/10 text-[#0A115F] font-semibold' 
                             : 'text-gray-700 hover:text-[#0A115F]'
@@ -390,7 +454,7 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
                 }
               `}</style>
               
-              {products[activeTab].slice(0, 3).map((product, index) => (
+              {currentProducts.slice(0, 3).map((product, index) => (
                 <div
                   key={`mobile-early-${activeTab}-${index}`}
                   className='flex min-w-[220px] flex-col items-center rounded-lg bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300'
@@ -407,18 +471,14 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
                     {product.name}
                   </div>
                   <div className='mb-1 flex items-center gap-1'>
-                    {featuredProducts[index]?.original_price && (
-                      <span className='text-[10px] text-gray-500 line-through'>
-                        {parseInt(featuredProducts[index].original_price).toLocaleString()}đ
-                      </span>
-                    )}
-                    <span className='text-xs font-bold text-[#E53935]'>
-                      {parseInt(featuredProducts[index]?.price || '0').toLocaleString()}đ
-                    </span>
-                    {featuredProducts[index]?.discount_percent && (
-                      <span className='rounded bg-[#E53935] px-1 py-0.5 text-[10px] font-bold text-white'>
-                        -{featuredProducts[index].discount_percent}%
-                      </span>
+                    {product.price && (
+                      <>
+                        {product.price > 0 && (
+                          <span className='text-xs font-bold text-[#E53935]'>
+                            {product.price.toLocaleString()}đ
+                          </span>
+                        )}
+                      </>
                     )}
                   </div>
                   <button

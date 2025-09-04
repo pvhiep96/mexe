@@ -462,6 +462,27 @@ class ApiClient {
     return this.request<HomeData>(API_ENDPOINTS.HOME);
   }
 
+  // Early order data for tabs
+  async getEarlyOrderData(): Promise<{
+    success: boolean;
+    data: {
+      trending: Product[];
+      new_launched: Product[];
+      ending_soon: Product[];
+      arriving_soon: Product[];
+    };
+  }> {
+    return this.request<{
+      success: boolean;
+      data: {
+        trending: Product[];
+        new_launched: Product[];
+        ending_soon: Product[];
+        arriving_soon: Product[];
+      };
+    }>(API_ENDPOINTS.HOME_EARLY_ORDER);
+  }
+
   // Products
   async getProducts(params?: {
     page?: number;

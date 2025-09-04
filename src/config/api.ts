@@ -10,6 +10,7 @@ export const API_CONFIG = {
 // API Endpoints
 export const API_ENDPOINTS = {
   HOME: '/home',
+  HOME_EARLY_ORDER: '/home/early_order',
   PRODUCTS: '/products',
   PRODUCT: (slug: string) => `/products/${slug}`,
   CATEGORIES: '/categories',
