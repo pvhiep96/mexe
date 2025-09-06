@@ -17,8 +17,14 @@ import type {
 export interface HomeData {
   categories: CategoryWithSubcategories[];
   best_sellers: Product[];
-  featured_products: Product[];
+  early_order_products: {
+    trending_products: Product[];
+    new_products: Product[];
+    ending_soon_products: Product[];
+    arriving_soon_products: Product[];
+  };
   new_brands: BrandWithProducts[];
+  featured_products: Product[];
   essential_accessories: Product[];
 }
 
@@ -459,10 +465,20 @@ class ApiClient {
 
   // Home page data
   async getHomeData(): Promise<HomeData> {
-    return this.request<HomeData>(API_ENDPOINTS.HOME);
+    const response = await this.request<{
+      success: boolean;
+      data: HomeData;
+    }>(API_ENDPOINTS.HOME);
+    
+    if (response.success && response.data) {
+      return response.data;
+    }
+    
+    // Fallback if response format is unexpected
+    throw new Error('Invalid API response format');
   }
 
-  // Early order data for tabs
+  // Early order data for tabs - now using home endpoint
   async getEarlyOrderData(): Promise<{
     success: boolean;
     data: {
@@ -472,15 +488,33 @@ class ApiClient {
       arriving_soon: Product[];
     };
   }> {
-    return this.request<{
+    const homeData = await this.request<{
       success: boolean;
-      data: {
-        trending: Product[];
-        new_launched: Product[];
-        ending_soon: Product[];
-        arriving_soon: Product[];
+      data: HomeData;
+    }>(API_ENDPOINTS.HOME);
+    
+    if (homeData.success && homeData.data.early_order_products) {
+      return {
+        success: true,
+        data: {
+          trending: homeData.data.early_order_products.trending_products,
+          new_launched: homeData.data.early_order_products.new_products,
+          ending_soon: homeData.data.early_order_products.ending_soon_products,
+          arriving_soon: homeData.data.early_order_products.arriving_soon_products,
+        }
       };
-    }>(API_ENDPOINTS.HOME_EARLY_ORDER);
+    }
+    
+    // Fallback if early_order_products is not available
+    return {
+      success: true,
+      data: {
+        trending: [],
+        new_launched: [],
+        ending_soon: [],
+        arriving_soon: [],
+      }
+    };
   }
 
   // Products

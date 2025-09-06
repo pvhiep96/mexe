@@ -105,7 +105,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
         {/* Nút hành động - giảm khoảng cách với thông tin phía trên */}
         <div className='mt-3 flex gap-2'>
           <a
-            href={`/products/${product.originalIndex + 1}`}
+            href={`/products/${(product.originalIndex ?? 0) + 1}`}
             className='flex-1 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-800 transition hover:bg-gray-200 cursor-pointer'
             onClick={(e) => e.stopPropagation()}
           >
@@ -203,7 +203,7 @@ export default function NewBrands({ newBrands = [] }: NewBrandsProps) {
     }
 
     // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
-    let conveyorProducts = [];
+    let conveyorProducts: (BrandProduct & { key: string; originalIndex: number })[] = [];
 
     // Thêm products gốc
     brandProducts.forEach((product, originalIndex) => {

@@ -28,8 +28,14 @@ async function fetchHomeData() {
     return {
       categories: [],
       best_sellers: [],
-      featured_products: [],
+      early_order_products: {
+        trending_products: [],
+        new_products: [],
+        ending_soon_products: [],
+        arriving_soon_products: [],
+      },
       new_brands: [],
+      featured_products: [],
       essential_accessories: [],
     };
   }
@@ -62,7 +68,7 @@ const fetchbrands = async () => {
   try {
     const response = await api.listbrands();
     const data: Listbrands200Response = response.data;
-    return data;
+    return data.stores || [];
   } catch (error) {
     console.error('Failed to fetch brands:', error);
     return [];
@@ -73,7 +79,7 @@ const fetchCategories = async () => {
   try {
     const response = await api.listcategory();
     const data: Listcategory200Response = response.data;
-    return data;
+    return data.stores || [];
   } catch (error) {
     console.error('Failed to fetch brands:', error);
     return [];
@@ -99,14 +105,14 @@ export default async function Home() {
   return (
     <main className='flex min-h-screen flex-col'>
       <Banner categories={legacyCategories} />
-      <NewProducts products={products} />
+      <NewProducts products={products as any} />
       <EarlyOrder featuredProducts={homeData.featured_products} />
       <NewBrands newBrands={homeData.new_brands} />
-      <ComboWorkspace />
+      <ComboWorkspace essentialAccessories={homeData.essential_accessories} />
       <BannerSale />
       <Videos />
       <ServiceCommitment />
-      <Brands brands={brands} />
+      <Brands brands={brands as any} />
       <Contact />
     </main>
   );
