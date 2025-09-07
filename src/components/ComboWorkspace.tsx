@@ -20,105 +20,25 @@ interface ComboCardProps {
   combo: Combo;
 }
 
-const combos: Combo[] = [
-  {
-    id: 1,
-    name: 'BẠT PHỦ VẢI DÙ OXFORD',
-    image: '/images/demo-combo/demo-combo-1.png',
-    originalPrice: '1,300,000đ',
-    discountedPrice: '975,000đ',
-    discount: '-25%',
-  },
-  {
-    id: 2,
-    name: '2 trong 1 Búa an toàn',
-    image: '/images/demo-combo/demo-combo-2.png',
-    originalPrice: '1,140,000đ',
-    discountedPrice: '741,000đ',
-    discount: '-35%',
-  },
-  {
-    id: 3,
-    name: 'Camera Hành Trình 3K',
-    image: '/images/demo-combo/demo-combo-3.png',
-    originalPrice: '1,255,000đ',
-    discountedPrice: '727,900đ',
-    discount: '-42%',
-  },
-  {
-    id: 4,
-    name: 'Giá Điện Thoại Ô Tô',
-    image: '/images/demo-combo/demo-combo-4.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 5,
-    name: 'Quà Tặng Trị Giá 169K',
-    image: '/images/demo-combo/demo-combo-5.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 6,
-    name: 'GỐI TỰA LƯNG MASSAGE 6 CHẾ ĐỘ',
-    image: '/images/demo-combo/demo-combo-6.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 7,
-    name: 'BẠT PHỦ VẢI DÙ OXFORD',
-    image: '/images/demo-combo/demo-combo-1.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 8,
-    name: '2 trong 1 Búa an toàn',
-    image: '/images/demo-combo/demo-combo-2.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  // Thêm 4 items mới để tạo trang thứ 2
-  {
-    id: 9,
-    name: 'Đèn LED Nội Thất Ô Tô',
-    image: '/images/demo-combo/demo-combo-3.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 10,
-    name: 'Bộ Vệ Sinh Nội Thất Cao Cấp',
-    image: '/images/demo-combo/demo-combo-4.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 11,
-    name: 'Hệ Thống Âm Thanh Ô Tô',
-    image: '/images/demo-combo/demo-combo-5.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-  {
-    id: 12,
-    name: 'Bộ Bảo Vệ Động Cơ',
-    image: '/images/demo-combo/demo-combo-6.png',
-    originalPrice: '1,080,000đ',
-    discountedPrice: '680,400đ',
-    discount: '-37%',
-  },
-];
+interface ComboWorkspaceProps {
+  essentialAccessories: any[];
+}
+
+// Function to convert API data to Combo format
+function convertToCombo(product: any): Combo {
+  const price = parseInt(product.price);
+  const originalPrice = product.original_price ? parseInt(product.original_price) : price;
+  const discountPercent = product.discount_percent ? parseFloat(product.discount_percent) : 0;
+
+  return {
+    id: product.id,
+    name: product.name,
+    image: product.product_images?.[0]?.image?.url || '/images/placeholder-product.png',
+    originalPrice: `${originalPrice.toLocaleString()}đ`,
+    discountedPrice: `${price.toLocaleString()}đ`,
+    discount: discountPercent > 0 ? `-${Math.round(discountPercent)}%` : '',
+  };
+}
 
 const ITEMS_PER_PAGE = 8;
 
@@ -150,14 +70,16 @@ function ComboCard({ combo }: ComboCardProps) {
         <div className='mb-1 line-clamp-2 text-sm font-semibold text-white'>
           {combo.name}
         </div>
-        <div className='flex items-center gap-2'>
-          <span className='text-xs text-gray-300 line-through'>
+        <div className='mt-2 flex items-center gap-2'>
+          <span className='text-sm text-gray-300 line-through'>
             {combo.originalPrice}
           </span>
-          <span className='text-sm font-bold text-white'>
+        </div>
+        <div className='mt-1 flex items-center gap-2'>
+          <span className='text-lg font-bold text-white'>
             {combo.discountedPrice}
           </span>
-          <span className='rounded bg-red-500 px-1.5 py-0.5 text-xs font-semibold text-white'>
+          <span className='rounded bg-red-600 px-2 py-0.5 text-xs font-semibold text-white'>
             {combo.discount}
           </span>
         </div>
@@ -166,13 +88,53 @@ function ComboCard({ combo }: ComboCardProps) {
   );
 }
 
-export default function ComboWorkspace() {
+export default function ComboWorkspace({ essentialAccessories }: ComboWorkspaceProps) {
   const t = useTranslations('combo_workspace');
   const { showTooltip } = useFlashTooltip();
   const [slider, setSlider] = useState(0);
   const [currentPage, setCurrentPage] = useState(0); // Thêm state cho current page
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  // Fallback data nếu API không có dữ liệu
+  const fallbackCombos: Combo[] = [
+    {
+      id: 1,
+      name: 'BẠT PHỦ VẢI DÙ OXFORD',
+      image: '/images/demo-combo/demo-combo-1.png',
+      originalPrice: '1,300,000đ',
+      discountedPrice: '975,000đ',
+      discount: '-25%',
+    },
+    {
+      id: 2,
+      name: '2 trong 1 Búa an toàn',
+      image: '/images/demo-combo/demo-combo-2.png',
+      originalPrice: '1,140,000đ',
+      discountedPrice: '741,000đ',
+      discount: '-35%',
+    },
+    {
+      id: 3,
+      name: 'Camera Hành Trình 3K',
+      image: '/images/demo-combo/demo-combo-3.png',
+      originalPrice: '1,255,000đ',
+      discountedPrice: '727,900đ',
+      discount: '-42%',
+    },
+    {
+      id: 4,
+      name: 'Giá Điện Thoại Ô Tô',
+      image: '/images/demo-combo/demo-combo-4.png',
+      originalPrice: '1,080,000đ',
+      discountedPrice: '680,400đ',
+      discount: '-37%',
+    },
+  ];
+
+  // Convert API data to Combo format hoặc sử dụng fallback
+  const combos = essentialAccessories?.length > 0 
+    ? essentialAccessories.map(convertToCombo) 
+    : fallbackCombos;
   const totalSlides = Math.ceil(combos.length / 8);
 
   const prev = () => {
@@ -419,14 +381,16 @@ function MobileComboCard({ combo }: ComboCardProps) {
         <div className='mb-1 line-clamp-1 text-xs font-semibold text-white'>
           {combo.name}
         </div>
-        <div className='flex items-center gap-1'>
-          <span className='text-[10px] text-gray-300 line-through'>
+        <div className='mt-1 flex items-center gap-1'>
+          <span className='text-xs text-gray-300 line-through'>
             {combo.originalPrice}
           </span>
+        </div>
+        <div className='mt-0.5 flex items-center gap-1'>
           <span className='text-xs font-bold text-white'>
             {combo.discountedPrice}
           </span>
-          <span className='rounded bg-red-500 px-1 py-0.5 text-[10px] font-semibold text-white'>
+          <span className='rounded bg-red-600 px-1 py-0.5 text-[10px] font-bold text-white'>
             {combo.discount}
           </span>
         </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon, PlayIcon } from '@heroicons/react/24/outline';
 
 interface YouTubeVideo {
   id: string;
@@ -12,6 +12,52 @@ interface YouTubeVideo {
   thumbnail: string;
   channelTitle: string;
 }
+
+// Component để handle YouTube thumbnail với fallback
+const YouTubeThumbnail = ({ videoId, title, className }: { videoId: string; title: string; className?: string }) => {
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
+
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoading(false);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+
+  if (imageError) {
+    return (
+      <div className={`${className} bg-gray-200 flex items-center justify-center`}>
+        <div className="text-center text-gray-500">
+          <PlayIcon className="h-12 w-12 mx-auto mb-2" />
+          <p className="text-sm">Video không khả dụng</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative">
+      {imageLoading && (
+        <div className={`${className} bg-gray-200 animate-pulse flex items-center justify-center`}>
+          <div className="text-gray-500">Đang tải...</div>
+        </div>
+      )}
+      <Image
+        src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+        alt={title}
+        width={320}
+        height={180}
+        className={`${className} ${imageLoading ? 'hidden' : 'block'}`}
+        onError={handleImageError}
+        onLoad={handleImageLoad}
+        unoptimized
+      />
+    </div>
+  );
+};
 
 // YouTube Data API v3 configuration
 const CHANNEL_URL = 'https://www.youtube.com/@mexe2018/videos';
@@ -254,11 +300,9 @@ export default function Videos() {
                   className='flex gap-3 rounded-lg p-1 transition hover:bg-white/10'
                   key={video.id}
                 >
-                  <Image
-                    src={video.thumbnail}
-                    alt={video.title}
-                    width={112}
-                    height={80}
+                  <YouTubeThumbnail
+                    videoId={video.id}
+                    title={video.title}
                     className='h-20 w-28 flex-shrink-0 rounded-lg object-cover'
                   />
                   <div>
@@ -299,11 +343,9 @@ export default function Videos() {
                   className='flex gap-2 rounded-lg p-1 transition hover:bg-white/10'
                   key={video.id}
                 >
-                  <Image
-                    src={video.thumbnail}
-                    alt={video.title}
-                    width={80}
-                    height={60}
+                  <YouTubeThumbnail
+                    videoId={video.id}
+                    title={video.title}
                     className='h-16 w-20 flex-shrink-0 rounded-lg object-cover'
                   />
                   <div>

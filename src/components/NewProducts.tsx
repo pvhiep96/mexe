@@ -3,9 +3,8 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
-import { useCart } from '@/context/CartContext';
 import Link from 'next/link';
 
 interface Product {
@@ -85,7 +84,6 @@ interface ProductSlideProps {
 function ProductSlide({ product }: ProductSlideProps) {
   const t = useTranslations('new_products');
   const { showTooltip } = useFlashTooltip();
-  const { addToCart } = useCart();
   const [width, setWidth] = useState(375);
   const maxCharacter = width < 768 ? 40 : 15;
 
@@ -93,16 +91,6 @@ function ProductSlide({ product }: ProductSlideProps) {
     showTooltip(t('buy_now_success'), 'success');
   };
 
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price || 0,
-      image: product.images[0] || '/images/placeholder-product.png',
-      quantity: 1,
-    }, 1);
-    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
-  };
 
   useEffect(() => {
     function handleResize() {
@@ -123,7 +111,7 @@ function ProductSlide({ product }: ProductSlideProps) {
 
   return (
     <div
-      className='mx-2 flex h-[300px] w-[400px] cursor-pointer flex-col items-center rounded-2xl bg-white p-4 shadow-md transition-all duration-500 ease-in-out hover:shadow-lg sm:h-[200px] sm:w-[500px] sm:flex-row'
+      className='flex min-h-[300px] w-[400px] cursor-pointer flex-col items-center rounded-2xl bg-white p-4 shadow-lg border border-gray-100 transition-all duration-500 ease-in-out hover:shadow-xl hover:border-gray-200 sm:min-h-[200px] sm:w-[500px] sm:flex-row'
       onClick={() => window.open('/products/2', '_blank')}
     >
       {/* Images */}
@@ -177,7 +165,7 @@ function ProductSlide({ product }: ProductSlideProps) {
 
       {/* Info */}
       <div className='flex h-full flex-1 flex-col justify-between pl-0 sm:pl-4'>
-        <div>
+        <div className='flex-1'>
           <h3 className='truncate text-sm font-semibold sm:text-base'>
             {product.name.length > maxCharacter
               ? `${product.name.slice(0, maxCharacter)}...`
@@ -189,7 +177,7 @@ function ProductSlide({ product }: ProductSlideProps) {
           <h4 className='mt-1 text-xs font-medium sm:text-sm'>
             {t('product_info')}
           </h4>
-          <p className='line-clamp-2 text-xs text-gray-600'>
+          <p className='line-clamp-3 text-xs text-gray-600 leading-relaxed mt-1'>
             {product.description}
           </p>
         </div>
@@ -202,16 +190,6 @@ function ProductSlide({ product }: ProductSlideProps) {
             className='mt-2 w-[120px] rounded-full bg-red-500 px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-red-600 sm:text-xs'
           >
             {t('buy_now')}
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddToCart();
-            }}
-            className='mt-2 w-[120px] rounded-full bg-blue-500 px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-blue-600 sm:text-xs'
-          >
-            <ShoppingCartIcon className='h-4 w-4 mr-1' />
-            {t('add_to_cart')}
           </button>
         </div>
       </div>
@@ -322,7 +300,7 @@ export default function NewProducts({ products }: NewProductsProps) {
     <div>
       {/* Desktop version */}
       <div className='hidden lg:block'>
-        <section className='w-full bg-gray-50 py-6 sm:py-8'>
+        <section className='w-full bg-gradient-to-br from-gray-50 to-gray-100 py-6 sm:py-8'>
           <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
             <div className='mb-4 flex flex-col items-center'>
               <h2 className='text-2xl font-extrabold text-[#0A115F] sm:text-3xl'>
@@ -336,13 +314,13 @@ export default function NewProducts({ products }: NewProductsProps) {
               </Link>
             </div>
 
-            <div className='relative flex items-center justify-center'>
+            <div className='relative flex items-center justify-center px-8'>
               {/* Prev button - Luôn có màu trắng như nút next */}
               <button
                 onClick={prev}
                 disabled={slider <= 0}
-                className={`mr-2 cursor-pointer rounded-full p-2 shadow transition-all duration-300 ${
-                  slider <= 0 ? 'bg-white' : 'bg-white hover:bg-gray-100'
+                className={`mr-4 cursor-pointer rounded-full p-3 shadow-lg border border-gray-200 transition-all duration-300 ${
+                  slider <= 0 ? 'bg-gray-100' : 'bg-white hover:bg-gray-50 hover:shadow-xl'
                 }`}
                 style={{
                   cursor:
@@ -362,10 +340,10 @@ export default function NewProducts({ products }: NewProductsProps) {
               {/* Slider Container - Tạo băng chuyền vô tận thực sự với logic đơn giản cho 4 sản phẩm */}
               <div className='flex-1 overflow-hidden'>
                 <div
-                  className='flex transition-transform duration-500 ease-in-out'
+                  className='flex gap-8 transition-transform duration-500 ease-in-out'
                   style={{
-                    transform: `translateX(-${slider * 420}px)`,
-                    width: `${getVisibleProducts().length * 420}px`,
+                    transform: `translateX(-${slider * 512}px)`,
+                    width: `${getVisibleProducts().length * 512}px`,
                   }}
                 >
                   {/* Tạo mảng vô tận với products lặp lại cho cả hai chiều */}
@@ -380,7 +358,7 @@ export default function NewProducts({ products }: NewProductsProps) {
               {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
               <button
                 onClick={next}
-                className='ml-2 cursor-pointer rounded-full bg-white p-2 shadow transition-all duration-300 hover:bg-gray-100'
+                className='ml-4 cursor-pointer rounded-full bg-white p-3 shadow-lg border border-gray-200 transition-all duration-300 hover:bg-gray-50 hover:shadow-xl'
                 style={{
                   cursor: 'pointer !important',
                 }}
