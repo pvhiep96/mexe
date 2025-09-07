@@ -89,66 +89,6 @@
       "error": "Có lỗi xảy ra. Vui lòng thử lại."
     }
   },
-  "brands": {
-    "title": "Thương Hiệu Lớn Tại Mexe",
-    "field_label": "Lĩnh vực",
-    "founded_label": "Thành lập",
-    "story_label": "Câu Chuyện Thương Hiệu",
-    "story_link": "Đằng Sau Câu Chuyện",
-
-    "honda_title": "Honda Genuine Parts",
-    "honda_brand": "Honda Brand",
-    "honda_field": "Phụ Kiện Ô Tô",
-    "honda_founded": "Thành lập: 1948",
-    "honda_story": "Honda Genuine Parts cung cấp phụ kiện và linh kiện chính hãng cho xe Honda, đảm bảo chất lượng và độ bền tối ưu.",
-    "honda": {
-      "name": "Honda Genuine Parts",
-      "brand": "Honda Brand",
-      "field": "Phụ Kiện Ô Tô",
-      "founded": "Thành lập: 1948",
-      "story": "Honda Genuine Parts cung cấp phụ kiện và linh kiện chính hãng cho xe Honda, đảm bảo chất lượng và độ bền tối ưu.",
-      "story_link": "Đằng Sau Câu Chuyện"
-    },
-    "toyota_title": "Toyota Genuine Parts",
-    "toyota_brand": "Toyota Brand",
-    "toyota_field": "Phụ Kiện Ô Tô",
-    "toyota_founded": "Thành lập: 1937",
-    "toyota_story": "Toyota Genuine Parts cung cấp phụ kiện thay thế chất lượng cao, đảm bảo vận hành ổn định và an toàn cho xe Toyota trong mọi hành trình.",
-    "toyota": {
-      "name": "Toyota Genuine Parts",
-      "brand": "Toyota Brand",
-      "field": "Phụ Kiện Ô Tô",
-      "founded": "Thành lập: 1937",
-      "story": "Toyota Genuine Parts cung cấp phụ kiện thay thế chất lượng cao, đảm bảo vận hành ổn định và an toàn cho xe Toyota trong mọi hành trình.",
-      "story_link": "Đằng Sau Câu Chuyện"
-    },
-    "hyundai_title": "Hyundai Mobis",
-    "hyundai_brand": "Hyundai Brand",
-    "hyundai_field": "Phụ Kiện Và Linh Kiện Ô Tô",
-    "hyundai_founded": "Thành lập: 1977",
-    "hyundai_story": "Hyundai Mobis là nhà cung cấp linh kiện và phụ kiện chính hãng cho xe Hyundai, được biết đến với công nghệ tiên tiến và độ bền cao.",
-    "hyundai": {
-      "name": "Hyundai Mobis",
-      "brand": "Hyundai Brand",
-      "field": "Phụ Kiện Và Linh Kiện Ô Tô",
-      "founded": "Thành lập: 1977",
-      "story": "Hyundai Mobis là nhà cung cấp linh kiện và phụ kiện chính hãng cho xe Hyundai, được biết đến với công nghệ tiên tiến và độ bền cao.",
-      "story_link": "Đằng Sau Câu Chuyện"
-    },
-    "ford_title": "Ford Genuine Parts",
-    "ford_brand": "Ford Brand",
-    "ford_field": "Phụ Kiện Ô Tô",
-    "ford_founded": "Thành lập: 1903",
-    "ford_story": "Ford Genuine Parts cung cấp phụ kiện thay thế chính hãng cho xe Ford, đảm bảo sự tin cậy và hiệu suất tối ưu cho khách hàng.",
-    "ford": {
-      "name": "Ford Genuine Parts",
-      "brand": "Ford Brand",
-      "field": "Phụ Kiện Ô Tô",
-      "founded": "Thành lập: 1903",
-      "story": "Ford Genuine Parts cung cấp phụ kiện thay thế chính hãng cho xe Ford, đảm bảo sự tin cậy và hiệu suất tối ưu cho khách hàng.",
-      "story_link": "Đằng Sau Câu Chuyện"
-    }
-  },
   "combo_workspace": {
     "title": "Phụ Kiện Cần Thiết",
     "explore_more": "Khám Phá Thêm",
@@ -522,7 +462,8 @@
     "lorem_ipsum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod",
     "launch_time": "0:00 SA",
     "buy_now": "Mua Ngay ",
-    "buy_now_success": "Đã thêm vào giỏ hàng thành công!"
+    "buy_now_success": "Đã thêm vào giỏ hàng thành công!",
+    "add_to_cart": "Mua hàng"
   },
   "news": {
     "title": "Tin Tức & Bài Viết",
@@ -589,6 +530,11 @@
     "error_payment_failed": "Thanh toán thất bại"
   },
   "brands": {
+    "title": "Thương Hiệu Lớn Tại Mexe",
+    "field_label": "Lĩnh vực",
+    "founded_label": "Thành lập",
+    "story_label": "Câu Chuyện Thương Hiệu",
+    "story_link": "Đằng Sau Câu Chuyện",
     "page_title": "Thương Hiệu Ô Tô Hàng Đầu",
     "page_description": "Khám phá các thương hiệu ô tô uy tín và chất lượng nhất thế giới. Tìm hiểu lịch sử, sản phẩm nổi bật và những điểm độc đáo của từng thương hiệu.",
     "trusted_brands": "thương hiệu uy tín",
@@ -626,6 +572,58 @@
     "design": "Thiết kế",
     "value": "Giá trị",
     "warranty": "Bảo hành",
-    "electric_vehicles": "Xe điện"
+    "electric_vehicles": "Xe điện",
+    "honda_title": "Honda Genuine Parts",
+    "honda_brand": "Honda Brand",
+    "honda_field": "Phụ Kiện Ô Tô",
+    "honda_founded": "Thành lập: 1948",
+    "honda_story": "Honda Genuine Parts cung cấp phụ kiện và linh kiện chính hãng cho xe Honda, đảm bảo chất lượng và độ bền tối ưu.",
+    "honda": {
+      "name": "Honda Genuine Parts",
+      "brand": "Honda Brand",
+      "field": "Phụ Kiện Ô Tô",
+      "founded": "Thành lập: 1948",
+      "story": "Honda Genuine Parts cung cấp phụ kiện và linh kiện chính hãng cho xe Honda, đảm bảo chất lượng và độ bền tối ưu.",
+      "story_link": "Đằng Sau Câu Chuyện"
+    },
+    "toyota_title": "Toyota Genuine Parts",
+    "toyota_brand": "Toyota Brand",
+    "toyota_field": "Phụ Kiện Ô Tô",
+    "toyota_founded": "Thành lập: 1937",
+    "toyota_story": "Toyota Genuine Parts cung cấp phụ kiện thay thế chất lượng cao, đảm bảo vận hành ổn định và an toàn cho xe Toyota trong mọi hành trình.",
+    "toyota": {
+      "name": "Toyota Genuine Parts",
+      "brand": "Toyota Brand",
+      "field": "Phụ Kiện Ô Tô",
+      "founded": "Thành lập: 1937",
+      "story": "Toyota Genuine Parts cung cấp phụ kiện thay thế chất lượng cao, đảm bảo vận hành ổn định và an toàn cho xe Toyota trong mọi hành trình.",
+      "story_link": "Đằng Sau Câu Chuyện"
+    },
+    "hyundai_title": "Hyundai Mobis",
+    "hyundai_brand": "Hyundai Brand",
+    "hyundai_field": "Phụ Kiện Và Linh Kiện Ô Tô",
+    "hyundai_founded": "Thành lập: 1977",
+    "hyundai_story": "Hyundai Mobis là nhà cung cấp linh kiện và phụ kiện chính hãng cho xe Hyundai, được biết đến với công nghệ tiên tiến và độ bền cao.",
+    "hyundai": {
+      "name": "Hyundai Mobis",
+      "brand": "Hyundai Brand",
+      "field": "Phụ Kiện Và Linh Kiện Ô Tô",
+      "founded": "Thành lập: 1977",
+      "story": "Hyundai Mobis là nhà cung cấp linh kiện và phụ kiện chính hãng cho xe Hyundai, được biết đến với công nghệ tiên tiến và độ bền cao.",
+      "story_link": "Đằng Sau Câu Chuyện"
+    },
+    "ford_title": "Ford Genuine Parts",
+    "ford_brand": "Ford Brand",
+    "ford_field": "Phụ Kiện Ô Tô",
+    "ford_founded": "Thành lập: 1903",
+    "ford_story": "Ford Genuine Parts cung cấp phụ kiện thay thế chính hãng cho xe Ford, đảm bảo sự tin cậy và hiệu suất tối ưu cho khách hàng.",
+    "ford": {
+      "name": "Ford Genuine Parts",
+      "brand": "Ford Brand",
+      "field": "Phụ Kiện Ô Tô",
+      "founded": "Thành lập: 1903",
+      "story": "Ford Genuine Parts cung cấp phụ kiện thay thế chính hãng cho xe Ford, đảm bảo sự tin cậy và hiệu suất tối ưu cho khách hàng.",
+      "story_link": "Đằng Sau Câu Chuyện"
+    }
   }
 }
