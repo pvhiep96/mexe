@@ -10,6 +10,7 @@ import Link from 'next/link';
 interface Product {
   id: number;
   name: string;
+  slug?: string;
   images: string[];
   open_date: string;
   soldCount: number;
@@ -109,10 +110,15 @@ function ProductSlide({ product }: ProductSlideProps) {
     };
   }, []);
 
+  const handleProductClick = () => {
+    const productUrl = product.slug ? `/products/${product.slug}` : `/products/${product.id}`;
+    window.open(productUrl, '_blank');
+  };
+
   return (
     <div
       className='flex min-h-[300px] w-[400px] cursor-pointer flex-col items-center rounded-2xl bg-white p-4 shadow-lg border border-gray-100 transition-all duration-500 ease-in-out hover:shadow-xl hover:border-gray-200 sm:min-h-[200px] sm:w-[500px] sm:flex-row'
-      onClick={() => window.open('/products/2', '_blank')}
+      onClick={handleProductClick}
     >
       {/* Images */}
       <div
@@ -405,7 +411,11 @@ export default function NewProducts({ products }: NewProductsProps) {
               {products.map((product, index) => (
                 <div
                   key={`mobile-product-${index}`}
-                  className='flex min-w-[200px] flex-col items-center rounded-lg bg-white p-3 shadow'
+                  className='flex min-w-[200px] flex-col items-center rounded-lg bg-white p-3 shadow cursor-pointer'
+                  onClick={() => {
+                    const productUrl = product.slug ? `/products/${product.slug}` : `/products/${product.id}`;
+                    window.open(productUrl, '_blank');
+                  }}
                 >
                   <Image
                     src={product.images?.[0] || '/images/placeholder-product.png'}
@@ -425,7 +435,8 @@ export default function NewProducts({ products }: NewProductsProps) {
                     })} */}
                   </div>
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
                       alert('Đặt hàng thành công!');
                     }}

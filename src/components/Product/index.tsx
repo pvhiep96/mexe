@@ -270,168 +270,106 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
 
         {/* Desktop Layout */}
         <div className='mt-12 hidden gap-6 lg:grid lg:grid-cols-6'>
-          {/* Left Column - Product Information, Target Audience, Warranty Policy, Real Images (80% width) */}
+          {/* Left Column - Product Descriptions from database (80% width) */}
           <div className='col-span-4 space-y-6'>
-            {/* Product Information Header */}
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>THÔNG TIN SẢN PHẨM</h2>
-              <button
-                onClick={() => setShowFullProductInfo(!showFullProductInfo)}
-                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
+            {/* Render Product Descriptions from database */}
+            {product.descriptions && product.descriptions.length > 0 ? (
+              product.descriptions.map((desc, index) => {
+                const sectionStateKey = `showSection${index}`;
+                const isExpanded = index === 0 ? showFullProductInfo : 
+                                 index === 1 ? showFullTargetAudience : 
+                                 index === 2 ? showWarrantyPolicy : true;
+                const toggleFunction = index === 0 ? (() => setShowFullProductInfo(!showFullProductInfo)) :
+                                     index === 1 ? (() => setShowFullTargetAudience(!showFullTargetAudience)) :
+                                     index === 2 ? (() => setShowWarrantyPolicy(!showWarrantyPolicy)) :
+                                     (() => {});
 
-            {/* Product Information Content */}
-            {showFullProductInfo && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                <div className='space-y-8'>
-                  {/* Title and Intro */}
-                  <div>
-                    <h3 className='mb-4 text-xl font-bold text-gray-900'>
-                      {product.name}
-                    </h3>
-                    <p className='leading-relaxed text-gray-600'>
-                      {product.description}
-                    </p>
-                  </div>
-
-                  {/* First Image */}
-                  <div className='flex justify-center'>
-                    <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
-                      <Image
-                        src={product.images?.[0] || '/images/placeholder-product.png'}
-                        alt='Product detail'
-                        width={400}
-                        height={400}
-                        className='h-full w-full object-cover'
-                      />
+                return (
+                  <div key={desc.id} className={index > 0 ? 'mt-6' : ''}>
+                    {/* Section Header */}
+                    <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+                      <h2 className='text-lg font-bold'>{desc.title}</h2>
+                      <button
+                        onClick={toggleFunction}
+                        className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
+                      >
+                        <svg
+                          className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+                          fill='currentColor'
+                          viewBox='0 0 20 20'
+                        >
+                          <path
+                            fillRule='evenodd'
+                            d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                            clipRule='evenodd'
+                          />
+                        </svg>
+                      </button>
                     </div>
+
+                    {/* Section Content */}
+                    {isExpanded && (
+                      <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                        <div 
+                          className='prose max-w-none'
+                          dangerouslySetInnerHTML={{ __html: desc.content }}
+                        />
+                      </div>
+                    )}
                   </div>
-
-                  {/* Additional Images Gallery */}
-                  {productImages.length > 1 && (
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                      {productImages.slice(1).map((image, index) => (
-                        <div key={index} className='flex justify-center'>
-                          <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
-                            <Image
-                              src={image}
-                              alt={`${product.name} detail ${index + 2}`}
-                              width={400}
-                              height={400}
-                              className='h-full w-full object-cover'
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Target Audience Section */}
-            <div className='mt-6'>
-              {/* Target Audience Header */}
-              <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-                <h2 className='text-lg font-bold'>
-                  SẢN PHẨM GIÀNH CHO NHỮNG AI?
-                </h2>
-                <button
-                  onClick={() =>
-                    setShowFullTargetAudience(!showFullTargetAudience)
-                  }
-                  className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-                >
-                  <svg
-                    className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`}
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
+                );
+              })
+            ) : (
+              /* Fallback to default sections if no descriptions */
+              <>
+                {/* Default Product Information Header */}
+                <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+                  <h2 className='text-lg font-bold'>THÔNG TIN SẢN PHẨM</h2>
+                  <button
+                    onClick={() => setShowFullProductInfo(!showFullProductInfo)}
+                    className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
                   >
-                    <path
-                      fillRule='evenodd'
-                      d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Target Audience Content */}
-              {showFullTargetAudience && (
-                <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                  <div className='text-center p-8'>
-                    <div className='text-gray-400 text-4xl mb-4'>👥</div>
-                    <h3 className='text-lg font-semibold text-gray-700 mb-2'>
-                      Thông tin đối tượng sử dụng
-                    </h3>
-                    <p className='text-gray-500 mb-4'>
-                      Sản phẩm phù hợp với nhiều đối tượng khách hàng khác nhau
-                    </p>
-                    <p className='text-sm text-gray-400'>
-                      Vui lòng liên hệ để được tư vấn chi tiết
-                    </p>
-                  </div>
+                    <svg
+                      className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`}
+                      fill='currentColor'
+                      viewBox='0 0 20 20'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                        clipRule='evenodd'
+                      />
+                    </svg>
+                  </button>
                 </div>
-              )}
-            </div>
 
-            {/* Warranty and Return Policy Header */}
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>
-                CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH
-              </h2>
-              <button
-                onClick={() => setShowWarrantyPolicy(!showWarrantyPolicy)}
-                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Warranty and Return Policy Content */}
-            {showWarrantyPolicy && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                <div className='text-center p-8'>
-                  <div className='text-gray-400 text-4xl mb-4'>🛡️</div>
-                  <h3 className='text-lg font-semibold text-gray-700 mb-2'>
-                    Chính sách bảo hành & đổi trả
-                  </h3>
-                  <p className='text-gray-500 mb-4'>
-                    Chúng tôi cam kết chính sách bảo hành và đổi trả rõ ràng, minh bạch
-                  </p>
-                  <div className='bg-blue-50 rounded-lg p-4 mb-4'>
-                    <p className='text-sm text-blue-800 font-medium'>
-                      📞 Hotline: 1900-xxxx | 📧 Email: support@mexe.vn
-                    </p>
+                {/* Default Product Information Content */}
+                {showFullProductInfo && (
+                  <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                    <div className='space-y-8'>
+                      <div>
+                        <h3 className='mb-4 text-xl font-bold text-gray-900'>
+                          {product.name}
+                        </h3>
+                        <p className='leading-relaxed text-gray-600'>
+                          {product.description}
+                        </p>
+                      </div>
+                      <div className='flex justify-center'>
+                        <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
+                          <Image
+                            src={product.images?.[0] || '/images/placeholder-product.png'}
+                            alt='Product detail'
+                            width={400}
+                            height={400}
+                            className='h-full w-full object-cover'
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <p className='text-sm text-gray-400'>
-                    Liên hệ để biết thêm chi tiết về chính sách bảo hành
-                  </p>
-                </div>
-              </div>
+                )}
+              </>
             )}
 
             {/* Real Images Section */}
@@ -567,61 +505,90 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
 
         {/* Mobile Layout */}
         <div className='mt-12 space-y-6 lg:hidden'>
-          {/* Product Information */}
-          <div>
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>THÔNG TIN SẢN PHẨM</h2>
-              <button
-                onClick={() => setShowFullProductInfo(!showFullProductInfo)}
-                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-            {showFullProductInfo && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                <div className='space-y-8'>
-                  <div>
-                    <h3 className='mb-4 text-xl font-bold text-gray-900'>
-                      {product.name}
-                    </h3>
-                    <p className='leading-relaxed text-gray-600'>
-                      {product.description}
-                    </p>
+          {/* Render Product Descriptions from database for mobile */}
+          {product.descriptions && product.descriptions.length > 0 ? (
+            product.descriptions.map((desc, index) => {
+              const isExpanded = index === 0 ? showFullProductInfo : 
+                               index === 1 ? showFullTargetAudience : 
+                               index === 2 ? showWarrantyPolicy : true;
+              const toggleFunction = index === 0 ? (() => setShowFullProductInfo(!showFullProductInfo)) :
+                                   index === 1 ? (() => setShowFullTargetAudience(!showFullTargetAudience)) :
+                                   index === 2 ? (() => setShowWarrantyPolicy(!showWarrantyPolicy)) :
+                                   (() => {});
+
+              return (
+                <div key={desc.id}>
+                  <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+                    <h2 className='text-lg font-bold'>{desc.title}</h2>
+                    <button
+                      onClick={toggleFunction}
+                      className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
+                    >
+                      <svg
+                        className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+                        fill='currentColor'
+                        viewBox='0 0 20 20'
+                      >
+                        <path
+                          fillRule='evenodd'
+                          d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                          clipRule='evenodd'
+                        />
+                      </svg>
+                    </button>
                   </div>
-                  
-                  {/* Additional Images Gallery */}
-                  {productImages.length > 1 && (
-                    <div className='space-y-6'>
-                      {productImages.slice(1).map((image, index) => (
-                        <div key={index} className='flex justify-center'>
-                          <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
-                            <Image
-                              src={image}
-                              alt={`${product.name} detail ${index + 2}`}
-                              width={400}
-                              height={400}
-                              className='h-full w-full object-cover'
-                            />
-                          </div>
-                        </div>
-                      ))}
+                  {isExpanded && (
+                    <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                      <div 
+                        className='prose max-w-none'
+                        dangerouslySetInnerHTML={{ __html: desc.content }}
+                      />
                     </div>
                   )}
                 </div>
+              );
+            })
+          ) : (
+            /* Fallback sections for mobile if no descriptions */
+            <>
+              {/* Default Product Information for mobile */}
+              <div>
+                <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
+                  <h2 className='text-lg font-bold'>THÔNG TIN SẢN PHẨM</h2>
+                  <button
+                    onClick={() => setShowFullProductInfo(!showFullProductInfo)}
+                    className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
+                  >
+                    <svg
+                      className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullProductInfo ? 'rotate-180' : ''}`}
+                      fill='currentColor'
+                      viewBox='0 0 20 20'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                        clipRule='evenodd'
+                      />
+                    </svg>
+                  </button>
+                </div>
+                {showFullProductInfo && (
+                  <div className='rounded-lg border border-gray-200 bg-white p-6'>
+                    <div className='space-y-8'>
+                      <div>
+                        <h3 className='mb-4 text-xl font-bold text-gray-900'>
+                          {product.name}
+                        </h3>
+                        <p className='leading-relaxed text-gray-600'>
+                          {product.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
 
           {/* Technical Specifications */}
           <div>
@@ -668,95 +635,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                     <p className='text-xs text-gray-400'>Vui lòng liên hệ để biết thêm chi tiết</p>
                   </div>
                 )}
-              </div>
-            )}
-          </div>
-
-          {/* Target Audience */}
-          <div>
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>
-                SẢN PHẨM GIÀNH CHO NHỮNG AI?
-              </h2>
-              <button
-                onClick={() =>
-                  setShowFullTargetAudience(!showFullTargetAudience)
-                }
-                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showFullTargetAudience ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-            {showFullTargetAudience && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                <div className='text-center p-8'>
-                  <div className='text-gray-400 text-4xl mb-4'>👥</div>
-                  <h3 className='text-lg font-semibold text-gray-700 mb-2'>
-                    Thông tin đối tượng sử dụng
-                  </h3>
-                  <p className='text-gray-500 mb-4'>
-                    Sản phẩm phù hợp với nhiều đối tượng khách hàng khác nhau
-                  </p>
-                  <p className='text-sm text-gray-400'>
-                    Vui lòng liên hệ để được tư vấn chi tiết
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Warranty Policy */}
-          <div>
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>
-                CHÍNH SÁCH ĐỔI TRẢ VÀ BẢO HÀNH
-              </h2>
-              <button
-                onClick={() => setShowWarrantyPolicy(!showWarrantyPolicy)}
-                className='flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showWarrantyPolicy ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-            {showWarrantyPolicy && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                <div className='text-center p-8'>
-                  <div className='text-gray-400 text-4xl mb-4'>🛡️</div>
-                  <h3 className='text-lg font-semibold text-gray-700 mb-2'>
-                    Chính sách bảo hành & đổi trả
-                  </h3>
-                  <p className='text-gray-500 mb-4'>
-                    Chúng tôi cam kết chính sách bảo hành và đổi trả rõ ràng, minh bạch
-                  </p>
-                  <div className='bg-blue-50 rounded-lg p-4 mb-4'>
-                    <p className='text-sm text-blue-800 font-medium'>
-                      📞 Hotline: 1900-xxxx | 📧 Email: support@mexe.vn
-                    </p>
-                  </div>
-                  <p className='text-sm text-gray-400'>
-                    Liên hệ để biết thêm chi tiết về chính sách bảo hành
-                  </p>
-                </div>
               </div>
             )}
           </div>
