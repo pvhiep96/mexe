@@ -361,6 +361,8 @@
     "decrease_quantity": "Giảm số lượng",
     "increase_quantity": "Tăng số lượng",
     "quantity_updated": "Cập nhật số lượng thành công!",
+    "remove_item": "Xóa sản phẩm",
+    "item_removed": "Đã xóa sản phẩm khỏi giỏ hàng!",
     "cart_banner_alt": "Banner giỏ hàng",
     "free_shipping": "Miễn Phí Vận Chuyển",
     "free_shipping_desc": "Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ",

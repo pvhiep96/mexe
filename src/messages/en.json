@@ -472,6 +472,8 @@
     "quantity_updated": "Quantity updated successfully!",
     "decrease_quantity": "Decrease quantity",
     "increase_quantity": "Increase quantity",
+    "remove_item": "Remove item",
+    "item_removed": "Item removed from cart!",
     "free_shipping": "Free Shipping",
     "free_shipping_desc": "Free shipping on orders over $50",
     "fast_delivery": "Fast Delivery",

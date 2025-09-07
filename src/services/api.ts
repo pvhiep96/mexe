@@ -18,6 +18,7 @@ export interface HomeData {
   categories: CategoryWithSubcategories[];
   best_sellers: Product[];
   featured_products: Product[];
+  new_products: Product[];
   new_brands: BrandWithProducts[];
   essential_accessories: Product[];
 }

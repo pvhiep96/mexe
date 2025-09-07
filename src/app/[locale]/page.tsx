@@ -29,6 +29,7 @@ async function fetchHomeData() {
       categories: [],
       best_sellers: [],
       featured_products: [],
+      new_products: [],
       new_brands: [],
       essential_accessories: [],
     };
@@ -100,7 +101,7 @@ export default async function Home() {
     <main className='flex min-h-screen flex-col'>
       <Banner categories={legacyCategories} />
       <NewProducts products={products} />
-      <EarlyOrder featuredProducts={homeData.featured_products} />
+      <EarlyOrder featuredProducts={homeData.new_products} />
       <NewBrands newBrands={homeData.new_brands} />
       <ComboWorkspace />
       <BannerSale />

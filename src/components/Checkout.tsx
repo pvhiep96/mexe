@@ -206,38 +206,6 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       >
         {/* Left Column: Form Sections */}
         <div className='space-y-8 lg:col-span-2'>
-          {/* Backend Connection Test (chỉ hiển thị trong development) */}
-          {process.env.NODE_ENV === 'development' && (
-            <section className='rounded-lg bg-blue-50 p-4 border border-blue-200'>
-              <div className='flex items-center justify-between'>
-                <div>
-                  <h3 className='text-sm font-medium text-blue-800'>🔌 Backend Connection Test (Port 3500)</h3>
-                  <p className='text-xs text-blue-600 mt-1'>
-                    Test connection to Rails backend on port 3500 before placing order
-                  </p>
-                </div>
-                <button
-                  type='button'
-                  onClick={async () => {
-                    try {
-                      console.log('Testing backend connection on port 3500...');
-                      const response = await fetch('http://localhost:3005/api/v1/orders');
-                      const data = await response.json();
-                      console.log('Backend test response:', data);
-                      showTooltip('✅ Backend connected successfully on port 3500!', 'success');
-                    } catch (error) {
-                      console.error('Backend test error:', error);
-                      showTooltip('❌ Backend test failed!', 'error');
-                    }
-                  }}
-                  className='px-4 py-2 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'
-                >
-                  Test Backend
-                </button>
-              </div>
-            </section>
-          )}
-          
           {/* Section 1: Delivery Information */}
           <section className='rounded-lg bg-white p-6 shadow-md'>
             <h2 className='mb-4 text-xl font-semibold'>
