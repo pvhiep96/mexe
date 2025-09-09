@@ -13,6 +13,7 @@ import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 interface Product {
   id: number;
   name: string;
+  slug?: string;
   img: string;
   badge: string;
   badgeColor: string;
@@ -114,6 +115,7 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
       return {
         id: apiProduct.id,
         name: apiProduct.name,
+        slug: apiProduct.slug,
         img: imageUrl,
         badge: apiProduct.is_preorder ? 'PRE-ORDER' : 
                apiProduct.is_new ? 'MỚI RA MẮT' : 
@@ -312,7 +314,10 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
                             <div
                               key={product.key}
                               className='relative mx-2 h-[420px] w-[320px] flex-shrink-0 overflow-hidden rounded-2xl bg-white p-0 shadow-lg transition-all duration-500 hover:shadow-xl cursor-pointer'
-                              onClick={() => window.open('/products/2', '_blank')}
+                              onClick={() => {
+                                const productUrl = product.slug ? `/products/${product.slug}` : `/products/${product.id}`;
+                                window.open(productUrl, '_blank');
+                              }}
                             >
                               {/* Ảnh nền phủ tràn */}
                               <Image
@@ -458,7 +463,10 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
                 <div
                   key={`mobile-early-${activeTab}-${index}`}
                   className='flex min-w-[220px] flex-col items-center rounded-lg bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300'
-                  onClick={() => window.open('/products/2', '_blank')}
+                  onClick={() => {
+                    const productUrl = product.slug ? `/products/${product.slug}` : `/products/${product.id}`;
+                    window.open(productUrl, '_blank');
+                  }}
                 >
                   <Image
                     src={product.img}

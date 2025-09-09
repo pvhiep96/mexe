@@ -16,18 +16,28 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
     );
     const data: ListProducts200Response = response.data;
 
-    const products = (data.products || []).map((product) => ({
-      id: product.id,
-      name: product.name,
-      url: product.slug,
-      image:
-        'https://file.hstatic.net/1000069970/collection/20250711-son08030_4d816eab8c1c4942940f59d9599beb4b_large.jpg',
-      description:
-        'Màn hình 5K, 120Hz, 40 inch, ngàm VESA, chuyên nghiệp cho thiết kế.',
-      ordered: 12,
-      total: 50,
-      endDate: '30/07/2025',
-    }));
+    const products = (data.products || []).map((product) => {
+      // Get primary image or first image
+      const primaryImage = product.images?.find(img => img.is_primary);
+      const imageUrl = primaryImage?.image_url || product.images?.[0]?.image_url || '';
+      
+      return {
+        id: product.id,
+        name: product.name,
+        url: product.slug,
+        image: imageUrl,
+        description: product.short_description || product.description || '',
+        price: product.price ? parseFloat(product.price) : undefined,
+        originalPrice: product.original_price ? parseFloat(product.original_price) : undefined,
+        discount: product.discount_percent ? parseInt(product.discount_percent) : undefined,
+        ordered: product.preorder_quantity || 0,
+        total: 50, // This might need to be adjusted based on your data
+        endDate: product.preorder_end_date || '',
+        isNew: product.is_new,
+        isHot: product.is_hot,
+        isPreorder: product.is_preorder,
+      };
+    });
     return {
       products: products,
       total: data.meta?.total || 0,

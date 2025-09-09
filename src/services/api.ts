@@ -80,6 +80,7 @@ export interface Product {
   images: ProductImage[];
   variants: ProductVariant[];
   specifications: ProductSpecification[];
+  descriptions: ProductDescription[];
 }
 
 export interface ProductImage {
@@ -105,6 +106,13 @@ export interface ProductSpecification {
   spec_value: string;
   sort_order: number;
   unit?: string;
+}
+
+export interface ProductDescription {
+  id: number;
+  title: string;
+  content: string;
+  sort_order: number;
 }
 
 export interface Category {

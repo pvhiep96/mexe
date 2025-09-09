@@ -13,6 +13,7 @@ export type ProductType = {
   services: { icon: string; text: string }[] | undefined;
   specs: Record<string, string> | undefined;
   specifications: { spec_name: string; spec_value: string; sort_order?: number }[] | undefined;
+  descriptions: { id: number; title: string; content: string; sort_order: number }[] | undefined;
   quantity: number | undefined;
 };
 
