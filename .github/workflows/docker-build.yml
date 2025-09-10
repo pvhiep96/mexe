@@ -40,4 +40,4 @@ jobs:
       - name: Run Docker script
         run: |
           chmod +x ./build.sh
-          ./build.sh b.${GITHUB_RUN_NUMBER}   # pass tag as argument
+          ./build.sh f.${GITHUB_RUN_NUMBER}   # pass tag as argument
