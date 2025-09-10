@@ -525,7 +525,7 @@
     "error_cancelled": "Khách hàng hủy giao dịch",
     "error_insufficient_funds": "Tài khoản không đủ số dư để thực hiện giao dịch",
     "error_transaction_limit": "Vượt quá hạn mức giao dịch trong ngày",
-    "error_banking_system": "Ngân hàng từ chối giao dịch do lỗi hệ thống ngân hàng",
+    "error_banking_system": "Ngân hàng từ chối giao dịch do lỗi hệ thống ngân hàng",                                                           
     "error_exceeds_limit": "Số tiền vượt quá hạn mức cho phép",
     "error_payment_failed": "Thanh toán thất bại"
   },

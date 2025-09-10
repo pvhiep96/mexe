@@ -86,7 +86,7 @@ function ProductSlide({ product }: ProductSlideProps) {
   const t = useTranslations('new_products');
   const { showTooltip } = useFlashTooltip();
   const [width, setWidth] = useState(375);
-  const maxCharacter = width < 768 ? 40 : 15;
+  const maxCharacter = width < 768 ? 60 : 50;
 
   const handleBuyNow = () => {
     showTooltip(t('buy_now_success'), 'success');
@@ -117,7 +117,7 @@ function ProductSlide({ product }: ProductSlideProps) {
 
   return (
     <div
-      className='flex min-h-[300px] w-[400px] cursor-pointer flex-col items-center rounded-2xl bg-white p-4 shadow-lg border border-gray-100 transition-all duration-500 ease-in-out hover:shadow-xl hover:border-gray-200 sm:min-h-[200px] sm:w-[500px] sm:flex-row'
+      className='flex min-h-[300px] w-full max-w-[400px] cursor-pointer flex-col items-center rounded-2xl bg-white p-4 shadow-lg border border-gray-100 transition-all duration-500 ease-in-out hover:shadow-xl hover:border-gray-200 sm:min-h-[200px] sm:max-w-[500px] sm:flex-row'
       onClick={handleProductClick}
     >
       {/* Images */}
@@ -172,10 +172,8 @@ function ProductSlide({ product }: ProductSlideProps) {
       {/* Info */}
       <div className='flex h-full flex-1 flex-col justify-between pl-0 sm:pl-4'>
         <div className='flex-1'>
-          <h3 className='truncate text-sm font-semibold sm:text-base'>
-            {product.name.length > maxCharacter
-              ? `${product.name.slice(0, maxCharacter)}...`
-              : product.name}
+          <h3 className='text-sm font-semibold sm:text-base line-clamp-2 leading-tight'>
+            {product.name}
           </h3>
           <p className='text-xs text-gray-500'>
             {/* {t('sold', { count: product.soldCount.toLocaleString('vi-VN') })} */}
@@ -183,7 +181,7 @@ function ProductSlide({ product }: ProductSlideProps) {
           <h4 className='mt-1 text-xs font-medium sm:text-sm'>
             {t('product_info')}
           </h4>
-          <p className='line-clamp-3 text-xs text-gray-600 leading-relaxed mt-1'>
+          <p className='line-clamp-2 text-xs text-gray-600 leading-relaxed mt-1'>
             {product.description}
           </p>
         </div>
@@ -320,7 +318,7 @@ export default function NewProducts({ products }: NewProductsProps) {
               </Link>
             </div>
 
-            <div className='relative flex items-center justify-center px-8'>
+            <div className='relative flex items-center justify-center px-4'>
               {/* Prev button - Luôn có màu trắng như nút next */}
               <button
                 onClick={prev}
@@ -346,10 +344,10 @@ export default function NewProducts({ products }: NewProductsProps) {
               {/* Slider Container - Tạo băng chuyền vô tận thực sự với logic đơn giản cho 4 sản phẩm */}
               <div className='flex-1 overflow-hidden'>
                 <div
-                  className='flex gap-8 transition-transform duration-500 ease-in-out'
+                  className='flex gap-6 transition-transform duration-500 ease-in-out'
                   style={{
-                    transform: `translateX(-${slider * 512}px)`,
-                    width: `${getVisibleProducts().length * 512}px`,
+                    transform: `translateX(-${slider * 440}px)`,
+                    width: `${getVisibleProducts().length * 440}px`,
                   }}
                 >
                   {/* Tạo mảng vô tận với products lặp lại cho cả hai chiều */}
@@ -424,10 +422,8 @@ export default function NewProducts({ products }: NewProductsProps) {
                     height={160}
                     className='mb-2 h-32 w-full rounded object-cover'
                   />
-                  <div className='mb-2 text-center text-xs font-bold'>
-                    {product.name.length > 50
-                      ? `${product.name.slice(0, 50)}...`
-                      : product.name}
+                  <div className='mb-2 text-center text-xs font-bold line-clamp-2 leading-tight'>
+                    {product.name}
                   </div>
                   <div className='mb-2 text-center text-xs text-gray-500'>
                     {/* {t('sold', {
