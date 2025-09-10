@@ -12,6 +12,8 @@ RUN npm ci --legacy-peer-deps
 COPY . .
 
 # Build Next.js app
+ENV API_URL='http://47.129.168.239:81/api/v1'
+ENV NEXT_PUBLIC_API_URL='http://47.129.168.239:81/api/v1'
 RUN npm run build
 
 # Stage 2: Run
