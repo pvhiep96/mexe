@@ -5,34 +5,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { Product } from '@/services/api';
 
-export default function SPNewBrands() {
+interface NewBrandsProps {
+  hotSpecialOffer?: Product[];
+}
+
+export default function SPNewBrands({ hotSpecialOffer = [] }: NewBrandsProps) {
   const t = useTranslations('new_brands');
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  interface RawProduct {
-    name: string;
-    original_price: string;
-    discounted_price: string;
-    discount: string;
-  }
-
-  interface Product {
-    name: string;
-    original_price: string;
-    discounted_price: string;
-    discount: string;
-    image: string;
-  }
-
-  const products: Product[] = (t.raw('products') as RawProduct[])
-    .map((product: RawProduct) => ({
-      name: product.name,
-      original_price: product.original_price,
-      discounted_price: product.discounted_price,
-      discount: product.discount,
-      image: `/product-${product.name.split(' ').join('-').toLowerCase()}.jpg`,
-    }));
+  // Convert API products to component format
+  const products = hotSpecialOffer.map((product) => ({
+    name: product.name,
+    original_price: product.original_price ? `${parseInt(product.original_price).toLocaleString()}đ` : '',
+    discounted_price: `${parseInt(product.price).toLocaleString()}đ`,
+    discount: product.discount_percent ? `-${Math.round(parseFloat(product.discount_percent))}%` : '',
+    image: product.primary_image_url || '/images/placeholder-product.png',
+  }));
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % products.length);

@@ -32,7 +32,12 @@ interface Tab {
 }
 
 interface EarlyOrderProps {
-  featuredProducts?: APIProduct[];
+  earlyOrderProducts?: {
+    trending_products: APIProduct[];
+    new_products: APIProduct[];
+    ending_soon_products: APIProduct[];
+    arriving_soon_products: APIProduct[];
+  };
 }
 
 interface EarlyOrderData {
@@ -42,7 +47,7 @@ interface EarlyOrderData {
   arriving_soon: APIProduct[];
 }
 
-export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
+export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
   const t = useTranslations('early_order');
   const { addToCart } = useCart();
   const { showTooltip } = useFlashTooltip();
@@ -62,26 +67,20 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
     { name: 'Xem tất cả' },
   ];
 
-  // Fetch early order data from API
-  const fetchEarlyOrderData = async () => {
-    try {
-      setLoading(true);
-      const response = await apiClient.getEarlyOrderData();
-      if (response.success) {
-        setEarlyOrderData(response.data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch early order data:', error);
-      showTooltip('Không thể tải dữ liệu sản phẩm', 'error');
-    } finally {
+  // Use data passed from server-side rendering
+  useEffect(() => {
+    if (earlyOrderProducts) {
+      // Use earlyOrderProducts directly from API
+      const earlyOrderData: EarlyOrderData = {
+        trending: earlyOrderProducts.trending_products || [],
+        new_launched: earlyOrderProducts.new_products || [],
+        ending_soon: earlyOrderProducts.ending_soon_products || [],
+        arriving_soon: earlyOrderProducts.arriving_soon_products || [],
+      };
+      setEarlyOrderData(earlyOrderData);
       setLoading(false);
     }
-  };
-
-  // Load data on component mount
-  useEffect(() => {
-    fetchEarlyOrderData();
-  }, []);
+  }, [earlyOrderProducts]);
 
   // Handle tab change - chỉ thay đổi tab, không call API
   const handleTabChange = (tabIndex: number) => {
@@ -140,8 +139,8 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
   // Get products for current tab from loaded API data (không call API)
   const getCurrentTabProducts = (): Product[] => {
     if (!earlyOrderData) {
-      // Fallback to featured products if API data not loaded yet
-      return convertApiProductsToLocalFormat(featuredProducts);
+      // Fallback to empty array if API data not loaded yet
+      return [];
     }
 
     let apiProducts: APIProduct[] = [];
@@ -310,7 +309,7 @@ export default function EarlyOrder({ featuredProducts = [] }: EarlyOrderProps) {
                             transform: `translateX(-${sliders[activeTab] * 340}px)`,
                           }}
                         >
-                          {getVisibleProducts(activeTab).map((product, idx) => (
+                          {getVisibleProducts().map((product, idx) => (
                             <div
                               key={product.key}
                               className='relative mx-2 h-[420px] w-[320px] flex-shrink-0 overflow-hidden rounded-2xl bg-white p-0 shadow-lg transition-all duration-500 hover:shadow-xl cursor-pointer'

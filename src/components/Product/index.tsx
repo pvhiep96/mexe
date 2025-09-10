@@ -15,7 +15,6 @@ type ProductDetailProps = {
 export default function ProductDetail({ product, relatedProducts = [] }: ProductDetailProps) {
   const t = useTranslations('product_detail');
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedColor, setSelectedColor] = useState('white');
   const [quantity, setQuantity] = useState(1);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showFullProductInfo, setShowFullProductInfo] = useState(true);
@@ -37,7 +36,7 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
     // Thêm vào giỏ hàng với số lượng mới
     const newQuantity = type === 'increase' ? quantity + 1 : Math.max(1, quantity - 1);
     if (newQuantity > 0) {
-      addToCart(product, newQuantity, selectedColor);
+      addToCart(product, newQuantity);
       setSuccessMessage(t('add_to_cart_success'));
       setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
     }
@@ -46,7 +45,7 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleAddToCart = () => {
-    addToCart(product, quantity, selectedColor);
+    addToCart(product, quantity);
     setSuccessMessage(t('add_to_cart_success'));
     setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
   };
@@ -196,27 +195,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
               </div>
             </div>
 
-            {/* Color Selection */}
-            <div>
-              <h3 className='mb-3 text-lg font-medium text-gray-900'>
-                Màu sắc:
-              </h3>
-              <div className='flex space-x-3'>
-                {product.colors.map((color) => (
-                  <button
-                    key={color.value}
-                    onClick={() => setSelectedColor(color.value)}
-                    className={`rounded-full border-2 px-6 py-2 transition-all ${
-                      selectedColor === color.value
-                        ? 'border-[#2D6294] bg-[#2D6294]/10'
-                        : 'border-gray-300 hover:border-gray-400'
-                    }`}
-                  >
-                    {color.name}
-                  </button>
-                ))}
-              </div>
-            </div>
 
             {/* Quantity Selector and Action Buttons */}
             <div className='flex flex-row items-center gap-2 sm:gap-3'>

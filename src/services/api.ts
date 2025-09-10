@@ -24,8 +24,8 @@ export interface HomeData {
     arriving_soon_products: Product[];
   };
   new_brands: BrandWithProducts[];
-  featured_products: Product[];
   essential_accessories: Product[];
+  hot_special_offer: Product[];
 }
 
 export interface CategoryWithSubcategories {
@@ -69,12 +69,16 @@ export interface Product {
   is_new: boolean;
   is_hot: boolean;
   is_preorder: boolean;
+  is_trending: boolean;
+  is_ending_soon: boolean;
+  is_arriving_soon: boolean;
   preorder_quantity?: number;
   preorder_end_date?: string;
   warranty_period?: number;
   meta_title?: string;
   meta_description?: string;
   view_count: number;
+  primary_image_url?: string;
   brand?: Brand;
   category?: Category;
   images: ProductImage[];

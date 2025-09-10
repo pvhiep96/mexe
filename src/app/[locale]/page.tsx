@@ -35,8 +35,8 @@ async function fetchHomeData() {
         arriving_soon_products: [],
       },
       new_brands: [],
-      featured_products: [],
       essential_accessories: [],
+      hot_special_offer: [],
     };
   }
 }
@@ -106,8 +106,8 @@ export default async function Home() {
     <main className='flex min-h-screen flex-col'>
       <Banner categories={legacyCategories} />
       <NewProducts products={products as any} />
-      <EarlyOrder featuredProducts={homeData.featured_products} />
-      <NewBrands newBrands={homeData.new_brands} />
+      <EarlyOrder earlyOrderProducts={homeData.early_order_products} />
+      <NewBrands hotSpecialOffer={homeData.hot_special_offer} />
       <ComboWorkspace essentialAccessories={homeData.essential_accessories} />
       <BannerSale />
       <Videos />

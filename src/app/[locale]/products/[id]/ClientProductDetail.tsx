@@ -13,7 +13,6 @@ interface Product {
   price: number;
   image: string;
   images: string[];
-  colors: Array<{ name: string; value: string }>;
   description: string;
   brand: string;
   brandDescription: string;
@@ -29,7 +28,6 @@ interface ClientProductDetailProps {
 export default function ClientProductDetail({ productData }: ClientProductDetailProps) {
   const t = useTranslations('product_detail');
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedColor, setSelectedColor] = useState('white');
   const [quantity, setQuantity] = useState(1);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showFullProductInfo, setShowFullProductInfo] = useState(true);
@@ -43,7 +41,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
       price: productData.price,
       image: productData.image,
       quantity: quantity,
-    }, quantity, selectedColor);
+    }, quantity);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
 
@@ -107,23 +105,6 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
               </p>
             </div>
 
-            {/* Colors */}
-            <div>
-              <h3 className='mb-3 text-sm font-medium'>Màu sắc</h3>
-              <div className='flex space-x-2'>
-                {productData.colors.map((color) => (
-                  <button
-                    key={color.value}
-                    onClick={() => setSelectedColor(color.value)}
-                    className={`flex items-center justify-center px-4 py-2 rounded-full border-2 transition-all duration-200 hover:scale-105 cursor-pointer ${
-                      selectedColor === color.value ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-md' : 'border-gray-300 bg-gray-100 text-gray-700'
-                    }`}
-                  >
-                    <span className='text-sm font-medium'>{color.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
 
             {/* Quantity */}
             <div>
@@ -140,7 +121,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
                       price: productData.price,
                       image: productData.image,
                       quantity: newQuantity,
-                    }, newQuantity, selectedColor);
+                    }, newQuantity);
                     showTooltip('Đã cập nhật giỏ hàng!', 'success');
                   }}
                   className='flex h-10 w-10 items-center justify-center rounded-l-full border border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer bg-gray-100 text-gray-700 font-medium border-r-0 hover:scale-105'
@@ -159,7 +140,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
                       price: productData.price,
                       image: productData.image,
                       quantity: newQuantity,
-                    }, newQuantity, selectedColor);
+                    }, newQuantity);
                     showTooltip('Đã cập nhật giỏ hàng!', 'success');
                   }}
                   className='flex h-10 w-10 items-center justify-center rounded-r-full border border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer bg-gray-100 text-gray-700 font-medium border-l-0 hover:scale-105'

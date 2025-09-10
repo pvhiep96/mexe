@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import Link from 'next/link';
-import { BrandWithProducts, Product } from '@/services/api';
+import { Product } from '@/services/api';
 
 interface BrandProduct {
   id: number;
@@ -23,13 +23,12 @@ interface BrandProductCardProps {
 }
 
 interface NewBrandsProps {
-  newBrands?: BrandWithProducts[];
+  hotSpecialOffer?: Product[];
 }
 
 // Helper function to convert API products to component format
 const convertApiProductToBrandProduct = (apiProduct: Product, index: number): BrandProduct => {
-  const primaryImage = apiProduct.images.find(img => img.is_primary) || apiProduct.images[0];
-  const imageUrl = primaryImage?.image_url || '/images/demo-new-brands/demo-new-brand-1.png';
+  const imageUrl = apiProduct.primary_image_url || '/images/placeholder-product.png';
   
   const price = parseInt(apiProduct.price);
   const originalPrice = apiProduct.original_price ? parseInt(apiProduct.original_price) : price;
@@ -126,7 +125,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
   );
 }
 
-export default function NewBrands({ newBrands = [] }: NewBrandsProps) {
+export default function NewBrands({ hotSpecialOffer = [] }: NewBrandsProps) {
   const t = useTranslations('new_brands');
   const [slider, setSlider] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -163,7 +162,7 @@ export default function NewBrands({ newBrands = [] }: NewBrandsProps) {
     return () => clearInterval(timer);
   }, [mounted]);
 
-  // Logic băng chuyền vô tận - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
+  // Logic băng chuyền vô tận - giống EarlyOrder
   const prev = () => {
     if (slider > 0) {
       setSlider(slider - 1);
@@ -172,29 +171,21 @@ export default function NewBrands({ newBrands = [] }: NewBrandsProps) {
 
   const next = () => {
     // Luôn tăng lên, tạo hiệu ứng băng chuyền liên tục
-    // Khi slider dương, chúng ta sẽ thấy items từ đầu
-    // Khi slider = 0, bấm next sẽ hiển thị items từ đầu
     setSlider(slider + 1);
   };
 
   // Get brand products from API data
   const getBrandProducts = (): BrandProduct[] => {
-    if (!newBrands.length) {
-      return []; // Return empty array if no brands
+    if (!hotSpecialOffer.length) {
+      return []; // Return empty array if no products
     }
 
-    const allProducts: BrandProduct[] = [];
-    
-    newBrands.forEach((brand) => {
-      brand.featured_products.forEach((product, index) => {
-        allProducts.push(convertApiProductToBrandProduct(product, index));
-      });
-    });
-
-    return allProducts;
+    return hotSpecialOffer.map((product, index) => 
+      convertApiProductToBrandProduct(product, index)
+    );
   };
 
-  // Tạo mảng products lặp lại để tạo băng chuyền vô tận
+  // Tạo mảng products lặp lại để tạo băng chuyền vô tận - giống EarlyOrder
   const getVisibleProducts = () => {
     const brandProducts = getBrandProducts();
     
@@ -203,29 +194,26 @@ export default function NewBrands({ newBrands = [] }: NewBrandsProps) {
     }
 
     // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
-    let conveyorProducts: (BrandProduct & { key: string; originalIndex: number })[] = [];
+    let conveyorProducts = [];
 
     // Thêm products gốc
-    brandProducts.forEach((product, originalIndex) => {
-      conveyorProducts.push({
-        ...product,
-        key: `original-${originalIndex}`,
-        originalIndex,
-      });
-    });
+    conveyorProducts.push(...brandProducts);
 
-    // Thêm products lặp lại 3 lần để đảm bảo đủ items cho băng chuyền
-    for (let i = 0; i < 3; i++) {
-      brandProducts.forEach((product, originalIndex) => {
-        conveyorProducts.push({
-          ...product,
-          key: `repeat-${i}-${originalIndex}`,
-          originalIndex,
-        });
-      });
+    // Thêm products lặp lại 5 lần để đảm bảo đủ items
+    for (let i = 0; i < 5; i++) {
+      conveyorProducts.push(...brandProducts);
     }
 
-    return conveyorProducts;
+    // Thêm products lặp lại 5 lần ở đầu cho Prev
+    for (let i = 0; i < 5; i++) {
+      conveyorProducts.unshift(...brandProducts);
+    }
+
+    return conveyorProducts.map((product, index) => ({
+      ...product,
+      key: `product-${index}`,
+      originalIndex: index % brandProducts.length,
+    }));
   };
 
   const goToSlide = (index: number) => {
@@ -276,15 +264,15 @@ export default function NewBrands({ newBrands = [] }: NewBrandsProps) {
               {/* Slider với hiệu ứng mượt mà */}
               <div className='relative flex items-center'>
                 {/* Prev button */}
-                              <button
-                onClick={prev}
-                disabled={slider === 0}
-                className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
-                style={{
-                  cursor: slider === 0 ? 'not-allowed !important' : 'pointer !important'
-                }}
-                aria-label={t('prev_slide')}
-              >
+                <button
+                  onClick={prev}
+                  disabled={slider === 0}
+                  className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
+                  style={{
+                    cursor: slider === 0 ? 'not-allowed !important' : 'pointer !important'
+                  }}
+                  aria-label={t('prev_slide')}
+                >
                   <ChevronLeftIcon className='h-6 w-6 text-orange-500' />
                 </button>
 
@@ -320,21 +308,7 @@ export default function NewBrands({ newBrands = [] }: NewBrandsProps) {
               </button>
               </div>
               
-              {/* Pagination dots */}
-              {Math.ceil(getBrandProducts().length / visible) > 1 && (
-                <div className='mt-4 flex justify-center gap-2'>
-                  {Array.from({ length: Math.ceil(getBrandProducts().length / visible) }).map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => goToSlide(idx)}
-                      className={`h-2 w-2 rounded-full transition sm:h-3 sm:w-3 ${slider === idx ? 'bg-orange-500' : 'bg-gray-300'}`}
-                      style={{
-                        cursor: 'pointer !important'
-                      }}
-                    />
-                  ))}
-                </div>
-              )}
+              {/* Pagination dots - ẩn đi vì đã có logic băng chuyền vô tận */}
             </div>
           </div>
         </section>
