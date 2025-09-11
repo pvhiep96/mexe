@@ -15,6 +15,7 @@ interface BrandProduct {
   originalPrice: string;
   discountedPrice: string;
   discount: string;
+  slug?: string;
   originalIndex?: number;
 }
 
@@ -41,6 +42,7 @@ const convertApiProductToBrandProduct = (apiProduct: Product, index: number): Br
     originalPrice: `${originalPrice.toLocaleString()}đ`,
     discountedPrice: `${price.toLocaleString()}đ`,
     discount: discountPercent > 0 ? `-${Math.round(discountPercent)}%` : '',
+    slug: apiProduct.slug,
     originalIndex: index,
   };
 };
@@ -57,7 +59,10 @@ function BrandProductCard({ product }: BrandProductCardProps) {
   return (
     <div 
       className='relative mx-2 h-[460px] w-full flex-shrink-0 rounded-lg border border-gray-200 bg-white shadow-md sm:w-[280px] md:w-[250px] hover:shadow-lg cursor-pointer transition-shadow duration-300'
-      onClick={() => window.open(`/products/${(product.originalIndex ?? 0) + 1}`, '_blank')}
+      onClick={() => {
+        const productUrl = product.slug ? `/products/${product.slug}` : `/products/${product.id}`;
+        window.open(productUrl, '_blank');
+      }}
     >
       {/* Badge labels - đặt trong card */}
       <div className='absolute top-3 left-3 z-10 flex flex-col items-start gap-2'>
@@ -104,7 +109,7 @@ function BrandProductCard({ product }: BrandProductCardProps) {
         {/* Nút hành động - giảm khoảng cách với thông tin phía trên */}
         <div className='mt-3 flex gap-2'>
           <a
-            href={`/products/${(product.originalIndex ?? 0) + 1}`}
+            href={product.slug ? `/products/${product.slug}` : `/products/${product.id}`}
             className='flex-1 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-800 transition hover:bg-gray-200 cursor-pointer'
             onClick={(e) => e.stopPropagation()}
           >
@@ -373,7 +378,14 @@ export default function NewBrands({ hotSpecialOffer = [] }: NewBrandsProps) {
                   `}</style>
                   
                   {getBrandProducts().map((product, index) => (
-                    <div key={`mobile-brand-${index}`} className='flex min-w-[220px] flex-col items-center rounded-lg bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300 border border-gray-200'>
+                    <div 
+                      key={`mobile-brand-${index}`} 
+                      className='flex min-w-[220px] flex-col items-center rounded-lg bg-white p-3 shadow hover:shadow-lg cursor-pointer transition-shadow duration-300 border border-gray-200'
+                      onClick={() => {
+                        const productUrl = product.slug ? `/products/${product.slug}` : `/products/${product.id}`;
+                        window.open(productUrl, '_blank');
+                      }}
+                    >
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -402,13 +414,18 @@ export default function NewBrands({ hotSpecialOffer = [] }: NewBrandsProps) {
                         </span>
                       </div>
                       <div className='flex gap-2 w-full mt-1'>
-                        <a href='#' className='flex-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-800 text-center transition hover:bg-gray-200'>
+                        <a 
+                          href={product.slug ? `/products/${product.slug}` : `/products/${product.id}`}
+                          className='flex-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-800 text-center transition hover:bg-gray-200'
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           {t('view_details')}
                         </a>
                         <a
-                          href='#'
+                          href={product.slug ? `/products/${product.slug}` : `/products/${product.id}`}
                           onClick={(e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
                             alert('Đặt hàng thành công!');
                           }}

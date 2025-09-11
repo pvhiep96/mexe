@@ -208,12 +208,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             <React.Fragment key={product.id}>
               {/* Product card */}
               <div
-                className='group relative flex h-[320px] w-full max-w-[195px] cursor-pointer flex-col items-center overflow-hidden rounded-lg border-2 border-[#2D6294] bg-white p-0 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:h-[420px] sm:max-w-[245px] lg:h-[450px]'
+                className='group relative flex h-[320px] w-full max-w-[195px] cursor-pointer flex-col items-center rounded-lg border-2 border-[#2D6294] bg-white shadow-lg transition-shadow duration-300 hover:shadow-xl sm:h-[420px] sm:max-w-[245px] lg:h-[450px]'
                 style={{ boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)' }}
                 onClick={() => handleProductClick(product)}
               >
                 {/* Product image container */}
-                <div className='relative flex h-[160px] w-full items-center justify-center bg-[#f7f7f7] sm:h-[220px] lg:h-[245px]'>
+                <div className='relative flex h-[160px] w-full items-center justify-center overflow-hidden rounded-t-lg bg-[#f7f7f7] sm:h-[220px] lg:h-[245px]'>
                   {product.image ? (
                     <img
                       src={product.image}
@@ -277,7 +277,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                 </div>
 
                 {/* Product content */}
-                <div className='flex w-full flex-1 flex-col items-center px-1.5 pt-2 pb-3 sm:px-3'>
+                <div className='flex w-full flex-1 flex-col items-center px-2 pt-2 pb-3 sm:px-3'>
                   {/* Product name */}
                   <div
                     className='mb-1 line-clamp-2 w-full text-left text-xs font-bold text-black sm:text-base'

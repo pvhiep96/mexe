@@ -110,6 +110,7 @@ async function fetchProduct(id: number | string) {
         }, {}),
         specifications: product.specifications || [],
         descriptions: (product.descriptions || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)),
+        videos: (product.videos || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)),
         quantity: product.stock_quantity || 1,
       },
     };
