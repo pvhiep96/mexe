@@ -3,63 +3,6 @@ import ProductDetail from '@/components/Product';
 import { api } from '@/config/api';
 // import { ProductType } from '@/components/Product/types';
 
-async function fetchRelatedProducts(categoryId: number | string, excludeProductId: number | string, limit: number = 3) {
-  try {
-    console.log('Fetching related products for category:', categoryId, 'excluding product:', excludeProductId);
-    
-    // Use API filter to get products by category directly
-    // Request more products than needed to account for excluding current product
-    let pageSize = Math.max(limit + 5, 10); // Get extra products to ensure we have enough after filtering
-    const response = await api.listProducts(1, pageSize, Number(categoryId));
-    
-    if (!response.data || !response.data.data || !Array.isArray(response.data.data)) {
-      console.log('No products data found in API response');
-      return [];
-    }
-
-    console.log('Total products fetched from category', categoryId, ':', response.data.data.length);
-
-    // Only need to exclude current product since API already filtered by category
-    const filteredProducts = response.data.data.filter((product: any) => {
-      // Check if product has valid data
-      if (!product || !product.id || !product.name) {
-        return false;
-      }
-      
-      // Exclude current product
-      if (product.id === excludeProductId || String(product.id) === String(excludeProductId)) {
-        return false;
-      }
-      
-      return true;
-    });
-
-    console.log('Products after excluding current product:', filteredProducts.length);
-
-    // Map to our expected structure
-    const relatedProducts = filteredProducts
-      .slice(0, limit) // Take only the required number
-      .map((product: any) => ({
-        id: product.id,
-        name: product.name || 'Unnamed Product',
-        price: product.price || 0,
-        image: (product.images && product.images[0]) 
-          ? product.images[0].image_url 
-          : '/images/placeholder-product.png',
-        slug: product.slug || product.id
-      }));
-
-    console.log('Final related products:', relatedProducts.length);
-    return relatedProducts;
-  } catch (error) {
-    console.error('Failed to fetch related products:', error);
-    if (error instanceof Error) {
-      console.error('Error details:', error.message);
-    }
-    return [];
-  }
-}
-
 async function fetchProduct(id: number | string) {
   try {
     console.log('Fetching product with ID:', id);
@@ -71,13 +14,13 @@ async function fetchProduct(id: number | string) {
     // Check if product data is valid
     if (!product || !product.id) {
       console.error('Invalid product data:', product);
-      return { product: null };
+      return { product: null, relatedProducts: [] };
     }
 
     // Check if required fields exist
     if (!product.name || !product.price) {
       console.error('Missing required product fields:', product);
-      return { product: null };
+      return { product: null, relatedProducts: [] };
     }
 
     return {
@@ -93,6 +36,7 @@ async function fetchProduct(id: number | string) {
           value: v.variant_value || 'default',
         })),
         description: product.description || 'No description available',
+        shortDescription: product.short_description || '',
         brand: product.brand?.name || 'Unknown Brand',
         brandDescription: product.brand?.description || product.brand?.name || 'No brand description available',
         category: product.category || (product.category_id ? { id: product.category_id, name: 'Unknown Category' } : null),
@@ -113,13 +57,14 @@ async function fetchProduct(id: number | string) {
         videos: (product.videos || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)),
         quantity: product.stock_quantity || 1,
       },
+      relatedProducts: product.related_products || []
     };
   } catch (error) {
     console.error('Failed to fetch product:', error);
     if (error instanceof Error) {
       console.error('Error message:', error.message);
     }
-    return { product: null };
+    return { product: null, relatedProducts: [] };
   }
 }
 
@@ -129,7 +74,7 @@ interface ProductParamsProps {
 
 const ProductPage: FC<ProductParamsProps> = async ({ params }) => {
   const { id } = await params;
-  const { product } = await fetchProduct(id);
+  const { product, relatedProducts } = await fetchProduct(id);
 
   if (!product || product === null) {
     return (
@@ -146,12 +91,6 @@ const ProductPage: FC<ProductParamsProps> = async ({ params }) => {
         </div>
       </div>
     );
-  }
-
-  // Fetch related products if category exists
-  let relatedProducts = [];
-  if (product.category?.id) {
-    relatedProducts = await fetchRelatedProducts(product.category.id, product.id, 3);
   }
 
   return <ProductDetail product={product} relatedProducts={relatedProducts} />;

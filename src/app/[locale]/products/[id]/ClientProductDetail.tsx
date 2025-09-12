@@ -14,6 +14,7 @@ interface Product {
   image: string;
   images: string[];
   description: string;
+  shortDescription?: string;
   brand: string;
   brandDescription: string;
   services: Array<{ icon: string; text: string }>;
@@ -43,6 +44,15 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
       quantity: quantity,
     }, quantity);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
   };
 
   return (
@@ -101,7 +111,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
             <div>
               <h1 className='text-3xl font-bold text-gray-900'>{productData.name}</h1>
               <p className='mt-2 text-2xl font-bold text-blue-600'>
-                {productData.price.toLocaleString()}đ
+                {formatPrice(productData.price)}
               </p>
             </div>
 
@@ -114,15 +124,6 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
                   onClick={() => {
                     const newQuantity = Math.max(1, quantity - 1);
                     setQuantity(newQuantity);
-                    // Thêm vào giỏ hàng với số lượng mới
-                    addToCart({
-                      id: productData.id,
-                      name: productData.name,
-                      price: productData.price,
-                      image: productData.image,
-                      quantity: newQuantity,
-                    }, newQuantity);
-                    showTooltip('Đã cập nhật giỏ hàng!', 'success');
                   }}
                   className='flex h-10 w-10 items-center justify-center rounded-l-full border border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer bg-gray-100 text-gray-700 font-medium border-r-0 hover:scale-105'
                 >
@@ -133,15 +134,6 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
                   onClick={() => {
                     const newQuantity = quantity + 1;
                     setQuantity(newQuantity);
-                    // Thêm vào giỏ hàng với số lượng mới
-                    addToCart({
-                      id: productData.id,
-                      name: productData.name,
-                      price: productData.price,
-                      image: productData.image,
-                      quantity: newQuantity,
-                    }, newQuantity);
-                    showTooltip('Đã cập nhật giỏ hàng!', 'success');
                   }}
                   className='flex h-10 w-10 items-center justify-center rounded-r-full border border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer bg-gray-100 text-gray-700 font-medium border-l-0 hover:scale-105'
                 >

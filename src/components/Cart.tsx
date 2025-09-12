@@ -342,7 +342,7 @@ export default function Cart() {
                   className={`flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-gray-900 transition sm:text-base ${
                     isCreatingOrder 
                       ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-yellow-300 hover:bg-yellow-400'
+                      : 'bg-yellow-300 hover:bg-yellow-400 cursor-pointer'
                   }`}
                 >
                   <CreditCardIcon className='mr-2 h-5 w-5' />
@@ -371,7 +371,7 @@ export default function Cart() {
                   className={`flex items-center rounded-full px-4 py-2 text-sm font-semibold text-gray-900 transition ${
                     isCreatingOrder 
                       ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-yellow-300 hover:bg-yellow-400'
+                      : 'bg-yellow-300 hover:bg-yellow-400 cursor-pointer'
                   }`}
                 >
                   <CreditCardIcon className='mr-2 h-5 w-5' />
@@ -383,7 +383,7 @@ export default function Cart() {
                   className={`flex items-center rounded-full px-4 py-2 text-sm font-semibold text-gray-900 transition ${
                     isCreatingOrder 
                       ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-yellow-300 hover:bg-yellow-400'
+                      : 'bg-yellow-300 hover:bg-yellow-400 cursor-pointer'
                   }`}
                 >
                   <GiftIcon className='mr-2 h-5 w-5' />

@@ -26,6 +26,16 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
 
   // const product: Product = PRODUCT_MOCK;
 
+  // Format price to Vietnamese currency
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
       setQuantity((prev) => prev + 1);
@@ -141,7 +151,7 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                 {product.name}
               </h1>
               <p className='text-2xl font-semibold text-red-600'>
-                {product.price}
+                {formatPrice(product.price || 0)}
               </p>
             </div>
 
@@ -191,6 +201,16 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                 >
                   {product.brandDescription}
                 </p>
+                
+                {/* Short Description */}
+                {product.shortDescription && (
+                  <div className='mt-4'>
+                    <p className='text-sm text-gray-600 leading-relaxed'>
+                      {product.shortDescription}
+                    </p>
+                  </div>
+                )}
+                
                 {!showFullDescription && (
                   <div className='pointer-events-none absolute right-0 bottom-0 left-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent'></div>
                 )}
