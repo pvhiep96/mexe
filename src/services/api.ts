@@ -199,8 +199,8 @@ export interface NewsResponse {
 
 export interface SearchResponse {
   products: Product[];
-  articles: Article[];
-  total_results: number;
+  total_count: number;
+  query: string;
 }
 
 // Token management utilities
