@@ -137,7 +137,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
         }
       };
 
-      // Gọi trực tiếp đến backend Rails API
+      // Gọi trực tiếp đến backend Rails API  
       const orderResponse = await fetch('http://localhost:3005/api/v1/orders', {
         method: 'POST',
         headers: {
@@ -162,7 +162,12 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       // Nếu tạo order thành công, xử lý payment
       if (data.paymentMethod === 'cod') {
         // COD: Hiển thị thông báo thành công và chuyển đến order-status
-        showTooltip(t('order_success_message'), 'success');
+        showTooltip('Đặt hàng thành công! Bạn sẽ thanh toán khi nhận hàng.', 'success');
+        
+        // Clear cart từ localStorage
+        localStorage.removeItem('cart');
+        localStorage.removeItem('cartItems');
+        
         setTimeout(() => {
           router.push('/order-status');
         }, 2000);
