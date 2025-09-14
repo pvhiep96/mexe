@@ -77,11 +77,19 @@ const fetchbrands = async () => {
 
 const fetchCategories = async () => {
   try {
-    const response = await api.listcategory();
-    const data: Listcategory200Response = response.data;
-    return data.stores || [];
+    const response = await fetch('http://localhost:3005/api/v1/categories');
+    const categories = await response.json();
+
+    // Transform to match Banner component interface
+    return categories.map((category: any) => ({
+      id: category.id,
+      name: category.name,
+      slug: category.slug || category.name.toLowerCase().replace(/\s+/g, '-'),
+      image: category.image_url || '/images/icon-more.webp',
+      subcategories: category.subcategories || []
+    }));
   } catch (error) {
-    console.error('Failed to fetch brands:', error);
+    console.error('Failed to fetch categories:', error);
     return [];
   }
 };
