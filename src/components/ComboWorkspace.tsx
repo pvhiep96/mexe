@@ -205,7 +205,7 @@ export default function ComboWorkspace({ essentialAccessories }: ComboWorkspaceP
               </button>
 
               {/* Slider container */}
-              <div className='w-full overflow-hidden rounded-lg bg-white'>
+              <div className='w-full overflow-hidden rounded-lg'>
                 <div
                   className='flex transition-transform duration-500 ease-in-out'
                   style={{
@@ -289,10 +289,10 @@ export default function ComboWorkspace({ essentialAccessories }: ComboWorkspaceP
             </div>
 
             {/* Mobile slider với 8 items 1 trang chia 2 hàng - giống hệt mexe.com */}
-            <div className='relative overflow-hidden rounded-lg bg-white'>
+            <div className='relative overflow-hidden rounded-lg'>
               <div
                 ref={scrollContainerRef}
-                className='flex overflow-x-auto bg-white'
+                className='flex overflow-x-auto'
                 style={{
                   scrollbarWidth: 'none' /* Firefox */,
                   msOverflowStyle: 'none' /* Internet Explorer 10+ */,
@@ -313,10 +313,10 @@ export default function ComboWorkspace({ essentialAccessories }: ComboWorkspaceP
                 `}</style>
 
                 {/* Trang 1 - 8 items chia 2 hàng */}
-                <div className='min-w-[100%] flex-shrink-0 bg-white px-3 py-4'>
+                <div className='min-w-[100%] flex-shrink-0 px-3 py-4'>
                   <div className='grid grid-cols-2 gap-3 sm:gap-4'>
                     {combos.slice(0, 8).map((combo) => (
-                      <div key={combo.id} className='bg-white'>
+                      <div key={combo.id}>
                         <MobileComboCard combo={combo} />
                       </div>
                     ))}
@@ -324,10 +324,10 @@ export default function ComboWorkspace({ essentialAccessories }: ComboWorkspaceP
                 </div>
 
                 {/* Trang 2 - 4 items còn lại chia 2 hàng */}
-                <div className='min-w-[100%] flex-shrink-0 bg-white px-3 py-4'>
+                <div className='min-w-[100%] flex-shrink-0 px-3 py-4'>
                   <div className='grid grid-cols-2 gap-3 sm:gap-4'>
                     {combos.slice(8, 12).map((combo) => (
-                      <div key={combo.id} className='bg-white'>
+                      <div key={combo.id}>
                         <MobileComboCard combo={combo} />
                       </div>
                     ))}

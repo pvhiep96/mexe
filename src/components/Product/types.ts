@@ -1,3 +1,15 @@
+export type ProductVideoType = {
+  id: number;
+  url: string;
+  title: string;
+  description?: string;
+  sort_order: number;
+  is_active: boolean;
+  embed_url: string;
+  thumbnail_url: string;
+  youtube_video_id: string;
+};
+
 export type ProductType = {
   id: string | number | undefined;
   name: string | undefined;
@@ -14,6 +26,7 @@ export type ProductType = {
   specs: Record<string, string> | undefined;
   specifications: { spec_name: string; spec_value: string; sort_order?: number }[] | undefined;
   descriptions: { id: number; title: string; content: string; sort_order: number }[] | undefined;
+  videos: ProductVideoType[] | undefined;
   quantity: number | undefined;
 };
 

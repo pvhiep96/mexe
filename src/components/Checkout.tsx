@@ -53,6 +53,16 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   const router = useRouter();
   const { showTooltip } = useFlashTooltip();
 
+  // Format price to Vietnamese currency
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
   // Move arrays inside component to use t function
   const stores = [
     { value: 'HCM', label: t('stores.hcm') },
@@ -561,12 +571,12 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                       <p className='font-medium'>{item.name}</p>
                       <p className='text-sm'>
                         {t('cart_preview.price')}:{' '}
-                        {item.price.toLocaleString('vi-VN')}đ
+                        {formatPrice(item.price)}
                       </p>
                       {item.discountedPrice && (
                         <p className='text-sm text-red-500'>
                           {t('cart_preview.discount')}:{' '}
-                          {item.discountedPrice.toLocaleString('vi-VN')}đ
+                          {formatPrice(item.discountedPrice)}
                         </p>
                       )}
                     <p className='text-sm'>
@@ -640,7 +650,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               </div>
               <div className='flex justify-between font-bold'>
                 <span>{t('summary.total')}</span>
-                <span>{order.total.toLocaleString('vi-VN')}đ</span>
+                <span>{formatPrice(order.total)}</span>
               </div>
             </div>
             <button

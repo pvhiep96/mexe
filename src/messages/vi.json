@@ -311,7 +311,10 @@
     "secure_payment": "Thanh Toán Bảo Mật",
     "secure_payment_desc": "Các tùy chọn thanh toán an toàn và bảo mật",
     "easy_returns": "Đổi Trả Dễ Dàng",
-    "easy_returns_desc": "Đổi trả dễ dàng trong vòng 30 ngày"
+    "easy_returns_desc": "Đổi trả dễ dàng trong vòng 30 ngày",
+    "order_created": "Đã tạo đơn hàng thành công!",
+    "creating_order": "Đang tạo đơn hàng...",
+    "order_error": "Có lỗi xảy ra khi tạo đơn hàng"
   },
   "checkout": {
     "title": "Thanh Toán",
