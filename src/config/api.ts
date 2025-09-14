@@ -16,7 +16,7 @@ export const API_ENDPOINTS = {
   BRANDS: '/brands',
   NEWS: '/news',
   ARTICLE: (slug: string) => `/news/${slug}`,
-  SEARCH: '/search',
+  SEARCH: '/search/products',
   FEATURED_PRODUCTS: '/products/featured',
   NEW_PRODUCTS: '/products/new',
   HOT_PRODUCTS: '/products/hot',
