@@ -89,8 +89,8 @@ export default function Header() {
   const [isSearching, setIsSearching] = useState(false);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
-  const searchTimeoutRef = useRef<NodeJS.Timeout>();
-  const { getCartItemCount } = useCart();
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { getCartItemCount } = useCart!();
 
   // Handle search functionality
   const performSearch = async (query: string) => {

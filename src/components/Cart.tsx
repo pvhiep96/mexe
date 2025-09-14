@@ -249,7 +249,6 @@ export default function Cart() {
     gift: 'Quà tặng',
     total: 'Tổng cộng',
     creating_order: 'Đang tạo đơn hàng...',
-    order_created: 'Đã tạo đơn hàng thành công!',
     order_error: 'Có lỗi xảy ra khi tạo đơn hàng',
   };
   
@@ -291,8 +290,6 @@ export default function Cart() {
 
       // Lưu order vào localStorage hoặc context
       localStorage.setItem('currentOrder', JSON.stringify(orderData));
-      
-      showTooltip(safeTranslate('order_created'), 'success');
       
       // Chuyển đến trang checkout
       setTimeout(() => {
