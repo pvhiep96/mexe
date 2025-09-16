@@ -316,24 +316,7 @@ export default function ProductListPage({ allProducts }: ProductListPageType) {
           </p>
         </div>
 
-        {/* Hashtag */}
         <div className='mb-8'>
-          <div className='hidden py-4 sm:block'>
-            <div className='grid grid-cols-2 justify-items-center gap-4 sm:grid-cols-5'>
-              {hashtags
-                .slice(0, 4)
-                .map((tag: { label: string; url: string }) => (
-                  <button
-                    key={tag.label}
-                    className={`cursor-pointer rounded-full bg-white px-7 py-2 text-base font-semibold text-black shadow-sm transition-all hover:bg-sky-400 hover:font-bold hover:text-white`}
-                    style={{ minWidth: 140 }}
-                    onClick={() => handleHashtagClick(tag.url)}
-                  >
-                    {tag.label}
-                  </button>
-                ))}
-            </div>
-          </div>
           {/* Coupon */}
           <div className='mb-8'>
             <div className='mx-auto flex w-[90%] flex-nowrap gap-3 overflow-x-auto pb-2 sm:gap-6'>
