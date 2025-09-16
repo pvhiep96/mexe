@@ -167,7 +167,7 @@ export class ReloadFix {
   }
 
   private static async testAuthenticationEndpoints() {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1';
     const token = localStorage.getItem('authToken');
     
     if (!token) {

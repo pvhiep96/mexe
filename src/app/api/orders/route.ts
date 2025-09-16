@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET() {
   try {
     // Test backend connection
-    const backendUrl = 'http://localhost:3005';
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://47.129.168.239:81';
     console.log('Testing backend connection to:', `${backendUrl}/api/v1/orders`);
     
     const response = await fetch(`${backendUrl}/api/v1/orders`, {
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
     console.log('Proceeding with real backend API call...');
     
     // Gọi backend Rails API (Rails đang chạy trên port 3005)
-    const backendUrl = 'http://localhost:3005'; // Backend Rails port
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://47.129.168.239:81'; // Backend Rails port
     console.log('Calling backend API:', `${backendUrl}/api/v1/orders`);
     console.log('Order data being sent:', orderData);
     

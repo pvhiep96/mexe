@@ -138,7 +138,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       };
 
       // Gọi trực tiếp đến backend Rails API  
-      const orderResponse = await fetch('http://localhost:3005/api/v1/orders', {
+      const orderResponse = await fetch('http://47.129.168.239:81/api/v1/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

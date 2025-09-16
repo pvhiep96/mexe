@@ -50,7 +50,7 @@ const OrderStatusPage = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:3005/api/v1/orders/${orderNumber}`);
+        const response = await fetch(`http://47.129.168.239:81/api/v1/orders/${orderNumber}`);
         if (!response.ok) {
           throw new Error('Không thể tải thông tin đơn hàng');
         }
