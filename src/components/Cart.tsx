@@ -307,17 +307,7 @@ export default function Cart() {
   return (
     <main className='relative py-6 sm:py-8'>
       <div className='mx-auto max-w-6xl px-4 sm:px-6 lg:px-8'>
-        <Link href='/'>
-          <Image
-            src='/images/cart-banner/banner.png'
-            alt={safeTranslate('cart_banner_alt')}
-            width={1200}
-            height={300}
-            className='my-6 w-full rounded-lg object-cover sm:my-8'
-          />
-        </Link>
-
-        <div className='flex flex-col items-center'>
+        <div className='flex flex-col items-center justify-center h-[70vh]'>
           {cartItems.length === 0 ? (
             <div className='text-center text-xl font-bold text-gray-500 sm:text-2xl'>
               {safeTranslate('empty_cart')}
