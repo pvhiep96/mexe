@@ -2,7 +2,7 @@ import { DefaultApi, Configuration } from '../../api';
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1',
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1',
   TIMEOUT: 10000, // 10 seconds
   RETRY_ATTEMPTS: 3,
 };
@@ -35,6 +35,8 @@ export const API_ENDPOINTS = {
     FAVORITES: '/users/favorites',
     ADDRESSES: '/users/addresses',
   },
+  // Contact endpoints
+  CONTACT: '/contacts',
 };
 
 const configuration = new Configuration({

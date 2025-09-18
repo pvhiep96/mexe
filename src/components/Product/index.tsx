@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { ProductType, RelatedProductType } from './types';
 import Link from 'next/link';
 import RelatedProducts from './RelatedProducts';
+import ChatFloat from '../ChatFloat';
 type ProductDetailProps = {
   product: ProductType;
   relatedProducts?: RelatedProductType[];
@@ -81,6 +82,12 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
 
   return (
     <div className='min-h-screen'>
+      {/* Chat Float Component */}
+      <ChatFloat
+        productName={product.name}
+        productUrl={typeof window !== 'undefined' ? window.location.href : undefined}
+      />
+
       <div className='container mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8'>
         {/* Breadcrumb */}
         <nav className='mb-8 flex' aria-label='Breadcrumb'>

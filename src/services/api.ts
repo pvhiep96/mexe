@@ -775,6 +775,22 @@ class ApiClient {
       return { success: false, error };
     }
   }
+
+  // Contact form
+  async sendContactForm(contactData: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    productInfo?: string;
+    productUrl?: string;
+    subject?: string;
+  }): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(API_ENDPOINTS.CONTACT, {
+      method: 'POST',
+      body: JSON.stringify(contactData),
+    });
+  }
 }
 
 // Export singleton instance
