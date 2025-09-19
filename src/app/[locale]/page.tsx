@@ -77,17 +77,17 @@ const fetchbrands = async () => {
 
 const fetchCategories = async () => {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1';
+    const apiUrl = process.env.API_URL || 'http://47.129.168.239:81/api/v1';
     const response = await fetch(`${apiUrl}/categories`);
     const categories = await response.json();
-
+    console.log('Fetched categories:', response);
     // Transform to match Banner component interface
     return categories.map((category: any) => ({
       id: category.id,
       name: category.name,
       slug: category.slug || category.name.toLowerCase().replace(/\s+/g, '-'),
       image: category.image_url || '/images/icon-more.webp',
-      subcategories: category.subcategories || []
+      subcategories: category.subcategories || [],
     }));
   } catch (error) {
     console.error('Failed to fetch categories:', error);
@@ -98,7 +98,7 @@ const fetchCategories = async () => {
 export default async function Home() {
   // Fetch home data from API
   const homeData = await fetchHomeData();
-  
+
   // Keep backward compatibility for existing components
   const page = 1;
   const perPage = 10;
@@ -110,7 +110,7 @@ export default async function Home() {
   } = await fetchProducts(page, perPage);
   const brands = await fetchbrands();
   const legacyCategories = await fetchCategories();
-  
+
   return (
     <main className='flex min-h-screen flex-col'>
       <Banner categories={legacyCategories} />

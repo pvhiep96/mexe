@@ -1,0 +1,11 @@
+services:
+  react:
+    build: .
+    container_name: mexe-fe
+    restart: unless-stopped
+    environment:
+      - API_URL=http://47.129.168.239:81/api/v1
+      - NEXT_PUBLIC_API_URL=http://47.129.168.239:81/api/v1
+      - PORT=3000
+    ports:
+      - "5001:3000"

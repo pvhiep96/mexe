@@ -179,7 +179,14 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
   return (
     <section className='bg-gray-100 py-8'>
       {/* Desktop Layout */}
-      <div className='slider-index relative hidden lg:flex' style={{ width: `${containerWidth}px`, height: `${sidebarHeight}px`, margin: '0 auto' }}>
+      <div
+        className='slider-index relative hidden lg:flex'
+        style={{
+          width: `${containerWidth}px`,
+          height: `${sidebarHeight}px`,
+          margin: '0 auto',
+        }}
+      >
         <div
           className={`slider-sidebar mr-4 rounded-lg bg-white shadow-md`}
           style={{
@@ -190,7 +197,7 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundColor: '#2F6194',
-            })
+            }),
           }}
         >
           <ul className='grid grid-flow-col space-y-2 rounded-t-lg bg-[#2F6194]'>
@@ -212,7 +219,10 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
             </li>
           </ul>
 
-          <div className='tab-content overflow-y-auto' style={{ height: `${sidebarHeight - 48}px`, minWidth: '330px' }}>
+          <div
+            className='tab-content overflow-y-auto'
+            style={{ height: `${sidebarHeight - 48}px`, minWidth: '330px' }}
+          >
             <div
               className={`tab-pane ${activeTab === 'danhmuc' ? 'block' : 'hidden'} h-full`}
             >
@@ -238,7 +248,10 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
               className={`tab-pane ${activeTab === 'thuonghieu' ? 'block' : 'hidden'} h-full`}
               id='thuonghieu'
             >
-              <div className='menu-vendor-list grid h-full w-full grid-cols-2 gap-3 p-3' style={{ minWidth: '330px' }}>
+              <div
+                className='menu-vendor-list grid h-full w-full grid-cols-2 gap-3 p-3'
+                style={{ minWidth: '330px' }}
+              >
                 {vendors.map((vendor, idx) => (
                   <a
                     key={idx}

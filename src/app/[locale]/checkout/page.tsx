@@ -49,7 +49,7 @@ const CheckoutPage = () => {
     return (
       <div className='flex min-h-screen items-center justify-center'>
         <div className='text-center'>
-          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto'></div>
+          <div className='mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600'></div>
           <p className='mt-4 text-gray-600'>Đang tải thông tin đơn hàng...</p>
         </div>
       </div>
@@ -60,8 +60,12 @@ const CheckoutPage = () => {
     return (
       <div className='flex min-h-screen items-center justify-center'>
         <div className='text-center'>
-          <h1 className='text-2xl font-bold text-gray-900'>Không tìm thấy đơn hàng</h1>
-          <p className='mt-2 text-gray-600'>Vui lòng quay lại giỏ hàng để tạo đơn hàng mới</p>
+          <h1 className='text-2xl font-bold text-gray-900'>
+            Không tìm thấy đơn hàng
+          </h1>
+          <p className='mt-2 text-gray-600'>
+            Vui lòng quay lại giỏ hàng để tạo đơn hàng mới
+          </p>
           <button
             onClick={() => router.push('/cart')}
             className='mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700'
