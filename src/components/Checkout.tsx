@@ -77,6 +77,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   ];
   const [deliveryType, setDeliveryType] = useState<'home' | 'store'>('home');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bankImage, setBankImage] = useState('');
 
   const {
     register,
@@ -84,6 +85,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     control,
     formState: { errors },
     setValue,
+    watch,
   } = useForm<CheckoutForm>({
     defaultValues: {
       amount: order.total,
@@ -95,6 +97,11 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     },
   });
 
+  const [paymentMethod] = watch(['paymentMethod']);
+
+  const generateQR = () => {
+    return `https://api.vietqr.io/image/970423-02626515401-fC2mdTK.jpg?amount=${order.total}`;
+  };
   // Set delivery address placeholder after component mounts
   useEffect(() => {
     setValue('deliveryAddress', t('delivery_address_placeholder'));
@@ -168,7 +175,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       localStorage.removeItem('currentOrder');
 
       // Nếu tạo order thành công, xử lý payment
-      if (data.paymentMethod === 'cod') {
+      if (data.paymentMethod === 'cod' || data.paymentMethod === 'bank') {
         // COD: Hiển thị thông báo thành công và chuyển đến order-status
         showTooltip(
           'Đặt hàng thành công! Bạn sẽ thanh toán khi nhận hàng.',
@@ -182,10 +189,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
         setTimeout(() => {
           router.push('/order-status');
         }, 2000);
-      } else if (
-        data.paymentMethod === 'card' ||
-        data.paymentMethod === 'bank'
-      ) {
+      } else if (data.paymentMethod === 'card') {
         // Card/Bank: Chuyển đến payment gateway với order đã tạo
         showTooltip(
           'Đã tạo đơn hàng thành công! Đang chuyển đến trang thanh toán...',
@@ -492,6 +496,10 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                 <p className='text-sm text-red-500'>
                   {errors.paymentMethod.message}
                 </p>
+              )}
+              {/* {paymentMethod} */}
+              {paymentMethod === 'bank' && (
+                <Image src={generateQR()} alt={''} width={400} height={400} />
               )}
             </div>
 

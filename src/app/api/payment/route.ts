@@ -9,42 +9,47 @@ export async function GET(request: NextRequest) {
       apiKey: 'c2143161-66e1-4675-9bae-985751f66234',
     });
 
-    vietQR
+    const res = await vietQR
       .genQRCodeBase64({
-        bank: '970415',
-        accountName: 'QUY VAC XIN PHONG CHONG COVID',
-        accountNumber: '113366668888',
+        bank: '',
+        accountName: 'Tran Van Quy',
+        accountNumber: '02626515401',
         amount: '79000',
         memo: 'Ung Ho Quy Vac Xin',
         template: 'compact',
       })
       .then((data: unknown) => {
-        console.log(data);
-        return NextResponse.json({
+        // console.log(data);
+        return {
           message: 'Backend connection successful',
           backendStatus: 'connected',
           data,
           timestamp: new Date().toISOString(),
-        });
+        };
       })
       .catch((err: unknown) => {
         console.error(err);
-        return NextResponse.json({
+        return {
           message: 'Backend connection failed',
           backendStatus: 'error',
           timestamp: new Date().toISOString(),
-        });
+        };
       });
+
+    console.log(res);
+    return Response.json({
+      message: 'Backend connection successful',
+      backendStatus: 'connected',
+      timestamp: new Date().toISOString(),
+    });
+    // return NextResponse.json({ res });
   } catch (error) {
     console.error('Backend connection test failed:', error);
-    return NextResponse.json(
-      {
-        message: 'Backend connection test failed',
-        backendStatus: 'unreachable',
-        error: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString(),
-      },
-      { status: 503 }
-    );
+    return NextResponse.json({
+      message: 'Backend connection test failed',
+      backendStatus: 'unreachable',
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString(),
+    });
   }
 }
