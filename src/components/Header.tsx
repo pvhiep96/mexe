@@ -106,7 +106,6 @@ export default function Header() {
       setSearchResults(results);
       setShowSearchDropdown(true);
     } catch (error) {
-      console.error('Search error:', error);
       setSearchResults(null);
       setShowSearchDropdown(false);
     } finally {

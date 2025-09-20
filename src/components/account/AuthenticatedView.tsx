@@ -45,7 +45,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
         updated_at: order.updated_at || new Date().toISOString()
       };
     } catch (error) {
-      console.error('❌ Error validating order data:', error);
       return {
         id: `order-${Math.random()}`,
         status: 'Đang xử lý',
@@ -70,7 +69,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
         added_at: item.added_at || new Date().toISOString()
       };
     } catch (error) {
-      console.error('❌ Error validating wishlist item data:', error);
       return {
         id: `wishlist-${Math.random()}`,
         product_id: `product-${Math.random()}`,
@@ -91,7 +89,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
         loadWishlist();
       }
     } catch (error) {
-      console.error('❌ Error in tab change effect:', error);
     }
   }, [activeTab]);
 
@@ -101,17 +98,14 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
       setOrders([]);
       setWishlist([]);
     } catch (error) {
-      console.error('❌ Error initializing state:', error);
     }
   }, []);
 
   // Add error boundary for unexpected data
   const handleUnexpectedData = (data: any, type: string) => {
     try {
-      console.error(`❌ Unexpected ${type} data:`, data);
       showTooltip(`Dữ liệu ${type} không đúng định dạng. Vui lòng thử lại sau.`, 'error');
     } catch (error) {
-      console.error('❌ Error in handleUnexpectedData:', error);
     }
   };
 
@@ -125,7 +119,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
         address: user.address || '',
       });
     } catch (error) {
-      console.error('❌ Error updating profile form:', error);
       // Set default values on error
       setProfileForm({
         name: '',
@@ -139,13 +132,10 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
   const loadOrders = async () => {
     try {
       setIsLoading(true);
-      console.log('🛒 Loading user orders...');
       const userOrders = await apiClient.getUserOrders();
-      console.log('🛒 Raw orders data:', userOrders);
       
       // Ensure userOrders is an array
       if (!Array.isArray(userOrders)) {
-        console.warn('🛒 API returned non-array data for orders:', userOrders);
         handleUnexpectedData(userOrders, 'đơn hàng');
         setOrders([]);
         return;
@@ -154,10 +144,8 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
       // Ensure orders have the correct structure
       const validatedOrders = userOrders.map(order => validateOrderData(order));
       
-      console.log('🛒 Validated orders:', validatedOrders);
       setOrders(validatedOrders);
     } catch (error: any) {
-      console.error('Failed to load orders:', error);
       
       // Handle 401 errors
       if (error.status === 401) {
@@ -185,13 +173,10 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
   const loadWishlist = async () => {
     try {
       setIsLoading(true);
-      console.log('❤️ Loading user wishlist...');
       const userWishlist = await apiClient.getUserWishlist();
-      console.log('❤️ Raw wishlist data:', userWishlist);
       
       // Ensure userWishlist is an array
       if (!Array.isArray(userWishlist)) {
-        console.warn('❤️ API returned non-array data for wishlist:', userWishlist);
         handleUnexpectedData(userWishlist, 'danh sách yêu thích');
         setWishlist([]);
         return;
@@ -200,10 +185,8 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
       // Ensure wishlist items have the correct structure
       const validatedWishlist = userWishlist.map(item => validateWishlistItemData(item));
       
-      console.log('❤️ Validated wishlist:', validatedWishlist);
       setWishlist(validatedWishlist);
     } catch (error: any) {
-      console.error('Failed to load wishlist:', error);
       
       // Handle 401 errors
       if (error.status === 401) {
@@ -240,7 +223,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
       // Reload wishlist
       loadWishlist();
     } catch (error: any) {
-      console.error('❌ Error removing from wishlist:', error);
       showTooltip(error.errors?.[0] || 'Không thể xóa sản phẩm khỏi danh sách yêu thích', 'error');
     }
   };
@@ -252,7 +234,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
       setSelectedOrder(validatedOrder);
       setIsOrderModalOpen(true);
     } catch (error) {
-      console.error('❌ Error handling order click:', error);
       showTooltip('Không thể mở chi tiết đơn hàng. Vui lòng thử lại sau.', 'error');
     }
   };
@@ -262,7 +243,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
       setIsOrderModalOpen(false);
       setSelectedOrder(null);
     } catch (error) {
-      console.error('❌ Error closing order modal:', error);
       // Force close modal on error
       setIsOrderModalOpen(false);
       setSelectedOrder(null);
@@ -281,7 +261,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
       await updateProfile({ user: profileForm });
       // Success message will be shown by AuthContext
     } catch (error: any) {
-      console.error('❌ Error updating profile:', error);
       // Error message will be shown by AuthContext
     }
   };
@@ -319,7 +298,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
       showTooltip('Đổi mật khẩu thành công!', 'success');
       setPasswordForm({ current_password: '', new_password: '', confirm_password: '' });
     } catch (error: any) {
-      console.error('❌ Error changing password:', error);
       showTooltip(error.errors?.[0] || 'Đổi mật khẩu thất bại', 'error');
     }
   };
@@ -355,7 +333,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                 try {
                   onLogout();
                 } catch (error) {
-                  console.error('❌ Error during logout:', error);
                   // Force logout on error
                   onLogout();
                 }
@@ -379,7 +356,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
             try {
               setActiveTab('profile');
             } catch (error) {
-              console.error('❌ Error setting active tab:', error);
             }
           }}
         >
@@ -395,7 +371,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
             try {
               setActiveTab('orders');
             } catch (error) {
-              console.error('❌ Error setting active tab:', error);
             }
           }}
         >
@@ -411,7 +386,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
             try {
               setActiveTab('favorites');
             } catch (error) {
-              console.error('❌ Error setting active tab:', error);
             }
           }}
         >
@@ -427,7 +401,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
             try {
               setActiveTab('coupons');
             } catch (error) {
-              console.error('❌ Error setting active tab:', error);
             }
           }}
         >
@@ -443,7 +416,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
             try {
               setActiveTab('settings');
             } catch (error) {
-              console.error('❌ Error setting active tab:', error);
             }
           }}
         >
@@ -531,7 +503,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                         try {
                           // Form submission is handled by onSubmit
                         } catch (error) {
-                          console.error('❌ Error in form submission:', error);
                           e.preventDefault();
                           showTooltip('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
                         }
@@ -568,7 +539,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                         // Navigate to products page
                         window.location.href = '/products';
                       } catch (error) {
-                        console.error('❌ Error navigating to products:', error);
                       }
                     }}
                     className='mt-4 rounded-lg bg-[#2D6294] px-6 py-2 text-white font-medium hover:bg-[#2D6294]/90 transition-colors'
@@ -581,7 +551,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                     {orders.map((order) => {
                       // Additional safety check for each order
                       if (!order || typeof order !== 'object') {
-                        console.warn('🛒 Invalid order data:', order);
                         handleUnexpectedData(order, 'đơn hàng');
                         return null;
                       }
@@ -614,7 +583,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                               order.items.map((item) => {
                                 // Additional safety check for each item
                                 if (!item || typeof item !== 'object') {
-                                  console.warn('🛒 Invalid order item data:', item);
                                   handleUnexpectedData(item, 'sản phẩm trong đơn hàng');
                                   return null;
                                 }
@@ -683,7 +651,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                         // Navigate to products page
                         window.location.href = '/products';
                       } catch (error) {
-                        console.error('❌ Error navigating to products:', error);
                       }
                     }}
                     className='mt-4 rounded-lg bg-[#2D6294] px-6 py-2 text-white font-medium hover:bg-[#2D6294]/90 transition-colors'
@@ -696,7 +663,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                 {wishlist.map((item) => {
                   // Additional safety check for each wishlist item
                   if (!item || typeof item !== 'object') {
-                    console.warn('❤️ Invalid wishlist item data:', item);
                     handleUnexpectedData(item, 'sản phẩm yêu thích');
                     return null;
                   }
@@ -726,7 +692,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                             // Navigate to product detail page
                             window.location.href = `/products/${item.product_id}`;
                           } catch (error) {
-                            console.error('❌ Error navigating to product:', error);
                             showTooltip('Không thể mở trang sản phẩm. Vui lòng thử lại sau.', 'error');
                           }
                         }}
@@ -740,7 +705,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                             e.stopPropagation();
                             handleRemoveFromWishlist(item.id);
                           } catch (error) {
-                            console.error('❌ Error handling remove from wishlist:', error);
                             showTooltip('Không thể xóa sản phẩm. Vui lòng thử lại sau.', 'error');
                           }
                         }}
@@ -778,7 +742,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                         // Navigate to coupons page or show message
                         showTooltip('Tính năng mã giảm giá sẽ được triển khai sau', 'noti');
                       } catch (error) {
-                        console.error('❌ Error handling coupon button:', error);
                       }
                     }}
                     className='mt-4 rounded-lg bg-[#2D6294] px-6 py-2 text-white font-medium hover:bg-[#2D6294]/90 transition-colors'
@@ -845,7 +808,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                             try {
                               // Form submission is handled by onSubmit
                             } catch (error) {
-                              console.error('❌ Error in password change form submission:', error);
                               e.preventDefault();
                               showTooltip('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
                             }
@@ -871,9 +833,7 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                         onChange={(e) => {
                           try {
                             // Handle email notification toggle
-                            console.log('Email notifications:', e.target.checked);
                           } catch (error) {
-                            console.error('❌ Error handling email notification toggle:', error);
                           }
                         }}
                       />
@@ -893,7 +853,6 @@ export default function AuthenticatedView({ user, onLogout }: AuthenticatedViewP
                             showTooltip('Tính năng xóa tài khoản sẽ được triển khai sau', 'noti');
                           }
                         } catch (error) {
-                          console.error('❌ Error handling delete account:', error);
                           showTooltip('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
                         }
                       }}

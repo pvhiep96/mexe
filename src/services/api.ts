@@ -85,6 +85,12 @@ export interface Product {
   variants: ProductVariant[];
   specifications: ProductSpecification[];
   descriptions: ProductDescription[];
+  // Payment options
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 export interface ProductImage {
@@ -346,7 +352,6 @@ class TokenManager {
         tokenLength: token.length
       };
     } catch (error) {
-      console.error('Error parsing token info:', error);
       return null;
     }
   }
@@ -367,15 +372,12 @@ class TokenManager {
           if (payload.exp > now) {
             // Backup token is valid, restore it
             localStorage.setItem(this.TOKEN_KEY, backupToken);
-            console.log('✅ Token recovery successful');
             return true;
           } else {
-            console.warn('⚠️ Backup token is expired, removing both tokens');
             this.removeToken();
           }
         }
       } catch (error) {
-        console.error('❌ Error during token recovery:', error);
         // Remove corrupted tokens
         this.removeToken();
       }
@@ -561,9 +563,7 @@ class ApiClient {
     const endpoint = `${API_ENDPOINTS.PRODUCTS}${queryString ? `?${queryString}` : ''}`;
     
     try {
-      console.log('🛍️ Fetching products from:', endpoint);
       const response = await this.request<any>(endpoint);
-      console.log('🛍️ Products API response:', response);
       
       // Handle new response format
       if (response.success && response.data) {
@@ -586,7 +586,6 @@ class ApiClient {
       // Fallback for old format
       return response as ProductsResponse;
     } catch (error) {
-      console.error('🛍️ Products API error:', error);
       throw error;
     }
   }
@@ -650,20 +649,16 @@ class ApiClient {
 
   // Authentication
   async login(credentials: LoginRequest): Promise<AuthResponse> {
-    console.log('🌐 API Client: Sending login request');
     const response = await this.request<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
     
-    console.log('🌐 API Client: Login response received:', response);
     
     // Store token on successful login
     if (response.success && response.token) {
-      console.log('🔑 API Client: Storing token');
       TokenManager.setToken(response.token);
     } else {
-      console.log('⚠️ API Client: No token or success=false in response');
     }
     
     return response;
@@ -753,7 +748,6 @@ class ApiClient {
     try {
       return this.request<any>('/debug/auth_test');
     } catch (error) {
-      console.error('Auth debug failed:', error);
       return { success: false, error };
     }
   }
@@ -762,7 +756,6 @@ class ApiClient {
     try {
       return this.request<any>('/debug/protected_test');
     } catch (error) {
-      console.error('Protected debug failed:', error);
       return { success: false, error };
     }
   }
@@ -771,7 +764,6 @@ class ApiClient {
     try {
       return this.request<any>('/debug/test_login');
     } catch (error) {
-      console.error('Login format debug failed:', error);
       return { success: false, error };
     }
   }

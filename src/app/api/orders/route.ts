@@ -6,7 +6,7 @@ export async function GET() {
     // Test backend connection
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') ||
-      'http://47.129.168.239:81';
+      'http://localhost:3005';
     console.log(
       'Testing backend connection to:',
       `${backendUrl}/api/v1/orders`
@@ -36,7 +36,6 @@ export async function GET() {
       );
     }
   } catch (error) {
-    console.error('Backend connection test failed:', error);
     return Response.json(
       {
         message: 'Backend connection test failed',
@@ -51,14 +50,11 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('=== API Orders POST Request Start ===');
 
     let body;
     try {
       body = await request.json();
-      console.log('Request body received:', body);
     } catch (parseError) {
-      console.error('Failed to parse request body:', parseError);
       return NextResponse.json(
         { error: 'Invalid JSON in request body' },
         { status: 400 }
@@ -75,7 +71,7 @@ export async function POST(request: NextRequest) {
       note,
     } = body;
 
-    console.log('Extracted data:', {
+    console.log('Order data received:', {
       items: items?.length,
       total,
       orderNumber,
@@ -87,7 +83,7 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!items || !total || !orderNumber || !customerInfo || !deliveryInfo) {
-      console.error('Validation failed:', {
+      console.error('Missing required fields:', {
         hasItems: !!items,
         hasTotal: !!total,
         hasOrderNumber: !!orderNumber,
@@ -134,15 +130,11 @@ export async function POST(request: NextRequest) {
       },
     };
 
-    console.log('Prepared order data:', orderData);
-    console.log('Proceeding with real backend API call...');
 
     // Gọi backend Rails API (Rails đang chạy trên port 3005)
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') ||
-      'http://47.129.168.239:81'; // Backend Rails port
-    console.log('Calling backend API:', `${backendUrl}/api/v1/orders`);
-    console.log('Order data being sent:', orderData);
+      'http://localhost:3005'; // Backend Rails port
 
     try {
       // Test connection to backend first
@@ -162,7 +154,6 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      console.log('Backend connection test successful');
 
       // Now make the actual POST request
       const response = await fetch(`${backendUrl}/api/v1/orders`, {
@@ -174,7 +165,7 @@ export async function POST(request: NextRequest) {
         signal: AbortSignal.timeout(10000), // 10 seconds timeout
       });
 
-      console.log('Backend response received:', {
+      console.log('Backend response:', {
         status: response.status,
         statusText: response.statusText,
         headers: Object.fromEntries(response.headers.entries()),
@@ -189,8 +180,6 @@ export async function POST(request: NextRequest) {
             error: `HTTP ${response.status}: ${response.statusText}`,
           };
         }
-        console.error('Backend API error:', errorData);
-        console.error('Response status:', response.status);
         console.error(
           'Response headers:',
           Object.fromEntries(response.headers.entries())
@@ -202,7 +191,6 @@ export async function POST(request: NextRequest) {
       }
 
       const orderResult = await response.json();
-      console.log('Order created in backend:', orderResult);
 
       // Return success response
       return NextResponse.json({
@@ -211,7 +199,6 @@ export async function POST(request: NextRequest) {
         order: orderResult,
       });
     } catch (fetchError) {
-      console.error('Fetch error:', fetchError);
       if (fetchError instanceof Error) {
         if (fetchError.name === 'TimeoutError') {
           throw new Error(
@@ -225,8 +212,6 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    console.error('=== API Orders POST Request Error ===');
-    console.error('Error details:', error);
     console.error(
       'Error stack:',
       error instanceof Error ? error.stack : 'No stack trace'

@@ -36,7 +36,6 @@ export async function getBankListAction(): Promise<BankOption[]> {
       bank_name: bank.bank_name,
     }));
   } catch (error) {
-    console.error('Failed to fetch bank list:', error);
     return [];
   }
 }
@@ -82,7 +81,6 @@ export async function createPaymentUrl(formData: any) {
   try {
     const headersList = await headers();
     const clientIP = getClientIP(headersList);
-    console.log(formData);
     // Extract form data
     const amount = formData.amount as string;
     const orderInfo = formData.orderInfo as string;
@@ -90,8 +88,6 @@ export async function createPaymentUrl(formData: any) {
     const bankCode = formData.bankCode as string;
     const locale = formData.locale as string;
 
-    console.log(amount);
-    console.log(orderInfo);
     // Validation
     if (!amount || !orderInfo) {
       throw new Error('Amount and order info are required');
@@ -139,10 +135,8 @@ export async function createPaymentUrl(formData: any) {
 
     if (isRedirect) {
       // This is expected behavior for redirect() in Server Actions
-      console.log('Redirecting to VNPay payment gateway...');
     } else {
       // Only log actual errors
-      console.error('Error creating payment URL:', error);
     }
     throw error;
   }
@@ -197,7 +191,6 @@ export async function generatePaymentUrlDemo(
       ...(bankCode && { vnp_BankCode: bankCode }),
     });
 
-    console.log(`Generated demo payment URL for order ${orderId}:`, paymentUrl);
 
     return {
       success: true,
@@ -205,7 +198,6 @@ export async function generatePaymentUrlDemo(
       orderId,
     };
   } catch (error) {
-    console.error('Error generating demo payment URL:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',

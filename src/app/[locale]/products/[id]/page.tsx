@@ -5,25 +5,21 @@ import { api } from '@/config/api';
 
 async function fetchProduct(id: number | string) {
   try {
-    console.log('Fetching product with ID:', id);
     const response = await api.getProduct(String(id));
 
     const product = response.data;
-    console.log('Product loaded:', product.name);
-    console.log('Payment Options:', {
+    console.log('Product payment options:', {
       full_payment_transfer: product.full_payment_transfer,
       partial_advance_payment: product.partial_advance_payment,
     });
 
     // Check if product data is valid
     if (!product || !product.id) {
-      console.error('Invalid product data:', product);
       return { product: null, relatedProducts: [] };
     }
 
     // Check if required fields exist
     if (!product.name || !product.price) {
-      console.error('Missing required product fields:', product);
       return { product: null, relatedProducts: [] };
     }
 
@@ -70,9 +66,7 @@ async function fetchProduct(id: number | string) {
       relatedProducts: product.related_products || []
     };
   } catch (error) {
-    console.error('Failed to fetch product:', error);
     if (error instanceof Error) {
-      console.error('Error message:', error.message);
     }
     return { product: null, relatedProducts: [] };
   }

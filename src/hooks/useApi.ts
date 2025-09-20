@@ -32,11 +32,9 @@ export function useApi<T = any>(options: UseApiOptions = {}) {
       setData(result);
       return result;
     } catch (err: any) {
-      console.error('API call failed:', err);
       
       // Handle retry logic for network errors
       if (err.status === 0 && retryAttempt < retryCount) {
-        console.log(`🔄 Retrying API call (attempt ${retryAttempt + 1}/${retryCount})...`);
         
         // Exponential backoff
         const delay = retryDelay * Math.pow(2, retryAttempt);
@@ -59,10 +57,8 @@ export function useApi<T = any>(options: UseApiOptions = {}) {
   useEffect(() => {
     if (isAuthenticated && user) {
       // User is authenticated, we can make authenticated API calls
-      console.log('✅ User authenticated, API calls enabled');
     } else {
       // User is not authenticated, clear sensitive data
-      console.log('🔒 User not authenticated, clearing sensitive data');
       setData(null);
     }
   }, [isAuthenticated, user]);

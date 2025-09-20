@@ -24,7 +24,6 @@ async function fetchHomeData() {
     const homeData = await apiClient.getHomeData();
     return homeData;
   } catch (error) {
-    console.error('Failed to fetch home data:', error);
     return {
       categories: [],
       best_sellers: [],
@@ -59,7 +58,6 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
       perPage: data.meta?.per_page || perPage,
     };
   } catch (error) {
-    console.error('Failed to fetch products:', error);
     return { products: [], total: 0, page: 1, perPage };
   }
 }
@@ -70,17 +68,15 @@ const fetchbrands = async () => {
     const data: Listbrands200Response = response.data;
     return data.stores || [];
   } catch (error) {
-    console.error('Failed to fetch brands:', error);
     return [];
   }
 };
 
 const fetchCategories = async () => {
   try {
-    const apiUrl = process.env.API_URL || 'http://47.129.168.239:81/api/v1';
+    const apiUrl = process.env.API_URL || 'http://localhost:3005/api/v1';
     const response = await fetch(`${apiUrl}/categories`);
     const categories = await response.json();
-    console.log('Fetched categories:', response);
     // Transform to match Banner component interface
     return categories.map((category: any) => ({
       id: category.id,
@@ -90,7 +86,6 @@ const fetchCategories = async () => {
       subcategories: category.subcategories || [],
     }));
   } catch (error) {
-    console.error('Failed to fetch categories:', error);
     return [];
   }
 };

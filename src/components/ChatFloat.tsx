@@ -81,7 +81,6 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
         throw new Error(response.message || 'Có lỗi xảy ra khi gửi thông tin');
       }
     } catch (error: any) {
-      console.error('Error sending contact form:', error);
       const errorMessage = error?.message || 'Có lỗi xảy ra. Vui lòng thử lại sau.';
       setSuccessMessage(errorMessage);
     } finally {

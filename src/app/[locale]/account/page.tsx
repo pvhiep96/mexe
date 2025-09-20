@@ -17,7 +17,6 @@ export default function AccountPage() {
       await login(credentials);
     } catch (error: any) {
       // Error message will be shown by AuthContext
-      console.error('Login failed:', error);
     }
   };
 
@@ -26,7 +25,6 @@ export default function AccountPage() {
       await register(userData);
     } catch (error: any) {
       // Error message will be shown by AuthContext
-      console.error('Registration failed:', error);
     }
   };
 
@@ -35,7 +33,6 @@ export default function AccountPage() {
       await logout();
     } catch (error) {
       // Error message will be shown by AuthContext
-      console.error('Logout failed:', error);
     }
   };
 

@@ -16,12 +16,11 @@ interface Product {
   image: string;
   quantity: number;
   selectedColor?: string;
-  // Payment options
-  full_payment_transfer?: boolean;
-  full_payment_discount_percentage?: number;
-  partial_advance_payment?: boolean;
-  advance_payment_percentage?: number;
-  advance_payment_discount_percentage?: number;
+  full_payment_transfer: boolean;
+  full_payment_discount_percentage: number;
+  partial_advance_payment: boolean;
+  advance_payment_percentage: number;
+  advance_payment_discount_percentage: number;
 }
 
 interface Order {
@@ -94,22 +93,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addToCart = (
     product: Product,
     quantity: number = 1,
-    selectedColor?: string
+    selectedColor?: string,
+    paymentOptions?: {
+      full_payment_transfer?: boolean;
+      full_payment_discount_percentage?: number;
+      partial_advance_payment?: boolean;
+      advance_payment_percentage?: number;
+      advance_payment_discount_percentage?: number;
+    }
   ) => {
-    console.log('CartContext.addToCart called with payment options:', {
-      id: product.id,
-      name: product.name,
-      full_payment_transfer: product.full_payment_transfer,
-      partial_advance_payment: product.partial_advance_payment,
-    });
-
     setOrder((prevOrder) => {
       const newItem = {
         ...product,
         quantity: quantity || 1,
         selectedColor: selectedColor || product.selectedColor,
+        // Merge payment options with defaults
+        full_payment_transfer: paymentOptions?.full_payment_transfer ?? product.full_payment_transfer ?? false,
+        full_payment_discount_percentage: paymentOptions?.full_payment_discount_percentage ?? product.full_payment_discount_percentage ?? 0,
+        partial_advance_payment: paymentOptions?.partial_advance_payment ?? product.partial_advance_payment ?? false,
+        advance_payment_percentage: paymentOptions?.advance_payment_percentage ?? product.advance_payment_percentage ?? 0,
+        advance_payment_discount_percentage: paymentOptions?.advance_payment_discount_percentage ?? product.advance_payment_discount_percentage ?? 0,
       };
-
 
       if (!prevOrder) {
         const total = (product.discountedPrice || product.price) * quantity;

@@ -27,7 +27,6 @@ export default function ProductDetailPage() {
         setProduct(productData);
         setError(null);
       } catch (err: any) {
-        console.error('Error fetching product:', err);
         setError(err.message || 'Có lỗi xảy ra khi tải thông tin sản phẩm');
       } finally {
         setLoading(false);

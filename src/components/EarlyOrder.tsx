@@ -25,6 +25,11 @@ interface Product {
   tagColor: string;
   tagText: string;
   price?: number;
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 interface Tab {
@@ -507,6 +512,12 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
                         price: product.price || 0,
                         image: product.img,
                         quantity: 1,
+                        // Default payment options
+                        full_payment_transfer: product.full_payment_transfer ?? false,
+                        full_payment_discount_percentage: product.full_payment_discount_percentage ?? 0,
+                        partial_advance_payment: product.partial_advance_payment ?? false,
+                        advance_payment_percentage: product.advance_payment_percentage ?? 0,
+                        advance_payment_discount_percentage: product.advance_payment_discount_percentage ?? 0,
                       }, 1);
                       showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
                     }}

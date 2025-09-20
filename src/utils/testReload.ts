@@ -3,7 +3,6 @@ export class ReloadTester {
   private static testResults: any[] = [];
 
   static async testReloadIssue() {
-    console.log('🧪 Testing Reload Page Issue...');
     this.testResults = [];
 
     try {
@@ -14,12 +13,10 @@ export class ReloadTester {
       
       this.printTestResults();
     } catch (error) {
-      console.error('❌ Reload test suite failed:', error);
     }
   }
 
   static async testTokenPersistence() {
-    console.log('🔑 Testing Token Persistence...');
     
     try {
       if (typeof window === 'undefined') {
@@ -73,7 +70,6 @@ export class ReloadTester {
   }
 
   static async testUserDataPersistence() {
-    console.log('👤 Testing User Data Persistence...');
     
     try {
       if (typeof window === 'undefined') {
@@ -112,7 +108,6 @@ export class ReloadTester {
   }
 
   static async testAuthenticationFlow() {
-    console.log('🔐 Testing Authentication Flow...');
     
     try {
       if (typeof window === 'undefined') {
@@ -121,7 +116,7 @@ export class ReloadTester {
       }
 
       // Test the authentication flow
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1';
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
       const token = localStorage.getItem('authToken');
       
       if (!token) {
@@ -160,7 +155,6 @@ export class ReloadTester {
   }
 
   static async testLocalStorageState() {
-    console.log('💾 Testing LocalStorage State...');
     
     try {
       if (typeof window === 'undefined') {
@@ -185,9 +179,7 @@ export class ReloadTester {
         if (value) {
           foundItems++;
           totalSize += value.length;
-          console.log(`📦 ${key}: ${value.length} chars`);
         } else {
-          console.log(`❌ ${key}: MISSING`);
         }
       });
 
@@ -213,11 +205,9 @@ export class ReloadTester {
   }
 
   static debugReloadIssue() {
-    console.log('🐛 Debugging Reload Issue...');
     
     try {
       if (typeof window === 'undefined') {
-        console.log('❌ Cannot debug on server-side');
         return;
       }
 
@@ -226,37 +216,23 @@ export class ReloadTester {
       // Token state
       const mainToken = localStorage.getItem('authToken');
       const backupToken = localStorage.getItem('authToken_backup');
-      console.log('Main token exists:', !!mainToken);
-      console.log('Backup token exists:', !!backupToken);
       
       if (mainToken) {
         try {
           const parts = mainToken.split('.');
           const payload = JSON.parse(atob(parts[1]));
-          console.log('Token payload:', payload);
-          console.log('User ID:', payload.user_id);
-          console.log('Email:', payload.email);
-          console.log('Issued at:', new Date(payload.iat * 1000));
-          console.log('Expires at:', new Date(payload.exp * 1000));
-          console.log('Current time:', new Date());
-          console.log('Time until expiry:', (payload.exp - Math.floor(Date.now() / 1000)) / 3600, 'hours');
         } catch (error) {
-          console.error('Token parsing error:', error);
         }
       }
       
       // User data state
       const userData = localStorage.getItem('userData');
       const userDataTime = localStorage.getItem('userDataTime');
-      console.log('User data exists:', !!userData);
-      console.log('User data timestamp:', userDataTime ? new Date(parseInt(userDataTime)) : 'N/A');
       
       if (userData) {
         try {
           const parsedUserData = JSON.parse(userData);
-          console.log('User data:', parsedUserData);
         } catch (error) {
-          console.error('User data parsing error:', error);
         }
       }
       
@@ -265,18 +241,15 @@ export class ReloadTester {
       // Test authentication endpoints
       this.testAuthenticationEndpoints();
     } catch (error) {
-      console.error('Debug error:', error);
     }
   }
 
   private static async testAuthenticationEndpoints() {
-    console.log('🧪 Testing authentication endpoints...');
     
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1';
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
     const token = localStorage.getItem('authToken');
     
     if (!token) {
-      console.log('❌ No token available for testing');
       return;
     }
 
@@ -296,17 +269,13 @@ export class ReloadTester {
           },
         });
 
-        console.log(`${endpoint}: ${response.status} ${response.statusText}`);
         
         if (response.ok) {
           const data = await response.json();
-          console.log(`  ✅ Success: ${JSON.stringify(data).substring(0, 100)}...`);
         } else {
           const errorText = await response.text();
-          console.log(`  ❌ Error: ${errorText.substring(0, 100)}...`);
         }
       } catch (error) {
-        console.log(`${endpoint}: ❌ Network error - ${error.message}`);
       }
     }
   }
@@ -328,12 +297,7 @@ export class ReloadTester {
     const errors = this.testResults.filter(r => r.status === 'ERROR').length;
     const skipped = this.testResults.filter(r => r.status === 'SKIPPED').length;
     
-    console.log(`✅ Passed: ${passed}`);
-    console.log(`❌ Failed: ${failed}`);
-    console.log(`💥 Errors: ${errors}`);
-    console.log(`⏭️ Skipped: ${skipped}`);
     
-    console.log('\n📋 Detailed Results:');
     this.testResults.forEach(result => {
       const icon = {
         'PASSED': '✅',
@@ -342,7 +306,6 @@ export class ReloadTester {
         'SKIPPED': '⏭️'
       }[result.status];
       
-      console.log(`${icon} ${result.test}: ${result.status} - ${result.message}`);
     });
     
     console.groupEnd();
@@ -370,7 +333,6 @@ export class ReloadTester {
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   // Run tests after a delay to ensure everything is loaded
   setTimeout(() => {
-    console.log('🚀 Auto-running reload tests...');
     ReloadTester.testReloadIssue();
   }, 2000);
 }

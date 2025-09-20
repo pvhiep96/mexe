@@ -81,7 +81,6 @@ export default function OrderDetailPage() {
         
         setOrderStatus(mockStatus);
       } catch (error) {
-        console.error('Error fetching order details:', error);
         setError(t('error_loading_order'));
       } finally {
         setIsLoading(false);

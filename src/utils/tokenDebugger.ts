@@ -5,7 +5,6 @@ export class TokenDebugger {
   static startMonitoring() {
     if (typeof window === 'undefined') return;
 
-    console.log('🔍 Starting token monitoring...');
 
     // Log current token state
     this.logTokenState();
@@ -18,7 +17,7 @@ export class TokenDebugger {
     // Monitor localStorage changes
     window.addEventListener('storage', (e) => {
       if (e.key === 'authToken') {
-        console.log('📢 localStorage change detected:', {
+        console.log('Token storage changed:', {
           key: e.key,
           oldValue: e.oldValue ? `${e.oldValue.substring(0, 20)}...` : null,
           newValue: e.newValue ? `${e.newValue.substring(0, 20)}...` : null,
@@ -31,7 +30,6 @@ export class TokenDebugger {
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
-      console.log('🛑 Token monitoring stopped');
     }
   }
 
@@ -77,12 +75,9 @@ export class TokenDebugger {
         });
 
         if (timeUntilExpiry <= 0) {
-          console.warn('⚠️ TOKEN IS EXPIRED!');
         } else if (timeUntilExpiry < 3600) {
-          console.warn('⚠️ TOKEN EXPIRES WITHIN 1 HOUR!');
         }
       } catch (error) {
-        console.error('❌ Error parsing token:', error);
       }
     }
 

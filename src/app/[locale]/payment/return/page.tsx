@@ -3,7 +3,6 @@ import PaymentReturn from './component';
 
 const sendMail = async (params) => {
   // Placeholder function to simulate sending an email
-  console.log(params);
   // /api/v1/orders/completed
   const orderResponse = await fetch(`${process.env.API_URL}/orders/completed`, {
     method: 'POST',
@@ -12,7 +11,6 @@ const sendMail = async (params) => {
     },
     body: JSON.stringify(params),
   });
-  console.log(orderResponse);
 };
 const PaymentPage: FC = async ({ searchParams }) => {
   await sendMail(await searchParams);

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { VietQR } from 'vietqr';
 
 export async function GET(request: NextRequest) {
-  console.log(request);
   try {
     const vietQR = new VietQR({
       clientID: '438ccb81-6275-4dd6-8e1e-fb89cbfb2f3c',
@@ -19,7 +18,6 @@ export async function GET(request: NextRequest) {
         template: 'compact',
       })
       .then((data: unknown) => {
-        console.log(data);
         return NextResponse.json({
           message: 'Backend connection successful',
           backendStatus: 'connected',
@@ -28,7 +26,6 @@ export async function GET(request: NextRequest) {
         });
       })
       .catch((err: unknown) => {
-        console.error(err);
         return NextResponse.json({
           message: 'Backend connection failed',
           backendStatus: 'error',
@@ -36,7 +33,6 @@ export async function GET(request: NextRequest) {
         });
       });
   } catch (error) {
-    console.error('Backend connection test failed:', error);
     return NextResponse.json(
       {
         message: 'Backend connection test failed',

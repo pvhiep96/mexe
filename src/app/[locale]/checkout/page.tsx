@@ -41,7 +41,6 @@ const CheckoutPage = () => {
         const parsedOrder = JSON.parse(savedOrder);
         setOrder(parsedOrder);
       } catch (error) {
-        console.error('Error parsing order:', error);
         router.push('/cart');
       }
     } else {
@@ -104,7 +103,10 @@ const CheckoutPage = () => {
   return (
     <div className='flex min-h-screen flex-col'>
       <main className='grow'>
-        <Checkout order={order} checkout={createPaymentUrl} />
+        <Checkout
+          order={order}
+          checkout={createPaymentUrl}
+        />
       </main>
     </div>
   );

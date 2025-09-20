@@ -3,7 +3,6 @@ export class OrdersTester {
   private static testResults: any[] = [];
 
   static async testOrdersAPI() {
-    console.log('🧪 Testing Orders API...');
     this.testResults = [];
 
     try {
@@ -13,12 +12,10 @@ export class OrdersTester {
       
       this.printTestResults();
     } catch (error) {
-      console.error('❌ Orders test suite failed:', error);
     }
   }
 
   static async testTokenState() {
-    console.log('🔑 Testing Token State...');
     
     try {
       if (typeof window === 'undefined') {
@@ -63,7 +60,6 @@ export class OrdersTester {
   }
 
   static async testOrdersEndpoint() {
-    console.log('📋 Testing Orders Endpoint...');
     
     try {
       if (typeof window === 'undefined') {
@@ -72,7 +68,7 @@ export class OrdersTester {
       }
 
       // Test the orders endpoint directly
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1';
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
       const token = localStorage.getItem('authToken');
       
       if (!token) {
@@ -104,7 +100,6 @@ export class OrdersTester {
   }
 
   static async testAuthenticationFlow() {
-    console.log('🔐 Testing Authentication Flow...');
     
     try {
       if (typeof window === 'undefined') {
@@ -113,7 +108,7 @@ export class OrdersTester {
       }
 
       // Test profile endpoint to verify token
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1';
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
       const token = localStorage.getItem('authToken');
       
       if (!token) {
@@ -147,35 +142,22 @@ export class OrdersTester {
   }
 
   static async debugOrdersIssue() {
-    console.log('🐛 Debugging Orders Issue...');
     
     try {
       if (typeof window === 'undefined') {
-        console.log('❌ Cannot debug on server-side');
         return;
       }
 
       const token = localStorage.getItem('authToken');
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1';
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
       
       console.group('🔍 Orders API Debug Info');
-      console.log('Base URL:', baseUrl);
-      console.log('Token exists:', !!token);
-      console.log('Token length:', token?.length || 0);
       
       if (token) {
         try {
           const parts = token.split('.');
           const payload = JSON.parse(atob(parts[1]));
-          console.log('Token payload:', payload);
-          console.log('User ID:', payload.user_id);
-          console.log('Email:', payload.email);
-          console.log('Issued at:', new Date(payload.iat * 1000));
-          console.log('Expires at:', new Date(payload.exp * 1000));
-          console.log('Current time:', new Date());
-          console.log('Time until expiry:', (payload.exp - Math.floor(Date.now() / 1000)) / 3600, 'hours');
         } catch (error) {
-          console.error('Token parsing error:', error);
         }
       }
       
@@ -183,7 +165,6 @@ export class OrdersTester {
 
       // Test orders endpoint with detailed logging
       if (token) {
-        console.log('🧪 Testing orders endpoint...');
         
         try {
           const response = await fetch(`${baseUrl}/users/orders`, {
@@ -194,22 +175,16 @@ export class OrdersTester {
             },
           });
 
-          console.log('Response status:', response.status);
-          console.log('Response headers:', Object.fromEntries(response.headers.entries()));
           
           if (response.ok) {
             const data = await response.json();
-            console.log('Response data:', data);
           } else {
             const errorData = await response.text();
-            console.log('Error response:', errorData);
           }
         } catch (error) {
-          console.error('Fetch error:', error);
         }
       }
     } catch (error) {
-      console.error('Debug error:', error);
     }
   }
 
@@ -230,12 +205,7 @@ export class OrdersTester {
     const errors = this.testResults.filter(r => r.status === 'ERROR').length;
     const skipped = this.testResults.filter(r => r.status === 'SKIPPED').length;
     
-    console.log(`✅ Passed: ${passed}`);
-    console.log(`❌ Failed: ${failed}`);
-    console.log(`💥 Errors: ${errors}`);
-    console.log(`⏭️ Skipped: ${skipped}`);
     
-    console.log('\n📋 Detailed Results:');
     this.testResults.forEach(result => {
       const icon = {
         'PASSED': '✅',
@@ -244,7 +214,6 @@ export class OrdersTester {
         'SKIPPED': '⏭️'
       }[result.status];
       
-      console.log(`${icon} ${result.test}: ${result.status} - ${result.message}`);
     });
     
     console.groupEnd();
@@ -272,7 +241,6 @@ export class OrdersTester {
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   // Run tests after a delay to ensure everything is loaded
   setTimeout(() => {
-    console.log('🚀 Auto-running orders tests...');
     OrdersTester.testOrdersAPI();
   }, 3000);
 }
