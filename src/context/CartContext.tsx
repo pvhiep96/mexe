@@ -16,6 +16,12 @@ interface Product {
   image: string;
   quantity: number;
   selectedColor?: string;
+  // Payment options
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 interface Order {
@@ -90,12 +96,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
     quantity: number = 1,
     selectedColor?: string
   ) => {
+    console.log('CartContext.addToCart called with payment options:', {
+      id: product.id,
+      name: product.name,
+      full_payment_transfer: product.full_payment_transfer,
+      partial_advance_payment: product.partial_advance_payment,
+    });
+
     setOrder((prevOrder) => {
       const newItem = {
         ...product,
         quantity: quantity || 1,
         selectedColor: selectedColor || product.selectedColor,
       };
+
 
       if (!prevOrder) {
         const total = (product.discountedPrice || product.price) * quantity;

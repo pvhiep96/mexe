@@ -17,6 +17,12 @@ interface Product {
   image: string;
   quantity: number;
   selectedColor?: string;
+  // Payment options
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 interface Order {
@@ -280,7 +286,13 @@ export default function Cart() {
           price: item.discountedPrice || item.price,
           quantity: item.quantity,
           selectedColor: item.selectedColor,
-          image: item.image
+          image: item.image,
+          // Include payment options
+          full_payment_transfer: item.full_payment_transfer,
+          full_payment_discount_percentage: item.full_payment_discount_percentage,
+          partial_advance_payment: item.partial_advance_payment,
+          advance_payment_percentage: item.advance_payment_percentage,
+          advance_payment_discount_percentage: item.advance_payment_discount_percentage,
         })),
         total: totalAmount,
         orderNumber: `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,

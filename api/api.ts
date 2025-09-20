@@ -588,71 +588,101 @@ export interface OrderItem {
  */
 export interface Product {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Product
      */
     'id'?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Product
      */
     'name'?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Product
      */
     'slug'?: string;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Product
      */
     'price'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Product
      */
     'original_price'?: number;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Product
      */
     'discount_percent'?: number;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof Product
      */
     'is_active'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof Product
      */
     'is_featured'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof Product
      */
     'is_new'?: boolean;
     /**
-     * 
+     *
      * @type {boolean}
      * @memberof Product
      */
     'is_hot'?: boolean;
     /**
-     * 
+     *
      * @type {number}
      * @memberof Product
      */
     'stock_quantity'?: number;
+    /**
+     * Payment Options - Added manually
+     * @type {boolean}
+     * @memberof Product
+     */
+    'full_payment_transfer'?: boolean;
+    /**
+     *
+     * @type {number}
+     * @memberof Product
+     */
+    'full_payment_discount_percentage'?: number;
+    /**
+     *
+     * @type {boolean}
+     * @memberof Product
+     */
+    'partial_advance_payment'?: boolean;
+    /**
+     *
+     * @type {number}
+     * @memberof Product
+     */
+    'advance_payment_percentage'?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof Product
+     */
+    'advance_payment_discount_percentage'?: number;
 }
 /**
  * 
@@ -835,11 +865,41 @@ export interface ProductDetail {
      */
     'variants'?: Array<ProductVariant>;
     /**
-     * 
+     *
      * @type {Array<ProductSpecification>}
      * @memberof ProductDetail
      */
     'specifications'?: Array<ProductSpecification>;
+    /**
+     * Payment Options - Added manually
+     * @type {boolean}
+     * @memberof ProductDetail
+     */
+    'full_payment_transfer'?: boolean;
+    /**
+     *
+     * @type {number}
+     * @memberof ProductDetail
+     */
+    'full_payment_discount_percentage'?: number;
+    /**
+     *
+     * @type {boolean}
+     * @memberof ProductDetail
+     */
+    'partial_advance_payment'?: boolean;
+    /**
+     *
+     * @type {number}
+     * @memberof ProductDetail
+     */
+    'advance_payment_percentage'?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof ProductDetail
+     */
+    'advance_payment_discount_percentage'?: number;
 }
 /**
  * 

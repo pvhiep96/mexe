@@ -20,6 +20,12 @@ interface Product {
   services: Array<{ icon: string; text: string }>;
   specs: Record<string, string>;
   quantity: number;
+  // Payment options
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 interface ClientProductDetailProps {
@@ -36,15 +42,26 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
   const { showTooltip } = useFlashTooltip();
 
   const handleAddToCart = () => {
-    addToCart({
+    const productToAdd = {
       id: productData.id,
       name: productData.name,
       price: productData.price,
       image: productData.image,
       quantity: quantity,
-    }, quantity);
+      // Include payment options from product data
+      full_payment_transfer: productData.full_payment_transfer,
+      full_payment_discount_percentage: productData.full_payment_discount_percentage,
+      partial_advance_payment: productData.partial_advance_payment,
+      advance_payment_percentage: productData.advance_payment_percentage,
+      advance_payment_discount_percentage: productData.advance_payment_discount_percentage,
+    };
+
+    console.log('Adding to cart with payment options:', productToAdd);
+
+    addToCart(productToAdd, quantity);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
+
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -165,6 +182,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
                 Mua hàng
               </button>
             </div>
+
 
             {/* Services */}
             <div className='grid grid-cols-2 gap-4'>

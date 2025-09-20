@@ -12,6 +12,12 @@ interface OrderItem {
   quantity: number;
   selectedColor?: string;
   image: string;
+  // Payment options
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 interface CheckoutOrder {
