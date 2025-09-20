@@ -275,7 +275,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
   const onSubmit = async (data: CheckoutForm) => {
     if (isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
       console.log('Form data:', data);
@@ -287,8 +287,10 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
           order_number: order.orderNumber,
           payment_method: data.paymentMethod,
           delivery_type: data.deliveryType,
-          delivery_address: data.deliveryType === 'home' ? data.address : undefined,
-          store_location: data.deliveryType === 'store' ? data.store : undefined,
+          delivery_address:
+            data.deliveryType === 'home' ? data.address : undefined,
+          store_location:
+            data.deliveryType === 'store' ? data.store : undefined,
           notes: data.note,
           guest_name: data.name,
           guest_email: data.email,
@@ -297,27 +299,33 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
             shipping_name: data.name,
             shipping_phone: data.mobile,
             shipping_city: data.deliveryType === 'home' ? data.city : undefined,
-            shipping_district: data.deliveryType === 'home' ? 'Quận 1' : undefined, // Default value
-            shipping_ward: data.deliveryType === 'home' ? 'Phường 1' : undefined, // Default value
+            shipping_district:
+              data.deliveryType === 'home' ? 'Quận 1' : undefined, // Default value
+            shipping_ward:
+              data.deliveryType === 'home' ? 'Phường 1' : undefined, // Default value
             shipping_postal_code: '70000', // Default value
-            delivery_address: data.deliveryType === 'home' ? data.address : undefined
+            delivery_address:
+              data.deliveryType === 'home' ? data.address : undefined,
           },
-          order_items: order.items.map(item => ({
+          order_items: order.items.map((item) => ({
             product_id: item.id,
             quantity: item.quantity,
-            variant_id: item.selectedColor || null
-          }))
-        }
+            variant_id: item.selectedColor || null,
+          })),
+        },
       };
 
-      // Gọi trực tiếp đến backend Rails API  
-      const orderResponse = await fetch('http://47.129.168.239:81/api/v1/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData),
-      });
+      // Gọi trực tiếp đến backend Rails API
+      const orderResponse = await fetch(
+        'http://47.129.168.239:81/api/v1/orders',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
 
       if (!orderResponse.ok) {
         throw new Error('Failed to create order');
@@ -328,25 +336,34 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
       // Lưu order number để hiển thị ở trang order-status
       localStorage.setItem('lastOrderNumber', order.orderNumber);
-      
+
       // Xóa order khỏi localStorage sau khi tạo thành công
       localStorage.removeItem('currentOrder');
 
       // Nếu tạo order thành công, xử lý payment
       if (data.paymentMethod === 'cod') {
         // COD: Hiển thị thông báo thành công và chuyển đến order-status
-        showTooltip('Đặt hàng thành công! Bạn sẽ thanh toán khi nhận hàng.', 'success');
-        
+        showTooltip(
+          'Đặt hàng thành công! Bạn sẽ thanh toán khi nhận hàng.',
+          'success'
+        );
+
         // Clear cart từ localStorage
         localStorage.removeItem('cart');
         localStorage.removeItem('cartItems');
-        
+
         setTimeout(() => {
           router.push('/order-status');
         }, 2000);
-      } else if (data.paymentMethod === 'card' || data.paymentMethod === 'bank') {
+      } else if (
+        data.paymentMethod === 'card' ||
+        data.paymentMethod === 'bank'
+      ) {
         // Card/Bank: Chuyển đến payment gateway với order đã tạo
-        showTooltip('Đã tạo đơn hàng thành công! Đang chuyển đến trang thanh toán...', 'success');
+        showTooltip(
+          'Đã tạo đơn hàng thành công! Đang chuyển đến trang thanh toán...',
+          'success'
+        );
         setTimeout(async () => {
           try {
             await checkout({ ...data, orderInfo: order.orderNumber });
@@ -359,7 +376,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      
+
       // Hiển thị thông báo lỗi cụ thể
       if (error instanceof Error) {
         if (error.message.includes('Failed to create order')) {
@@ -373,7 +390,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       } else {
         showTooltip('Có lỗi xảy ra khi xử lý đơn hàng!', 'error');
       }
-      
+
       // Không redirect nếu có lỗi tạo order
     } finally {
       setIsSubmitting(false);
@@ -909,7 +926,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               <div className='flex items-center gap-4'>
                 {/* MoMo */}
                 <div className='flex flex-col items-center'>
-                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-white border border-gray-200'>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg border border-gray-200 bg-white'>
                     <Image
                       src='/images/payment-logos/momo-logo.svg'
                       alt='MoMo'
@@ -923,7 +940,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
                 {/* VNPay */}
                 <div className='flex flex-col items-center'>
-                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-white border border-gray-200'>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg border border-gray-200 bg-white'>
                     <Image
                       src='/images/payment-logos/vnpay-logo.svg'
                       alt='VNPay'
@@ -937,7 +954,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
                 {/* Visa */}
                 <div className='flex flex-col items-center'>
-                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-white border border-gray-200'>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg border border-gray-200 bg-white'>
                     <Image
                       src='/images/payment-logos/visa-logo.png'
                       alt='Visa'
@@ -951,7 +968,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
                 {/* ZaloPay */}
                 <div className='flex flex-col items-center'>
-                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg bg-white border border-gray-200'>
+                  <div className='mb-1 flex h-8 w-12 items-center justify-center rounded-lg border border-gray-200 bg-white'>
                     <Image
                       src='/images/payment-logos/zalopay-logo.svg'
                       alt='ZaloPay'
@@ -1132,8 +1149,8 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               type='submit'
               disabled={isSubmitting}
               className={`mt-4 w-full cursor-pointer rounded p-2 text-white transition-colors ${
-                isSubmitting 
-                  ? 'bg-gray-400 cursor-not-allowed' 
+                isSubmitting
+                  ? 'cursor-not-allowed bg-gray-400'
                   : 'bg-green-600 hover:bg-green-700'
               }`}
             >
