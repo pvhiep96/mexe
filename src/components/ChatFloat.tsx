@@ -128,32 +128,37 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
 
       {/* Contact Form Modal */}
       {showContactForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <>
+          {/* Light backdrop */}
+          <div className="fixed inset-0 bg-opacity-10 z-[55]"></div>
+          
+          {/* Form positioned near the contact icon */}
+          <div className="fixed right-20 top-1/2 transform -translate-y-1/2 z-[60] w-80 max-h-[80vh] overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-2xl border border-gray-200">
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-base font-semibold text-gray-900">
                 Yêu cầu thông tin sản phẩm
               </h3>
               <button
                 onClick={handleCloseForm}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <XMarkIcon className="w-6 h-6" />
+                <XMarkIcon className="w-5 h-5" />
               </button>
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="p-4 space-y-3">
               {productName && (
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <p className="text-sm text-gray-600">Sản phẩm quan tâm:</p>
-                  <p className="font-medium text-gray-900">{productName}</p>
+                <div className="bg-gray-50 p-2 rounded-md">
+                  <p className="text-xs text-gray-600">Sản phẩm quan tâm:</p>
+                  <p className="text-sm font-medium text-gray-900 truncate">{productName}</p>
                 </div>
               )}
 
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="name" className="block text-xs font-medium text-gray-700 mb-1">
                   Họ và tên *
                 </label>
                 <input
@@ -163,13 +168,13 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
                   required
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Nhập họ và tên"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="email" className="block text-xs font-medium text-gray-700 mb-1">
                   Email *
                 </label>
                 <input
@@ -179,13 +184,13 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Nhập địa chỉ email"
                 />
               </div>
 
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="phone" className="block text-xs font-medium text-gray-700 mb-1">
                   Số điện thoại *
                 </label>
                 <input
@@ -195,13 +200,13 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
                   required
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Nhập số điện thoại"
                 />
               </div>
 
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="address" className="block text-xs font-medium text-gray-700 mb-1">
                   Địa chỉ *
                 </label>
                 <textarea
@@ -210,38 +215,39 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
                   required
                   value={formData.address}
                   onChange={handleInputChange}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  rows={2}
+                  className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent resize-none"
                   placeholder="Nhập địa chỉ của bạn"
                 />
               </div>
 
               {successMessage && (
-                <div className={`p-3 rounded-md ${successMessage.includes('thành công') ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+                <div className={`p-2 rounded-md text-sm ${successMessage.includes('thành công') ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
                   {successMessage}
                 </div>
               )}
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-2 pt-2">
                 <button
                   type="button"
                   onClick={handleCloseForm}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-3 py-1.5 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-400"
+                  className="flex-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-400"
                 >
                   {loading ? 'Đang gửi...' : 'Gửi thông tin'}
                 </button>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+             </form>
+           </div>
+         </div>
+         </>
+       )}
     </>
   );
 }
