@@ -74,7 +74,7 @@ const fetchbrands = async () => {
 
 const fetchCategories = async () => {
   try {
-    const apiUrl = process.env.API_URL || 'http://localhost:3005/api/v1';
+    const apiUrl = process.env.API_URL || 'http://47.129.168.239/api/v1';
     const response = await fetch(`${apiUrl}/categories`);
     const categories = await response.json();
     // Transform to match Banner component interface

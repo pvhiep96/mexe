@@ -116,7 +116,7 @@ export class ReloadTester {
       }
 
       // Test the authentication flow
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239/api/v1';
       const token = localStorage.getItem('authToken');
       
       if (!token) {
@@ -246,7 +246,7 @@ export class ReloadTester {
 
   private static async testAuthenticationEndpoints() {
     
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239/api/v1';
     const token = localStorage.getItem('authToken');
     
     if (!token) {

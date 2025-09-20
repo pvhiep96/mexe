@@ -6,7 +6,7 @@ export async function GET() {
     // Test backend connection
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') ||
-      'http://localhost:3005';
+      'http://47.129.168.239';
     console.log(
       'Testing backend connection to:',
       `${backendUrl}/api/v1/orders`
@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
     // Gọi backend Rails API (Rails đang chạy trên port 3005)
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') ||
-      'http://localhost:3005'; // Backend Rails port
+      'http://47.129.168.239'; // Backend Rails port
 
     try {
       // Test connection to backend first

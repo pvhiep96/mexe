@@ -68,7 +68,7 @@ export class OrdersTester {
       }
 
       // Test the orders endpoint directly
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239/api/v1';
       const token = localStorage.getItem('authToken');
       
       if (!token) {
@@ -108,7 +108,7 @@ export class OrdersTester {
       }
 
       // Test profile endpoint to verify token
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239/api/v1';
       const token = localStorage.getItem('authToken');
       
       if (!token) {
@@ -149,7 +149,7 @@ export class OrdersTester {
       }
 
       const token = localStorage.getItem('authToken');
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api/v1';
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239/api/v1';
       
       console.group('🔍 Orders API Debug Info');
       
