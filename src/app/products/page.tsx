@@ -21,7 +21,6 @@ export default function ProductsPage() {
         setProducts(response.products);
         setError(null);
       } catch (err: any) {
-        console.error('Error fetching products:', err);
         setError(err.message || 'Có lỗi xảy ra khi tải danh sách sản phẩm');
       } finally {
         setLoading(false);

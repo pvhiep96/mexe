@@ -65,7 +65,6 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
   };
 
   const handleSocialLogin = (provider: string) => {
-    console.log(`Login with ${provider}`);
     // Handle social login logic here
   };
 

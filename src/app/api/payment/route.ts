@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { VietQR } from 'vietqr';
 
 export async function GET(request: NextRequest) {
-  console.log(request);
   try {
     const vietQR = new VietQR({
       clientID: '438ccb81-6275-4dd6-8e1e-fb89cbfb2f3c',

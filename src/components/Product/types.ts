@@ -28,6 +28,12 @@ export type ProductType = {
   descriptions: { id: number; title: string; content: string; sort_order: number }[] | undefined;
   videos: ProductVideoType[] | undefined;
   quantity: number | undefined;
+  // Payment options
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 };
 
 export type RelatedProductType = {

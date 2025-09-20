@@ -9,30 +9,24 @@ export class AuthDebugger {
   // Simulate API error for testing
   static enableOrdersError(enable: boolean = true) {
     this.simulateApiErrors.orders401 = enable;
-    console.log(`🧪 Orders 401 simulation: ${enable ? 'ENABLED' : 'DISABLED'}`);
   }
 
   static enableWishlistError(enable: boolean = true) {
     this.simulateApiErrors.wishlist401 = enable;
-    console.log(`🧪 Wishlist 401 simulation: ${enable ? 'ENABLED' : 'DISABLED'}`);
   }
 
   static enableProfileError(enable: boolean = true) {
     this.simulateApiErrors.profile401 = enable;
-    console.log(`🧪 Profile 401 simulation: ${enable ? 'ENABLED' : 'DISABLED'}`);
   }
 
   static shouldSimulateError(endpoint: string): boolean {
     if (endpoint.includes('/users/orders') && this.simulateApiErrors.orders401) {
-      console.log('🧪 Simulating 401 error for orders endpoint');
       return true;
     }
     if (endpoint.includes('/users/favorites') && this.simulateApiErrors.wishlist401) {
-      console.log('🧪 Simulating 401 error for wishlist endpoint');
       return true;
     }
     if (endpoint.includes('/auth/profile') && this.simulateApiErrors.profile401) {
-      console.log('🧪 Simulating 401 error for profile endpoint');
       return true;
     }
     return false;
@@ -41,7 +35,6 @@ export class AuthDebugger {
   static logTokenState() {
     const token = localStorage.getItem('authToken');
     const backup = localStorage.getItem('authToken_backup');
-    console.log('🔍 Token Debug State:', {
       hasMainToken: !!token,
       hasBackupToken: !!backup,
       mainTokenLength: token ? token.length : 0,
@@ -52,32 +45,18 @@ export class AuthDebugger {
   static async testAuthAPI() {
     const { apiClient } = await import('@/services/api');
     
-    console.log('🧪 Testing API Authentication:');
-    console.log('Token state:', this.logTokenState());
     
     // Test debug endpoints
-    console.log('Testing auth debug endpoint...');
     const authTest = await apiClient.debugAuth();
-    console.log('Auth test result:', authTest);
     
-    console.log('Testing protected endpoint...');
     const protectedTest = await apiClient.debugProtectedCall();
-    console.log('Protected test result:', protectedTest);
 
-    console.log('Testing login format...');
     const loginFormat = await apiClient.debugLoginFormat();
-    console.log('Login format result:', loginFormat);
     
     return { authTest, protectedTest, loginFormat };
   }
 
   static testAuthFlow() {
-    console.log('🧪 Testing authentication flow scenarios:');
-    console.log('1. Call AuthDebugger.enableOrdersError() to test orders tab');
-    console.log('2. Call AuthDebugger.enableWishlistError() to test wishlist tab');
-    console.log('3. Call AuthDebugger.enableProfileError() to test actual logout');
-    console.log('4. Call AuthDebugger.logTokenState() to check token status');
-    console.log('5. Call AuthDebugger.testAuthAPI() to test API endpoints');
   }
 }
 
@@ -90,7 +69,6 @@ export class TokenDebugger {
   static startMonitoring() {
     if (typeof window === 'undefined') return;
 
-    console.log('🔍 Starting token monitoring...');
 
     // Log current token state
     this.logTokenState();
@@ -104,7 +82,6 @@ export class TokenDebugger {
     // Monitor localStorage changes
     window.addEventListener('storage', (e) => {
       if (e.key === 'authToken') {
-        console.log('📢 localStorage change detected:', {
           key: e.key,
           oldValue: e.oldValue ? `${e.oldValue.substring(0, 20)}...` : null,
           newValue: e.newValue ? `${e.newValue.substring(0, 20)}...` : null,
@@ -115,7 +92,6 @@ export class TokenDebugger {
     // Monitor page visibility changes
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
-        console.log('👁️ Page became visible, checking token state...');
         this.logTokenState();
         this.checkTokenHealth();
       }
@@ -126,7 +102,6 @@ export class TokenDebugger {
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
-      console.log('🛑 Token monitoring stopped');
     }
   }
 
@@ -138,19 +113,16 @@ export class TokenDebugger {
     const lastValid = localStorage.getItem('lastValidToken');
 
     console.group('📊 Token State Report');
-    console.log(
       'Main token:',
       mainToken
         ? `${mainToken.substring(0, 30)}... (${mainToken.length} chars)`
         : 'MISSING'
     );
-    console.log(
       'Backup token:',
       backupToken
         ? `${backupToken.substring(0, 30)}... (${backupToken.length} chars)`
         : 'MISSING'
     );
-    console.log(
       'Last valid time:',
       lastValid ? new Date(parseInt(lastValid)).toLocaleString() : 'UNKNOWN'
     );
@@ -162,7 +134,6 @@ export class TokenDebugger {
         const timeUntilExpiry = payload.exp - now;
         const hoursUntilExpiry = timeUntilExpiry / 3600;
 
-        console.log('Token details:', {
           userId: payload.user_id,
           email: payload.email,
           issuedAt: new Date(payload.iat * 1000).toLocaleString(),
@@ -172,12 +143,9 @@ export class TokenDebugger {
         });
 
         if (timeUntilExpiry <= 0) {
-          console.warn('⚠️ TOKEN IS EXPIRED!');
         } else if (timeUntilExpiry < 3600) {
-          console.warn('⚠️ TOKEN EXPIRES WITHIN 1 HOUR!');
         }
       } catch (error) {
-        console.error('❌ Error parsing token:', error);
       }
     }
 
@@ -192,20 +160,16 @@ export class TokenDebugger {
 
     // Check if main token is missing but backup exists
     if (!mainToken && backupToken) {
-      console.warn('⚠️ Main token missing but backup exists, attempting recovery...');
       this.attemptTokenRecovery();
     }
 
     // Check if both tokens are missing
     if (!mainToken && !backupToken) {
-      console.error('🚨 CRITICAL: Both main and backup tokens are missing!');
       this.recoveryAttempts++;
       
       if (this.recoveryAttempts <= this.maxRecoveryAttempts) {
-        console.log(`🔄 Recovery attempt ${this.recoveryAttempts}/${this.maxRecoveryAttempts}`);
         // Could implement additional recovery logic here
       } else {
-        console.error('💀 Max recovery attempts reached, token state is corrupted');
       }
     }
   }
@@ -225,17 +189,14 @@ export class TokenDebugger {
           if (payload.exp > now) {
             // Backup token is valid, restore it
             localStorage.setItem('authToken', backupToken);
-            console.log('✅ Token recovery successful');
             this.recoveryAttempts = 0;
             return;
           } else {
-            console.warn('⚠️ Backup token is expired, removing both tokens');
             localStorage.removeItem('authToken');
             localStorage.removeItem('authToken_backup');
           }
         }
       } catch (error) {
-        console.error('❌ Error during token recovery:', error);
         // Remove corrupted tokens
         localStorage.removeItem('authToken');
         localStorage.removeItem('authToken_backup');
@@ -262,7 +223,6 @@ export class TokenDebugger {
 
   static resetRecoveryAttempts() {
     this.recoveryAttempts = 0;
-    console.log('🔄 Recovery attempts reset');
   }
 }
 

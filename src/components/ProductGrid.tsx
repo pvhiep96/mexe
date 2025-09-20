@@ -18,6 +18,11 @@ interface Product {
   isNew?: boolean;
   isHot?: boolean;
   isPreorder?: boolean;
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 interface ProductGridProps {
@@ -44,13 +49,23 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   const endIndex = startIndex + itemsPerPage;
   const paginatedProducts = products.slice(startIndex, endIndex);
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: Product, event: React.MouseEvent) => {
+    // Ngăn chặn event bubbling để không trigger handleProductClick
+    event.stopPropagation();
+    
+
     addToCart({
       id: product.id,
       name: product.name,
       price: product.price || 0,
       image: product.image,
       quantity: 1,
+      // Default payment options
+      full_payment_transfer: product.full_payment_transfer ?? false,
+      full_payment_discount_percentage: product.full_payment_discount_percentage ?? 0,
+      partial_advance_payment: product.partial_advance_payment ?? false,
+      advance_payment_percentage: product.advance_payment_percentage ?? 0,
+      advance_payment_discount_percentage: product.advance_payment_discount_percentage ?? 0,
     }, 1);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
@@ -339,7 +354,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                   {/* Add to cart button */}
                   <div className='mt-auto flex w-full justify-center'>
                     <button 
-                      onClick={() => handleAddToCart(product)}
+                      onClick={(event) => handleAddToCart(product, event)}
                       className='flex w-full cursor-pointer items-center justify-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white transition-all hover:bg-red-600 sm:gap-2 sm:px-6 sm:py-2 sm:text-base'
                     >
                       <svg

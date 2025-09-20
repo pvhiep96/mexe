@@ -35,7 +35,6 @@ const AuthStatus: React.FC<AuthStatusProps> = ({ showDebug = false }) => {
             });
           }
         } catch (error) {
-          console.error('Error parsing token:', error);
           setTokenInfo({ error: 'Invalid token format' });
         }
       } else {
@@ -118,7 +117,6 @@ const AuthStatus: React.FC<AuthStatusProps> = ({ showDebug = false }) => {
         <button
           onClick={() => {
             if (isAuthenticated) {
-              apiClient.getProfile().then(console.log).catch(console.error);
             }
           }}
           className="w-full text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"

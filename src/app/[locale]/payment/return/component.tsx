@@ -39,7 +39,7 @@ function PaymentReturnContent() {
     const payDate = searchParams.get('vnp_PayDate');
 
     // Log payment result for debugging
-    console.log('VNPay return params:', {
+    console.log('Payment result:', {
       responseCode,
       transactionStatus,
       orderInfo,

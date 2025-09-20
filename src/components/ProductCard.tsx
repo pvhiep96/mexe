@@ -20,6 +20,11 @@ interface Product {
     active?: boolean;
   }[];
   price?: number;
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 interface ProductCardProps {
@@ -56,13 +61,22 @@ export default function ProductCard({
     return () => clearInterval(interval);
   }, [mounted]);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (event: React.MouseEvent) => {
+    // Ngăn chặn event bubbling
+    event.stopPropagation();
+    
     addToCart({
       id: product.id,
       name: product.title,
       price: product.price || 0,
       image: product.images[0] || '/images/placeholder-product.png',
       quantity: 1,
+      // Default payment options
+      full_payment_transfer: product.full_payment_transfer ?? false,
+      full_payment_discount_percentage: product.full_payment_discount_percentage ?? 0,
+      partial_advance_payment: product.partial_advance_payment ?? false,
+      advance_payment_percentage: product.advance_payment_percentage ?? 0,
+      advance_payment_discount_percentage: product.advance_payment_discount_percentage ?? 0,
     }, 1);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
@@ -171,7 +185,7 @@ export default function ProductCard({
             <BellAlertIcon className='size-5' />
           </Link>
           <button
-            onClick={handleAddToCart}
+            onClick={(event) => handleAddToCart(event)}
             className='inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700'
           >
             <b className='text-sm'>Thêm vào giỏ hàng</b>

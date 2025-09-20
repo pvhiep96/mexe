@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { ProductType, RelatedProductType } from './types';
 import Link from 'next/link';
 import RelatedProducts from './RelatedProducts';
+import ChatFloat from '../ChatFloat';
 type ProductDetailProps = {
   product: ProductType;
   relatedProducts?: RelatedProductType[];
@@ -52,6 +53,12 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
         price: product.price || 0,
         image: product.image || '/images/placeholder-product.png',
         quantity: newQuantity,
+        // Use payment options from product data
+        full_payment_transfer: product.full_payment_transfer || false,
+        full_payment_discount_percentage: product.full_payment_discount_percentage || 0,
+        partial_advance_payment: product.partial_advance_payment || false,
+        advance_payment_percentage: product.advance_payment_percentage || 0,
+        advance_payment_discount_percentage: product.advance_payment_discount_percentage || 0,
       }, newQuantity);
       setSuccessMessage(t('add_to_cart_success'));
       setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
@@ -60,7 +67,10 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
   const { addToCart } = useCart();
   const [successMessage, setSuccessMessage] = useState('');
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (event: React.MouseEvent) => {
+    // Ngăn chặn event bubbling
+    event.stopPropagation();
+    
     if (product.id) {
       addToCart({
         id: product.id,
@@ -68,6 +78,12 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
         price: product.price || 0,
         image: product.image || '/images/placeholder-product.png',
         quantity: quantity,
+        // Use payment options from product data
+        full_payment_transfer: product.full_payment_transfer || false,
+        full_payment_discount_percentage: product.full_payment_discount_percentage || 0,
+        partial_advance_payment: product.partial_advance_payment || false,
+        advance_payment_percentage: product.advance_payment_percentage || 0,
+        advance_payment_discount_percentage: product.advance_payment_discount_percentage || 0,
       }, quantity);
       setSuccessMessage(t('add_to_cart_success'));
       setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
@@ -81,6 +97,12 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
 
   return (
     <div className='min-h-screen'>
+      {/* Chat Float Component */}
+      <ChatFloat
+        productName={product.name}
+        productUrl={typeof window !== 'undefined' ? window.location.href : undefined}
+      />
+
       <div className='container mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8'>
         {/* Breadcrumb */}
         <nav className='mb-8 flex' aria-label='Breadcrumb'>
@@ -249,7 +271,7 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
               </div>
 
               {/* Add to Cart Button */}
-              <button onClick={handleAddToCart} className='flex h-[48px] min-w-[60px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200 sm:min-w-[70px] sm:px-6'>
+              <button onClick={(event) => handleAddToCart(event)} className='flex h-[48px] min-w-[60px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200 sm:min-w-[70px] sm:px-6'>
                 <div className='relative'>
                   <ShoppingCartIcon className='h-6 w-6 sm:h-8 sm:w-8' />
                   <div className='absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-gray-700 sm:h-4 sm:w-4'>

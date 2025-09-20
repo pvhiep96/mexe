@@ -41,6 +41,11 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
         isNew: product.is_new,
         isHot: product.is_hot,
         isPreorder: product.is_preorder,
+        full_payment_transfer: product.full_payment_transfer,
+        full_payment_discount_percentage: product.full_payment_discount_percentage,
+        partial_advance_payment: product.partial_advance_payment,
+        advance_payment_percentage: product.advance_payment_percentage,
+        advance_payment_discount_percentage: product.advance_payment_discount_percentage,
       };
     });
     return {
@@ -50,8 +55,7 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
       perPage: data.meta?.per_page || perPage,
     };
   } catch (error) {
-    console.error('Failed to fetch products:', error);
-    console.error('Error details:', {
+    console.error('Error fetching products:', {
       name: (error as any)?.name,
       message: (error as any)?.message,
       stack: (error as any)?.stack,

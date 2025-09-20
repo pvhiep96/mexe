@@ -3,7 +3,6 @@ export class AuthTester {
   private static testResults: any[] = [];
 
   static async runAllTests() {
-    console.log('🧪 Starting Authentication Tests...');
     this.testResults = [];
 
     try {
@@ -15,12 +14,10 @@ export class AuthTester {
       
       this.printTestResults();
     } catch (error) {
-      console.error('❌ Test suite failed:', error);
     }
   }
 
   static async testTokenStorage() {
-    console.log('📝 Testing Token Storage...');
     
     try {
       // Test localStorage availability
@@ -49,7 +46,6 @@ export class AuthTester {
   }
 
   static async testTokenRecovery() {
-    console.log('🔄 Testing Token Recovery...');
     
     try {
       if (typeof window === 'undefined') {
@@ -85,7 +81,6 @@ export class AuthTester {
   }
 
   static async testNetworkErrors() {
-    console.log('🌐 Testing Network Error Handling...');
     
     try {
       // Test retry logic simulation
@@ -115,7 +110,6 @@ export class AuthTester {
   }
 
   static async testTokenExpiration() {
-    console.log('⏰ Testing Token Expiration...');
     
     try {
       if (typeof window === 'undefined') {
@@ -151,7 +145,6 @@ export class AuthTester {
   }
 
   static async testUserStatePersistence() {
-    console.log('👤 Testing User State Persistence...');
     
     try {
       // Test user state management
@@ -195,12 +188,7 @@ export class AuthTester {
     const errors = this.testResults.filter(r => r.status === 'ERROR').length;
     const skipped = this.testResults.filter(r => r.status === 'SKIPPED').length;
     
-    console.log(`✅ Passed: ${passed}`);
-    console.log(`❌ Failed: ${failed}`);
-    console.log(`💥 Errors: ${errors}`);
-    console.log(`⏭️ Skipped: ${skipped}`);
     
-    console.log('\n📋 Detailed Results:');
     this.testResults.forEach(result => {
       const icon = {
         'PASSED': '✅',
@@ -209,7 +197,6 @@ export class AuthTester {
         'SKIPPED': '⏭️'
       }[result.status];
       
-      console.log(`${icon} ${result.test}: ${result.status} - ${result.message}`);
     });
     
     console.groupEnd();
@@ -238,7 +225,6 @@ export class AuthTester {
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   // Run tests after a delay to ensure everything is loaded
   setTimeout(() => {
-    console.log('🚀 Auto-running authentication tests...');
     AuthTester.runAllTests();
   }, 2000);
 }

@@ -8,6 +8,7 @@ import { useCart } from '@/context/CartContext';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import { useState } from 'react';
 import { useRouter } from '@/i18n/navigation';
+import { apiClient } from '@/services/api';
 
 interface Product {
   id: string | number;
@@ -17,6 +18,12 @@ interface Product {
   image: string;
   quantity: number;
   selectedColor?: string;
+  // Payment options
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
 }
 
 interface Order {
@@ -272,20 +279,13 @@ export default function Cart() {
 
     setIsCreatingOrder(true);
     try {
-      // Tạo order data
+      // Sử dụng trực tiếp cartItems vì đã chứa đầy đủ thông tin payment
       const orderData = {
-        items: cartItems.map(item => ({
-          id: item.id,
-          name: item.name,
-          price: item.discountedPrice || item.price,
-          quantity: item.quantity,
-          selectedColor: item.selectedColor,
-          image: item.image
-        })),
+        items: cartItems,
         total: totalAmount,
         orderNumber: `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         createdAt: new Date().toISOString(),
-        status: 'pending'
+        status: 'pending',
       };
 
       // Lưu order vào localStorage hoặc context
@@ -297,7 +297,6 @@ export default function Cart() {
       }, 1000);
       
     } catch (error) {
-      console.error('Error creating order:', error);
       showTooltip(safeTranslate('order_error'), 'error');
     } finally {
       setIsCreatingOrder(false);

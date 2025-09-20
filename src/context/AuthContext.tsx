@@ -48,9 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const healthCheck = setInterval(() => {
       // If user is set but token is missing, something went wrong
       if (user && !apiClient.isAuthenticated()) {
-        console.error(
-          '🚨 CRITICAL: User is set but token is missing from localStorage!'
-        );
+        console.error('🚨 CRITICAL: User is set but token is missing from localStorage!');
         TokenDebugger.logTokenState();
 
         // Try to restore from backup or clear user state

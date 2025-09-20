@@ -20,6 +20,12 @@ interface Product {
   services: Array<{ icon: string; text: string }>;
   specs: Record<string, string>;
   quantity: number;
+  // Payment options - matching CartContext interface
+  full_payment_transfer: boolean;
+  full_payment_discount_percentage: number;
+  partial_advance_payment: boolean;
+  advance_payment_percentage: number;
+  advance_payment_discount_percentage: number;
 }
 
 interface ClientProductDetailProps {
@@ -35,16 +41,29 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
   const { addToCart } = useCart();
   const { showTooltip } = useFlashTooltip();
 
-  const handleAddToCart = () => {
-    addToCart({
+  const handleAddToCart = (event: React.MouseEvent) => {
+    // Ngăn chặn event bubbling
+    event.stopPropagation();
+    
+    const productToAdd = {
       id: productData.id,
       name: productData.name,
       price: productData.price,
       image: productData.image,
       quantity: quantity,
-    }, quantity);
+      // Include payment options from product data
+      full_payment_transfer: productData.full_payment_transfer,
+      full_payment_discount_percentage: productData.full_payment_discount_percentage,
+      partial_advance_payment: productData.partial_advance_payment,
+      advance_payment_percentage: productData.advance_payment_percentage,
+      advance_payment_discount_percentage: productData.advance_payment_discount_percentage,
+    };
+
+
+    addToCart(productToAdd, quantity);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
+
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -146,7 +165,7 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
             <div className='flex gap-3'>
               {/* Add to Cart */}
               <button
-                onClick={handleAddToCart}
+                onClick={(event) => handleAddToCart(event)}
                 className='flex items-center justify-center rounded-full bg-gray-100 px-4 py-3 text-gray-700 hover:bg-gray-200 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer border border-gray-200 font-medium w-12 h-12'
               >
                 <div className='relative'>
@@ -159,12 +178,13 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
               
               {/* Buy Now */}
               <button
-                onClick={handleAddToCart}
+                onClick={(event) => handleAddToCart(event)}
                 className='flex flex-1 items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer font-medium'
               >
                 Mua hàng
               </button>
             </div>
+
 
             {/* Services */}
             <div className='grid grid-cols-2 gap-4'>
