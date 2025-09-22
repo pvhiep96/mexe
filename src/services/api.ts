@@ -773,14 +773,13 @@ class ApiClient {
     name: string;
     email: string;
     phone: string;
-    address: string;
-    productInfo?: string;
-    productUrl?: string;
-    subject?: string;
+    product_id: number;
   }): Promise<{ success: boolean; message: string }> {
-    return this.request<{ success: boolean; message: string }>(API_ENDPOINTS.CONTACT, {
+    return this.request<{ success: boolean; message: string }>('/contact_product_requests', {
       method: 'POST',
-      body: JSON.stringify(contactData),
+      body: JSON.stringify({
+        contact_product_request: contactData
+      }),
     });
   }
 }

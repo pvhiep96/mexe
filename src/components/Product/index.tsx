@@ -99,6 +99,7 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
     <div className='min-h-screen'>
       {/* Chat Float Component */}
       <ChatFloat
+        productId={product.id}
         productName={product.name}
         productUrl={typeof window !== 'undefined' ? window.location.href : undefined}
       />

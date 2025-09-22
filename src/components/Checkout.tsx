@@ -288,7 +288,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
   const onSubmit = async (data: CheckoutForm) => {
     if (isSubmitting) return;
-
+    
     setIsSubmitting(true);
     try {
 
@@ -335,11 +335,11 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       const orderResponse = await fetch(
         'http://47.129.168.239/api/v1/orders',
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(orderData),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
         }
       );
 
@@ -351,7 +351,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
       // Lưu order number để hiển thị ở trang order-status
       localStorage.setItem('lastOrderNumber', order.orderNumber);
-
+      
       // Xóa order khỏi localStorage sau khi tạo thành công
       localStorage.removeItem('currentOrder');
 
@@ -386,7 +386,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
         }, 1500);
       }
     } catch (error) {
-
+      
       // Hiển thị thông báo lỗi cụ thể
       if (error instanceof Error) {
         if (error.message.includes('Failed to create order')) {
@@ -400,7 +400,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       } else {
         showTooltip('Có lỗi xảy ra khi xử lý đơn hàng!', 'error');
       }
-
+      
       // Không redirect nếu có lỗi tạo order
     } finally {
       setIsSubmitting(false);
@@ -683,7 +683,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                         {((item.full_payment_transfer || false) || (item.partial_advance_payment || false)) && (
                           <div className='mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg'>
                             <h5 className='font-medium text-purple-800 mb-2'>⚡ Chọn phương thức thanh toán cho sản phẩm này:</h5>
-                            <div className='space-y-2'>
+            <div className='space-y-2'>
                               {/* Regular payment option */}
                               <label className='flex items-center space-x-2 cursor-pointer'>
                                 <input
@@ -877,12 +877,12 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                     )}
 
                     <label className='flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer'>
-                      <input
-                        {...register('paymentMethod', {
-                          required: t('errors.required'),
-                        })}
-                        type='radio'
-                        value='card'
+                <input
+                  {...register('paymentMethod', {
+                    required: t('errors.required'),
+                  })}
+                  type='radio'
+                  value='card'
                         className='mt-1'
                       />
                       <div>
@@ -891,15 +891,15 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                           Thanh toán online qua thẻ/ví điện tử
                         </div>
                       </div>
-                    </label>
+              </label>
 
                     <label className='flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer'>
-                      <input
-                        {...register('paymentMethod', {
-                          required: t('errors.required'),
-                        })}
-                        type='radio'
-                        value='cod'
+                <input
+                  {...register('paymentMethod', {
+                    required: t('errors.required'),
+                  })}
+                  type='radio'
+                  value='cod'
                         className='mt-1'
                       />
                       <div>
@@ -908,15 +908,15 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                           Thanh toán khi nhận hàng
                         </div>
                       </div>
-                    </label>
+              </label>
 
                     <label className='flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer'>
-                      <input
-                        {...register('paymentMethod', {
-                          required: t('errors.required'),
-                        })}
-                        type='radio'
-                        value='bank'
+                <input
+                  {...register('paymentMethod', {
+                    required: t('errors.required'),
+                  })}
+                  type='radio'
+                  value='bank'
                         className='mt-1'
                       />
                       <div>
@@ -925,7 +925,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                           Chuyển khoản ngân hàng
                         </div>
                       </div>
-                    </label>
+              </label>
                   </>
                 );
               })()}
@@ -1031,19 +1031,19 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                 return (
                   <div key={index} className='border-b border-gray-200 pb-4 last:border-b-0'>
                     <div className='flex items-start space-x-4'>
-                      <Image
-                        src={item.image || '/images/placeholder-product.png'}
-                        alt={item.name}
-                        width={80}
-                        height={80}
-                        className='rounded'
-                      />
-                      <div className='grow'>
-                        <p className='font-medium'>{item.name}</p>
+                    <Image
+                      src={item.image || '/images/placeholder-product.png'}
+                      alt={item.name}
+                      width={80}
+                      height={80}
+                      className='rounded'
+                    />
+                    <div className='grow'>
+                      <p className='font-medium'>{item.name}</p>
                         <p className='text-sm text-gray-600'>
                           Số lượng: {item.quantity}
                         </p>
-                        <p className='text-sm'>
+                      <p className='text-sm'>
                           Giá gốc: {item.quantity} x {formatPrice(item.price)}
                         </p>
 
@@ -1078,13 +1078,13 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                                 Giảm {payment.advanceDiscountPercentage || 0}% khi trả trước: {formatPrice(payment.discount || 0)}
                               </p>
                             )}
-                          </div>
+                  </div>
                         )}
 
                         <p className='mt-2 text-base font-medium'>
                           Thành tiền: {formatPrice(payment.totalPrice)}
                         </p>
-                      </div>
+                </div>
                     </div>
                   </div>
                 );
@@ -1270,7 +1270,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               type='submit'
               disabled={isSubmitting}
               className={`mt-4 w-full cursor-pointer rounded p-2 text-white transition-colors ${
-                isSubmitting
+                isSubmitting 
                   ? 'cursor-not-allowed bg-gray-400'
                   : 'bg-green-600 hover:bg-green-700'
               }`}

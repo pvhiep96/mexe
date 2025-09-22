@@ -8,24 +8,23 @@ interface ContactFormData {
   name: string;
   email: string;
   phone: string;
-  address: string;
-  productInfo?: string;
+  product_id: number;
 }
 
 interface ChatFloatProps {
+  productId: number;
   productName?: string;
   productUrl?: string;
 }
 
-export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
+export default function ChatFloat({ productId, productName, productUrl }: ChatFloatProps) {
   const [showContactForm, setShowContactForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
     phone: '',
-    address: '',
-    productInfo: productName
+    product_id: productId
   });
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -47,8 +46,7 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
       name: '',
       email: '',
       phone: '',
-      address: '',
-      productInfo: productName
+      product_id: productId
     });
     setSuccessMessage('');
   };
@@ -67,9 +65,7 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
 
     try {
       const response = await apiClient.sendContactForm({
-        ...formData,
-        productUrl: productUrl || window.location.href,
-        subject: `Yêu cầu thông tin sản phẩm: ${productName || 'Sản phẩm không xác định'}`
+        ...formData
       });
 
       if (response.success) {
@@ -205,21 +201,6 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
                 />
               </div>
 
-              <div>
-                <label htmlFor="address" className="block text-xs font-medium text-gray-700 mb-1">
-                  Địa chỉ *
-                </label>
-                <textarea
-                  id="address"
-                  name="address"
-                  required
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  rows={2}
-                  className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent resize-none"
-                  placeholder="Nhập địa chỉ của bạn"
-                />
-              </div>
 
               {successMessage && (
                 <div className={`p-2 rounded-md text-sm ${successMessage.includes('thành công') ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
@@ -231,14 +212,14 @@ export default function ChatFloat({ productName, productUrl }: ChatFloatProps) {
                 <button
                   type="button"
                   onClick={handleCloseForm}
-                  className="flex-1 px-3 py-1.5 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-3 py-1.5 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-400"
+                  className="flex-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-400 cursor-pointer disabled:cursor-not-allowed"
                 >
                   {loading ? 'Đang gửi...' : 'Gửi thông tin'}
                 </button>
