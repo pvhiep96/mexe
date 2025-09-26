@@ -331,7 +331,7 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
                                 className='z-0 object-cover'
                               />
                               {/* Overlay tối */}
-                              <div className='bg-opacity-40 absolute inset-0 z-10 bg-black'></div>
+                              <div className='bg-opacity-40 absolute inset-0 z-10'></div>
 
                               {/* Badge */}
                               <div className='absolute top-0 left-0 z-20'>

@@ -616,7 +616,7 @@ export interface Product {
      * @type {number}
      * @memberof Product
      */
-    'original_price'?: number;
+    'original_price'?: string;
     /**
      *
      * @type {number}
@@ -683,6 +683,66 @@ export interface Product {
      * @memberof Product
      */
     'advance_payment_discount_percentage'?: number;
+    /**
+     *
+     * @type {Array<ProductImage>}
+     * @memberof Product
+     */
+    'images'?: Array<ProductImage>;
+    /**
+     *
+     * @type {string}
+     * @memberof Product
+     */
+    'short_description'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Product
+     */
+    'description'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Product
+     */
+    'meta_title'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof Product
+     */
+    'meta_description'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof Product
+     */
+    'view_count'?: number;
+    /**
+     *
+     * @type {number}
+     * @memberof Product
+     */
+    'preorder_quantity'?: number;
+    /**
+     *
+     * @type {string}
+     * @memberof Product
+     */
+    'preorder_end_date'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof Product
+     */
+    'warranty_period'?: number;
+    /**
+     *
+     * @type {boolean}
+     * @memberof Product
+     */
+    'is_preorder'?: boolean;
 }
 /**
  * 

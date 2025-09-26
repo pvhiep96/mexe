@@ -33,7 +33,7 @@ function convertToCombo(product: any): Combo {
   return {
     id: product.id,
     name: product.name,
-    image: product.product_images?.[0]?.image?.url || '/images/placeholder-product.png',
+    image: product.primary_image_url || product.images?.[0]?.image_url || '/images/placeholder-product.png',
     originalPrice: `${originalPrice.toLocaleString()}đ`,
     discountedPrice: `${price.toLocaleString()}đ`,
     discount: discountPercent > 0 ? `-${Math.round(discountPercent)}%` : '',

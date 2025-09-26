@@ -26,14 +26,14 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
         id: product.id,
         name: product.name,
         url: product.slug,
-        image: imageUrl,
+        images: product.images?.map(img => img.image_url).filter(Boolean) || (imageUrl ? [imageUrl] : ['/images/placeholder-product.png']),
         description: product.short_description || product.description || '',
-        price: product.price ? parseFloat(product.price) : undefined,
+        price: product.price ? parseFloat(product.price.toString()) : undefined,
         originalPrice: product.original_price
           ? parseFloat(product.original_price)
           : undefined,
         discount: product.discount_percent
-          ? parseInt(product.discount_percent)
+          ? parseInt(product.discount_percent.toString())
           : undefined,
         ordered: product.preorder_quantity || 0,
         total: 50, // This might need to be adjusted based on your data

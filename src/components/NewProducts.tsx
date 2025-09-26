@@ -11,7 +11,7 @@ interface Product {
   id: number;
   name: string;
   slug?: string;
-  images: string[];
+  images: Array<{ image_url: string } | string>;
   open_date: string;
   soldCount: number;
   description: string;
@@ -115,6 +115,7 @@ function ProductSlide({ product }: ProductSlideProps) {
     window.open(productUrl, '_blank');
   };
 
+
   return (
     <div
       className='flex min-h-[300px] w-full max-w-[400px] cursor-pointer flex-col items-center rounded-2xl bg-white p-4 shadow-lg border border-gray-100 transition-all duration-500 ease-in-out hover:shadow-xl hover:border-gray-200 sm:min-h-[200px] sm:max-w-[500px] sm:flex-row'
@@ -126,7 +127,11 @@ function ProductSlide({ product }: ProductSlideProps) {
         style={{ width: '210px', height: '200px' }}
       >
         <Image
-          src={product.images?.[0] || '/images/placeholder-product.png'}
+          src={
+            typeof product.images?.[0] === 'string'
+              ? product.images[0]
+              : product.images?.[0]?.image_url || '/images/placeholder-product.png'
+          }
           alt={product.name}
           width={105}
           height={100}
@@ -140,7 +145,14 @@ function ProductSlide({ product }: ProductSlideProps) {
           }}
         />
         <Image
-          src={product.images?.[2] || product.images?.[0] || '/images/placeholder-product.png'}
+          src={
+            typeof product.images?.[2] === 'string'
+              ? product.images[2]
+              : product.images?.[2]?.image_url || 
+                (typeof product.images?.[0] === 'string'
+                  ? product.images[0]
+                  : product.images?.[0]?.image_url) || '/images/placeholder-product.png'
+          }
           alt={product.name}
           width={105}
           height={100}
@@ -154,7 +166,14 @@ function ProductSlide({ product }: ProductSlideProps) {
           }}
         />
         <Image
-          src={product.images?.[1] || product.images?.[0] || '/images/placeholder-product.png'}
+          src={
+            typeof product.images?.[1] === 'string'
+              ? product.images[1]
+              : product.images?.[1]?.image_url || 
+                (typeof product.images?.[0] === 'string'
+                  ? product.images[0]
+                  : product.images?.[0]?.image_url) || '/images/placeholder-product.png'
+          }
           alt={product.name}
           width={105}
           height={200}
@@ -416,7 +435,11 @@ export default function NewProducts({ products }: NewProductsProps) {
                   }}
                 >
                   <Image
-                    src={product.images?.[0] || '/images/placeholder-product.png'}
+                    src={
+                      typeof product.images?.[0] === 'string'
+                        ? product.images[0]
+                        : product.images?.[0]?.image_url || '/images/placeholder-product.png'
+                    }
                     alt={product.name}
                     width={200}
                     height={160}

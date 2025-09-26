@@ -52,48 +52,6 @@ const sortOptions = [
   },
 ];
 
-const categories = [
-  {
-    name: 'Setup Góc Làm Việc',
-    icon: 'https://theme.hstatic.net/1000069970/1001119059/14/menu_mb_discovery_icon_1.png?v=7372',
-    url: '/products?category=setup-goc-lam-viec',
-  },
-  {
-    name: 'Bàn phím hay',
-    icon: 'https://theme.hstatic.net/1000069970/1001119059/14/menu_mb_discovery_icon_2.png?v=7372',
-    url: '/products?category=ban-phim-hay',
-  },
-  {
-    name: 'Du Lịch Dã Ngoại',
-    icon: 'https://theme.hstatic.net/1000069970/1001119059/14/menu_mb_discovery_icon_3.png?v=7372',
-    url: '/products?category=du-lich-da-ngoai',
-  },
-  {
-    name: 'Loa - Tai Nghe',
-    icon: 'https://theme.hstatic.net/1000069970/1001119059/14/menu_mb_discovery_icon_4.png?v=7372',
-    url: '/products?category=loa-tai-nghe',
-  },
-  {
-    name: 'Sản phẩm độc đáo nhất',
-    icon: 'https://theme.hstatic.net/1000069970/1001119059/14/menu_mb_discovery_icon_5.png?v=7372',
-    url: '/products?category=san-pham-doc-dao-nhat',
-  },
-  {
-    name: 'Sản phẩm HOT',
-    icon: 'https://theme.hstatic.net/1000069970/1001119059/14/menu_mb_discovery_icon_6.png?v=7372',
-    url: '/products?category=san-pham-hot',
-  },
-  {
-    name: 'Sản phẩm DIY Steampunk',
-    icon: 'https://theme.hstatic.net/1000069970/1001119059/14/menu_mb_discovery_icon_7.png?v=7372',
-    url: '/products?category=san-pham-diy-steampunk',
-  },
-  {
-    name: 'Đèn tràn trí NID LIGHT',
-    icon: 'https://theme.hstatic.net/1000069970/1001119059/14/menu_mb_discovery_icon_8.png?v=7372',
-    url: '/products?category=den-tran-tri-nid-light',
-  },
-];
 
 const coupons = [
   {

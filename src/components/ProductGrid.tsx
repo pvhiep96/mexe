@@ -7,7 +7,7 @@ interface Product {
   id: number;
   name: string;
   url: string;
-  image: string;
+  images: string[];
   description: string;
   ordered?: number;
   total?: number;
@@ -52,13 +52,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   const handleAddToCart = (product: Product, event: React.MouseEvent) => {
     // Ngăn chặn event bubbling để không trigger handleProductClick
     event.stopPropagation();
-    
 
     addToCart({
       id: product.id,
       name: product.name,
       price: product.price || 0,
-      image: product.image,
+      image: product.images[0] || '/images/placeholder-product.png',
       quantity: 1,
       // Default payment options
       full_payment_transfer: product.full_payment_transfer ?? false,
@@ -229,9 +228,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({
               >
                 {/* Product image container */}
                 <div className='relative flex h-[160px] w-full items-center justify-center overflow-hidden rounded-t-lg bg-[#f7f7f7] sm:h-[220px] lg:h-[245px]'>
-                  {product.image ? (
+                  {product.images && product.images.length > 0 && product.images[0] ? (
                     <img
-                      src={product.image}
+                      src={product.images[0]}
                       alt={product.name}
                       className='h-full w-full rounded-t-lg object-cover transition-transform duration-300 group-hover:scale-110'
                     />
