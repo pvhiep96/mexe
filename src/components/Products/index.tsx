@@ -277,36 +277,6 @@ export default function ProductListPage({ allProducts }: ProductListPageType) {
         <div className='mb-8'>
           {/* Coupon */}
           <div className='mb-8'>
-            <div className='mx-auto flex w-[90%] flex-nowrap gap-3 overflow-x-auto pb-2 sm:gap-6'>
-              {coupons.map((c) => (
-                <div
-                  key={c.code}
-                  className='relative flex w-full max-w-[280px] flex-shrink-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg sm:max-w-xs md:max-w-sm lg:max-w-md'
-                  style={{ minHeight: '80px' }}
-                >
-                  {/* Răng cưa trái */}
-                  <div className='absolute top-1/2 left-0 z-10 -ml-2 h-8 w-4 -translate-y-1/2 rounded-full border border-gray-200 bg-white sm:-ml-3 sm:h-10 sm:w-6' />
-                  {/* Răng cưa phải */}
-                  <div className='absolute top-1/2 right-0 z-10 -mr-2 h-8 w-4 -translate-y-1/2 rounded-full border border-gray-200 bg-white sm:-mr-3 sm:h-10 sm:w-6' />
-                  {/* Phần trái đỏ */}
-                  <div
-                    className='flex min-w-[70px] flex-col items-center justify-center bg-red-600 px-3 py-2 text-center text-sm font-extrabold whitespace-pre-line text-white sm:min-w-[90px] sm:px-5 sm:py-4 sm:text-lg'
-                    style={{ letterSpacing: 0.5 }}
-                  >
-                    {c.title}
-                  </div>
-                  {/* Phần phải trắng */}
-                  <div className='flex flex-1 flex-col justify-center gap-2 px-2 py-2 sm:gap-3 sm:px-4 sm:py-3'>
-                    <div className='mb-1 text-xs font-medium text-gray-800 sm:mb-2 sm:text-base'>
-                      {c.desc}
-                    </div>
-                    <button className='w-fit cursor-pointer self-start rounded-full bg-red-600 px-4 py-1.5 text-xs font-bold text-white shadow transition hover:bg-red-700 sm:px-8 sm:py-2 sm:text-base'>
-                      {c.button}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
           {/* Danh mục icon */}
           {/* Sắp xếp */}
