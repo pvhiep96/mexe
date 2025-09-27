@@ -70,6 +70,10 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   const enhancedProducts = order.items;
   const isLoadingPaymentOptions = false;
 
+  console.log('------------------------------');
+  console.log('enhancedProducts', JSON.stringify(enhancedProducts));
+  console.log('------------------------------');
+
 
   // Format price to Vietnamese currency
   const formatPrice = (price: number) => {
@@ -278,7 +282,8 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
       // Gọi trực tiếp đến backend Rails API
       const orderResponse = await fetch(
-        'http://47.129.168.239/api/v1/orders',
+        // 'http://47.129.168.239/api/v1/orders',
+        'http://localhost:3005/api/v1/orders',
         {
         method: 'POST',
         headers: {
