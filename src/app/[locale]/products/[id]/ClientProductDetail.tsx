@@ -6,6 +6,7 @@ import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
 import { useTranslations } from 'next-intl';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
+import { useRouter } from 'next/navigation';
 
 interface Product {
   id: string;
@@ -34,17 +35,19 @@ interface ClientProductDetailProps {
 
 export default function ClientProductDetail({ productData }: ClientProductDetailProps) {
   const t = useTranslations('product_detail');
+  const router = useRouter();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showFullProductInfo, setShowFullProductInfo] = useState(true);
+  const [isBuyingNow, setIsBuyingNow] = useState(false);
   const { addToCart } = useCart();
   const { showTooltip } = useFlashTooltip();
 
   const handleAddToCart = (event: React.MouseEvent) => {
     // Ngăn chặn event bubbling
     event.stopPropagation();
-    
+
     const productToAdd = {
       id: productData.id,
       name: productData.name,
@@ -59,9 +62,55 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
       advance_payment_discount_percentage: productData.advance_payment_discount_percentage,
     };
 
-
     addToCart(productToAdd, quantity);
     showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
+  };
+
+  const handleBuyNow = async (event: React.MouseEvent) => {
+    // Ngăn chặn event bubbling
+    event.stopPropagation();
+
+    setIsBuyingNow(true);
+
+    try {
+      // Tạo single product order cho checkout
+      const singleProductOrder = {
+        items: [{
+          id: productData.id,
+          name: productData.name,
+          price: productData.price,
+          image: productData.image,
+          quantity: quantity,
+          // Include payment options from product data
+          full_payment_transfer: productData.full_payment_transfer,
+          full_payment_discount_percentage: productData.full_payment_discount_percentage,
+          partial_advance_payment: productData.partial_advance_payment,
+          advance_payment_percentage: productData.advance_payment_percentage,
+          advance_payment_discount_percentage: productData.advance_payment_discount_percentage,
+        }],
+        total: productData.price * quantity,
+        orderNumber: `ORD-SINGLE-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        createdAt: new Date().toISOString(),
+        status: 'pending',
+      };
+
+      // Lưu vào localStorage
+      localStorage.setItem('currentOrder', JSON.stringify(singleProductOrder));
+
+      // Hiển thị thông báo thành công ngắn
+      showTooltip('Đang chuyển đến trang thanh toán...', 'success');
+
+      // Chuyển đến trang checkout sau 1 giây
+      setTimeout(() => {
+        router.push('/checkout');
+      }, 1000);
+
+    } catch (error) {
+      console.error('Error creating single product order:', error);
+      showTooltip('Có lỗi xảy ra, vui lòng thử lại', 'error');
+    } finally {
+      setTimeout(() => setIsBuyingNow(false), 1500);
+    }
   };
 
 
@@ -178,10 +227,15 @@ export default function ClientProductDetail({ productData }: ClientProductDetail
               
               {/* Buy Now */}
               <button
-                onClick={(event) => handleAddToCart(event)}
-                className='flex flex-1 items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer font-medium'
+                onClick={(event) => handleBuyNow(event)}
+                disabled={isBuyingNow}
+                className={`flex flex-1 items-center justify-center rounded-full px-6 py-3 text-white transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer font-medium ${
+                  isBuyingNow
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-blue-600 hover:bg-blue-700'
+                }`}
               >
-                Mua hàng
+                {isBuyingNow ? 'Đang xử lý...' : 'Mua ngay'}
               </button>
             </div>
 

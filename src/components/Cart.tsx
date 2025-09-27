@@ -123,6 +123,7 @@ function CartItem({ item }: CartItemProps) {
     }
   };
 
+
   return (
     <li className='flex flex-col items-start justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition hover:bg-gray-50 sm:flex-row sm:items-center'>
       <div className='flex w-full items-center space-x-4 sm:w-auto'>

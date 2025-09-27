@@ -9,12 +9,14 @@ import { ProductType, RelatedProductType } from './types';
 import Link from 'next/link';
 import RelatedProducts from './RelatedProducts';
 import ChatFloat from '../ChatFloat';
+import { useRouter } from 'next/navigation';
 type ProductDetailProps = {
   product: ProductType;
   relatedProducts?: RelatedProductType[];
 };
 export default function ProductDetail({ product, relatedProducts = [] }: ProductDetailProps) {
   const t = useTranslations('product_detail');
+  const router = useRouter();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -66,11 +68,12 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
   };
   const { addToCart } = useCart();
   const [successMessage, setSuccessMessage] = useState('');
+  const [isBuyingNow, setIsBuyingNow] = useState(false);
 
   const handleAddToCart = (event: React.MouseEvent) => {
     // Ngăn chặn event bubbling
     event.stopPropagation();
-    
+
     if (product.id) {
       addToCart({
         id: product.id,
@@ -87,6 +90,56 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
       }, quantity);
       setSuccessMessage(t('add_to_cart_success'));
       setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
+    }
+  };
+
+  const handleBuyNow = async (event: React.MouseEvent) => {
+    // Ngăn chặn event bubbling
+    event.stopPropagation();
+
+    if (product.id) {
+      setIsBuyingNow(true);
+
+      try {
+        // Tạo single product order cho checkout
+        const singleProductOrder = {
+          items: [{
+            id: product.id,
+            name: product.name || 'Unknown Product',
+            price: product.price || 0,
+            image: product.image || '/images/placeholder-product.png',
+            quantity: quantity,
+            // Use payment options from product data
+            full_payment_transfer: product.full_payment_transfer || false,
+            full_payment_discount_percentage: product.full_payment_discount_percentage || 0,
+            partial_advance_payment: product.partial_advance_payment || false,
+            advance_payment_percentage: product.advance_payment_percentage || 0,
+            advance_payment_discount_percentage: product.advance_payment_discount_percentage || 0,
+          }],
+          total: (product.price || 0) * quantity,
+          orderNumber: `ORD-SINGLE-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          createdAt: new Date().toISOString(),
+          status: 'pending',
+        };
+
+        // Lưu vào localStorage
+        localStorage.setItem('currentOrder', JSON.stringify(singleProductOrder));
+
+        // Hiển thị thông báo thành công ngắn
+        setSuccessMessage('Đang chuyển đến trang thanh toán...');
+
+        // Chuyển đến trang checkout sau 1 giây
+        setTimeout(() => {
+          router.push('/checkout');
+        }, 1000);
+
+      } catch (error) {
+        console.error('Error creating single product order:', error);
+        setSuccessMessage('Có lỗi xảy ra, vui lòng thử lại');
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } finally {
+        setTimeout(() => setIsBuyingNow(false), 1500);
+      }
     }
   };
 
@@ -284,9 +337,22 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
               {/* Buy Now Button */}
               <div className='relative inline-block'>
                 <button
-                  className='flex h-[48px] min-w-[100px] flex-1 cursor-pointer items-center justify-center rounded-lg bg-gray-800 px-4 py-2 text-sm font-bold whitespace-nowrap text-white transition-colors hover:bg-gray-900 sm:min-w-[120px] sm:px-8 sm:py-3 sm:text-base'
+                  onClick={(event) => handleBuyNow(event)}
+                  disabled={isBuyingNow}
+                  className={`flex h-[48px] min-w-[100px] flex-1 cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-sm font-bold whitespace-nowrap text-white transition-colors sm:min-w-[120px] sm:px-8 sm:py-3 sm:text-base ${
+                    isBuyingNow
+                      ? 'bg-blue-400 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-700'
+                  }`}
                 >
-                  {t('add_to_cart')}
+                  {isBuyingNow ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Đang xử lý...</span>
+                    </div>
+                  ) : (
+                    'Mua ngay'
+                  )}
                 </button>
                 {successMessage && (
                   <div className='animate-fade-in absolute bottom-full left-1/2 mb-2 w-100 -translate-x-1/2 transform rounded-lg bg-green-600 px-4 py-2 text-sm text-white shadow-lg'>

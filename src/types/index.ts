@@ -93,6 +93,80 @@ export interface UserAddress {
   is_default: boolean;
 }
 
+// Vietnamese Administrative Units Types
+export interface AdministrativeRegion {
+  id: number;
+  name: string;
+  name_en: string;
+  code_name: string;
+  code_name_en: string;
+}
+
+export interface AdministrativeUnit {
+  id: number;
+  full_name: string;
+  full_name_en: string;
+  short_name: string;
+  short_name_en: string;
+  code_name: string;
+  code_name_en: string;
+}
+
+export interface Province {
+  code: string;
+  name: string;
+  'name-en': string;
+  'full-name': string;
+  'full-name-en': string;
+  'code-name': string;
+  administrative_unit_id?: number;
+  administrative_unit_name?: string;
+  display_name?: string;
+  // New fields from serializer
+  type?: string;
+  'type-en'?: string;
+  'is-municipality'?: boolean;
+  'wards-count'?: number;
+  // For backward compatibility
+  name_en?: string;
+  full_name?: string;
+  full_name_en?: string;
+  code_name?: string;
+  type_en?: string;
+  is_municipality?: boolean;
+  wards_count?: number;
+}
+
+export interface Ward {
+  code: string;
+  name: string;
+  name_en: string;
+  full_name: string;
+  full_name_en: string;
+  code_name: string;
+  province_code: string;
+  administrative_unit_id: number;
+  administrative_unit_name?: string;
+  province_name?: string;
+  display_name?: string;
+}
+
+export interface AddressSearchResult {
+  provinces: Array<{
+    type: 'province';
+    code: string;
+    name: string;
+    full_name: string;
+  }>;
+  wards: Array<{
+    type: 'ward';
+    code: string;
+    name: string;
+    full_name: string;
+    province_name: string;
+  }>;
+}
+
 // API Response Types
 export interface ApiError {
   errors: string[];

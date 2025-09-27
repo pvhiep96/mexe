@@ -39,6 +39,13 @@ export const API_ENDPOINTS = {
   },
   // Contact endpoints
   CONTACT: '/contacts',
+  // Address endpoints
+  ADDRESSES: {
+    PROVINCES: '/addresses/provinces',
+    WARDS: '/addresses/wards',
+    ADMINISTRATIVE_UNITS: '/addresses/administrative_units',
+    SEARCH: '/addresses/search',
+  },
 };
 
 const configuration = new Configuration({

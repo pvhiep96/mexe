@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import AddressInput, { type AddressData } from '../AddressInput';
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void;
@@ -16,6 +17,7 @@ export default function RegisterForm({ onSwitchToLogin, onRegister }: RegisterFo
     address: '',
     agreeToTerms: false,
   });
+  const [addressData, setAddressData] = useState<AddressData>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,13 +69,27 @@ export default function RegisterForm({ onSwitchToLogin, onRegister }: RegisterFo
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleAddressChange = (address: AddressData) => {
+    setAddressData(address);
+    // Combine all address information into a single string for backward compatibility
+    const fullAddressString = [
+      address.manualAddress,
+      address.fullAddress
+    ].filter(Boolean).join(', ');
+
+    setFormData(prev => ({
+      ...prev,
+      address: fullAddressString
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsLoading(true);
     try {
       await onRegister({
@@ -181,17 +197,17 @@ export default function RegisterForm({ onSwitchToLogin, onRegister }: RegisterFo
       </div>
 
       <div>
-        <label htmlFor='address' className='block text-sm font-medium text-gray-700 mb-2'>
-          Địa chỉ
-        </label>
-        <textarea
-          id='address'
-          name='address'
-          rows={3}
-          value={formData.address}
-          onChange={handleInputChange}
-          className='w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#2D6294] focus:outline-none focus:ring-1 focus:ring-[#2D6294]'
-          placeholder='Nhập địa chỉ của bạn (tùy chọn)'
+        <AddressInput
+          onAddressChange={handleAddressChange}
+          mode="selector"
+          allowModeSwitch={true}
+          placeholder={{
+            province: 'Chọn Tỉnh/Thành phố',
+            ward: 'Chọn Phường/Xã',
+            search: 'Tìm kiếm địa điểm...',
+            manual: 'Nhập địa chỉ chi tiết (số nhà, tên đường...)'
+          }}
+          className="space-y-3"
         />
       </div>
 

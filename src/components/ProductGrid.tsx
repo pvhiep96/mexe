@@ -281,11 +281,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                   </div>
 
                   {/* Discount badge */}
-                  {product.discount && (
+                  {/* {product.discount && (
                     <div className='absolute top-2 right-2 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white sm:px-2 sm:py-1'>
                       -{product.discount}%
                     </div>
-                  )}
+                  )} */}
 
 
                 </div>

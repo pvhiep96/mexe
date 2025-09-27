@@ -113,7 +113,7 @@ export async function createPaymentUrl(formData: any) {
       vnp_OrderInfo: orderInfo,
       vnp_OrderType: 'topup',
       vnp_ReturnUrl:
-        process.env.VNPAY_RETURN_URL || 'http://47.129.168.239/payment/return',
+        process.env.VNPAY_RETURN_URL || 'http://localhost:3005/payment/return',
       vnp_TxnRef: orderId,
       vnp_TmnCode: '5YQD1DBZ',
       vnp_ExpireDate: dateFormat(new Date(toTimezoneString(expireDAte, 7))),

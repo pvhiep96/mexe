@@ -1,16 +1,20 @@
 // API service for communicating with Rails backend
 import { API_CONFIG, API_ENDPOINTS } from '@/config/api';
-import type { 
-  User, 
-  AuthResponse, 
-  LoginRequest, 
-  RegisterRequest, 
-  UpdateProfileRequest, 
+import type {
+  User,
+  AuthResponse,
+  LoginRequest,
+  RegisterRequest,
+  UpdateProfileRequest,
   ChangePasswordRequest,
   Order,
   WishlistItem,
   UserAddress,
-  ApiError 
+  ApiError,
+  Province,
+  Ward,
+  AdministrativeUnit,
+  AddressSearchResult
 } from '@/types';
 
 // Types
@@ -901,6 +905,50 @@ class ApiClient {
 
   async getOrderForCheckout(orderId: string): Promise<{ success: boolean; data: CheckoutOrderData }> {
     return this.request<{ success: boolean; data: CheckoutOrderData }>(`/orders/${orderId}/checkout`);
+  }
+
+  // Address Management Methods
+  async getProvinces(): Promise<Province[]> {
+    const response = await this.request<{ data: any[] }>(API_ENDPOINTS.ADDRESSES.PROVINCES);
+    // Transform JSON API format to simple objects and normalize field names
+    return response.data.map(item => ({
+      ...item.attributes,
+      id: item.id,
+      // Add normalized field names for easier access
+      name_en: item.attributes['name-en'],
+      full_name: item.attributes['full-name'],
+      full_name_en: item.attributes['full-name-en'],
+      code_name: item.attributes['code-name'],
+      type_en: item.attributes['type-en'],
+      is_municipality: item.attributes['is-municipality'],
+      wards_count: item.attributes['wards-count']
+    }));
+  }
+
+  async getWards(provinceCode: string): Promise<Ward[]> {
+    const response = await this.request<{ data: any[] }>(`${API_ENDPOINTS.ADDRESSES.WARDS}?province_code=${provinceCode}`);
+    // Transform JSON API format to simple objects and normalize field names
+    return response.data.map(item => ({
+      ...item.attributes,
+      id: item.id,
+      // Add normalized field names for easier access
+      name_en: item.attributes['name-en'],
+      full_name: item.attributes['full-name'],
+      full_name_en: item.attributes['full-name-en'],
+      code_name: item.attributes['code-name'],
+      province_code: item.attributes['province-code'],
+      administrative_unit_name: item.attributes['administrative-unit-name'],
+      province_name: item.attributes['province-name'],
+      display_name: item.attributes['display-name']
+    }));
+  }
+
+  async getAdministrativeUnits(): Promise<AdministrativeUnit[]> {
+    return this.request<AdministrativeUnit[]>(API_ENDPOINTS.ADDRESSES.ADMINISTRATIVE_UNITS);
+  }
+
+  async searchAddresses(query: string): Promise<AddressSearchResult> {
+    return this.request<AddressSearchResult>(`${API_ENDPOINTS.ADDRESSES.SEARCH}?q=${encodeURIComponent(query)}`);
   }
 }
 
