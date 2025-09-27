@@ -802,25 +802,6 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
                 return (
                   <>
-                    {hasFullPayment && (
-                      <label className='flex items-start space-x-3 p-3 border border-green-200 rounded-lg bg-green-50 cursor-pointer hover:bg-green-100'>
-                        <input
-                          {...register('paymentMethod', {
-                            required: t('errors.required'),
-                          })}
-                          type='radio'
-                          value='full_transfer'
-                          className='mt-1'
-                        />
-                        <div>
-                          <div className='font-medium text-green-800'>💰 Chuyển khoản toàn bộ</div>
-                          <div className='text-sm text-green-700 mt-1'>
-                            Áp dụng cho sản phẩm có tùy chọn này. Được giảm giá đặc biệt.
-                          </div>
-                        </div>
-                      </label>
-                    )}
-
                     <label className='flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer'>
                 <input
                   {...register('paymentMethod', {
