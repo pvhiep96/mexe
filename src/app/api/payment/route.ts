@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
         template: 'compact',
       })
       .then((data: unknown) => {
-        // console.log(data);
         return {
           message: 'Backend connection successful',
           backendStatus: 'connected',
@@ -35,7 +34,6 @@ export async function GET(request: NextRequest) {
         };
       });
 
-    console.log(res);
     return Response.json({
       message: 'Backend connection successful',
       backendStatus: 'connected',

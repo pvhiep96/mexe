@@ -7,10 +7,6 @@ export async function GET() {
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') ||
       'http://47.129.168.239';
-    console.log(
-      'Testing backend connection to:',
-      `${backendUrl}/api/v1/orders`
-    );
 
     const response = await fetch(`${backendUrl}/api/v1/orders`, {
       method: 'GET',
@@ -71,15 +67,6 @@ export async function POST(request: NextRequest) {
       note,
     } = body;
 
-    console.log('Order data received:', {
-      items: items?.length,
-      total,
-      orderNumber,
-      customerInfo: !!customerInfo,
-      deliveryInfo: !!deliveryInfo,
-      paymentMethod,
-      note,
-    });
 
     // Validate required fields
     if (!items || !total || !orderNumber || !customerInfo || !deliveryInfo) {
@@ -163,12 +150,6 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify(orderData),
         signal: AbortSignal.timeout(10000), // 10 seconds timeout
-      });
-
-      console.log('Backend response:', {
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries()),
       });
 
       if (!response.ok) {

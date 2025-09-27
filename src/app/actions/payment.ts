@@ -75,6 +75,55 @@ function toTimezoneString(date: Date, offsetHours: number = 7): string {
   return `${iso}${sign}${pad(offsetHours)}:00`;
 }
 
+// Server action to create payment URL only (no redirect)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function createPaymentUrlOnly(formData: any): Promise<string> {
+  const headersList = await headers();
+  const clientIP = getClientIP(headersList);
+
+  // Extract form data
+  const amount = formData.amount as string;
+  const orderInfo = formData.orderInfo as string;
+  const orderType = formData.orderType as string;
+  const bankCode = formData.bankCode as string;
+  const locale = formData.locale as string;
+
+  // Validation
+  if (!amount || !orderInfo) {
+    throw new Error('Amount and order info are required');
+  }
+
+  const numAmount = parseInt(amount);
+  if (isNaN(numAmount) || numAmount < 1000) {
+    throw new Error('Amount must be at least 1,000 VND');
+  }
+
+  // Generate order ID
+  const orderId = generateOrderId();
+
+  // Build payment URL
+  const now: Date = new Date();
+  const expireDAte = new Date(new Date().getTime() + 30 * 60 * 1000);
+  const paymentUrl = vnpay.buildPaymentUrl({
+    vnp_Amount: formatAmount(numAmount),
+    vnp_CreateDate: dateFormat(new Date(toTimezoneString(now, 7))),
+    vnp_CurrCode: VnpCurrCode.VND,
+    vnp_IpAddr: '117.2.113.207',
+    vnp_Locale: 'vn',
+    vnp_OrderInfo: orderInfo,
+    vnp_OrderType: 'topup',
+    vnp_ReturnUrl:
+    process.env.VNPAY_RETURN_URL || 'http://47.129.168.239:81/payment/return',
+    vnp_TxnRef: orderId,
+    vnp_TmnCode: '5YQD1DBZ',
+    vnp_ExpireDate: dateFormat(new Date(toTimezoneString(expireDAte, 7))),
+
+    ...(bankCode && { vnp_BankCode: bankCode }),
+  });
+
+  return paymentUrl;
+}
+
 // Server action to create payment URL and redirect to VNPay
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createPaymentUrl(formData: any) {
@@ -113,7 +162,7 @@ export async function createPaymentUrl(formData: any) {
       vnp_OrderInfo: orderInfo,
       vnp_OrderType: 'topup',
       vnp_ReturnUrl:
-        process.env.VNPAY_RETURN_URL || 'http://localhost:3005/payment/return',
+      process.env.VNPAY_RETURN_URL || 'http://47.129.168.239:81/payment/return',
       vnp_TxnRef: orderId,
       vnp_TmnCode: '5YQD1DBZ',
       vnp_ExpireDate: dateFormat(new Date(toTimezoneString(expireDAte, 7))),

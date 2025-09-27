@@ -12,11 +12,9 @@ export default function AddressExample() {
 
   const handleAddressChange = (address: AddressData) => {
     setAddressData(address);
-    console.log('Address Data:', address);
   };
 
   const handleSelectorChange = (address: any) => {
-    console.log('Selector Change:', address);
     setSelectedProvince(address.provinceCode || '');
     setSelectedWard(address.wardCode || '');
   };

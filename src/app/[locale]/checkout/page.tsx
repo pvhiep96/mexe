@@ -1,7 +1,7 @@
 'use client';
 
 import Checkout from '@/components/Checkout';
-import { createPaymentUrl } from '@/app/actions/payment';
+import { createPaymentUrlOnly } from '@/app/actions/payment';
 import { useRouter } from '@/i18n/navigation';
 import { useEffect, useState } from 'react';
 import { apiClient, type CheckoutOrderData } from '@/services/api';
@@ -113,7 +113,6 @@ const CheckoutPage = () => {
           status: parsedOrder.status,
         };
 
-        console.log('Enhanced order with fresh data:', enhancedOrder);
         setOrder(enhancedOrder);
 
       } catch (error: any) {
@@ -210,7 +209,7 @@ const CheckoutPage = () => {
       <main className='grow'>
         <Checkout
           order={order}
-          checkout={createPaymentUrl}
+          checkout={createPaymentUrlOnly}
         />
       </main>
     </div>

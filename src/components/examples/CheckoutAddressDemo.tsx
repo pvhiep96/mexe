@@ -8,7 +8,6 @@ export default function CheckoutAddressDemo() {
 
   const handleAddressChange = (address: any) => {
     setAddressData(address);
-    console.log('Address Data:', address);
   };
 
   return (

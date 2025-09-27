@@ -8,10 +8,6 @@ async function fetchProduct(id: number | string) {
     const response = await api.getProduct(String(id));
 
     const product = response.data;
-    console.log('Product payment options:', {
-      full_payment_transfer: product.full_payment_transfer,
-      partial_advance_payment: product.partial_advance_payment,
-    });
 
     // Check if product data is valid
     if (!product || !product.id) {

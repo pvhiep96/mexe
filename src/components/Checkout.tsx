@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
 import Image from 'next/image';
@@ -53,7 +53,7 @@ interface CheckoutForm {
 interface CheckoutProps {
   order: Order;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  checkout: (formData: any) => Promise<void>;
+  checkout: (formData: any) => Promise<string>;
 }
 
 export default function Checkout({ order, checkout }: CheckoutProps) {
@@ -70,10 +70,6 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   // No need to fetch again as checkout page already queried fresh data from database
   const enhancedProducts = order.items;
   const isLoadingPaymentOptions = false;
-
-  console.log('------------------------------');
-  console.log('enhancedProducts', JSON.stringify(enhancedProducts));
-  console.log('------------------------------');
 
 
   // Format price to Vietnamese currency
@@ -185,7 +181,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     };
   };
 
-  const orderTotals = calculateOrderTotals();
+  const orderTotals = useMemo(() => calculateOrderTotals(), [enhancedProducts, selectedPaymentMethods]);
 
   // Move arrays inside component to use t function
   const stores = [
@@ -239,7 +235,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
   const onSubmit = async (data: CheckoutForm) => {
     if (isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
 
@@ -337,11 +333,25 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
           'Đã tạo đơn hàng thành công! Đang chuyển đến trang thanh toán...',
           'success'
         );
+        // Clear cart từ localStorage
+        localStorage.removeItem('cart');
+        localStorage.removeItem('cartItems');
+
         setTimeout(async () => {
           try {
-            await checkout({ ...data, orderInfo: order.orderNumber });
+            const paymentUrl = await checkout({
+              amount: order.total.toString(),
+              orderInfo: order.orderNumber,
+              orderType: 'topup',
+              locale: 'vn'
+            });
+
+            // Immediately redirect to VNPay
+            window.location.href = paymentUrl;
           } catch (error) {
-            // Nếu có lỗi payment, vẫn chuyển đến order-status
+            // For errors, show message and redirect to order status
+            console.error('Payment URL generation error:', error);
+            showTooltip('Có lỗi khi tạo link thanh toán. Vui lòng kiểm tra đơn hàng của bạn.', 'warning');
             router.push('/order-status');
           }
         }, 1500);
@@ -385,7 +395,16 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       setValue('city', address.province.name);
     }
 
-    console.log('Checkout Address Data:', address);
+  };
+
+  // Check if address is complete for home delivery
+  const isAddressComplete = () => {
+    if (deliveryType !== 'home') return true;
+    return Boolean(
+      checkoutAddressData.provinceCode &&
+      checkoutAddressData.wardCode &&
+      checkoutAddressData.detailAddress?.trim()
+    );
   };
 
   return (
@@ -397,6 +416,217 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       >
         {/* Left Column: Form Sections */}
         <div className='space-y-8 lg:col-span-2'>
+          {/* Section 3: Product Payment Options */}
+          <section className='rounded-lg bg-white p-6 shadow-md'>
+            <h2 className='mb-4 text-xl font-semibold'>
+              💳 Tùy chọn thanh toán theo sản phẩm
+            </h2>
+
+            {isLoadingPaymentOptions && (
+              <div className='mb-4 rounded-lg bg-blue-50 p-3 border border-blue-200'>
+                <p className='text-sm text-blue-800'>
+                  <span className='font-medium'>⏳ Đang tải:</span> Đang lấy thông tin tùy chọn thanh toán cho từng sản phẩm từ database...
+                </p>
+              </div>
+            )}
+
+            {/* {!isLoadingPaymentOptions && enhancedProducts.every(item => !(item.full_payment_transfer || false) && !(item.partial_advance_payment || false)) && (
+              <div className='mb-4 rounded-lg bg-yellow-50 p-3 border border-yellow-200'>
+                <p className='text-sm text-yellow-800'>
+                  <span className='font-medium'>📝 Chú ý:</span> Hiện tại chưa có sản phẩm nào được cấu hình payment options.
+                  Vui lòng truy cập admin interface để thiết lập <strong>full_payment_transfer</strong> và <strong>partial_advance_payment</strong> cho các sản phẩm.
+                </p>
+              </div>
+            )} */}
+            <div className='mb-4 rounded-lg bg-blue-50 p-3 border border-blue-200'>
+              <p className='text-sm text-blue-800'>
+                <span className='font-medium'>ℹ️ Hướng dẫn:</span> Một số sản phẩm có tùy chọn thanh toán đặc biệt với ưu đãi giảm giá.
+                Vui lòng xem chi tiết từng sản phẩm bên dưới.
+              </p>
+            </div>
+
+            <div className='space-y-4'>
+              {enhancedProducts.map((item, index) => {
+                const payment = calculateProductPayment(item);
+
+                return (
+                  <div key={index} className='rounded-lg border border-gray-200 p-4 bg-gray-50'>
+                    <div className='flex items-start space-x-3'>
+                      <img
+                        src={item.image || '/images/placeholder-product.png'}
+                        alt={item.name}
+                        className='h-16 w-16 rounded object-cover border border-gray-200'
+                      />
+                      <div className='flex-1'>
+                        <h4 className='font-medium text-gray-900'>{item.name}</h4>
+                        <p className='text-sm text-gray-600 mb-3'>
+                          Số lượng: {item.quantity} | Giá gốc: {formatPrice(item.price)} x {item.quantity}
+                        </p>
+
+                        {/* Payment options selection for products with multiple options */}
+                        {((item.full_payment_transfer || false) || (item.partial_advance_payment || false)) && (
+                          <div className='mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg'>
+                            <h5 className='font-medium text-purple-800 mb-2'>⚡ Chọn phương thức thanh toán cho sản phẩm này:</h5>
+                            <div className='space-y-2'>
+                              {/* Regular payment option */}
+                              <label className='flex items-center space-x-2 cursor-pointer'>
+                                <input
+                                  type='radio'
+                                  name={`payment-${item.id}`}
+                                  value='regular'
+                                  checked={selectedPaymentMethods[String(item.id)] === 'regular' || !selectedPaymentMethods[String(item.id)]}
+                                  onChange={() => setSelectedPaymentMethods(prev => ({
+                                    ...prev,
+                                    [String(item.id)]: 'regular'
+                                  }))}
+                                  className='text-purple-600'
+                                />
+                                <span className='text-sm text-purple-700'>💳 Thanh toán thông thường</span>
+                              </label>
+
+                              {/* Full payment option */}
+                              {(item.full_payment_transfer || false) && (
+                                <label className='flex items-center space-x-2 cursor-pointer'>
+                                  <input
+                                    type='radio'
+                                    name={`payment-${item.id}`}
+                                    value='full'
+                                    checked={selectedPaymentMethods[String(item.id)] === 'full'}
+                                    onChange={() => setSelectedPaymentMethods(prev => ({
+                                      ...prev,
+                                      [String(item.id)]: 'full'
+                                    }))}
+                                    className='text-purple-600'
+                                  />
+                                  <span className='text-sm text-purple-700'>
+                                    💰 Chuyển khoản toàn bộ ({item.full_payment_discount_percentage || 0}% giảm)
+                                  </span>
+                                </label>
+                              )}
+
+                              {/* Partial advance option */}
+                              {(item.partial_advance_payment || false) && (
+                                <label className='flex items-center space-x-2 cursor-pointer'>
+                                  <input
+                                    type='radio'
+                                    name={`payment-${item.id}`}
+                                    value='partial'
+                                    checked={selectedPaymentMethods[String(item.id)] === 'partial'}
+                                    onChange={() => setSelectedPaymentMethods(prev => ({
+                                      ...prev,
+                                      [String(item.id)]: 'partial'
+                                    }))}
+                                    className='text-purple-600'
+                                  />
+                                  <span className='text-sm text-purple-700'>
+                                    📊 Chuyển trước {item.advance_payment_percentage || 0}% ({item.advance_payment_discount_percentage || 0}% giảm)
+                                  </span>
+                                </label>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Loại 1: Chuyển khoản toàn bộ */}
+                        {payment.type === 'full_payment' && (
+                          <div className='rounded-lg bg-green-50 p-4 border-2 border-green-300 shadow-sm'>
+                            <div className='flex items-center space-x-2 mb-3'>
+                              <div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center'>
+                                <span className='text-white text-sm font-bold'>1</span>
+                              </div>
+                              <span className='font-bold text-green-800 text-lg'>
+                                💰 Chuyển khoản toàn bộ
+                              </span>
+                            </div>
+                            <div className='ml-10 space-y-2'>
+                              <div className='bg-white rounded p-3 border border-green-200'>
+                                <p className='text-green-700 font-medium mb-1'>
+                                  ✅ Chuyển khoản 100% trước khi nhận hàng
+                                </p>
+                                {(payment.discountPercentage || 0) > 0 ? (
+                                  <div className='space-y-1'>
+                                    <p className='text-green-700'>
+                                      🎉 <span className='font-semibold'>Ưu đãi đặc biệt:</span> Giảm {payment.discountPercentage || 0}% khi chuyển khoản trước: {formatPrice(payment.discount || 0)}
+                                    </p>
+                                    <div className='flex justify-between text-sm'>
+                                      <span>Tiết kiệm:</span>
+                                      <span className='font-bold text-red-600'>-{formatPrice(payment.discount || 0)}</span>
+                                    </div>
+                                    <div className='flex justify-between text-lg font-bold border-t pt-2'>
+                                      <span className='text-green-800'>Chỉ cần thanh toán:</span>
+                                      <span className='text-green-800'>{formatPrice(payment.totalPrice)}</span>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <p className='text-green-700'>Không có giảm giá đặc biệt</p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Loại 2: Chuyển trước một phần */}
+                        {payment.type === 'partial_advance' && (
+                          <div className='rounded-lg bg-blue-50 p-4 border-2 border-blue-300 shadow-sm'>
+                            <div className='flex items-center space-x-2 mb-3'>
+                              <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center'>
+                                <span className='text-white text-sm font-bold'>2</span>
+                              </div>
+                              <span className='font-bold text-blue-800 text-lg'>
+                                📊 Chuyển trước một phần
+                              </span>
+                            </div>
+                            <div className='ml-10 space-y-3'>
+                              <div className='bg-white rounded p-3 border border-blue-200'>
+                                <p className='text-blue-700 font-medium mb-2'>
+                                  💳 Thanh toán linh hoạt 2 giai đoạn
+                                </p>
+                                <div className='grid grid-cols-2 gap-3 text-sm'>
+                                  <div className='bg-blue-50 p-2 rounded border'>
+                                    <p className='font-medium text-blue-800'>1️⃣ Trả trước</p>
+                                    <p className='text-blue-700'>
+                                      {payment.advancePercentage || 0}% = {formatPrice(payment.advanceAmount || 0)}
+                                    </p>
+                                  </div>
+                                  <div className='bg-gray-50 p-2 rounded border'>
+                                    <p className='font-medium text-gray-700'>2️⃣ COD</p>
+                                    <p className='text-gray-600'>{formatPrice(payment.remainingAmount || 0)}</p>
+                                  </div>
+                                </div>
+                                {(payment.advanceDiscountPercentage || 0) > 0 && (
+                                  <div className='mt-2 bg-green-50 p-2 rounded border border-green-200'>
+                                    <p className='text-green-700 font-medium'>
+                                      🎁 Bonus: Giảm {payment.advanceDiscountPercentage || 0}% khi trả trước
+                                    </p>
+                                    <p className='text-green-700'>Tiết kiệm: {formatPrice(payment.discount)}</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Thanh toán thông thường */}
+                        {payment.type === 'regular' && (
+                          <div className='rounded-lg bg-gray-100 p-4 border border-gray-300'>
+                            <div className='flex items-center space-x-2'>
+                              <span className='text-gray-600'>💳</span>
+                              <span className='font-medium text-gray-700'>
+                                Thanh toán thông thường
+                              </span>
+                            </div>
+                            <p className='text-sm text-gray-600 mt-1 ml-6'>
+                              Sản phẩm này sử dụng các phương thức thanh toán chuẩn (COD, chuyển khoản, thẻ)
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
           {/* Section 1: Delivery Information */}
           <section className='rounded-lg bg-white p-6 shadow-md'>
             <h2 className='mb-4 text-xl font-semibold'>
@@ -579,10 +809,21 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
             </h2>
 
             {/* Address Summary */}
-            {checkoutAddressData.fullAddress && (
+            {deliveryType === 'home' && !isAddressComplete() && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                <h3 className="text-sm font-medium text-yellow-800 mb-2">
+                  ⚠️ Vui lòng hoàn thành thông tin địa chỉ
+                </h3>
+                <p className="text-sm text-yellow-700">
+                  Bạn cần chọn đầy đủ: Tỉnh/Thành phố, Phường/Xã và điền địa chỉ chi tiết để có thể đặt hàng.
+                </p>
+              </div>
+            )}
+
+            {checkoutAddressData.fullAddress && isAddressComplete() && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
                 <h3 className="text-sm font-medium text-green-800 mb-2">
-                  📍 Địa chỉ giao hàng đã chọn
+                  ✅ Địa chỉ giao hàng đã chọn
                 </h3>
                 <div className="text-sm text-green-700 space-y-1">
                   {checkoutAddressData.detailAddress && (
@@ -626,218 +867,6 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                 disabled
                 placeholder="Địa chỉ sẽ được tự động cập nhật từ phần chọn địa chỉ ở trên"
               />
-            </div>
-          </section>
-
-          {/* Section 3: Product Payment Options */}
-          <section className='rounded-lg bg-white p-6 shadow-md'>
-            <h2 className='mb-4 text-xl font-semibold'>
-              💳 Tùy chọn thanh toán theo sản phẩm
-            </h2>
-
-            {isLoadingPaymentOptions && (
-              <div className='mb-4 rounded-lg bg-blue-50 p-3 border border-blue-200'>
-                <p className='text-sm text-blue-800'>
-                  <span className='font-medium'>⏳ Đang tải:</span> Đang lấy thông tin tùy chọn thanh toán cho từng sản phẩm từ database...
-                </p>
-              </div>
-            )}
-
-            {/* {!isLoadingPaymentOptions && enhancedProducts.every(item => !(item.full_payment_transfer || false) && !(item.partial_advance_payment || false)) && (
-              <div className='mb-4 rounded-lg bg-yellow-50 p-3 border border-yellow-200'>
-                <p className='text-sm text-yellow-800'>
-                  <span className='font-medium'>📝 Chú ý:</span> Hiện tại chưa có sản phẩm nào được cấu hình payment options.
-                  Vui lòng truy cập admin interface để thiết lập <strong>full_payment_transfer</strong> và <strong>partial_advance_payment</strong> cho các sản phẩm.
-                </p>
-              </div>
-            )} */}
-            <div className='mb-4 rounded-lg bg-blue-50 p-3 border border-blue-200'>
-              <p className='text-sm text-blue-800'>
-                <span className='font-medium'>ℹ️ Hướng dẫn:</span> Một số sản phẩm có tùy chọn thanh toán đặc biệt với ưu đãi giảm giá.
-                Vui lòng xem chi tiết từng sản phẩm bên dưới.
-              </p>
-            </div>
-
-            <div className='space-y-4'>
-              {enhancedProducts.map((item, index) => {
-                const payment = calculateProductPayment(item);
-
-                return (
-                  <div key={index} className='rounded-lg border border-gray-200 p-4 bg-gray-50'>
-                    <div className='flex items-start space-x-3'>
-                      <img
-                        src={item.image || '/images/placeholder-product.png'}
-                        alt={item.name}
-                        className='h-16 w-16 rounded object-cover border border-gray-200'
-                      />
-                      <div className='flex-1'>
-                        <h4 className='font-medium text-gray-900'>{item.name}</h4>
-                        <p className='text-sm text-gray-600 mb-3'>
-                          Số lượng: {item.quantity} | Giá gốc: {formatPrice(item.price)} x {item.quantity}
-                        </p>
-
-                        {/* Payment options selection for products with multiple options */}
-                        {((item.full_payment_transfer || false) || (item.partial_advance_payment || false)) && (
-                          <div className='mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg'>
-                            <h5 className='font-medium text-purple-800 mb-2'>⚡ Chọn phương thức thanh toán cho sản phẩm này:</h5>
-            <div className='space-y-2'>
-                              {/* Regular payment option */}
-                              <label className='flex items-center space-x-2 cursor-pointer'>
-                                <input
-                                  type='radio'
-                                  name={`payment-${item.id}`}
-                                  value='regular'
-                                  checked={selectedPaymentMethods[String(item.id)] === 'regular' || !selectedPaymentMethods[String(item.id)]}
-                                  onChange={() => setSelectedPaymentMethods(prev => ({
-                                    ...prev,
-                                    [String(item.id)]: 'regular'
-                                  }))}
-                                  className='text-purple-600'
-                                />
-                                <span className='text-sm text-purple-700'>💳 Thanh toán thông thường</span>
-                              </label>
-
-                              {/* Full payment option */}
-                              {(item.full_payment_transfer || false) && (
-                                <label className='flex items-center space-x-2 cursor-pointer'>
-                                  <input
-                                    type='radio'
-                                    name={`payment-${item.id}`}
-                                    value='full'
-                                    checked={selectedPaymentMethods[String(item.id)] === 'full'}
-                                    onChange={() => setSelectedPaymentMethods(prev => ({
-                                      ...prev,
-                                      [String(item.id)]: 'full'
-                                    }))}
-                                    className='text-purple-600'
-                                  />
-                                  <span className='text-sm text-purple-700'>
-                                    💰 Chuyển khoản toàn bộ ({item.full_payment_discount_percentage || 0}% giảm)
-                                  </span>
-                                </label>
-                              )}
-
-                              {/* Partial advance option */}
-                              {(item.partial_advance_payment || false) && (
-                                <label className='flex items-center space-x-2 cursor-pointer'>
-                                  <input
-                                    type='radio'
-                                    name={`payment-${item.id}`}
-                                    value='partial'
-                                    checked={selectedPaymentMethods[String(item.id)] === 'partial'}
-                                    onChange={() => setSelectedPaymentMethods(prev => ({
-                                      ...prev,
-                                      [String(item.id)]: 'partial'
-                                    }))}
-                                    className='text-purple-600'
-                                  />
-                                  <span className='text-sm text-purple-700'>
-                                    📊 Chuyển trước {item.advance_payment_percentage || 0}% ({item.advance_payment_discount_percentage || 0}% giảm)
-                                  </span>
-                                </label>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Loại 1: Chuyển khoản toàn bộ */}
-                        {payment.type === 'full_payment' && (
-                          <div className='rounded-lg bg-green-50 p-4 border-2 border-green-300 shadow-sm'>
-                            <div className='flex items-center space-x-2 mb-3'>
-                              <div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center'>
-                                <span className='text-white text-sm font-bold'>1</span>
-                              </div>
-                              <span className='font-bold text-green-800 text-lg'>
-                                💰 Chuyển khoản toàn bộ
-                              </span>
-                            </div>
-                            <div className='ml-10 space-y-2'>
-                              <div className='bg-white rounded p-3 border border-green-200'>
-                                <p className='text-green-700 font-medium mb-1'>
-                                  ✅ Chuyển khoản 100% trước khi nhận hàng
-                                </p>
-                                {(payment.discountPercentage || 0) > 0 ? (
-                                  <div className='space-y-1'>
-                                    <p className='text-green-700'>
-                                      🎉 <span className='font-semibold'>Ưu đãi đặc biệt:</span> Giảm {payment.discountPercentage || 0}% khi chuyển khoản trước: {formatPrice(payment.discount || 0)}
-                                    </p>
-                                    <div className='flex justify-between text-sm'>
-                                      <span>Tiết kiệm:</span>
-                                      <span className='font-bold text-red-600'>-{formatPrice(payment.discount || 0)}</span>
-                                    </div>
-                                    <div className='flex justify-between text-lg font-bold border-t pt-2'>
-                                      <span className='text-green-800'>Chỉ cần thanh toán:</span>
-                                      <span className='text-green-800'>{formatPrice(payment.totalPrice)}</span>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  <p className='text-green-700'>Không có giảm giá đặc biệt</p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Loại 2: Chuyển trước một phần */}
-                        {payment.type === 'partial_advance' && (
-                          <div className='rounded-lg bg-blue-50 p-4 border-2 border-blue-300 shadow-sm'>
-                            <div className='flex items-center space-x-2 mb-3'>
-                              <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center'>
-                                <span className='text-white text-sm font-bold'>2</span>
-                              </div>
-                              <span className='font-bold text-blue-800 text-lg'>
-                                📊 Chuyển trước một phần
-                              </span>
-                            </div>
-                            <div className='ml-10 space-y-3'>
-                              <div className='bg-white rounded p-3 border border-blue-200'>
-                                <p className='text-blue-700 font-medium mb-2'>
-                                  💳 Thanh toán linh hoạt 2 giai đoạn
-                                </p>
-                                <div className='grid grid-cols-2 gap-3 text-sm'>
-                                  <div className='bg-blue-50 p-2 rounded border'>
-                                    <p className='font-medium text-blue-800'>1️⃣ Trả trước</p>
-                                    <p className='text-blue-700'>
-                                      {payment.advancePercentage || 0}% = {formatPrice(payment.advanceAmount || 0)}
-                                    </p>
-                                  </div>
-                                  <div className='bg-gray-50 p-2 rounded border'>
-                                    <p className='font-medium text-gray-700'>2️⃣ COD</p>
-                                    <p className='text-gray-600'>{formatPrice(payment.remainingAmount || 0)}</p>
-                                  </div>
-                                </div>
-                                {(payment.advanceDiscountPercentage || 0) > 0 && (
-                                  <div className='mt-2 bg-green-50 p-2 rounded border border-green-200'>
-                                    <p className='text-green-700 font-medium'>
-                                      🎁 Bonus: Giảm {payment.advanceDiscountPercentage || 0}% khi trả trước
-                                    </p>
-                                    <p className='text-green-700'>Tiết kiệm: {formatPrice(payment.discount)}</p>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Thanh toán thông thường */}
-                        {payment.type === 'regular' && (
-                          <div className='rounded-lg bg-gray-100 p-4 border border-gray-300'>
-                            <div className='flex items-center space-x-2'>
-                              <span className='text-gray-600'>💳</span>
-                              <span className='font-medium text-gray-700'>
-                                Thanh toán thông thường
-                              </span>
-                            </div>
-                            <p className='text-sm text-gray-600 mt-1 ml-6'>
-                              Sản phẩm này sử dụng các phương thức thanh toán chuẩn (COD, chuyển khoản, thẻ)
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </section>
 
@@ -1246,14 +1275,19 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
             </div>
             <button
               type='submit'
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isAddressComplete()}
               className={`mt-4 w-full cursor-pointer rounded p-2 text-white transition-colors ${
-                isSubmitting 
+                isSubmitting || !isAddressComplete()
                   ? 'cursor-not-allowed bg-gray-400'
                   : 'bg-green-600 hover:bg-green-700'
               }`}
             >
-              {isSubmitting ? 'Đang tạo đơn hàng...' : 'Đặt hàng'}
+              {isSubmitting
+                ? 'Đang tạo đơn hàng...'
+                : !isAddressComplete()
+                  ? 'Vui lòng hoàn thành thông tin địa chỉ'
+                  : 'Đặt hàng'
+              }
             </button>
           </section>
         </div>

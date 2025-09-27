@@ -40,40 +40,12 @@ export class TokenDebugger {
     const backupToken = localStorage.getItem('authToken_backup');
     const lastValid = localStorage.getItem('lastValidToken');
 
-    console.group('📊 Token State Report');
-    console.log(
-      'Main token:',
-      mainToken
-        ? `${mainToken.substring(0, 30)}... (${mainToken.length} chars)`
-        : 'MISSING'
-    );
-    console.log(
-      'Backup token:',
-      backupToken
-        ? `${backupToken.substring(0, 30)}... (${backupToken.length} chars)`
-        : 'MISSING'
-    );
-    console.log(
-      'Last valid time:',
-      lastValid ? new Date(parseInt(lastValid)).toLocaleString() : 'UNKNOWN'
-    );
-
     if (mainToken) {
       try {
         const payload = JSON.parse(atob(mainToken.split('.')[1]));
         const now = Math.floor(Date.now() / 1000);
         const timeUntilExpiry = payload.exp - now;
         const hoursUntilExpiry = timeUntilExpiry / 3600;
-
-        console.log('Token details:', {
-          userId: payload.user_id,
-          email: payload.email,
-          issuedAt: new Date(payload.iat * 1000).toLocaleString(),
-          expiresAt: new Date(payload.exp * 1000).toLocaleString(),
-          hoursUntilExpiry: hoursUntilExpiry.toFixed(2),
-          isExpired: timeUntilExpiry <= 0,
-        });
-
         if (timeUntilExpiry <= 0) {
         } else if (timeUntilExpiry < 3600) {
         }

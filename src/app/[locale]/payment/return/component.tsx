@@ -38,18 +38,6 @@ function PaymentReturnContent() {
     const bankCode = searchParams.get('vnp_BankCode');
     const payDate = searchParams.get('vnp_PayDate');
 
-    // Log payment result for debugging
-    console.log('Payment result:', {
-      responseCode,
-      transactionStatus,
-      orderInfo,
-      amount,
-      transactionId,
-      txnRef,
-      bankCode,
-      payDate,
-    });
-
     // Check if payment was successful
     const isSuccess = responseCode === '00' && transactionStatus === '00';
 
