@@ -289,8 +289,8 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
       // Gọi trực tiếp đến backend Rails API
       const orderResponse = await fetch(
-        // 'http://47.129.168.239/api/v1/orders',
-        'http://localhost:3005/api/v1/orders',
+        'http://47.129.168.239/api/v1/orders',
+        // 'http://localhost:3005/api/v1/orders',
         {
         method: 'POST',
         headers: {
@@ -357,7 +357,6 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
         }, 1500);
       }
     } catch (error) {
-      
       // Hiển thị thông báo lỗi cụ thể
       if (error instanceof Error) {
         if (error.message.includes('Failed to create order')) {

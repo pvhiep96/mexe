@@ -4,7 +4,7 @@ import { DefaultApi, Configuration } from '../../api';
 export const API_CONFIG = {
   // BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239/api/v1',
   BASE_URL:
-    process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239/api/v1',
+    process.env.NEXT_PUBLIC_API_URL || 'http://47.129.168.239:81/api/v1',
   TIMEOUT: 10000, // 10 seconds
   RETRY_ATTEMPTS: 3,
 };
@@ -49,7 +49,7 @@ export const API_ENDPOINTS = {
 };
 
 const configuration = new Configuration({
-  basePath: process.env.API_URL || 'http://47.129.168.239/api/v1',
+  basePath: process.env.API_URL || 'http://localhost:3005/api/v1',
 });
 
 export const api = new DefaultApi(configuration);
