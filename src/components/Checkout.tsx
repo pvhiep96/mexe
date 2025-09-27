@@ -61,69 +61,14 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   const { showTooltip } = useFlashTooltip();
 
 
-  // State to store enhanced products with payment options from API
-  const [enhancedProducts, setEnhancedProducts] = useState<Product[]>([]);
-  const [isLoadingPaymentOptions, setIsLoadingPaymentOptions] = useState(true);
-
   // State to track selected payment method for each product
   // Key: product ID, Value: 'full' | 'partial' | 'regular'
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<Record<string, 'full' | 'partial' | 'regular'>>({});
 
-  // Fetch payment options for all products
-  useEffect(() => {
-    const fetchPaymentOptions = async () => {
-      setIsLoadingPaymentOptions(true);
-      try {
-        const enhancedItems = await Promise.all(
-          order.items.map(async (item) => {
-            try {
-              // Fetch full product details from API
-              const response = await api.getProduct(String(item.id));
-              const productData = response.data;
-
-              // Merge cart item with API payment options
-              return {
-                ...item,
-                full_payment_transfer: productData.full_payment_transfer || false,
-                full_payment_discount_percentage: productData.full_payment_discount_percentage || 0,
-                partial_advance_payment: productData.partial_advance_payment || false,
-                advance_payment_percentage: productData.advance_payment_percentage || 0,
-                advance_payment_discount_percentage: productData.advance_payment_discount_percentage || 0,
-              };
-            } catch (error) {
-              // Return original item if API call fails
-              return {
-                ...item,
-                full_payment_transfer: false,
-                full_payment_discount_percentage: 0,
-                partial_advance_payment: false,
-                advance_payment_percentage: 0,
-                advance_payment_discount_percentage: 0,
-              };
-            }
-          })
-        );
-
-        setEnhancedProducts(enhancedItems);
-      } catch (error) {
-        // Fallback to original products without payment options
-        setEnhancedProducts(order.items.map(item => ({
-          ...item,
-          full_payment_transfer: false,
-          full_payment_discount_percentage: 0,
-          partial_advance_payment: false,
-          advance_payment_percentage: 0,
-          advance_payment_discount_percentage: 0,
-        })));
-      } finally {
-        setIsLoadingPaymentOptions(false);
-      }
-    };
-
-    if (order?.items?.length > 0) {
-      fetchPaymentOptions();
-    }
-  }, [order?.items]);
+  // Products already come with fresh data and payment options from checkout page
+  // No need to fetch again as checkout page already queried fresh data from database
+  const enhancedProducts = order.items;
+  const isLoadingPaymentOptions = false;
 
 
   // Format price to Vietnamese currency
@@ -646,14 +591,14 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               </div>
             )}
 
-            {!isLoadingPaymentOptions && enhancedProducts.every(item => !(item.full_payment_transfer || false) && !(item.partial_advance_payment || false)) && (
+            {/* {!isLoadingPaymentOptions && enhancedProducts.every(item => !(item.full_payment_transfer || false) && !(item.partial_advance_payment || false)) && (
               <div className='mb-4 rounded-lg bg-yellow-50 p-3 border border-yellow-200'>
                 <p className='text-sm text-yellow-800'>
                   <span className='font-medium'>📝 Chú ý:</span> Hiện tại chưa có sản phẩm nào được cấu hình payment options.
                   Vui lòng truy cập admin interface để thiết lập <strong>full_payment_transfer</strong> và <strong>partial_advance_payment</strong> cho các sản phẩm.
                 </p>
               </div>
-            )}
+            )} */}
             <div className='mb-4 rounded-lg bg-blue-50 p-3 border border-blue-200'>
               <p className='text-sm text-blue-800'>
                 <span className='font-medium'>ℹ️ Hướng dẫn:</span> Một số sản phẩm có tùy chọn thanh toán đặc biệt với ưu đãi giảm giá.

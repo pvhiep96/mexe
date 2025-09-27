@@ -209,6 +209,62 @@ export interface SearchResponse {
   query: string;
 }
 
+// Cart and Order interfaces
+export interface CartItem {
+  id: string | number;
+  name: string;
+  price: number;
+  discountedPrice?: number;
+  image: string;
+  quantity: number;
+  selectedColor?: string;
+  // Payment options
+  full_payment_transfer?: boolean;
+  full_payment_discount_percentage?: number;
+  partial_advance_payment?: boolean;
+  advance_payment_percentage?: number;
+  advance_payment_discount_percentage?: number;
+}
+
+export interface CartData {
+  id: string;
+  items: CartItem[];
+  total_amount: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateOrderRequest {
+  delivery_type: 'home' | 'store';
+  customer_name: string;
+  customer_phone: string;
+  customer_email?: string;
+  delivery_address?: string;
+  store_id?: string;
+  payment_method: 'card' | 'cod' | 'bank';
+  notes?: string;
+  coupon_code?: string;
+}
+
+export interface CheckoutOrderData {
+  id: string;
+  order_number: string;
+  items: CartItem[];
+  total_amount: number;
+  status: string;
+  created_at: string;
+  customer_info: {
+    name: string;
+    phone: string;
+    email?: string;
+    delivery_address?: string;
+  };
+  payment_info: {
+    method: string;
+    status: string;
+  };
+}
+
 // Token management utilities
 class TokenManager {
   private static readonly TOKEN_KEY = 'authToken';
@@ -781,6 +837,70 @@ class ApiClient {
         contact_product_request: contactData
       }),
     });
+  }
+
+  // Cart Management
+  async saveCartToDatabase(cartItems: CartItem[]): Promise<{ success: boolean; cart_id: string; message: string }> {
+    return this.request<{ success: boolean; cart_id: string; message: string }>('/carts', {
+      method: 'POST',
+      body: JSON.stringify({
+        cart: {
+          items: cartItems.map(item => ({
+            product_id: item.id,
+            quantity: item.quantity,
+            selected_color: item.selectedColor,
+            // Include payment options
+            full_payment_transfer: item.full_payment_transfer,
+            full_payment_discount_percentage: item.full_payment_discount_percentage,
+            partial_advance_payment: item.partial_advance_payment,
+            advance_payment_percentage: item.advance_payment_percentage,
+            advance_payment_discount_percentage: item.advance_payment_discount_percentage,
+          }))
+        }
+      }),
+    });
+  }
+
+  async getCartFromDatabase(cartId: string): Promise<{ success: boolean; data: CartData }> {
+    return this.request<{ success: boolean; data: CartData }>(`/carts/${cartId}`);
+  }
+
+  async updateCartInDatabase(cartId: string, cartItems: CartItem[]): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(`/carts/${cartId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        cart: {
+          items: cartItems.map(item => ({
+            product_id: item.id,
+            quantity: item.quantity,
+            selected_color: item.selectedColor,
+            // Include payment options
+            full_payment_transfer: item.full_payment_transfer,
+            full_payment_discount_percentage: item.full_payment_discount_percentage,
+            partial_advance_payment: item.partial_advance_payment,
+            advance_payment_percentage: item.advance_payment_percentage,
+            advance_payment_discount_percentage: item.advance_payment_discount_percentage,
+          }))
+        }
+      }),
+    });
+  }
+
+  // Order Management
+  async createOrderFromCart(cartId: string, orderData: CreateOrderRequest): Promise<{ success: boolean; order_id: string; order_number: string; message: string }> {
+    return this.request<{ success: boolean; order_id: string; order_number: string; message: string }>('/orders', {
+      method: 'POST',
+      body: JSON.stringify({
+        order: {
+          cart_id: cartId,
+          ...orderData
+        }
+      }),
+    });
+  }
+
+  async getOrderForCheckout(orderId: string): Promise<{ success: boolean; data: CheckoutOrderData }> {
+    return this.request<{ success: boolean; data: CheckoutOrderData }>(`/orders/${orderId}/checkout`);
   }
 }
 

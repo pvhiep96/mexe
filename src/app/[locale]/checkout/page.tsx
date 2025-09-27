@@ -4,6 +4,7 @@ import Checkout from '@/components/Checkout';
 import { createPaymentUrl } from '@/app/actions/payment';
 import { useRouter } from '@/i18n/navigation';
 import { useEffect, useState } from 'react';
+import { apiClient, type CheckoutOrderData } from '@/services/api';
 
 interface OrderItem {
   id: string | number;
@@ -32,22 +33,102 @@ const CheckoutPage = () => {
   const router = useRouter();
   const [order, setOrder] = useState<CheckoutOrder | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Đọc order từ localStorage
-    const savedOrder = localStorage.getItem('currentOrder');
-    if (savedOrder) {
+    const fetchOrderData = async () => {
       try {
+        setIsLoading(true);
+        setError(null);
+
+        // Get order data from localStorage (contains user selections)
+        const savedOrder = localStorage.getItem('currentOrder');
+
+        if (!savedOrder) {
+          throw new Error('Không tìm thấy đơn hàng trong giỏ hàng');
+        }
+
         const parsedOrder = JSON.parse(savedOrder);
-        setOrder(parsedOrder);
-      } catch (error) {
-        router.push('/cart');
+
+        if (!parsedOrder.items || parsedOrder.items.length === 0) {
+          throw new Error('Đơn hàng không có sản phẩm nào');
+        }
+
+
+        // Query fresh product data from database for each item
+        const enhancedItems = await Promise.all(
+          parsedOrder.items.map(async (item: OrderItem) => {
+            try {
+
+              // Fetch latest product details from database
+              const response = await apiClient.getProduct(String(item.id));
+              const freshProductData = response;
+
+
+              // Merge fresh data from DB with user selections from localStorage
+              const enhancedItem: OrderItem = {
+                id: item.id,
+                name: freshProductData.name, // Fresh name from DB
+                price: parseFloat(freshProductData.price), // Fresh price from DB
+                quantity: item.quantity, // Keep user selected quantity
+                selectedColor: item.selectedColor, // Keep user selected color
+                image: freshProductData.primary_image_url || freshProductData.images?.[0]?.image_url || item.image, // Fresh image from DB
+
+                // Fresh payment options from DB
+                full_payment_transfer: freshProductData.full_payment_transfer || false,
+                full_payment_discount_percentage: freshProductData.full_payment_discount_percentage || 0,
+                partial_advance_payment: freshProductData.partial_advance_payment || false,
+                advance_payment_percentage: freshProductData.advance_payment_percentage || 0,
+                advance_payment_discount_percentage: freshProductData.advance_payment_discount_percentage || 0,
+              };
+
+              return enhancedItem;
+            } catch (error) {
+
+              // Fallback to localStorage data if API fails
+              return {
+                ...item,
+                // Set default payment options if API fails
+                full_payment_transfer: item.full_payment_transfer || false,
+                full_payment_discount_percentage: item.full_payment_discount_percentage || 0,
+                partial_advance_payment: item.partial_advance_payment || false,
+                advance_payment_percentage: item.advance_payment_percentage || 0,
+                advance_payment_discount_percentage: item.advance_payment_discount_percentage || 0,
+              };
+            }
+          })
+        );
+
+        // Calculate total with fresh prices
+        const freshTotal = enhancedItems.reduce((sum, item) => {
+          return sum + (item.price * item.quantity);
+        }, 0);
+
+        // Create enhanced order with fresh data
+        const enhancedOrder: CheckoutOrder = {
+          items: enhancedItems,
+          total: freshTotal, // Recalculated total with fresh prices
+          orderNumber: parsedOrder.orderNumber,
+          createdAt: parsedOrder.createdAt,
+          status: parsedOrder.status,
+        };
+
+        console.log('Enhanced order with fresh data:', enhancedOrder);
+        setOrder(enhancedOrder);
+
+      } catch (error: any) {
+        console.error('Error fetching checkout data:', error);
+        setError(error.message || 'Có lỗi xảy ra khi tải thông tin đơn hàng');
+        // Redirect to cart after a delay
+        setTimeout(() => {
+          router.push('/cart');
+        }, 3000);
+      } finally {
+        setIsLoading(false);
       }
-    } else {
-      // Không có order, chuyển về cart
-      router.push('/cart');
-    }
-    setIsLoading(false);
+    };
+
+    fetchOrderData();
   }, [router]);
 
   if (isLoading) {
@@ -55,7 +136,31 @@ const CheckoutPage = () => {
       <div className='flex min-h-screen items-center justify-center'>
         <div className='text-center'>
           <div className='mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600'></div>
-          <p className='mt-4 text-gray-600'>Đang tải thông tin đơn hàng...</p>
+          <p className='mt-4 text-gray-600'>Đang cập nhật thông tin sản phẩm...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='flex min-h-screen items-center justify-center'>
+        <div className='text-center'>
+          <h1 className='text-2xl font-bold text-red-600'>
+            Lỗi tải đơn hàng
+          </h1>
+          <p className='mt-2 text-gray-600'>
+            {error}
+          </p>
+          <p className='mt-2 text-sm text-gray-500'>
+            Đang chuyển hướng về giỏ hàng...
+          </p>
+          <button
+            onClick={() => router.push('/cart')}
+            className='mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700'
+          >
+            Quay lại giỏ hàng ngay
+          </button>
         </div>
       </div>
     );
