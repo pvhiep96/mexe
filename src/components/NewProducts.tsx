@@ -270,10 +270,43 @@ export default function NewProducts({ products }: NewProductsProps) {
 
   // Logic băng chuyền vô tận đơn giản và hiệu quả - PREV DISABLED KHI Ở ĐẦU, NEXT LUÔN HOẠT ĐỘNG
   const getVisibleProducts = () => {
-    // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
+    // If only 1 product, don't duplicate - just show it once
+    if (products.length <= 1) {
+      return products.map((product, index) => ({
+        ...product,
+        key: `product-single-${index}`,
+        originalIndex: index,
+      }));
+    }
+
+    // If 2-3 products, only duplicate minimally
+    if (products.length <= 3) {
+      const conveyorProducts = [];
+
+      // Add original products
+      conveyorProducts.push(...products);
+
+      // Add 2 copies for smooth scrolling
+      for (let i = 0; i < 2; i++) {
+        conveyorProducts.push(...products);
+      }
+
+      // Add 2 copies at beginning for prev
+      for (let i = 0; i < 2; i++) {
+        conveyorProducts.unshift(...products);
+      }
+
+      return conveyorProducts.map((product, index) => ({
+        ...product,
+        key: `product-few-${index}`,
+        originalIndex: index % products.length,
+      }));
+    }
+
+    // Original logic for many products
     const conveyorProducts = [];
 
-    // Thêm products gốc (4 sản phẩm)
+    // Thêm products gốc
     conveyorProducts.push(...products);
 
     // Thêm products lặp lại 10 lần để đảm bảo đủ items cho cả hai chiều
@@ -288,7 +321,7 @@ export default function NewProducts({ products }: NewProductsProps) {
 
     return conveyorProducts.map((product, index) => ({
       ...product,
-      key: `product-${index}`,
+      key: `product-many-${index}`,
       originalIndex: index % products.length,
     }));
   };
@@ -338,16 +371,16 @@ export default function NewProducts({ products }: NewProductsProps) {
             </div>
 
             <div className='relative flex items-center justify-center px-4'>
-              {/* Prev button - Luôn có màu trắng như nút next */}
+              {/* Prev button - Disable when only 1 product or at beginning */}
               <button
                 onClick={prev}
-                disabled={slider <= 0}
+                disabled={slider <= 0 || products.length <= 1}
                 className={`mr-4 cursor-pointer rounded-full p-3 shadow-lg border border-gray-200 transition-all duration-300 ${
-                  slider <= 0 ? 'bg-gray-100' : 'bg-white hover:bg-gray-50 hover:shadow-xl'
+                  slider <= 0 || products.length <= 1 ? 'bg-gray-100' : 'bg-white hover:bg-gray-50 hover:shadow-xl'
                 }`}
                 style={{
                   cursor:
-                    slider <= 0
+                    slider <= 0 || products.length <= 1
                       ? 'not-allowed !important'
                       : 'pointer !important',
                 }}
@@ -355,7 +388,7 @@ export default function NewProducts({ products }: NewProductsProps) {
               >
                 <ChevronLeftIcon
                   className={`h-6 w-6 ${
-                    slider <= 0 ? 'text-gray-400' : 'text-gray-700'
+                    slider <= 0 || products.length <= 1 ? 'text-gray-400' : 'text-gray-700'
                   }`}
                 />
               </button>
@@ -378,16 +411,19 @@ export default function NewProducts({ products }: NewProductsProps) {
                 </div>
               </div>
 
-              {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
+              {/* Next button - Disable when only 1 product */}
               <button
                 onClick={next}
-                className='ml-4 cursor-pointer rounded-full bg-white p-3 shadow-lg border border-gray-200 transition-all duration-300 hover:bg-gray-50 hover:shadow-xl'
+                disabled={products.length <= 1}
+                className={`ml-4 cursor-pointer rounded-full p-3 shadow-lg border border-gray-200 transition-all duration-300 ${
+                  products.length <= 1 ? 'bg-gray-100' : 'bg-white hover:bg-gray-50 hover:shadow-xl'
+                }`}
                 style={{
-                  cursor: 'pointer !important',
+                  cursor: products.length <= 1 ? 'not-allowed !important' : 'pointer !important',
                 }}
                 aria-label={t('next_slide')}
               >
-                <ChevronRightIcon className='h-6 w-6 text-gray-700' />
+                <ChevronRightIcon className={`h-6 w-6 ${products.length <= 1 ? 'text-gray-400' : 'text-gray-700'}`} />
               </button>
             </div>
           </div>

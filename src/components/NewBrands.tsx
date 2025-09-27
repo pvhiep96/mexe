@@ -193,12 +193,45 @@ export default function NewBrands({ hotSpecialOffer = [] }: NewBrandsProps) {
   // Tạo mảng products lặp lại để tạo băng chuyền vô tận - giống EarlyOrder
   const getVisibleProducts = () => {
     const brandProducts = getBrandProducts();
-    
+
     if (!brandProducts.length) {
       return [];
     }
 
-    // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
+    // If only 1 product, don't duplicate - just show it once
+    if (brandProducts.length <= 1) {
+      return brandProducts.map((product, index) => ({
+        ...product,
+        key: `product-single-${index}`,
+        originalIndex: index,
+      }));
+    }
+
+    // If 2-3 products, only duplicate minimally
+    if (brandProducts.length <= 3) {
+      let conveyorProducts = [];
+
+      // Add original products
+      conveyorProducts.push(...brandProducts);
+
+      // Add 2 copies for smooth scrolling
+      for (let i = 0; i < 2; i++) {
+        conveyorProducts.push(...brandProducts);
+      }
+
+      // Add 2 copies at beginning for prev
+      for (let i = 0; i < 2; i++) {
+        conveyorProducts.unshift(...brandProducts);
+      }
+
+      return conveyorProducts.map((product, index) => ({
+        ...product,
+        key: `product-few-${index}`,
+        originalIndex: index % brandProducts.length,
+      }));
+    }
+
+    // Original logic for many products
     let conveyorProducts = [];
 
     // Thêm products gốc
@@ -216,7 +249,7 @@ export default function NewBrands({ hotSpecialOffer = [] }: NewBrandsProps) {
 
     return conveyorProducts.map((product, index) => ({
       ...product,
-      key: `product-${index}`,
+      key: `product-many-${index}`,
       originalIndex: index % brandProducts.length,
     }));
   };
@@ -271,10 +304,10 @@ export default function NewBrands({ hotSpecialOffer = [] }: NewBrandsProps) {
                 {/* Prev button */}
                 <button
                   onClick={prev}
-                  disabled={slider === 0}
+                  disabled={slider === 0 || getBrandProducts().length <= 1}
                   className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
                   style={{
-                    cursor: slider === 0 ? 'not-allowed !important' : 'pointer !important'
+                    cursor: slider === 0 || getBrandProducts().length <= 1 ? 'not-allowed !important' : 'pointer !important'
                   }}
                   aria-label={t('prev_slide')}
                 >
@@ -300,12 +333,13 @@ export default function NewBrands({ hotSpecialOffer = [] }: NewBrandsProps) {
                   </div>
                 </div>
 
-                {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
+                {/* Next button - Disable when only 1 product */}
                 <button
                   onClick={next}
-                  className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 cursor-pointer'
+                  disabled={getBrandProducts().length <= 1}
+                  className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
                   style={{
-                    cursor: 'pointer !important'
+                    cursor: getBrandProducts().length <= 1 ? 'not-allowed !important' : 'pointer !important'
                   }}
                   aria-label={t('next_slide')}
               >

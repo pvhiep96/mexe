@@ -203,7 +203,40 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
   const getVisibleProducts = () => {
     if (!currentProducts || currentProducts.length === 0) return [];
 
-    // Tạo mảng products lặp lại đơn giản để tạo băng chuyền vô tận
+    // If only 1 product, don't duplicate - just show it once
+    if (currentProducts.length <= 1) {
+      return currentProducts.map((product, index) => ({
+        ...product,
+        key: `product-${activeTab}-single-${index}`,
+        originalIndex: index,
+      }));
+    }
+
+    // If 2-3 products, only duplicate minimally
+    if (currentProducts.length <= 3) {
+      let conveyorProducts = [];
+
+      // Add original products
+      conveyorProducts.push(...currentProducts);
+
+      // Add 2 copies for smooth scrolling
+      for (let i = 0; i < 2; i++) {
+        conveyorProducts.push(...currentProducts);
+      }
+
+      // Add 2 copies at beginning for prev
+      for (let i = 0; i < 2; i++) {
+        conveyorProducts.unshift(...currentProducts);
+      }
+
+      return conveyorProducts.map((product, index) => ({
+        ...product,
+        key: `product-${activeTab}-few-${index}`,
+        originalIndex: index % currentProducts.length,
+      }));
+    }
+
+    // Original logic for many products
     let conveyorProducts = [];
 
     // Thêm products gốc
@@ -221,7 +254,7 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
 
     return conveyorProducts.map((product, index) => ({
       ...product,
-      key: `product-${activeTab}-${index}`,
+      key: `product-${activeTab}-many-${index}`,
       originalIndex: index % currentProducts.length,
     }));
   };
@@ -294,13 +327,13 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
                     </div>
                   ) : currentProducts.length > 0 ? (
                     <div className='flex items-center'>
-                      {/* Prev button */}
+                      {/* Prev button - Disable when only 1 product or at beginning */}
                       <button
                         onClick={prev}
-                        disabled={sliders[activeTab] === 0}
+                        disabled={sliders[activeTab] === 0 || currentProducts.length <= 1}
                         className='mr-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
                         style={{
-                          cursor: sliders[activeTab] === 0 ? 'not-allowed !important' : 'pointer !important'
+                          cursor: sliders[activeTab] === 0 || currentProducts.length <= 1 ? 'not-allowed !important' : 'pointer !important'
                         }}
                       >
                         <ChevronLeftIcon className='h-6 w-6 text-gray-700' />
@@ -382,12 +415,13 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
                         </div>
                       </div>
 
-                      {/* Next button - Không bao giờ disabled trong slider vòng tròn */}
+                      {/* Next button - Disable when only 1 product */}
                       <button
                         onClick={next}
-                        className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 cursor-pointer'
+                        disabled={currentProducts.length <= 1}
+                        className='ml-2 rounded-full bg-white p-2 shadow transition-all duration-300 disabled:opacity-40 cursor-pointer'
                         style={{
-                          cursor: 'pointer !important'
+                          cursor: currentProducts.length <= 1 ? 'not-allowed !important' : 'pointer !important'
                         }}
                       >
                         <ChevronRightIcon className='h-6 w-6 text-gray-700' />
