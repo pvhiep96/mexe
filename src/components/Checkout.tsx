@@ -61,16 +61,16 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   const router = useRouter();
   const { showTooltip } = useFlashTooltip();
 
-
   // State to track selected payment method for each product
   // Key: product ID, Value: 'full' | 'partial' | 'regular'
-  const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<Record<string, 'full' | 'partial' | 'regular'>>({});
+  const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<
+    Record<string, 'full' | 'partial' | 'regular'>
+  >({});
 
   // Products already come with fresh data and payment options from checkout page
   // No need to fetch again as checkout page already queried fresh data from database
   const enhancedProducts = order.items;
   const isLoadingPaymentOptions = false;
-
 
   // Format price to Vietnamese currency
   const formatPrice = (price: number) => {
@@ -85,12 +85,14 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   // Calculate payment amounts for a product based on user selection
   const calculateProductPayment = (product: Product) => {
     const originalPrice = (product.price || 0) * (product.quantity || 0);
-    const selectedMethod = selectedPaymentMethods[String(product.id)] || 'regular';
+    const selectedMethod =
+      selectedPaymentMethods[String(product.id)] || 'regular';
 
     // Calculate based on user's selection
     if (selectedMethod === 'full' && (product.full_payment_transfer || false)) {
       const discountPercentage = product.full_payment_discount_percentage || 0;
-      const discountedPrice = (product.price || 0) * (1 - discountPercentage / 100);
+      const discountedPrice =
+        (product.price || 0) * (1 - discountPercentage / 100);
       const totalPrice = discountedPrice * (product.quantity || 0);
       const discount = (originalPrice || 0) - totalPrice;
 
@@ -100,16 +102,24 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
         totalPrice: totalPrice,
         discount: discount,
         discountPercentage: discountPercentage || 0,
-        discountedUnitPrice: discountedPrice || 0
+        discountedUnitPrice: discountedPrice || 0,
       };
     }
 
-    if (selectedMethod === 'partial' && (product.partial_advance_payment || false) && (product.advance_payment_percentage || 0) > 0) {
-      const advanceAmount = (originalPrice || 0) * ((product.advance_payment_percentage || 0) / 100);
-      const advanceDiscountPercentage = product.advance_payment_discount_percentage || 0;
-      const advanceDiscount = advanceDiscountPercentage > 0
-        ? (originalPrice * advanceDiscountPercentage / 100)
-        : 0;
+    if (
+      selectedMethod === 'partial' &&
+      (product.partial_advance_payment || false) &&
+      (product.advance_payment_percentage || 0) > 0
+    ) {
+      const advanceAmount =
+        (originalPrice || 0) *
+        ((product.advance_payment_percentage || 0) / 100);
+      const advanceDiscountPercentage =
+        product.advance_payment_discount_percentage || 0;
+      const advanceDiscount =
+        advanceDiscountPercentage > 0
+          ? (originalPrice * advanceDiscountPercentage) / 100
+          : 0;
 
       // Calculate according to example:
       // - Advance: 10% of 10,000,000 = 1,000,000
@@ -130,7 +140,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
         advanceAmount: advanceAmount,
         remainingAmount: remainingAmount,
         advancePercentage: product.advance_payment_percentage || 0,
-        advanceDiscountPercentage: advanceDiscountPercentage || 0
+        advanceDiscountPercentage: advanceDiscountPercentage || 0,
       };
     }
 
@@ -138,7 +148,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       type: 'regular',
       originalPrice: originalPrice || 0,
       totalPrice: originalPrice || 0,
-      discount: 0
+      discount: 0,
     };
   };
 
@@ -150,12 +160,12 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     let paymentAmount = 0; // Số tiền cần thanh toán cho VNPay
     let hasAdvancePayment = false; // Kiểm tra có trả trước không
 
-    enhancedProducts.forEach(item => {
+    enhancedProducts.forEach((item) => {
       const payment = calculateProductPayment(item);
       originalAmount += payment.originalPrice;
       totalDiscount += payment.discount;
       finalAmount += payment.totalPrice;
-      
+
       // Tính số tiền cần thanh toán cho từng sản phẩm
       if (payment.type === 'partial_advance' && payment.advanceAmount) {
         // Trả trước: cộng số tiền trả trước
@@ -177,11 +187,14 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       finalAmount,
       hasAdvancePayment,
       // Số tiền để thanh toán: tổng số tiền cần thanh toán cho VNPay
-      paymentAmount: paymentAmount
+      paymentAmount: paymentAmount,
     };
   };
 
-  const orderTotals = useMemo(() => calculateOrderTotals(), [enhancedProducts, selectedPaymentMethods]);
+  const orderTotals = useMemo(
+    () => calculateOrderTotals(),
+    [enhancedProducts, selectedPaymentMethods]
+  );
 
   // Move arrays inside component to use t function
   const stores = [
@@ -221,7 +234,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   const [paymentMethod] = watch(['paymentMethod']);
 
   const generateQR = () => {
-    return `https://api.vietqr.io/image/970423-02626515401-fC2mdTK.jpg?amount=${order.total}`;
+    return `https://api.vietqr.io/image/970415-102007040056-xd3D8Ht.jpg?accountName=NGUYEN%20DINH%20HUNG&amount=${order.total}`;
   };
   // Set delivery address placeholder after component mounts
   useEffect(() => {
@@ -238,7 +251,6 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
     setIsSubmitting(true);
     try {
-
       // Tạo order trong database trước - format theo Rails API
       const orderData = {
         orders: {
@@ -256,33 +268,65 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
           shipping_info: {
             shipping_name: data.name,
             shipping_phone: data.mobile,
-            shipping_city: data.deliveryType === 'home' ? (checkoutAddressData.province?.name || data.city) : undefined,
+            shipping_city:
+              data.deliveryType === 'home'
+                ? checkoutAddressData.province?.name || data.city
+                : undefined,
             shipping_district:
-              data.deliveryType === 'home' ? (checkoutAddressData.ward?.name || 'Chưa xác định') : undefined,
+              data.deliveryType === 'home'
+                ? checkoutAddressData.ward?.name || 'Chưa xác định'
+                : undefined,
             shipping_ward:
-              data.deliveryType === 'home' ? (checkoutAddressData.ward?.name || 'Chưa xác định') : undefined,
+              data.deliveryType === 'home'
+                ? checkoutAddressData.ward?.name || 'Chưa xác định'
+                : undefined,
             shipping_postal_code: '70000', // Default value
             delivery_address:
-              data.deliveryType === 'home' ? (checkoutAddressData.detailAddress || data.address) : undefined,
+              data.deliveryType === 'home'
+                ? checkoutAddressData.detailAddress || data.address
+                : undefined,
             // Add detailed address fields from database
-            province_code: data.deliveryType === 'home' ? checkoutAddressData.provinceCode : undefined,
-            ward_code: data.deliveryType === 'home' ? checkoutAddressData.wardCode : undefined,
-            full_address: data.deliveryType === 'home' ? checkoutAddressData.fullAddress : undefined,
+            province_code:
+              data.deliveryType === 'home'
+                ? checkoutAddressData.provinceCode
+                : undefined,
+            ward_code:
+              data.deliveryType === 'home'
+                ? checkoutAddressData.wardCode
+                : undefined,
+            full_address:
+              data.deliveryType === 'home'
+                ? checkoutAddressData.fullAddress
+                : undefined,
             // Administrative unit information
-            administrative_unit_id: data.deliveryType === 'home' ? checkoutAddressData.administrativeUnit?.id : undefined,
-            administrative_unit_name: data.deliveryType === 'home' ? checkoutAddressData.administrativeUnit?.full_name : undefined,
-            province_type: data.deliveryType === 'home' ? checkoutAddressData.province?.type : undefined,
-            is_municipality: data.deliveryType === 'home' ? checkoutAddressData.province?.is_municipality : undefined,
+            administrative_unit_id:
+              data.deliveryType === 'home'
+                ? checkoutAddressData.administrativeUnit?.id
+                : undefined,
+            administrative_unit_name:
+              data.deliveryType === 'home'
+                ? checkoutAddressData.administrativeUnit?.full_name
+                : undefined,
+            province_type:
+              data.deliveryType === 'home'
+                ? checkoutAddressData.province?.type
+                : undefined,
+            is_municipality:
+              data.deliveryType === 'home'
+                ? checkoutAddressData.province?.is_municipality
+                : undefined,
           },
           order_items: order.items.map((item) => ({
             product_id: item.id,
             quantity: item.quantity,
             variant_id: item.selectedColor || null,
             full_payment_transfer: item.full_payment_transfer,
-            full_payment_discount_percentage: item.full_payment_discount_percentage,
+            full_payment_discount_percentage:
+              item.full_payment_discount_percentage,
             partial_advance_payment: item.partial_advance_payment,
             advance_payment_percentage: item.advance_payment_percentage,
-            advance_payment_discount_percentage: item.advance_payment_discount_percentage,
+            advance_payment_discount_percentage:
+              item.advance_payment_discount_percentage,
           })),
         },
       };
@@ -292,11 +336,11 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
         'http://47.129.168.239:81/api/v1/orders',
         // 'http://localhost:3005/api/v1/orders',
         {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderData),
         }
       );
 
@@ -308,7 +352,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
       // Lưu order number để hiển thị ở trang order-status
       localStorage.setItem('lastOrderNumber', order.orderNumber);
-      
+
       // Xóa order khỏi localStorage sau khi tạo thành công
       localStorage.removeItem('currentOrder');
 
@@ -343,7 +387,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               amount: order.total.toString(),
               orderInfo: order.orderNumber,
               orderType: 'topup',
-              locale: 'vn'
+              locale: 'vn',
             });
 
             // Immediately redirect to VNPay
@@ -351,7 +395,10 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
           } catch (error) {
             // For errors, show message and redirect to order status
             console.error('Payment URL generation error:', error);
-            showTooltip('Có lỗi khi tạo link thanh toán. Vui lòng kiểm tra đơn hàng của bạn.', 'warning');
+            showTooltip(
+              'Có lỗi khi tạo link thanh toán. Vui lòng kiểm tra đơn hàng của bạn.',
+              'warning'
+            );
             router.push('/order-status');
           }
         }, 1500);
@@ -370,7 +417,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       } else {
         showTooltip('Có lỗi xảy ra khi xử lý đơn hàng!', 'error');
       }
-      
+
       // Không redirect nếu có lỗi tạo order
     } finally {
       setIsSubmitting(false);
@@ -393,7 +440,6 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     if (address.province?.name) {
       setValue('city', address.province.name);
     }
-
   };
 
   // Check if address is complete for home delivery
@@ -401,8 +447,8 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     if (deliveryType !== 'home') return true;
     return Boolean(
       checkoutAddressData.provinceCode &&
-      checkoutAddressData.wardCode &&
-      checkoutAddressData.detailAddress?.trim()
+        checkoutAddressData.wardCode &&
+        checkoutAddressData.detailAddress?.trim()
     );
   };
 
@@ -422,9 +468,10 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
             </h2>
 
             {isLoadingPaymentOptions && (
-              <div className='mb-4 rounded-lg bg-blue-50 p-3 border border-blue-200'>
+              <div className='mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3'>
                 <p className='text-sm text-blue-800'>
-                  <span className='font-medium'>⏳ Đang tải:</span> Đang lấy thông tin tùy chọn thanh toán cho từng sản phẩm từ database...
+                  <span className='font-medium'>⏳ Đang tải:</span> Đang lấy
+                  thông tin tùy chọn thanh toán cho từng sản phẩm từ database...
                 </p>
               </div>
             )}
@@ -437,10 +484,11 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                 </p>
               </div>
             )} */}
-            <div className='mb-4 rounded-lg bg-blue-50 p-3 border border-blue-200'>
+            <div className='mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3'>
               <p className='text-sm text-blue-800'>
-                <span className='font-medium'>ℹ️ Hướng dẫn:</span> Một số sản phẩm có tùy chọn thanh toán đặc biệt với ưu đãi giảm giá.
-                Vui lòng xem chi tiết từng sản phẩm bên dưới.
+                <span className='font-medium'>ℹ️ Hướng dẫn:</span> Một số sản
+                phẩm có tùy chọn thanh toán đặc biệt với ưu đãi giảm giá. Vui
+                lòng xem chi tiết từng sản phẩm bên dưới.
               </p>
             </div>
 
@@ -449,76 +497,113 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                 const payment = calculateProductPayment(item);
 
                 return (
-                  <div key={index} className='rounded-lg border border-gray-200 p-4 bg-gray-50'>
+                  <div
+                    key={index}
+                    className='rounded-lg border border-gray-200 bg-gray-50 p-4'
+                  >
                     <div className='flex items-start space-x-3'>
                       <img
                         src={item.image || '/images/placeholder-product.png'}
                         alt={item.name}
-                        className='h-16 w-16 rounded object-cover border border-gray-200'
+                        className='h-16 w-16 rounded border border-gray-200 object-cover'
                       />
                       <div className='flex-1'>
-                        <h4 className='font-medium text-gray-900'>{item.name}</h4>
-                        <p className='text-sm text-gray-600 mb-3'>
-                          Số lượng: {item.quantity} | Giá gốc: {formatPrice(item.price)} x {item.quantity}
+                        <h4 className='font-medium text-gray-900'>
+                          {item.name}
+                        </h4>
+                        <p className='mb-3 text-sm text-gray-600'>
+                          Số lượng: {item.quantity} | Giá gốc:{' '}
+                          {formatPrice(item.price)} x {item.quantity}
                         </p>
 
                         {/* Payment options selection for products with multiple options */}
-                        {((item.full_payment_transfer || false) || (item.partial_advance_payment || false)) && (
-                          <div className='mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg'>
-                            <h5 className='font-medium text-purple-800 mb-2'>⚡ Chọn phương thức thanh toán cho sản phẩm này:</h5>
+                        {(item.full_payment_transfer ||
+                          false ||
+                          item.partial_advance_payment ||
+                          false) && (
+                          <div className='mb-4 rounded-lg border border-purple-200 bg-purple-50 p-3'>
+                            <h5 className='mb-2 font-medium text-purple-800'>
+                              ⚡ Chọn phương thức thanh toán cho sản phẩm này:
+                            </h5>
                             <div className='space-y-2'>
                               {/* Regular payment option */}
-                              <label className='flex items-center space-x-2 cursor-pointer'>
+                              <label className='flex cursor-pointer items-center space-x-2'>
                                 <input
                                   type='radio'
                                   name={`payment-${item.id}`}
                                   value='regular'
-                                  checked={selectedPaymentMethods[String(item.id)] === 'regular' || !selectedPaymentMethods[String(item.id)]}
-                                  onChange={() => setSelectedPaymentMethods(prev => ({
-                                    ...prev,
-                                    [String(item.id)]: 'regular'
-                                  }))}
+                                  checked={
+                                    selectedPaymentMethods[String(item.id)] ===
+                                      'regular' ||
+                                    !selectedPaymentMethods[String(item.id)]
+                                  }
+                                  onChange={() =>
+                                    setSelectedPaymentMethods((prev) => ({
+                                      ...prev,
+                                      [String(item.id)]: 'regular',
+                                    }))
+                                  }
                                   className='text-purple-600'
                                 />
-                                <span className='text-sm text-purple-700'>💳 Thanh toán thông thường</span>
+                                <span className='text-sm text-purple-700'>
+                                  💳 Thanh toán thông thường
+                                </span>
                               </label>
 
                               {/* Full payment option */}
                               {(item.full_payment_transfer || false) && (
-                                <label className='flex items-center space-x-2 cursor-pointer'>
+                                <label className='flex cursor-pointer items-center space-x-2'>
                                   <input
                                     type='radio'
                                     name={`payment-${item.id}`}
                                     value='full'
-                                    checked={selectedPaymentMethods[String(item.id)] === 'full'}
-                                    onChange={() => setSelectedPaymentMethods(prev => ({
-                                      ...prev,
-                                      [String(item.id)]: 'full'
-                                    }))}
+                                    checked={
+                                      selectedPaymentMethods[
+                                        String(item.id)
+                                      ] === 'full'
+                                    }
+                                    onChange={() =>
+                                      setSelectedPaymentMethods((prev) => ({
+                                        ...prev,
+                                        [String(item.id)]: 'full',
+                                      }))
+                                    }
                                     className='text-purple-600'
                                   />
                                   <span className='text-sm text-purple-700'>
-                                    💰 Chuyển khoản toàn bộ ({item.full_payment_discount_percentage || 0}% giảm)
+                                    💰 Chuyển khoản toàn bộ (
+                                    {item.full_payment_discount_percentage || 0}
+                                    % giảm)
                                   </span>
                                 </label>
                               )}
 
                               {/* Partial advance option */}
                               {(item.partial_advance_payment || false) && (
-                                <label className='flex items-center space-x-2 cursor-pointer'>
+                                <label className='flex cursor-pointer items-center space-x-2'>
                                   <input
                                     type='radio'
                                     name={`payment-${item.id}`}
                                     value='partial'
-                                    checked={selectedPaymentMethods[String(item.id)] === 'partial'}
-                                    onChange={() => setSelectedPaymentMethods(prev => ({
-                                      ...prev,
-                                      [String(item.id)]: 'partial'
-                                    }))}
+                                    checked={
+                                      selectedPaymentMethods[
+                                        String(item.id)
+                                      ] === 'partial'
+                                    }
+                                    onChange={() =>
+                                      setSelectedPaymentMethods((prev) => ({
+                                        ...prev,
+                                        [String(item.id)]: 'partial',
+                                      }))
+                                    }
                                     className='text-purple-600'
                                   />
                                   <span className='text-sm text-purple-700'>
-                                    📊 Chuyển trước {item.advance_payment_percentage || 0}% ({item.advance_payment_discount_percentage || 0}% giảm)
+                                    📊 Chuyển trước{' '}
+                                    {item.advance_payment_percentage || 0}% (
+                                    {item.advance_payment_discount_percentage ||
+                                      0}
+                                    % giảm)
                                   </span>
                                 </label>
                               )}
@@ -528,36 +613,52 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
                         {/* Loại 1: Chuyển khoản toàn bộ */}
                         {payment.type === 'full_payment' && (
-                          <div className='rounded-lg bg-green-50 p-4 border-2 border-green-300 shadow-sm'>
-                            <div className='flex items-center space-x-2 mb-3'>
-                              <div className='w-8 h-8 bg-green-500 rounded-full flex items-center justify-center'>
-                                <span className='text-white text-sm font-bold'>1</span>
+                          <div className='rounded-lg border-2 border-green-300 bg-green-50 p-4 shadow-sm'>
+                            <div className='mb-3 flex items-center space-x-2'>
+                              <div className='flex h-8 w-8 items-center justify-center rounded-full bg-green-500'>
+                                <span className='text-sm font-bold text-white'>
+                                  1
+                                </span>
                               </div>
-                              <span className='font-bold text-green-800 text-lg'>
+                              <span className='text-lg font-bold text-green-800'>
                                 💰 Chuyển khoản toàn bộ
                               </span>
                             </div>
                             <div className='ml-10 space-y-2'>
-                              <div className='bg-white rounded p-3 border border-green-200'>
-                                <p className='text-green-700 font-medium mb-1'>
+                              <div className='rounded border border-green-200 bg-white p-3'>
+                                <p className='mb-1 font-medium text-green-700'>
                                   ✅ Chuyển khoản 100% trước khi nhận hàng
                                 </p>
                                 {(payment.discountPercentage || 0) > 0 ? (
                                   <div className='space-y-1'>
                                     <p className='text-green-700'>
-                                      🎉 <span className='font-semibold'>Ưu đãi đặc biệt:</span> Giảm {payment.discountPercentage || 0}% khi chuyển khoản trước: {formatPrice(payment.discount || 0)}
+                                      🎉{' '}
+                                      <span className='font-semibold'>
+                                        Ưu đãi đặc biệt:
+                                      </span>{' '}
+                                      Giảm {payment.discountPercentage || 0}%
+                                      khi chuyển khoản trước:{' '}
+                                      {formatPrice(payment.discount || 0)}
                                     </p>
                                     <div className='flex justify-between text-sm'>
                                       <span>Tiết kiệm:</span>
-                                      <span className='font-bold text-red-600'>-{formatPrice(payment.discount || 0)}</span>
+                                      <span className='font-bold text-red-600'>
+                                        -{formatPrice(payment.discount || 0)}
+                                      </span>
                                     </div>
-                                    <div className='flex justify-between text-lg font-bold border-t pt-2'>
-                                      <span className='text-green-800'>Chỉ cần thanh toán:</span>
-                                      <span className='text-green-800'>{formatPrice(payment.totalPrice)}</span>
+                                    <div className='flex justify-between border-t pt-2 text-lg font-bold'>
+                                      <span className='text-green-800'>
+                                        Chỉ cần thanh toán:
+                                      </span>
+                                      <span className='text-green-800'>
+                                        {formatPrice(payment.totalPrice)}
+                                      </span>
                                     </div>
                                   </div>
                                 ) : (
-                                  <p className='text-green-700'>Không có giảm giá đặc biệt</p>
+                                  <p className='text-green-700'>
+                                    Không có giảm giá đặc biệt
+                                  </p>
                                 )}
                               </div>
                             </div>
@@ -566,38 +667,54 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
                         {/* Loại 2: Chuyển trước một phần */}
                         {payment.type === 'partial_advance' && (
-                          <div className='rounded-lg bg-blue-50 p-4 border-2 border-blue-300 shadow-sm'>
-                            <div className='flex items-center space-x-2 mb-3'>
-                              <div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center'>
-                                <span className='text-white text-sm font-bold'>2</span>
+                          <div className='rounded-lg border-2 border-blue-300 bg-blue-50 p-4 shadow-sm'>
+                            <div className='mb-3 flex items-center space-x-2'>
+                              <div className='flex h-8 w-8 items-center justify-center rounded-full bg-blue-500'>
+                                <span className='text-sm font-bold text-white'>
+                                  2
+                                </span>
                               </div>
-                              <span className='font-bold text-blue-800 text-lg'>
+                              <span className='text-lg font-bold text-blue-800'>
                                 📊 Chuyển trước một phần
                               </span>
                             </div>
                             <div className='ml-10 space-y-3'>
-                              <div className='bg-white rounded p-3 border border-blue-200'>
-                                <p className='text-blue-700 font-medium mb-2'>
+                              <div className='rounded border border-blue-200 bg-white p-3'>
+                                <p className='mb-2 font-medium text-blue-700'>
                                   💳 Thanh toán linh hoạt 2 giai đoạn
                                 </p>
                                 <div className='grid grid-cols-2 gap-3 text-sm'>
-                                  <div className='bg-blue-50 p-2 rounded border'>
-                                    <p className='font-medium text-blue-800'>1️⃣ Trả trước</p>
+                                  <div className='rounded border bg-blue-50 p-2'>
+                                    <p className='font-medium text-blue-800'>
+                                      1️⃣ Trả trước
+                                    </p>
                                     <p className='text-blue-700'>
-                                      {payment.advancePercentage || 0}% = {formatPrice(payment.advanceAmount || 0)}
+                                      {payment.advancePercentage || 0}% ={' '}
+                                      {formatPrice(payment.advanceAmount || 0)}
                                     </p>
                                   </div>
-                                  <div className='bg-gray-50 p-2 rounded border'>
-                                    <p className='font-medium text-gray-700'>2️⃣ COD</p>
-                                    <p className='text-gray-600'>{formatPrice(payment.remainingAmount || 0)}</p>
+                                  <div className='rounded border bg-gray-50 p-2'>
+                                    <p className='font-medium text-gray-700'>
+                                      2️⃣ COD
+                                    </p>
+                                    <p className='text-gray-600'>
+                                      {formatPrice(
+                                        payment.remainingAmount || 0
+                                      )}
+                                    </p>
                                   </div>
                                 </div>
-                                {(payment.advanceDiscountPercentage || 0) > 0 && (
-                                  <div className='mt-2 bg-green-50 p-2 rounded border border-green-200'>
-                                    <p className='text-green-700 font-medium'>
-                                      🎁 Bonus: Giảm {payment.advanceDiscountPercentage || 0}% khi trả trước
+                                {(payment.advanceDiscountPercentage || 0) >
+                                  0 && (
+                                  <div className='mt-2 rounded border border-green-200 bg-green-50 p-2'>
+                                    <p className='font-medium text-green-700'>
+                                      🎁 Bonus: Giảm{' '}
+                                      {payment.advanceDiscountPercentage || 0}%
+                                      khi trả trước
                                     </p>
-                                    <p className='text-green-700'>Tiết kiệm: {formatPrice(payment.discount)}</p>
+                                    <p className='text-green-700'>
+                                      Tiết kiệm: {formatPrice(payment.discount)}
+                                    </p>
                                   </div>
                                 )}
                               </div>
@@ -607,15 +724,16 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
                         {/* Thanh toán thông thường */}
                         {payment.type === 'regular' && (
-                          <div className='rounded-lg bg-gray-100 p-4 border border-gray-300'>
+                          <div className='rounded-lg border border-gray-300 bg-gray-100 p-4'>
                             <div className='flex items-center space-x-2'>
                               <span className='text-gray-600'>💳</span>
                               <span className='font-medium text-gray-700'>
                                 Thanh toán thông thường
                               </span>
                             </div>
-                            <p className='text-sm text-gray-600 mt-1 ml-6'>
-                              Sản phẩm này sử dụng các phương thức thanh toán chuẩn (COD, chuyển khoản, thẻ)
+                            <p className='mt-1 ml-6 text-sm text-gray-600'>
+                              Sản phẩm này sử dụng các phương thức thanh toán
+                              chuẩn (COD, chuyển khoản, thẻ)
                             </p>
                           </div>
                         )}
@@ -717,11 +835,11 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                     disabled
                   />
                 </div>
-                <div className="col-span-2">
+                <div className='col-span-2'>
                   <CheckoutAddressSelector
                     onAddressChange={handleCheckoutAddressChange}
                     required={true}
-                    className="space-y-3"
+                    className='space-y-3'
                   />
                 </div>
               </div>
@@ -809,46 +927,55 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
             {/* Address Summary */}
             {deliveryType === 'home' && !isAddressComplete() && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                <h3 className="text-sm font-medium text-yellow-800 mb-2">
+              <div className='mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4'>
+                <h3 className='mb-2 text-sm font-medium text-yellow-800'>
                   ⚠️ Vui lòng hoàn thành thông tin địa chỉ
                 </h3>
-                <p className="text-sm text-yellow-700">
-                  Bạn cần chọn đầy đủ: Tỉnh/Thành phố, Phường/Xã và điền địa chỉ chi tiết để có thể đặt hàng.
+                <p className='text-sm text-yellow-700'>
+                  Bạn cần chọn đầy đủ: Tỉnh/Thành phố, Phường/Xã và điền địa chỉ
+                  chi tiết để có thể đặt hàng.
                 </p>
               </div>
             )}
 
             {checkoutAddressData.fullAddress && isAddressComplete() && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-                <h3 className="text-sm font-medium text-green-800 mb-2">
+              <div className='mb-4 rounded-lg border border-green-200 bg-green-50 p-4'>
+                <h3 className='mb-2 text-sm font-medium text-green-800'>
                   ✅ Địa chỉ giao hàng đã chọn
                 </h3>
-                <div className="text-sm text-green-700 space-y-1">
+                <div className='space-y-1 text-sm text-green-700'>
                   {checkoutAddressData.detailAddress && (
-                    <div><strong>Địa chỉ:</strong> {checkoutAddressData.detailAddress}</div>
+                    <div>
+                      <strong>Địa chỉ:</strong>{' '}
+                      {checkoutAddressData.detailAddress}
+                    </div>
                   )}
                   {checkoutAddressData.ward && (
-                    <div><strong>Phường/Xã:</strong> {checkoutAddressData.ward.full_name}</div>
+                    <div>
+                      <strong>Phường/Xã:</strong>{' '}
+                      {checkoutAddressData.ward.full_name}
+                    </div>
                   )}
                   {checkoutAddressData.province && (
                     <div>
-                      <strong>Tỉnh/TP:</strong> {checkoutAddressData.province.full_name}
+                      <strong>Tỉnh/TP:</strong>{' '}
+                      {checkoutAddressData.province.full_name}
                       {checkoutAddressData.province.type && (
-                        <span className="text-xs bg-green-100 px-2 py-1 rounded ml-2">
+                        <span className='ml-2 rounded bg-green-100 px-2 py-1 text-xs'>
                           {checkoutAddressData.province.type}
                         </span>
                       )}
                       {checkoutAddressData.province.is_municipality && (
-                        <span className="text-xs bg-blue-100 px-2 py-1 rounded ml-1">
+                        <span className='ml-1 rounded bg-blue-100 px-2 py-1 text-xs'>
                           Thành phố trực thuộc TW
                         </span>
                       )}
                     </div>
                   )}
                   {checkoutAddressData.administrativeUnit && (
-                    <div className="text-xs text-green-600">
-                      <strong>Đơn vị hành chính:</strong> {checkoutAddressData.administrativeUnit.full_name}
+                    <div className='text-xs text-green-600'>
+                      <strong>Đơn vị hành chính:</strong>{' '}
+                      {checkoutAddressData.administrativeUnit.full_name}
                     </div>
                   )}
                 </div>
@@ -864,7 +991,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                 className='w-full rounded border border-gray-300 bg-gray-100 p-2'
                 type='text'
                 disabled
-                placeholder="Địa chỉ sẽ được tự động cập nhật từ phần chọn địa chỉ ở trên"
+                placeholder='Địa chỉ sẽ được tự động cập nhật từ phần chọn địa chỉ ở trên'
               />
             </div>
           </section>
@@ -877,61 +1004,71 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
             <div className='space-y-3'>
               {/* Check if any product has special payment options */}
               {(() => {
-                const hasFullPayment = enhancedProducts.some(item => item.full_payment_transfer || false);
-                const hasPartialPayment = enhancedProducts.some(item => item.partial_advance_payment || false);
+                const hasFullPayment = enhancedProducts.some(
+                  (item) => item.full_payment_transfer || false
+                );
+                const hasPartialPayment = enhancedProducts.some(
+                  (item) => item.partial_advance_payment || false
+                );
 
                 return (
                   <>
-                    <label className='flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer'>
-                <input
-                  {...register('paymentMethod', {
-                    required: t('errors.required'),
-                  })}
-                  type='radio'
-                  value='card'
+                    <label className='flex cursor-pointer items-start space-x-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50'>
+                      <input
+                        {...register('paymentMethod', {
+                          required: t('errors.required'),
+                        })}
+                        type='radio'
+                        value='card'
                         className='mt-1'
                       />
                       <div>
-                        <div className='font-medium'>{t('payment_method.card')}</div>
-                        <div className='text-sm text-gray-600 mt-1'>
+                        <div className='font-medium'>
+                          {t('payment_method.card')}
+                        </div>
+                        <div className='mt-1 text-sm text-gray-600'>
                           Thanh toán online qua thẻ/ví điện tử
                         </div>
                       </div>
-              </label>
+                    </label>
 
-                    <label className='flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer'>
-                <input
-                  {...register('paymentMethod', {
-                    required: t('errors.required'),
-                  })}
-                  type='radio'
-                  value='cod'
+                    <label className='flex cursor-pointer items-start space-x-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50'>
+                      <input
+                        {...register('paymentMethod', {
+                          required: t('errors.required'),
+                        })}
+                        type='radio'
+                        value='cod'
                         className='mt-1'
                       />
                       <div>
-                        <div className='font-medium'>{t('payment_method.cod')}</div>
-                        <div className='text-sm text-gray-600 mt-1'>
+                        <div className='font-medium'>
+                          {t('payment_method.cod')}
+                        </div>
+                        <div className='mt-1 text-sm text-gray-600'>
                           Thanh toán khi nhận hàng
                         </div>
                       </div>
-              </label>
+                    </label>
 
-                    <label className='flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer'>
-                <input
-                  {...register('paymentMethod', {
-                    required: t('errors.required'),
-                  })}
-                  type='radio'
-                  value='bank'
+                    <label className='flex cursor-pointer items-start space-x-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50'>
+                      <input
+                        {...register('paymentMethod', {
+                          required: t('errors.required'),
+                        })}
+                        type='radio'
+                        value='bank'
                         className='mt-1'
                       />
                       <div>
-                        <div className='font-medium'>{t('payment_method.bank')}</div>
-                        <div className='text-sm text-gray-600 mt-1'>
+                        <div className='font-medium'>
+                          {t('payment_method.bank')}
+                        </div>
+                        <div className='mt-1 text-sm text-gray-600'>
                           Chuyển khoản ngân hàng
                         </div>
                       </div>
-              </label>
+                    </label>
                   </>
                 );
               })()}
@@ -1035,21 +1172,24 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               {enhancedProducts.map((item, index) => {
                 const payment = calculateProductPayment(item);
                 return (
-                  <div key={index} className='border-b border-gray-200 pb-4 last:border-b-0'>
+                  <div
+                    key={index}
+                    className='border-b border-gray-200 pb-4 last:border-b-0'
+                  >
                     <div className='flex items-start space-x-4'>
-                    <Image
-                      src={item.image || '/images/placeholder-product.png'}
-                      alt={item.name}
-                      width={80}
-                      height={80}
-                      className='rounded'
-                    />
-                    <div className='grow'>
-                      <p className='font-medium'>{item.name}</p>
+                      <Image
+                        src={item.image || '/images/placeholder-product.png'}
+                        alt={item.name}
+                        width={80}
+                        height={80}
+                        className='rounded'
+                      />
+                      <div className='grow'>
+                        <p className='font-medium'>{item.name}</p>
                         <p className='text-sm text-gray-600'>
                           Số lượng: {item.quantity}
                         </p>
-                      <p className='text-sm'>
+                        <p className='text-sm'>
                           Giá gốc: {item.quantity} x {formatPrice(item.price)}
                         </p>
 
@@ -1060,10 +1200,12 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                               🎉 Chuyển khoản toàn bộ
                             </p>
                             <p className='text-sm text-green-700'>
-                              Giảm {payment.discountPercentage || 0}% = {formatPrice(payment.discount || 0)}
+                              Giảm {payment.discountPercentage || 0}% ={' '}
+                              {formatPrice(payment.discount || 0)}
                             </p>
                             <p className='text-sm text-green-700'>
-                              Giá sau giảm: {item.quantity} x {formatPrice(payment.discountedUnitPrice || 0)}
+                              Giá sau giảm: {item.quantity} x{' '}
+                              {formatPrice(payment.discountedUnitPrice || 0)}
                             </p>
                           </div>
                         )}
@@ -1074,23 +1216,27 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                               💰 Chuyển trước một phần
                             </p>
                             <p className='text-sm text-blue-700'>
-                              Trả trước {payment.advancePercentage || 0}%: {formatPrice(payment.advanceAmount || 0)}
+                              Trả trước {payment.advancePercentage || 0}%:{' '}
+                              {formatPrice(payment.advanceAmount || 0)}
                             </p>
                             <p className='text-sm text-blue-700'>
-                              Còn lại: {formatPrice(payment.remainingAmount || 0)}
+                              Còn lại:{' '}
+                              {formatPrice(payment.remainingAmount || 0)}
                             </p>
                             {(payment.advanceDiscountPercentage || 0) > 0 && (
                               <p className='text-sm text-green-700'>
-                                Giảm {payment.advanceDiscountPercentage || 0}% khi trả trước: {formatPrice(payment.discount || 0)}
+                                Giảm {payment.advanceDiscountPercentage || 0}%
+                                khi trả trước:{' '}
+                                {formatPrice(payment.discount || 0)}
                               </p>
                             )}
-                  </div>
+                          </div>
                         )}
 
                         <p className='mt-2 text-base font-medium'>
                           Thành tiền: {formatPrice(payment.totalPrice)}
                         </p>
-                </div>
+                      </div>
                     </div>
                   </div>
                 );
@@ -1151,7 +1297,10 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
               <div className='flex justify-between'>
                 <span>Tổng số sản phẩm</span>
                 <span>
-                  {enhancedProducts.reduce((sum, item) => sum + item.quantity, 0)}
+                  {enhancedProducts.reduce(
+                    (sum, item) => sum + item.quantity,
+                    0
+                  )}
                 </span>
               </div>
               <div className='flex justify-between'>
@@ -1173,16 +1322,15 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                 <span>Tổng đơn</span>
                 <span>{formatPrice(orderTotals.finalAmount)}</span>
               </div>
-              
+
               {/* Payment Summary */}
               {(() => {
-                
                 let totalAdvanceAmount = 0;
                 let totalRemainingAmount = 0;
                 let hasFullPayment = false;
                 let hasPartialPayment = false;
-                
-                enhancedProducts.forEach(item => {
+
+                enhancedProducts.forEach((item) => {
                   const payment = calculateProductPayment(item);
                   if (payment.type === 'full_payment') {
                     hasFullPayment = true;
@@ -1195,75 +1343,92 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                     totalRemainingAmount += payment.totalPrice || 0;
                   }
                 });
-                
+
                 // If no payment options are selected, show regular payment
                 if (!hasFullPayment && !hasPartialPayment) {
                   totalRemainingAmount = orderTotals.finalAmount || 0;
                 }
-                
+
                 // Always show payment summary
                 const showPaymentSummary = true;
-                
+
                 return (
                   <div className='mt-4 space-y-3 border-t pt-4'>
-                    <h3 className='text-lg font-semibold text-gray-800'>💳 Chi tiết thanh toán</h3>
-                    
+                    <h3 className='text-lg font-semibold text-gray-800'>
+                      💳 Chi tiết thanh toán
+                    </h3>
+
                     {hasFullPayment && (
-                      <div className='rounded-lg bg-green-50 p-4 border border-green-200'>
-                        <div className='flex items-center space-x-2 mb-2'>
-                          <span className='text-green-600 text-xl'>💰</span>
-                          <span className='font-semibold text-green-800'>Chuyển khoản toàn bộ</span>
+                      <div className='rounded-lg border border-green-200 bg-green-50 p-4'>
+                        <div className='mb-2 flex items-center space-x-2'>
+                          <span className='text-xl text-green-600'>💰</span>
+                          <span className='font-semibold text-green-800'>
+                            Chuyển khoản toàn bộ
+                          </span>
                         </div>
                         <div className='flex justify-between text-lg font-bold text-green-700'>
                           <span>Số tiền cần chuyển:</span>
                           <span>{formatPrice(totalAdvanceAmount || 0)}</span>
                         </div>
-                        <p className='text-sm text-green-600 mt-1'>
+                        <p className='mt-1 text-sm text-green-600'>
                           ✅ Thanh toán 100% trước khi nhận hàng
                         </p>
                       </div>
                     )}
-                    
+
                     {hasPartialPayment && (
                       <div className='space-y-3'>
-                        <div className='rounded-lg bg-blue-50 p-4 border border-blue-200'>
-                          <div className='flex items-center space-x-2 mb-2'>
-                            <span className='text-blue-600 text-xl'>📊</span>
-                            <span className='font-semibold text-blue-800'>Thanh toán 2 giai đoạn</span>
+                        <div className='rounded-lg border border-blue-200 bg-blue-50 p-4'>
+                          <div className='mb-2 flex items-center space-x-2'>
+                            <span className='text-xl text-blue-600'>📊</span>
+                            <span className='font-semibold text-blue-800'>
+                              Thanh toán 2 giai đoạn
+                            </span>
                           </div>
-                          
+
                           <div className='space-y-2'>
                             <div className='flex justify-between text-lg font-bold text-blue-700'>
                               <span>1️⃣ Trả trước:</span>
-                              <span>{formatPrice(totalAdvanceAmount || 0)}</span>
+                              <span>
+                                {formatPrice(totalAdvanceAmount || 0)}
+                              </span>
                             </div>
                             <div className='flex justify-between text-lg font-bold text-gray-700'>
                               <span>2️⃣ COD khi nhận hàng:</span>
-                              <span>{formatPrice(totalRemainingAmount || 0)}</span>
+                              <span>
+                                {formatPrice(totalRemainingAmount || 0)}
+                              </span>
                             </div>
                           </div>
-                          
-                          <div className='mt-3 pt-3 border-t border-blue-200'>
+
+                          <div className='mt-3 border-t border-blue-200 pt-3'>
                             <div className='flex justify-between text-xl font-bold text-blue-800'>
                               <span>Tổng cộng:</span>
-                              <span>{formatPrice((totalAdvanceAmount || 0) + (totalRemainingAmount || 0))}</span>
+                              <span>
+                                {formatPrice(
+                                  (totalAdvanceAmount || 0) +
+                                    (totalRemainingAmount || 0)
+                                )}
+                              </span>
                             </div>
                           </div>
                         </div>
                       </div>
                     )}
-                    
+
                     {!hasFullPayment && !hasPartialPayment && (
-                      <div className='rounded-lg bg-gray-50 p-4 border border-gray-200'>
-                        <div className='flex items-center space-x-2 mb-2'>
-                          <span className='text-gray-600 text-xl'>💳</span>
-                          <span className='font-semibold text-gray-800'>Thanh toán thông thường</span>
+                      <div className='rounded-lg border border-gray-200 bg-gray-50 p-4'>
+                        <div className='mb-2 flex items-center space-x-2'>
+                          <span className='text-xl text-gray-600'>💳</span>
+                          <span className='font-semibold text-gray-800'>
+                            Thanh toán thông thường
+                          </span>
                         </div>
                         <div className='flex justify-between text-lg font-bold text-gray-700'>
                           <span>Số tiền cần thanh toán:</span>
                           <span>{formatPrice(totalRemainingAmount || 0)}</span>
                         </div>
-                        <p className='text-sm text-gray-600 mt-1'>
+                        <p className='mt-1 text-sm text-gray-600'>
                           💳 Thanh toán khi nhận hàng (COD)
                         </p>
                       </div>
@@ -1285,8 +1450,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                 ? 'Đang tạo đơn hàng...'
                 : !isAddressComplete()
                   ? 'Vui lòng hoàn thành thông tin địa chỉ'
-                  : 'Đặt hàng'
-              }
+                  : 'Đặt hàng'}
             </button>
           </section>
         </div>
