@@ -234,7 +234,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   const [paymentMethod] = watch(['paymentMethod']);
 
   const generateQR = () => {
-    return `https://api.vietqr.io/image/970415-102007040056-xd3D8Ht.jpg?accountName=NGUYEN%20DINH%20HUNG&amount=${order.total}`;
+    return `https://api.vietqr.io/image/970415-102007040056-xd3D8Ht.jpg?accountName=NGUYEN%20DINH%20HUNG&amount=${orderTotals.finalAmount}`;
   };
   // Set delivery address placeholder after component mounts
   useEffect(() => {
