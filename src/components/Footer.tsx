@@ -154,21 +154,21 @@ export default function Footer() {
         </div>
         <div className='mt-8'>
           <h3 className='text-lg font-semibold'>{t('company')}</h3>
-          <p>{t('copyright')}</p>
-          <p>📞 {t('phone')}</p>
-          <p>✉️ {t('email')}</p>
+          {/* <p>{t('copyright')}</p> */}
+          <p>{t('phone')}</p>
+          <p>{t('email')}</p>
           <p>{t('working_hours')}</p>
-          <p>{t('icp_license')}</p>
+          {/* <p>{t('icp_license')}</p> */}
           <p>{t('content_responsible')}</p>
-          <p>{t('terms_note')}</p>
+          {/* <p>{t('terms_note')}</p> */}
           <h3 className='mt-4 text-lg font-semibold'>{t('address.hq')}</h3>
-          <p>{t('address.hanoi_business')}</p>
+          {/* <p>{t('address.hanoi_business')}</p>
           <p>☎️ {t('address.hotline')}</p>
           <p>{t('address.hcm_office')}</p>
           <p>☎️ {t('address.hotline')}</p>
           <p>{t('business_license')}</p>
           <p>{t('icp_license_1')}</p>
-          <p>{t('icp_license_amended')}</p>
+          <p>{t('icp_license_amended')}</p> */}
         </div>
       </div>
     </footer>
