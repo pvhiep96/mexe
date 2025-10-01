@@ -23,16 +23,16 @@ export default function Footer() {
                     Kiểm tra đơn hàng
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a href='#' className='hover:underline'>
                     {t('policies')}
                   </a>
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <a href='#' className='hover:underline'>
                     {t('salon_terms')}
                   </a>
-                </li>
+                </li> */}
                 <li>
                   <a href='#' className='hover:underline'>
                     {t('faq')}
@@ -95,16 +95,16 @@ export default function Footer() {
                   Kiểm tra đơn hàng
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href='#' className='hover:underline'>
                   {t('policies')}
                 </a>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <a href='#' className='hover:underline'>
                   {t('salon_terms')}
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a href='#' className='hover:underline'>
                   {t('faq')}
