@@ -950,6 +950,29 @@ class ApiClient {
   async searchAddresses(query: string): Promise<AddressSearchResult> {
     return this.request<AddressSearchResult>(`${API_ENDPOINTS.ADDRESSES.SEARCH}?q=${encodeURIComponent(query)}`);
   }
+
+  // Product Videos
+  async getLatestProductVideos(): Promise<{
+    success: boolean;
+    data: Array<{
+      id: number;
+      url: string;
+      title: string;
+      description?: string;
+      youtube_video_id: string;
+      thumbnail_url: string;
+      embed_url: string;
+      product: {
+        id: number;
+        name: string;
+        slug: string;
+        price: string;
+        brand_name?: string;
+      };
+    }>;
+  }> {
+    return this.request<any>('/product_videos/latest');
+  }
 }
 
 // Export singleton instance

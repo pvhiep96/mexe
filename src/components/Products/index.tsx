@@ -74,46 +74,6 @@ const coupons = [
   },
 ];
 
-// Thay đổi dữ liệu review mẫu cho 1 item demo
-const reviews = [
-  {
-    videoId: 'mV6VWyHwhFg',
-    title:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
-    subtitle: 'ĐÁNH GIÁ MÀN HÌNH ĐÔI JSAUX',
-    views: 16724000,
-    description:
-      'Lấy cảm hứng từ Star Wars và tác phẩm nghệ thuật từ bộ truyện tranh Star Wars: Dark Empire, Hot Toys vui mừng giới thiệu một mô hình hoàn...',
-  },
-  {
-    videoId: 'mV6VWyHwhFg',
-    title:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
-    subtitle: 'ĐÁNH GIÁ MÀN HÌNH ĐÔI JSAUX',
-    views: 16724000,
-    description:
-      'Lấy cảm hứng từ Star Wars và tác phẩm nghệ thuật từ bộ truyện tranh Star Wars: Dark Empire, Hot Toys vui mừng giới thiệu một mô hình hoàn...',
-  },
-  {
-    videoId: 'mV6VWyHwhFg',
-    title:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
-    subtitle: 'ĐÁNH GIÁ MÀN HÌNH ĐÔI JSAUX',
-    views: 16724000,
-    description:
-      'Lấy cảm hứng từ Star Wars và tác phẩm nghệ thuật từ bộ truyện tranh Star Wars: Dark Empire, Hot Toys vui mừng giới thiệu một mô hình hoàn...',
-  },
-  {
-    videoId: 'mV6VWyHwhFg',
-    title:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
-    subtitle: 'ĐÁNH GIÁ MÀN HÌNH ĐÔI JSAUX',
-    views: 16724000,
-    description:
-      'Lấy cảm hứng từ Star Wars và tác phẩm nghệ thuật từ bộ truyện tranh Star Wars: Dark Empire, Hot Toys vui mừng giới thiệu một mô hình hoàn...',
-  },
-];
-
 const hashtags: { label: string; url: string }[] = [
   { label: '#VàiThứHay', url: '/products?category=vai-thu-hay' },
   { label: '#NORESTOCK', url: '/products?category=no-restock' },
@@ -130,10 +90,29 @@ const hashtags: { label: string; url: string }[] = [
 type ProductListPageType = {
   allProducts: Product[];
 };
+
+interface ProductVideoData {
+  id: number;
+  url: string;
+  title: string;
+  description?: string;
+  youtube_video_id: string;
+  thumbnail_url: string;
+  embed_url: string;
+  product: {
+    id: number;
+    name: string;
+    slug: string;
+    price: string;
+    brand_name?: string;
+  };
+}
+
 export default function ProductListPage({ allProducts }: ProductListPageType) {
   const router = useRouter();
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
   const [selectedSort, setSelectedSort] = useState<number>(2); // Default to "Mới nhất" (index 2)
+  const [latestVideos, setLatestVideos] = useState<ProductVideoData[]>([]);
 
   // Lọc sản phẩm theo category (demo)
   const getFilteredProducts = () => {
@@ -145,7 +124,43 @@ export default function ProductListPage({ allProducts }: ProductListPageType) {
     return allProducts;
   };
 
-  const products = getFilteredProducts();
+  const filteredProducts = getFilteredProducts();
+
+  // Map API Product type to ProductGrid's expected Product type
+  const products = filteredProducts.map(product => ({
+    id: product.id,
+    name: product.name,
+    url: `/products/${product.slug}`,
+    images: product.images?.map(img => img.image_url) || [product.primary_image_url || ''],
+    description: product.short_description || product.description || '',
+    price: parseFloat(product.price),
+    originalPrice: product.original_price ? parseFloat(product.original_price) : undefined,
+    discount: product.discount_percent ? parseFloat(product.discount_percent) : undefined,
+    isNew: product.is_new,
+    isHot: product.is_hot,
+    isPreorder: product.is_preorder,
+    full_payment_transfer: product.full_payment_transfer,
+    full_payment_discount_percentage: product.full_payment_discount_percentage,
+    partial_advance_payment: product.partial_advance_payment,
+    advance_payment_percentage: product.advance_payment_percentage,
+    advance_payment_discount_percentage: product.advance_payment_discount_percentage,
+  }));
+
+  // Fetch latest videos on component mount
+  useEffect(() => {
+    const fetchLatestVideos = async () => {
+      try {
+        const response = await apiClient.getLatestProductVideos();
+        if (response.success && response.data) {
+          setLatestVideos(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching latest videos:', error);
+      }
+    };
+
+    fetchLatestVideos();
+  }, []);
 
   const handleHashtagClick = (url: string) => {
     router.push(url);
@@ -334,97 +349,44 @@ export default function ProductListPage({ allProducts }: ProductListPageType) {
             bannerImage='https://file.hstatic.net/1000069970/file/banner_pre_c4eeb4b0068b421dafdc8ce2f9aa7d54_40d9e9e6a2894924b768c57612313211.png'
           />
           {/* Review slider */}
-          <div className='mt-12 w-full py-10'>
-            <div className='container mx-auto max-w-[1200px] px-4'>
-              <h3 className='mb-6 text-center text-2xl font-extrabold tracking-wide sm:mb-8 sm:text-3xl'>
-                CÙNG XEM REVIEW SẢN PHẨM
-              </h3>
+          {latestVideos.length > 0 && (
+            <div className='mt-12 w-full py-10'>
+              <div className='container mx-auto max-w-[1200px] px-4'>
+                <h3 className='mb-6 text-center text-2xl font-extrabold tracking-wide sm:mb-8 sm:text-3xl'>
+                  CÙNG XEM REVIEW SẢN PHẨM
+                </h3>
 
-              {/* Mobile: Flex layout */}
-              <div className='block sm:hidden'>
-                <div className='flex gap-[10px] overflow-x-auto px-4 pb-4'>
-                  {reviews.map((r, idx) => (
-                    <div key={idx} className='flex-shrink-0'>
-                      <div className='flex h-[275px] w-[175px] flex-col overflow-hidden rounded-2xl border border-[#2D6294] bg-white shadow-lg'>
-                        <div className='relative flex h-[160px] w-full items-center justify-center'>
-                          <img
-                            src={`https://img.youtube.com/vi/${r.videoId}/hqdefault.jpg`}
-                            alt={r.title}
-                            className='h-full w-full rounded-t-2xl object-cover'
-                          />
-                          {/* Text overlay on thumbnail */}
-                          <div className='absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-2'>
-                            <div className='line-clamp-2 text-xs font-semibold text-white'>
-                              {r.subtitle}
-                            </div>
-                          </div>
-                          {/* Price overlay */}
-                          <div className='absolute right-2 bottom-2 rounded bg-white px-2 py-1 text-xs font-bold text-black'>
-                            2,990,000
-                          </div>
-                          {/* Play button */}
-                          <a
-                            href={`https://www.youtube.com/watch?v=${r.videoId}`}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-white p-1 shadow-lg'
-                          >
-                            <svg
-                              className='h-8 w-8'
-                              viewBox='0 0 56 56'
-                              fill='none'
-                            >
-                              <circle cx='28' cy='28' r='28' fill='#FF0000' />
-                              <path d='M36 28L24 36V20L36 28Z' fill='white' />
-                            </svg>
-                          </a>
-                        </div>
-                        <div className='flex flex-1 flex-col p-3'>
-                          <div className='mb-1 line-clamp-2 text-sm font-bold text-black'>
-                            {r.title}
-                          </div>
-                          <div className='line-clamp-2 text-xs text-gray-600'>
-                            {r.description}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Desktop: Slider */}
-              <div className='hidden sm:block'>
-                <div className='relative mx-auto max-w-6xl'>
-                  <Slider {...reviewSliderSettings}>
-                    {reviews.map((r, idx) => (
-                      <div key={idx} className='px-3'>
-                        <div className='mx-auto flex h-[440px] w-full max-w-[320px] flex-col overflow-hidden rounded-3xl border-2 border-[#2D6294] bg-white shadow-lg'>
-                          <div className='relative flex h-[240px] w-full items-center justify-center'>
+                {/* Mobile: Flex layout */}
+                <div className='block sm:hidden'>
+                  <div className='flex gap-[10px] overflow-x-auto px-4 pb-4'>
+                    {latestVideos.map((video) => (
+                      <div key={video.id} className='flex-shrink-0'>
+                        <div className='flex h-[275px] w-[175px] flex-col overflow-hidden rounded-2xl border border-[#2D6294] bg-white shadow-lg'>
+                          <div className='relative flex h-[160px] w-full items-center justify-center'>
                             <img
-                              src={`https://img.youtube.com/vi/${r.videoId}/hqdefault.jpg`}
-                              alt={r.title}
-                              className='h-full w-full rounded-t-3xl object-cover'
+                              src={video.thumbnail_url}
+                              alt={video.title}
+                              className='h-full w-full rounded-t-2xl object-cover'
                             />
                             {/* Text overlay on thumbnail */}
                             <div className='absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-2'>
-                              <div className='line-clamp-2 text-sm font-semibold text-white'>
-                                {r.subtitle}
+                              <div className='line-clamp-2 text-xs font-semibold text-white'>
+                                {video.product.name}
                               </div>
                             </div>
                             {/* Price overlay */}
-                            <div className='absolute right-2 bottom-2 rounded bg-white px-2 py-1 text-sm font-bold text-black'>
-                              2,990,000
+                            <div className='absolute right-2 bottom-2 rounded bg-white px-2 py-1 text-xs font-bold text-black'>
+                              {parseFloat(video.product.price).toLocaleString('vi-VN')}đ
                             </div>
                             {/* Play button */}
                             <a
-                              href={`https://www.youtube.com/watch?v=${r.videoId}`}
+                              href={video.url}
                               target='_blank'
                               rel='noopener noreferrer'
-                              className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-white p-2 shadow-lg'
+                              className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-white p-1 shadow-lg'
                             >
                               <svg
-                                className='h-14 w-14'
+                                className='h-8 w-8'
                                 viewBox='0 0 56 56'
                                 fill='none'
                               >
@@ -433,22 +395,81 @@ export default function ProductListPage({ allProducts }: ProductListPageType) {
                               </svg>
                             </a>
                           </div>
-                          <div className='flex flex-1 flex-col p-4'>
-                            <div className='mb-2 line-clamp-2 text-base font-bold text-black'>
-                              {r.title}
+                          <div className='flex flex-1 flex-col p-3'>
+                            <div className='mb-1 line-clamp-2 text-sm font-bold text-black'>
+                              {video.title}
                             </div>
-                            <div className='line-clamp-2 text-sm text-gray-600'>
-                              {r.description}
-                            </div>
+                            {video.description && (
+                              <div className='line-clamp-2 text-xs text-gray-600'>
+                                {video.description}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
                     ))}
-                  </Slider>
+                  </div>
+                </div>
+
+                {/* Desktop: Slider */}
+                <div className='hidden sm:block'>
+                  <div className='relative mx-auto max-w-6xl'>
+                    <Slider {...reviewSliderSettings}>
+                      {latestVideos.map((video) => (
+                        <div key={video.id} className='px-3'>
+                          <div className='mx-auto flex h-[440px] w-full max-w-[320px] flex-col overflow-hidden rounded-3xl border-2 border-[#2D6294] bg-white shadow-lg'>
+                            <div className='relative flex h-[240px] w-full items-center justify-center'>
+                              <img
+                                src={video.thumbnail_url}
+                                alt={video.title}
+                                className='h-full w-full rounded-t-3xl object-cover'
+                              />
+                              {/* Text overlay on thumbnail */}
+                              <div className='absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-2'>
+                                <div className='line-clamp-2 text-sm font-semibold text-white'>
+                                  {video.product.name}
+                                </div>
+                              </div>
+                              {/* Price overlay */}
+                              <div className='absolute right-2 bottom-2 rounded bg-white px-2 py-1 text-sm font-bold text-black'>
+                                {parseFloat(video.product.price).toLocaleString('vi-VN')}đ
+                              </div>
+                              {/* Play button */}
+                              <a
+                                href={video.url}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-white p-2 shadow-lg'
+                              >
+                                <svg
+                                  className='h-14 w-14'
+                                  viewBox='0 0 56 56'
+                                  fill='none'
+                                >
+                                  <circle cx='28' cy='28' r='28' fill='#FF0000' />
+                                  <path d='M36 28L24 36V20L36 28Z' fill='white' />
+                                </svg>
+                              </a>
+                            </div>
+                            <div className='flex flex-1 flex-col p-4'>
+                              <div className='mb-2 line-clamp-2 text-base font-bold text-black'>
+                                {video.title}
+                              </div>
+                              {video.description && (
+                                <div className='line-clamp-2 text-sm text-gray-600'>
+                                  {video.description}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </Slider>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
