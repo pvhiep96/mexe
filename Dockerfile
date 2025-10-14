@@ -12,8 +12,8 @@ RUN npm ci --legacy-peer-deps
 COPY . .
 
 # Build Next.js app
-ENV API_URL='http://47.129.168.239:81/api/v1'
-ENV NEXT_PUBLIC_API_URL='http://47.129.168.239:81/api/v1'
+ENV API_URL='https://admin.mexestore.vn/api/v1'
+ENV NEXT_PUBLIC_API_URL='https://admin.mexestore.vn/api/v1'
 RUN npm run build
 
 # Stage 2: Run
@@ -22,8 +22,8 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV API_URL='http://47.129.168.239:81/api/v1'
-ENV NEXT_PUBLIC_API_URL='http://47.129.168.239:81/api/v1'
+ENV API_URL='https://admin.mexestore.vn/api/v1'
+ENV NEXT_PUBLIC_API_URL='https://admin.mexestore.vn/api/v1'
 ENV PORT=3000
 
 # Copy only necessary files

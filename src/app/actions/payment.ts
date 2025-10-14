@@ -113,7 +113,8 @@ export async function createPaymentUrlOnly(formData: any): Promise<string> {
     vnp_OrderInfo: orderInfo,
     vnp_OrderType: 'topup',
     vnp_ReturnUrl:
-    process.env.VNPAY_RETURN_URL || 'http://47.129.168.239:81/payment/return',
+      process.env.VNPAY_RETURN_URL ||
+      'https://admin.mexestore.vn/payment/return',
     vnp_TxnRef: orderId,
     vnp_TmnCode: '5YQD1DBZ',
     vnp_ExpireDate: dateFormat(new Date(toTimezoneString(expireDAte, 7))),
@@ -162,7 +163,7 @@ export async function createPaymentUrl(formData: any) {
       vnp_OrderInfo: orderInfo,
       vnp_OrderType: 'topup',
       vnp_ReturnUrl:
-      process.env.VNPAY_RETURN_URL || 'http://47.129.168.239/payment/return',
+        process.env.VNPAY_RETURN_URL || 'http://47.129.168.239/payment/return',
       vnp_TxnRef: orderId,
       vnp_TmnCode: '5YQD1DBZ',
       vnp_ExpireDate: dateFormat(new Date(toTimezoneString(expireDAte, 7))),
@@ -239,7 +240,6 @@ export async function generatePaymentUrlDemo(
       vnp_TxnRef: orderId,
       ...(bankCode && { vnp_BankCode: bankCode }),
     });
-
 
     return {
       success: true,

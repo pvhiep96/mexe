@@ -54,16 +54,13 @@ const CheckoutPage = () => {
           throw new Error('Đơn hàng không có sản phẩm nào');
         }
 
-
         // Query fresh product data from database for each item
         const enhancedItems = await Promise.all(
           parsedOrder.items.map(async (item: OrderItem) => {
             try {
-
               // Fetch latest product details from database
               const response = await apiClient.getProduct(String(item.id));
               const freshProductData = response;
-
 
               // Merge fresh data from DB with user selections from localStorage
               const enhancedItem: OrderItem = {
@@ -72,28 +69,38 @@ const CheckoutPage = () => {
                 price: parseFloat(freshProductData.price), // Fresh price from DB
                 quantity: item.quantity, // Keep user selected quantity
                 selectedColor: item.selectedColor, // Keep user selected color
-                image: freshProductData.primary_image_url || freshProductData.images?.[0]?.image_url || item.image, // Fresh image from DB
+                image:
+                  freshProductData.primary_image_url ||
+                  freshProductData.images?.[0]?.image_url ||
+                  item.image, // Fresh image from DB
 
                 // Fresh payment options from DB
-                full_payment_transfer: freshProductData.full_payment_transfer || false,
-                full_payment_discount_percentage: freshProductData.full_payment_discount_percentage || 0,
-                partial_advance_payment: freshProductData.partial_advance_payment || false,
-                advance_payment_percentage: freshProductData.advance_payment_percentage || 0,
-                advance_payment_discount_percentage: freshProductData.advance_payment_discount_percentage || 0,
+                full_payment_transfer:
+                  freshProductData.full_payment_transfer || false,
+                full_payment_discount_percentage:
+                  freshProductData.full_payment_discount_percentage || 0,
+                partial_advance_payment:
+                  freshProductData.partial_advance_payment || false,
+                advance_payment_percentage:
+                  freshProductData.advance_payment_percentage || 0,
+                advance_payment_discount_percentage:
+                  freshProductData.advance_payment_discount_percentage || 0,
               };
 
               return enhancedItem;
             } catch (error) {
-
               // Fallback to localStorage data if API fails
               return {
                 ...item,
                 // Set default payment options if API fails
                 full_payment_transfer: item.full_payment_transfer || false,
-                full_payment_discount_percentage: item.full_payment_discount_percentage || 0,
+                full_payment_discount_percentage:
+                  item.full_payment_discount_percentage || 0,
                 partial_advance_payment: item.partial_advance_payment || false,
-                advance_payment_percentage: item.advance_payment_percentage || 0,
-                advance_payment_discount_percentage: item.advance_payment_discount_percentage || 0,
+                advance_payment_percentage:
+                  item.advance_payment_percentage || 0,
+                advance_payment_discount_percentage:
+                  item.advance_payment_discount_percentage || 0,
               };
             }
           })
@@ -101,7 +108,7 @@ const CheckoutPage = () => {
 
         // Calculate total with fresh prices
         const freshTotal = enhancedItems.reduce((sum, item) => {
-          return sum + (item.price * item.quantity);
+          return sum + item.price * item.quantity;
         }, 0);
 
         // Create enhanced order with fresh data
@@ -114,7 +121,6 @@ const CheckoutPage = () => {
         };
 
         setOrder(enhancedOrder);
-
       } catch (error: any) {
         console.error('Error fetching checkout data:', error);
         setError(error.message || 'Có lỗi xảy ra khi tải thông tin đơn hàng');
@@ -135,7 +141,9 @@ const CheckoutPage = () => {
       <div className='flex min-h-screen items-center justify-center'>
         <div className='text-center'>
           <div className='mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600'></div>
-          <p className='mt-4 text-gray-600'>Đang cập nhật thông tin sản phẩm...</p>
+          <p className='mt-4 text-gray-600'>
+            Đang cập nhật thông tin sản phẩm...
+          </p>
         </div>
       </div>
     );
@@ -145,12 +153,8 @@ const CheckoutPage = () => {
     return (
       <div className='flex min-h-screen items-center justify-center'>
         <div className='text-center'>
-          <h1 className='text-2xl font-bold text-red-600'>
-            Lỗi tải đơn hàng
-          </h1>
-          <p className='mt-2 text-gray-600'>
-            {error}
-          </p>
+          <h1 className='text-2xl font-bold text-red-600'>Lỗi tải đơn hàng</h1>
+          <p className='mt-2 text-gray-600'>{error}</p>
           <p className='mt-2 text-sm text-gray-500'>
             Đang chuyển hướng về giỏ hàng...
           </p>
@@ -207,10 +211,7 @@ const CheckoutPage = () => {
   return (
     <div className='flex min-h-screen flex-col'>
       <main className='grow'>
-        <Checkout
-          order={order}
-          checkout={createPaymentUrlOnly}
-        />
+        <Checkout order={order} checkout={createPaymentUrlOnly} />
       </main>
     </div>
   );
