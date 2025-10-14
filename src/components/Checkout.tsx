@@ -333,7 +333,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
       // Gọi trực tiếp đến backend Rails API
       const orderResponse = await fetch(
-        'http://47.129.168.239:81/api/v1/orders',
+        'https://admin.mexestore.vn/api/v1/orders',
         // 'http://localhost:3005/api/v1/orders',
         {
           method: 'POST',
