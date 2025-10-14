@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Select from 'react-select';
 import { apiClient } from '@/services/api';
 import type { Province, Ward, AdministrativeUnit } from '@/types';
 
@@ -22,6 +23,13 @@ interface CheckoutAddressSelectorProps {
   disabled?: boolean;
   required?: boolean;
   className?: string;
+}
+
+interface SelectOption {
+  value: string;
+  label: string;
+  province?: Province;
+  ward?: Ward;
 }
 
 export default function CheckoutAddressSelector({
@@ -148,17 +156,6 @@ export default function CheckoutAddressSelector({
     }
   };
 
-  const handleProvinceChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-    const provinceCode = event.target.value;
-    setSelectedProvinceCode(provinceCode);
-    setSelectedWardCode(''); // Reset ward selection
-  }, []);
-
-  const handleWardChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-    const wardCode = event.target.value;
-    setSelectedWardCode(wardCode);
-  }, []);
-
   const handleDetailAddressChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDetailAddress(event.target.value);
   }, []);
@@ -177,15 +174,72 @@ export default function CheckoutAddressSelector({
     return ward.full_name;
   };
 
-  // Group provinces by type for better UX
-  const groupedProvinces = provinces.reduce((groups, province) => {
-    const type = province.type || 'Khác';
-    if (!groups[type]) {
-      groups[type] = [];
-    }
-    groups[type].push(province);
-    return groups;
-  }, {} as Record<string, Province[]>);
+  // Convert provinces to react-select options
+  const provinceOptions: SelectOption[] = provinces.map(province => ({
+    value: province.code,
+    label: getProvinceDisplayName(province),
+    province: province
+  }));
+
+  // Convert wards to react-select options
+  const wardOptions: SelectOption[] = wards.map(ward => ({
+    value: ward.code,
+    label: getWardDisplayName(ward),
+    ward: ward
+  }));
+
+  // Get selected values for react-select
+  const selectedProvinceOption = provinceOptions.find(opt => opt.value === selectedProvinceCode) || null;
+  const selectedWardOption = wardOptions.find(opt => opt.value === selectedWardCode) || null;
+
+  // Custom styles for react-select to match Tailwind design
+  const customSelectStyles = {
+    control: (base: any, state: any) => ({
+      ...base,
+      minHeight: '42px',
+      borderRadius: '0.5rem',
+      borderColor: state.isFocused ? '#3b82f6' : '#d1d5db',
+      boxShadow: state.isFocused ? '0 0 0 1px #3b82f6' : 'none',
+      '&:hover': {
+        borderColor: state.isFocused ? '#3b82f6' : '#9ca3af'
+      },
+      fontSize: '0.875rem'
+    }),
+    option: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: state.isSelected ? '#3b82f6' : state.isFocused ? '#dbeafe' : 'white',
+      color: state.isSelected ? 'white' : '#1f2937',
+      cursor: 'pointer',
+      fontSize: '0.875rem',
+      '&:active': {
+        backgroundColor: '#3b82f6'
+      }
+    }),
+    menu: (base: any) => ({
+      ...base,
+      borderRadius: '0.5rem',
+      overflow: 'hidden',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+    }),
+    menuList: (base: any) => ({
+      ...base,
+      padding: '0',
+      maxHeight: '300px'
+    }),
+    placeholder: (base: any) => ({
+      ...base,
+      color: '#9ca3af',
+      fontSize: '0.875rem'
+    }),
+    input: (base: any) => ({
+      ...base,
+      fontSize: '0.875rem'
+    }),
+    singleValue: (base: any) => ({
+      ...base,
+      fontSize: '0.875rem'
+    })
+  };
 
   return (
     <div className={`space-y-4 ${className}`}>
@@ -203,31 +257,29 @@ export default function CheckoutAddressSelector({
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Tỉnh/Thành phố {required && <span className="text-red-500">*</span>}
         </label>
-        <select
-          value={selectedProvinceCode}
-          onChange={handleProvinceChange}
-          disabled={disabled || loading.provinces}
-          className={`w-full rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
-            disabled || loading.provinces
-              ? 'bg-gray-50 cursor-not-allowed'
-              : 'bg-white'
-          } ${errors.provinces ? 'border-red-500' : 'border-gray-300'}`}
-          required={required}
-        >
-          <option value="">
-            {loading.provinces ? 'Đang tải...' : 'Chọn Tỉnh/Thành phố'}
-          </option>
-
-          {Object.entries(groupedProvinces).map(([type, provinceList]) => (
-            <optgroup key={type} label={type}>
-              {provinceList.map((province) => (
-                <option key={province.code} value={province.code}>
-                  {getProvinceDisplayName(province)}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </select>
+        <Select
+          value={selectedProvinceOption}
+          onChange={(option) => {
+            const provinceCode = option?.value || '';
+            setSelectedProvinceCode(provinceCode);
+            setSelectedWardCode(''); // Reset ward selection
+          }}
+          options={provinceOptions}
+          isDisabled={disabled || loading.provinces}
+          isLoading={loading.provinces}
+          isClearable
+          isSearchable
+          placeholder={loading.provinces ? 'Đang tải...' : 'Gõ để tìm kiếm hoặc chọn Tỉnh/Thành phố'}
+          noOptionsMessage={() => 'Không tìm thấy tỉnh/thành phố'}
+          loadingMessage={() => 'Đang tải...'}
+          styles={{
+            ...customSelectStyles,
+            control: (base, state) => ({
+              ...customSelectStyles.control(base, state),
+              borderColor: errors.provinces ? '#ef4444' : state.isFocused ? '#3b82f6' : '#d1d5db'
+            })
+          }}
+        />
         {errors.provinces && (
           <p className="mt-1 text-sm text-red-600">{errors.provinces}</p>
         )}
@@ -238,31 +290,34 @@ export default function CheckoutAddressSelector({
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Phường/Xã {required && <span className="text-red-500">*</span>}
         </label>
-        <select
-          value={selectedWardCode}
-          onChange={handleWardChange}
-          disabled={disabled || loading.wards || !selectedProvinceCode}
-          className={`w-full rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
-            disabled || loading.wards || !selectedProvinceCode
-              ? 'bg-gray-50 cursor-not-allowed'
-              : 'bg-white'
-          } ${errors.wards ? 'border-red-500' : 'border-gray-300'}`}
-          required={required}
-        >
-          <option value="">
-            {!selectedProvinceCode
+        <Select
+          value={selectedWardOption}
+          onChange={(option) => {
+            const wardCode = option?.value || '';
+            setSelectedWardCode(wardCode);
+          }}
+          options={wardOptions}
+          isDisabled={disabled || loading.wards || !selectedProvinceCode}
+          isLoading={loading.wards}
+          isClearable
+          isSearchable
+          placeholder={
+            !selectedProvinceCode
               ? 'Vui lòng chọn tỉnh/thành phố trước'
               : loading.wards
                 ? 'Đang tải...'
-                : 'Chọn Phường/Xã'
-            }
-          </option>
-          {wards.map((ward) => (
-            <option key={ward.code} value={ward.code}>
-              {getWardDisplayName(ward)}
-            </option>
-          ))}
-        </select>
+                : 'Gõ để tìm kiếm hoặc chọn Phường/Xã'
+          }
+          noOptionsMessage={() => 'Không tìm thấy phường/xã'}
+          loadingMessage={() => 'Đang tải...'}
+          styles={{
+            ...customSelectStyles,
+            control: (base, state) => ({
+              ...customSelectStyles.control(base, state),
+              borderColor: errors.wards ? '#ef4444' : state.isFocused ? '#3b82f6' : '#d1d5db'
+            })
+          }}
+        />
         {errors.wards && (
           <p className="mt-1 text-sm text-red-600">{errors.wards}</p>
         )}
