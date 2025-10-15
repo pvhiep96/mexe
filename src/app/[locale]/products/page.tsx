@@ -2,19 +2,26 @@ import { FC } from 'react';
 import ProductListPage from '@/components/Products';
 import { api } from '@/config/api';
 import { ListProducts200Response } from '../../../../api';
+import { Product } from '@/services/api';
 
 // Tất cả sản phẩm
 
-async function fetchProducts(page: number = 1, perPage: number = 10) {
+async function fetchProducts(
+  page: number = 1, 
+  perPage: number = 100,
+  categoryId?: number,
+  brandId?: number
+) {
   try {
     const response = await api.listProducts(
       page,
       perPage,
-      undefined,
-      undefined,
+      categoryId,
+      brandId,
       true
     );
     const data: ListProducts200Response = response.data;
+    console.log('data', JSON.stringify(data));
 
     const products = (data.products || []).map((product) => {
       // Get primary image or first image
@@ -26,7 +33,7 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
         id: product.id,
         name: product.name,
         url: product.slug,
-        images: product.images?.map(img => img.image_url).filter(Boolean) || (imageUrl ? [imageUrl] : ['/images/placeholder-product.png']),
+        images: product.images || (imageUrl ? [imageUrl] : ['/images/placeholder-product.png']),
         description: product.short_description || product.description || '',
         price: product.price ? parseFloat(product.price.toString()) : undefined,
         originalPrice: product.original_price
@@ -66,24 +73,111 @@ async function fetchProducts(page: number = 1, perPage: number = 10) {
   }
 }
 
-interface PageProps {
-  params: {
-    page: number;
-    perPage: number;
-  };
+// Fetch categories to map slug -> ID
+async function fetchCategories() {
+  try {
+    const response = await api.listcategory();
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
 }
 
-const ProductsPage: FC<PageProps> = async ({ params }) => {
-  const { page, perPage } = await params;
+// Fetch brands to map slug -> ID
+async function fetchBrands() {
+  try {
+    const response = await api.listbrands();
+    return response.data || [];
+  } catch (error) {
+    console.error('Error fetching brands:', error);
+    return [];
+  }
+}
 
+interface PageProps {
+  params: Promise<{
+    locale: string;
+  }>;
+  searchParams: Promise<{
+    category?: string;
+    brand?: string;
+    preorder?: string;
+    page?: string;
+    perPage?: string;
+  }>;
+}
+
+const ProductsPage: FC<PageProps> = async ({ params, searchParams }) => {
+  const awaitedParams = await params;
+  const awaitedSearchParams = await searchParams;
+  
+  const page = parseInt(awaitedSearchParams.page || '1');
+  const perPage = parseInt(awaitedSearchParams.perPage || '100');
+  
+  // Fetch categories and brands to map slug -> ID
+  const [categories, brands] = await Promise.all([
+    fetchCategories(),
+    fetchBrands()
+  ]);
+
+  // Find category ID from slug
+  let categoryId: number | undefined;
+  let categoryName: string | undefined;
+  if (awaitedSearchParams.category) {
+    const flatCategories: any[] = [];
+    (categories as any[]).forEach((cat: any) => {
+      flatCategories.push(cat);
+      if (cat.subcategories) {
+        flatCategories.push(...cat.subcategories);
+      }
+    });
+    const category = flatCategories.find((cat: any) => cat.slug === awaitedSearchParams.category);
+    if (category) {
+      categoryId = category.id;
+      categoryName = category.name;
+    }
+  }
+
+  // Find brand ID from slug (support partial match for flexibility)
+  let brandId: number | undefined;
+  let brandName: string | undefined;
+  if (awaitedSearchParams.brand) {
+    // Try exact match first
+    let brand = (brands as any[]).find((b: any) => b.slug === awaitedSearchParams.brand);
+    
+    // If no exact match, try partial match (e.g., 'toyota' matches 'toyota-genuine-parts')
+    if (!brand) {
+      brand = (brands as any[]).find((b: any) => 
+        b.slug?.toLowerCase().includes(awaitedSearchParams.brand?.toLowerCase())
+      );
+    }
+    
+    if (brand) {
+      brandId = brand.id;
+      brandName = brand.name;
+    }
+  }
+
+  // Fetch products with filters
   const {
     products,
     total,
     page: currentPage,
     perPage: itemsPerPage,
-  } = await fetchProducts(page, perPage);
+  } = await fetchProducts(page, perPage, categoryId, brandId);
 
-  return <ProductListPage allProducts={products} />;
+  // Pass filter info to component
+  return (
+    <ProductListPage 
+      allProducts={products as unknown as Product[]}
+      filterInfo={{
+        category: categoryName,
+        brand: brandName,
+        isPreorder: awaitedSearchParams.preorder === 'true'
+      }}
+    />
+  );
 };
 
 export default ProductsPage;
