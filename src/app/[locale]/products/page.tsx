@@ -32,7 +32,7 @@ async function fetchProducts(
       return {
         id: product.id,
         name: product.name,
-        url: product.slug,
+        slug: product.slug,
         images: product.images || (imageUrl ? [imageUrl] : ['/images/placeholder-product.png']),
         description: product.short_description || product.description || '',
         price: product.price ? parseFloat(product.price.toString()) : undefined,

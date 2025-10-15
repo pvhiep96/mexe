@@ -6,7 +6,7 @@ import { useFlashTooltip } from '@/context/FlashTooltipContext';
 interface Product {
   id: number;
   name: string;
-  url: string;
+  slug: string;
   images: string[];
   description: string;
   ordered?: number;
@@ -71,8 +71,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
   const handleProductClick = (product: Product) => {
     // Redirect đến trang product detail với URL dạng products/[slug]
-    if (product.url) {
-      window.location.href = `/products/${product.url}`;
+    if (product.slug) {
+      window.location.href = `/products/${product.slug}`;
     } else {
       // Fallback: sử dụng product ID nếu không có slug
       window.location.href = `/products/${product.id}`;

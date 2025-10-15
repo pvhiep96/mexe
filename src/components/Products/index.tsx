@@ -149,11 +149,12 @@ export default function ProductListPage({ allProducts, filterInfo }: ProductList
 
   const pageTitle = getPageTitle();
 
+
   // Map API Product type to ProductGrid's expected Product type
   const products = filteredProducts.map(product => ({
     id: product.id,
     name: product.name,
-    url: `/products/${product.slug}`,
+    slug: product.slug,
     images: product.images?.map(img => img.image_url) || [product.primary_image_url || ''],
     description: product.short_description || product.description || '',
     price: parseFloat(product.price),
