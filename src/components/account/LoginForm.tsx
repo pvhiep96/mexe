@@ -155,7 +155,7 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
       </button>
 
       {/* Social Login */}
-      <div className='mt-6'>
+      {/* <div className='mt-6'>
         <div className='relative'>
           <div className='absolute inset-0 flex items-center'>
             <div className='w-full border-t border-gray-300' />
@@ -190,7 +190,7 @@ export default function LoginForm({ onSwitchToRegister, onSwitchToForgot, onLogi
             Facebook
           </button>
         </div>
-      </div>
+      </div> */}
 
       <div className='text-center'>
         <span className='text-sm text-gray-600'>Chưa có tài khoản? </span>

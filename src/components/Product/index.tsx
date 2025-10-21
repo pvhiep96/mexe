@@ -24,8 +24,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
   const [showFullTargetAudience, setShowFullTargetAudience] = useState(false);
   const [showWarrantyPolicy, setShowWarrantyPolicy] = useState(false);
   const [showTechnicalSpecs, setShowTechnicalSpecs] = useState(true);
-  const [showRealImages, setShowRealImages] = useState(true);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // const product: Product = PRODUCT_MOCK;
 
@@ -143,10 +141,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
     }
   };
 
-  // Use product images from API
-  const productImages = product.images && product.images.length > 0
-    ? product.images
-    : ['/images/placeholder-product.png'];
 
   return (
     <div className='min-h-screen'>
@@ -468,77 +462,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
               </>
             )}
 
-            {/* Real Images Section */}
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>HÌNH ẢNH</h2>
-              <button
-                onClick={() => setShowRealImages(!showRealImages)}
-                className='flex h-6 w-6 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-            {showRealImages && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                {/* Main Image Display */}
-                <div className='relative mb-6'>
-                  <div className='aspect-[4/3] overflow-hidden rounded-lg bg-gray-800'>
-                    <Image
-                      src={productImages[currentImageIndex]}
-                      alt={`Product image ${currentImageIndex + 1}`}
-                      width={800}
-                      height={600}
-                      className='h-full w-full object-cover'
-                    />
-                  </div>
-                  {/* Navigation Dots */}
-                  <div className='mt-4 flex justify-center space-x-2'>
-                    {productImages.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`h-2 w-2 rounded-full border border-gray-300 transition-colors ${index === currentImageIndex
-                            ? 'bg-white'
-                            : 'bg-gray-300'
-                          }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Thumbnail Gallery */}
-                <div className='scrollbar-hide flex gap-3 overflow-x-auto'>
-                  {productImages.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 bg-gray-200 transition-colors ${index === currentImageIndex
-                          ? 'border-[#2D6294]'
-                          : 'border-transparent'
-                        }`}
-                    >
-                      <Image
-                        src={image}
-                        alt={`Thumbnail ${index + 1}`}
-                        width={80}
-                        height={80}
-                        className='h-full w-full object-cover'
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Right Column - Technical Specifications and Related Products (20% width) */}
@@ -733,80 +656,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
             )}
           </div>
 
-          {/* Real Images */}
-          <div>
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>HÌNH ẢNH</h2>
-              <button
-                onClick={() => setShowRealImages(!showRealImages)}
-                className='flex h-6 w-6 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-            {showRealImages && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                {/* Main Image Display */}
-                <div className='relative mb-6'>
-                  <div className='aspect-[4/3] overflow-hidden rounded-lg bg-gray-800'>
-                    <Image
-                      src={productImages[currentImageIndex]}
-                      alt={`Product image ${currentImageIndex + 1}`}
-                      width={800}
-                      height={600}
-                      className='h-full w-full object-cover'
-                    />
-                  </div>
-
-                  {/* Navigation Dots */}
-                  <div className='mt-4 flex justify-center space-x-2'>
-                    {productImages.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`h-2 w-2 rounded-full border border-gray-300 transition-colors ${index === currentImageIndex
-                            ? 'bg-white'
-                            : 'bg-gray-300'
-                          }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Thumbnail Gallery */}
-                <div className='scrollbar-hide flex gap-3 overflow-x-auto'>
-                  {productImages.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 bg-gray-200 transition-colors ${index === currentImageIndex
-                          ? 'border-[#2D6294]'
-                          : 'border-transparent'
-                        }`}
-                    >
-                      <Image
-                        src={image}
-                        alt={`Thumbnail ${index + 1}`}
-                        width={80}
-                        height={80}
-                        className='h-full w-full object-cover'
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
 
           {/* Related Products */}
           <RelatedProducts products={relatedProducts} />
