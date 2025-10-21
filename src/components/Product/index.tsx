@@ -27,8 +27,6 @@ export default function ProductDetail({
   const [showFullTargetAudience, setShowFullTargetAudience] = useState(false);
   const [showWarrantyPolicy, setShowWarrantyPolicy] = useState(false);
   const [showTechnicalSpecs, setShowTechnicalSpecs] = useState(true);
-  const [showRealImages, setShowRealImages] = useState(true);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // const product: Product = PRODUCT_MOCK;
 
@@ -512,6 +510,10 @@ export default function ProductDetail({
                 )}
               </>
             )}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2145555 (fix feedback, change html css)
           </div>
 
           {/* Right Column - Technical Specifications and Related Products (20% width) */}
@@ -737,6 +739,10 @@ export default function ProductDetail({
             )}
           </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2145555 (fix feedback, change html css)
           {/* Related Products */}
           <RelatedProducts products={relatedProducts} />
         </div>
