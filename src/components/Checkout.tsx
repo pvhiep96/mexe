@@ -226,7 +226,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       deliveryType: 'home',
       national: 'Vietnam', // Fixed value
       deliveryAddress: '', // Empty string, will be set via useEffect
-      paymentMethod: 'card',
+      paymentMethod: 'cod',
       orderNumber: order.orderNumber,
     },
   });
@@ -612,7 +612,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                         )}
 
                         {/* Loại 1: Chuyển khoản toàn bộ */}
-                        {payment.type === 'full_payment' && (
+                        {/* {payment.type === 'full_payment' && (
                           <div className='rounded-lg border-2 border-green-300 bg-green-50 p-4 shadow-sm'>
                             <div className='mb-3 flex items-center space-x-2'>
                               <div className='flex h-8 w-8 items-center justify-center rounded-full bg-green-500'>
@@ -663,10 +663,10 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                               </div>
                             </div>
                           </div>
-                        )}
+                        )} */}
 
                         {/* Loại 2: Chuyển trước một phần */}
-                        {payment.type === 'partial_advance' && (
+                        {/* {payment.type === 'partial_advance' && (
                           <div className='rounded-lg border-2 border-blue-300 bg-blue-50 p-4 shadow-sm'>
                             <div className='mb-3 flex items-center space-x-2'>
                               <div className='flex h-8 w-8 items-center justify-center rounded-full bg-blue-500'>
@@ -720,7 +720,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                               </div>
                             </div>
                           </div>
-                        )}
+                        )} */}
 
                         {/* Thanh toán thông thường */}
                         {payment.type === 'regular' && (
@@ -1013,7 +1013,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
                 return (
                   <>
-                    <label className='flex cursor-pointer items-start space-x-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50'>
+                    {/* <label className='flex cursor-pointer items-start space-x-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50'>
                       <input
                         {...register('paymentMethod', {
                           required: t('errors.required'),
@@ -1030,7 +1030,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                           Thanh toán online qua thẻ/ví điện tử
                         </div>
                       </div>
-                    </label>
+                    </label> */}
 
                     <label className='flex cursor-pointer items-start space-x-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50'>
                       <input
@@ -1051,7 +1051,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                       </div>
                     </label>
 
-                    <label className='flex cursor-pointer items-start space-x-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50'>
+                    {/* <label className='flex cursor-pointer items-start space-x-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50'>
                       <input
                         {...register('paymentMethod', {
                           required: t('errors.required'),
@@ -1068,7 +1068,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                           Chuyển khoản ngân hàng
                         </div>
                       </div>
-                    </label>
+                    </label> */}
                   </>
                 );
               })()}

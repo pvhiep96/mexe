@@ -92,7 +92,6 @@ function ProductSlide({ product }: ProductSlideProps) {
     showTooltip(t('buy_now_success'), 'success');
   };
 
-
   useEffect(() => {
     function handleResize() {
       if (typeof window === 'undefined') return;
@@ -111,14 +110,15 @@ function ProductSlide({ product }: ProductSlideProps) {
   }, []);
 
   const handleProductClick = () => {
-    const productUrl = product.slug ? `/products/${product.slug}` : `/products/${product.id}`;
+    const productUrl = product.slug
+      ? `/products/${product.slug}`
+      : `/products/${product.id}`;
     window.open(productUrl, '_blank');
   };
 
-
   return (
     <div
-      className='flex min-h-[300px] w-full max-w-[400px] cursor-pointer flex-col items-center rounded-2xl bg-white p-4 shadow-lg border border-gray-100 transition-all duration-500 ease-in-out hover:shadow-xl hover:border-gray-200 sm:min-h-[200px] sm:max-w-[500px] sm:flex-row'
+      className='flex min-h-[300px] w-full max-w-[400px] cursor-pointer flex-col items-center rounded-2xl border border-gray-100 bg-white p-4 shadow-lg transition-all duration-500 ease-in-out hover:border-gray-200 hover:shadow-xl sm:min-h-[200px] sm:max-w-[500px] sm:flex-row'
       onClick={handleProductClick}
     >
       {/* Images */}
@@ -130,7 +130,8 @@ function ProductSlide({ product }: ProductSlideProps) {
           src={
             typeof product.images?.[0] === 'string'
               ? product.images[0]
-              : product.images?.[0]?.image_url || '/images/placeholder-product.png'
+              : product.images?.[0]?.image_url ||
+                '/images/placeholder-product.png'
           }
           alt={product.name}
           width={105}
@@ -148,10 +149,11 @@ function ProductSlide({ product }: ProductSlideProps) {
           src={
             typeof product.images?.[2] === 'string'
               ? product.images[2]
-              : product.images?.[2]?.image_url || 
+              : product.images?.[2]?.image_url ||
                 (typeof product.images?.[0] === 'string'
                   ? product.images[0]
-                  : product.images?.[0]?.image_url) || '/images/placeholder-product.png'
+                  : product.images?.[0]?.image_url) ||
+                '/images/placeholder-product.png'
           }
           alt={product.name}
           width={105}
@@ -169,10 +171,11 @@ function ProductSlide({ product }: ProductSlideProps) {
           src={
             typeof product.images?.[1] === 'string'
               ? product.images[1]
-              : product.images?.[1]?.image_url || 
+              : product.images?.[1]?.image_url ||
                 (typeof product.images?.[0] === 'string'
                   ? product.images[0]
-                  : product.images?.[0]?.image_url) || '/images/placeholder-product.png'
+                  : product.images?.[0]?.image_url) ||
+                '/images/placeholder-product.png'
           }
           alt={product.name}
           width={105}
@@ -191,7 +194,7 @@ function ProductSlide({ product }: ProductSlideProps) {
       {/* Info */}
       <div className='flex h-full flex-1 flex-col justify-between pl-0 sm:pl-4'>
         <div className='flex-1'>
-          <h3 className='text-sm font-semibold sm:text-base line-clamp-2 leading-tight'>
+          <h3 className='line-clamp-2 text-sm leading-tight font-semibold sm:text-base'>
             {product.name}
           </h3>
           <p className='text-xs text-gray-500'>
@@ -200,7 +203,7 @@ function ProductSlide({ product }: ProductSlideProps) {
           <h4 className='mt-1 text-xs font-medium sm:text-sm'>
             {t('product_info')}
           </h4>
-          <p className='line-clamp-2 text-xs text-gray-600 leading-relaxed mt-1'>
+          <p className='mt-1 line-clamp-2 text-xs leading-relaxed text-gray-600'>
             {product.description}
           </p>
         </div>
@@ -375,8 +378,10 @@ export default function NewProducts({ products }: NewProductsProps) {
               <button
                 onClick={prev}
                 disabled={slider <= 0 || products.length <= 1}
-                className={`mr-4 cursor-pointer rounded-full p-3 shadow-lg border border-gray-200 transition-all duration-300 ${
-                  slider <= 0 || products.length <= 1 ? 'bg-gray-100' : 'bg-white hover:bg-gray-50 hover:shadow-xl'
+                className={`mr-4 cursor-pointer rounded-full border border-gray-200 p-3 shadow-lg transition-all duration-300 ${
+                  slider <= 0 || products.length <= 1
+                    ? 'bg-gray-100'
+                    : 'bg-white hover:bg-gray-50 hover:shadow-xl'
                 }`}
                 style={{
                   cursor:
@@ -388,7 +393,9 @@ export default function NewProducts({ products }: NewProductsProps) {
               >
                 <ChevronLeftIcon
                   className={`h-6 w-6 ${
-                    slider <= 0 || products.length <= 1 ? 'text-gray-400' : 'text-gray-700'
+                    slider <= 0 || products.length <= 1
+                      ? 'text-gray-400'
+                      : 'text-gray-700'
                   }`}
                 />
               </button>
@@ -415,15 +422,22 @@ export default function NewProducts({ products }: NewProductsProps) {
               <button
                 onClick={next}
                 disabled={products.length <= 1}
-                className={`ml-4 cursor-pointer rounded-full p-3 shadow-lg border border-gray-200 transition-all duration-300 ${
-                  products.length <= 1 ? 'bg-gray-100' : 'bg-white hover:bg-gray-50 hover:shadow-xl'
+                className={`ml-4 cursor-pointer rounded-full border border-gray-200 p-3 shadow-lg transition-all duration-300 ${
+                  products.length <= 1
+                    ? 'bg-gray-100'
+                    : 'bg-white hover:bg-gray-50 hover:shadow-xl'
                 }`}
                 style={{
-                  cursor: products.length <= 1 ? 'not-allowed !important' : 'pointer !important',
+                  cursor:
+                    products.length <= 1
+                      ? 'not-allowed !important'
+                      : 'pointer !important',
                 }}
                 aria-label={t('next_slide')}
               >
-                <ChevronRightIcon className={`h-6 w-6 ${products.length <= 1 ? 'text-gray-400' : 'text-gray-700'}`} />
+                <ChevronRightIcon
+                  className={`h-6 w-6 ${products.length <= 1 ? 'text-gray-400' : 'text-gray-700'}`}
+                />
               </button>
             </div>
           </div>
@@ -464,9 +478,11 @@ export default function NewProducts({ products }: NewProductsProps) {
               {products.map((product, index) => (
                 <div
                   key={`mobile-product-${index}`}
-                  className='flex min-w-[200px] flex-col items-center rounded-lg bg-white p-3 shadow cursor-pointer'
+                  className='flex min-w-[200px] cursor-pointer flex-col items-center rounded-lg bg-white p-3 shadow'
                   onClick={() => {
-                    const productUrl = product.slug ? `/products/${product.slug}` : `/products/${product.id}`;
+                    const productUrl = product.slug
+                      ? `/products/${product.slug}`
+                      : `/products/${product.id}`;
                     window.open(productUrl, '_blank');
                   }}
                 >
@@ -474,14 +490,15 @@ export default function NewProducts({ products }: NewProductsProps) {
                     src={
                       typeof product.images?.[0] === 'string'
                         ? product.images[0]
-                        : product.images?.[0]?.image_url || '/images/placeholder-product.png'
+                        : product.images?.[0]?.image_url ||
+                          '/images/placeholder-product.png'
                     }
                     alt={product.name}
                     width={200}
                     height={160}
                     className='mb-2 h-32 w-full rounded object-cover'
                   />
-                  <div className='mb-2 text-center text-xs font-bold line-clamp-2 leading-tight'>
+                  <div className='mb-2 line-clamp-2 text-center text-xs leading-tight font-bold'>
                     {product.name}
                   </div>
                   <div className='mb-2 text-center text-xs text-gray-500'>

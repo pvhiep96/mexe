@@ -14,7 +14,10 @@ type ProductDetailProps = {
   product: ProductType;
   relatedProducts?: RelatedProductType[];
 };
-export default function ProductDetail({ product, relatedProducts = [] }: ProductDetailProps) {
+export default function ProductDetail({
+  product,
+  relatedProducts = [],
+}: ProductDetailProps) {
   const t = useTranslations('product_detail');
   const router = useRouter();
   const [selectedImage, setSelectedImage] = useState(0);
@@ -47,21 +50,27 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
     }
 
     // Thêm vào giỏ hàng với số lượng mới
-    const newQuantity = type === 'increase' ? quantity + 1 : Math.max(1, quantity - 1);
+    const newQuantity =
+      type === 'increase' ? quantity + 1 : Math.max(1, quantity - 1);
     if (newQuantity > 0 && product.id) {
-      addToCart({
-        id: product.id,
-        name: product.name || 'Unknown Product',
-        price: product.price || 0,
-        image: product.image || '/images/placeholder-product.png',
-        quantity: newQuantity,
-        // Use payment options from product data
-        full_payment_transfer: product.full_payment_transfer || false,
-        full_payment_discount_percentage: product.full_payment_discount_percentage || 0,
-        partial_advance_payment: product.partial_advance_payment || false,
-        advance_payment_percentage: product.advance_payment_percentage || 0,
-        advance_payment_discount_percentage: product.advance_payment_discount_percentage || 0,
-      }, newQuantity);
+      addToCart(
+        {
+          id: product.id,
+          name: product.name || 'Unknown Product',
+          price: product.price || 0,
+          image: product.image || '/images/placeholder-product.png',
+          quantity: newQuantity,
+          // Use payment options from product data
+          full_payment_transfer: product.full_payment_transfer || false,
+          full_payment_discount_percentage:
+            product.full_payment_discount_percentage || 0,
+          partial_advance_payment: product.partial_advance_payment || false,
+          advance_payment_percentage: product.advance_payment_percentage || 0,
+          advance_payment_discount_percentage:
+            product.advance_payment_discount_percentage || 0,
+        },
+        newQuantity
+      );
       setSuccessMessage(t('add_to_cart_success'));
       setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
     }
@@ -75,19 +84,24 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
     event.stopPropagation();
 
     if (product.id) {
-      addToCart({
-        id: product.id,
-        name: product.name || 'Unknown Product',
-        price: product.price || 0,
-        image: product.image || '/images/placeholder-product.png',
-        quantity: quantity,
-        // Use payment options from product data
-        full_payment_transfer: product.full_payment_transfer || false,
-        full_payment_discount_percentage: product.full_payment_discount_percentage || 0,
-        partial_advance_payment: product.partial_advance_payment || false,
-        advance_payment_percentage: product.advance_payment_percentage || 0,
-        advance_payment_discount_percentage: product.advance_payment_discount_percentage || 0,
-      }, quantity);
+      addToCart(
+        {
+          id: product.id,
+          name: product.name || 'Unknown Product',
+          price: product.price || 0,
+          image: product.image || '/images/placeholder-product.png',
+          quantity: quantity,
+          // Use payment options from product data
+          full_payment_transfer: product.full_payment_transfer || false,
+          full_payment_discount_percentage:
+            product.full_payment_discount_percentage || 0,
+          partial_advance_payment: product.partial_advance_payment || false,
+          advance_payment_percentage: product.advance_payment_percentage || 0,
+          advance_payment_discount_percentage:
+            product.advance_payment_discount_percentage || 0,
+        },
+        quantity
+      );
       setSuccessMessage(t('add_to_cart_success'));
       setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
     }
@@ -103,19 +117,24 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
       try {
         // Tạo single product order cho checkout
         const singleProductOrder = {
-          items: [{
-            id: product.id,
-            name: product.name || 'Unknown Product',
-            price: product.price || 0,
-            image: product.image || '/images/placeholder-product.png',
-            quantity: quantity,
-            // Use payment options from product data
-            full_payment_transfer: product.full_payment_transfer || false,
-            full_payment_discount_percentage: product.full_payment_discount_percentage || 0,
-            partial_advance_payment: product.partial_advance_payment || false,
-            advance_payment_percentage: product.advance_payment_percentage || 0,
-            advance_payment_discount_percentage: product.advance_payment_discount_percentage || 0,
-          }],
+          items: [
+            {
+              id: product.id,
+              name: product.name || 'Unknown Product',
+              price: product.price || 0,
+              image: product.image || '/images/placeholder-product.png',
+              quantity: quantity,
+              // Use payment options from product data
+              full_payment_transfer: product.full_payment_transfer || false,
+              full_payment_discount_percentage:
+                product.full_payment_discount_percentage || 0,
+              partial_advance_payment: product.partial_advance_payment || false,
+              advance_payment_percentage:
+                product.advance_payment_percentage || 0,
+              advance_payment_discount_percentage:
+                product.advance_payment_discount_percentage || 0,
+            },
+          ],
           total: (product.price || 0) * quantity,
           orderNumber: `ORD-SINGLE-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           createdAt: new Date().toISOString(),
@@ -123,7 +142,10 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
         };
 
         // Lưu vào localStorage
-        localStorage.setItem('currentOrder', JSON.stringify(singleProductOrder));
+        localStorage.setItem(
+          'currentOrder',
+          JSON.stringify(singleProductOrder)
+        );
 
         // Hiển thị thông báo thành công ngắn
         setSuccessMessage('Đang chuyển đến trang thanh toán...');
@@ -132,7 +154,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
         setTimeout(() => {
           router.push('/checkout');
         }, 1000);
-
       } catch (error) {
         console.error('Error creating single product order:', error);
         setSuccessMessage('Có lỗi xảy ra, vui lòng thử lại');
@@ -144,9 +165,10 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
   };
 
   // Use product images from API
-  const productImages = product.images && product.images.length > 0
-    ? product.images
-    : ['/images/placeholder-product.png'];
+  const productImages =
+    product.images && product.images.length > 0
+      ? product.images
+      : ['/images/placeholder-product.png'];
 
   return (
     <div className='min-h-screen'>
@@ -154,7 +176,9 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
       <ChatFloat
         productId={product.id}
         productName={product.name}
-        productUrl={typeof window !== 'undefined' ? window.location.href : undefined}
+        productUrl={
+          typeof window !== 'undefined' ? window.location.href : undefined
+        }
       />
 
       <div className='container mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8'>
@@ -191,7 +215,10 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
           <div className='space-y-4'>
             <div className='aspect-square overflow-hidden rounded-lg bg-white'>
               <Image
-                src={product.images?.[selectedImage] || '/images/placeholder-product.png'}
+                src={
+                  product.images?.[selectedImage] ||
+                  '/images/placeholder-product.png'
+                }
                 alt={product.name || 'Product'}
                 width={600}
                 height={600}
@@ -203,10 +230,11 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`aspect-square overflow-hidden rounded-lg border-2 bg-white transition-all ${selectedImage === index
+                  className={`aspect-square overflow-hidden rounded-lg border-2 bg-white transition-all ${
+                    selectedImage === index
                       ? 'border-[#2D6294]'
                       : 'border-gray-200 hover:border-gray-300'
-                    }`}
+                  }`}
                 >
                   <Image
                     src={image || '/images/placeholder-product.png'}
@@ -237,10 +265,11 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                 {(product.services || []).map((service, index) => (
                   <div
                     key={index}
-                    className={`min-w-[140px] flex-shrink-0 rounded-lg border p-3 text-center text-sm ${index === 0
+                    className={`min-w-[140px] flex-shrink-0 rounded-lg border p-3 text-center text-sm ${
+                      index === 0
                         ? 'border-[#2D6294] bg-[#2D6294]/10'
                         : 'border-gray-300 bg-gray-50'
-                      }`}
+                    }`}
                   >
                     <div className='relative mb-2'>
                       <div
@@ -253,8 +282,9 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                       </div>
                     </div>
                     <div
-                      className={`text-xs leading-tight font-medium ${index === 0 ? 'text-gray-900' : 'text-gray-500'
-                        }`}
+                      className={`text-xs leading-tight font-medium ${
+                        index === 0 ? 'text-gray-900' : 'text-gray-500'
+                      }`}
                     >
                       {service.text}
                     </div>
@@ -272,21 +302,22 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
               </div>
               <div className='relative'>
                 <p
-                  className={`leading-relaxed text-gray-600 transition-all duration-500 ease-in-out ${showFullDescription ? 'max-h-none' : 'line-clamp-3'
-                    }`}
+                  className={`leading-relaxed text-gray-600 transition-all duration-500 ease-in-out ${
+                    showFullDescription ? 'max-h-none' : 'line-clamp-3'
+                  }`}
                 >
                   {product.brandDescription}
                 </p>
-                
+
                 {/* Short Description */}
                 {product.shortDescription && (
                   <div className='mt-4'>
-                    <p className='text-sm text-gray-600 leading-relaxed'>
+                    <p className='text-sm leading-relaxed text-gray-600'>
                       {product.shortDescription}
                     </p>
                   </div>
                 )}
-                
+
                 {!showFullDescription && (
                   <div className='pointer-events-none absolute right-0 bottom-0 left-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent'></div>
                 )}
@@ -300,7 +331,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                 </div>
               </div>
             </div>
-
 
             {/* Quantity Selector and Action Buttons */}
             <div className='flex flex-row items-center gap-2 sm:gap-3'>
@@ -325,7 +355,10 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
               </div>
 
               {/* Add to Cart Button */}
-              <button onClick={(event) => handleAddToCart(event)} className='flex h-[48px] min-w-[60px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200 sm:min-w-[70px] sm:px-6'>
+              <button
+                onClick={(event) => handleAddToCart(event)}
+                className='flex h-[48px] min-w-[60px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-200 sm:min-w-[70px] sm:px-6'
+              >
                 <div className='relative'>
                   <ShoppingCartIcon className='h-6 w-6 sm:h-8 sm:w-8' />
                   <div className='absolute -top-1 -right-1 flex h-3 w-3 items-center justify-center rounded-full bg-gray-700 sm:h-4 sm:w-4'>
@@ -341,13 +374,13 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                   disabled={isBuyingNow}
                   className={`flex h-[48px] min-w-[100px] flex-1 cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-sm font-bold whitespace-nowrap text-white transition-colors sm:min-w-[120px] sm:px-8 sm:py-3 sm:text-base ${
                     isBuyingNow
-                      ? 'bg-blue-400 cursor-not-allowed'
+                      ? 'cursor-not-allowed bg-blue-400'
                       : 'bg-blue-600 hover:bg-blue-700'
                   }`}
                 >
                   {isBuyingNow ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className='flex items-center gap-2'>
+                      <div className='h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent'></div>
                       <span>Đang xử lý...</span>
                     </div>
                   ) : (
@@ -372,13 +405,22 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
             {product.descriptions && product.descriptions.length > 0 ? (
               product.descriptions.map((desc, index) => {
                 const sectionStateKey = `showSection${index}`;
-                const isExpanded = index === 0 ? showFullProductInfo :
-                  index === 1 ? showFullTargetAudience :
-                    index === 2 ? showWarrantyPolicy : true;
-                const toggleFunction = index === 0 ? (() => setShowFullProductInfo(!showFullProductInfo)) :
-                  index === 1 ? (() => setShowFullTargetAudience(!showFullTargetAudience)) :
-                    index === 2 ? (() => setShowWarrantyPolicy(!showWarrantyPolicy)) :
-                      (() => { });
+                const isExpanded =
+                  index === 0
+                    ? showFullProductInfo
+                    : index === 1
+                      ? showFullTargetAudience
+                      : index === 2
+                        ? showWarrantyPolicy
+                        : true;
+                const toggleFunction =
+                  index === 0
+                    ? () => setShowFullProductInfo(!showFullProductInfo)
+                    : index === 1
+                      ? () => setShowFullTargetAudience(!showFullTargetAudience)
+                      : index === 2
+                        ? () => setShowWarrantyPolicy(!showWarrantyPolicy)
+                        : () => {};
 
                 return (
                   <div key={desc.id} className={index > 0 ? 'mt-6' : ''}>
@@ -454,7 +496,10 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                       <div className='flex justify-center'>
                         <div className='aspect-square w-full max-w-md overflow-hidden rounded-lg bg-gray-800'>
                           <Image
-                            src={product.images?.[0] || '/images/placeholder-product.png'}
+                            src={
+                              product.images?.[0] ||
+                              '/images/placeholder-product.png'
+                            }
                             alt='Product detail'
                             width={400}
                             height={400}
@@ -466,78 +511,6 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                   </div>
                 )}
               </>
-            )}
-
-            {/* Real Images Section */}
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>HÌNH ẢNH</h2>
-              <button
-                onClick={() => setShowRealImages(!showRealImages)}
-                className='flex h-6 w-6 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-            {showRealImages && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                {/* Main Image Display */}
-                <div className='relative mb-6'>
-                  <div className='aspect-[4/3] overflow-hidden rounded-lg bg-gray-800'>
-                    <Image
-                      src={productImages[currentImageIndex]}
-                      alt={`Product image ${currentImageIndex + 1}`}
-                      width={800}
-                      height={600}
-                      className='h-full w-full object-cover'
-                    />
-                  </div>
-                  {/* Navigation Dots */}
-                  <div className='mt-4 flex justify-center space-x-2'>
-                    {productImages.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`h-2 w-2 rounded-full border border-gray-300 transition-colors ${index === currentImageIndex
-                            ? 'bg-white'
-                            : 'bg-gray-300'
-                          }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Thumbnail Gallery */}
-                <div className='scrollbar-hide flex gap-3 overflow-x-auto'>
-                  {productImages.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 bg-gray-200 transition-colors ${index === currentImageIndex
-                          ? 'border-[#2D6294]'
-                          : 'border-transparent'
-                        }`}
-                    >
-                      <Image
-                        src={image}
-                        alt={`Thumbnail ${index + 1}`}
-                        width={80}
-                        height={80}
-                        className='h-full w-full object-cover'
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
             )}
           </div>
 
@@ -571,7 +544,14 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                   <table className='w-full'>
                     <tbody>
                       {product.specifications.map((spec, index) => (
-                        <tr key={spec.spec_name || index} className={index < product.specifications!.length - 1 ? 'border-b border-[#dee2e6]' : ''}>
+                        <tr
+                          key={spec.spec_name || index}
+                          className={
+                            index < product.specifications!.length - 1
+                              ? 'border-b border-[#dee2e6]'
+                              : ''
+                          }
+                        >
                           <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
                             {spec.spec_name}
                           </td>
@@ -584,9 +564,13 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                   </table>
                 ) : (
                   <div className='p-8 text-center'>
-                    <div className='text-gray-400 text-3xl mb-3'>📋</div>
-                    <p className='text-gray-500 mb-2'>Thông số kỹ thuật không có sẵn</p>
-                    <p className='text-xs text-gray-400'>Vui lòng liên hệ để biết thêm chi tiết</p>
+                    <div className='mb-3 text-3xl text-gray-400'>📋</div>
+                    <p className='mb-2 text-gray-500'>
+                      Thông số kỹ thuật không có sẵn
+                    </p>
+                    <p className='text-xs text-gray-400'>
+                      Vui lòng liên hệ để biết thêm chi tiết
+                    </p>
                   </div>
                 )}
               </div>
@@ -602,13 +586,22 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
           {/* Render Product Descriptions from database for mobile */}
           {product.descriptions && product.descriptions.length > 0 ? (
             product.descriptions.map((desc, index) => {
-              const isExpanded = index === 0 ? showFullProductInfo :
-                index === 1 ? showFullTargetAudience :
-                  index === 2 ? showWarrantyPolicy : true;
-              const toggleFunction = index === 0 ? (() => setShowFullProductInfo(!showFullProductInfo)) :
-                index === 1 ? (() => setShowFullTargetAudience(!showFullTargetAudience)) :
-                  index === 2 ? (() => setShowWarrantyPolicy(!showWarrantyPolicy)) :
-                    (() => { });
+              const isExpanded =
+                index === 0
+                  ? showFullProductInfo
+                  : index === 1
+                    ? showFullTargetAudience
+                    : index === 2
+                      ? showWarrantyPolicy
+                      : true;
+              const toggleFunction =
+                index === 0
+                  ? () => setShowFullProductInfo(!showFullProductInfo)
+                  : index === 1
+                    ? () => setShowFullTargetAudience(!showFullTargetAudience)
+                    : index === 2
+                      ? () => setShowWarrantyPolicy(!showWarrantyPolicy)
+                      : () => {};
 
               return (
                 <div key={desc.id}>
@@ -711,7 +704,14 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                   <table className='w-full'>
                     <tbody>
                       {product.specifications.map((spec, index) => (
-                        <tr key={spec.spec_name || index} className={index < product.specifications!.length - 1 ? 'border-b border-[#dee2e6]' : ''}>
+                        <tr
+                          key={spec.spec_name || index}
+                          className={
+                            index < product.specifications!.length - 1
+                              ? 'border-b border-[#dee2e6]'
+                              : ''
+                          }
+                        >
                           <td className='bg-[#f4f4f4] px-4 py-3 text-sm font-medium text-gray-900'>
                             {spec.spec_name}
                           </td>
@@ -724,86 +724,15 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                   </table>
                 ) : (
                   <div className='p-8 text-center'>
-                    <div className='text-gray-400 text-3xl mb-3'>📋</div>
-                    <p className='text-gray-500 mb-2'>Thông số kỹ thuật không có sẵn</p>
-                    <p className='text-xs text-gray-400'>Vui lòng liên hệ để biết thêm chi tiết</p>
+                    <div className='mb-3 text-3xl text-gray-400'>📋</div>
+                    <p className='mb-2 text-gray-500'>
+                      Thông số kỹ thuật không có sẵn
+                    </p>
+                    <p className='text-xs text-gray-400'>
+                      Vui lòng liên hệ để biết thêm chi tiết
+                    </p>
                   </div>
                 )}
-              </div>
-            )}
-          </div>
-
-          {/* Real Images */}
-          <div>
-            <div className='mb-4 flex items-center justify-between rounded-lg bg-[#2D6294] px-6 py-3 text-white'>
-              <h2 className='text-lg font-bold'>HÌNH ẢNH</h2>
-              <button
-                onClick={() => setShowRealImages(!showRealImages)}
-                className='flex h-6 w-6 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-800'
-              >
-                <svg
-                  className={`h-3 w-3 text-[#2D6294] transition-transform duration-300 ${showRealImages ? 'rotate-180' : ''}`}
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clipRule='evenodd'
-                  />
-                </svg>
-              </button>
-            </div>
-            {showRealImages && (
-              <div className='rounded-lg border border-gray-200 bg-white p-6'>
-                {/* Main Image Display */}
-                <div className='relative mb-6'>
-                  <div className='aspect-[4/3] overflow-hidden rounded-lg bg-gray-800'>
-                    <Image
-                      src={productImages[currentImageIndex]}
-                      alt={`Product image ${currentImageIndex + 1}`}
-                      width={800}
-                      height={600}
-                      className='h-full w-full object-cover'
-                    />
-                  </div>
-
-                  {/* Navigation Dots */}
-                  <div className='mt-4 flex justify-center space-x-2'>
-                    {productImages.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`h-2 w-2 rounded-full border border-gray-300 transition-colors ${index === currentImageIndex
-                            ? 'bg-white'
-                            : 'bg-gray-300'
-                          }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Thumbnail Gallery */}
-                <div className='scrollbar-hide flex gap-3 overflow-x-auto'>
-                  {productImages.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 bg-gray-200 transition-colors ${index === currentImageIndex
-                          ? 'border-[#2D6294]'
-                          : 'border-transparent'
-                        }`}
-                    >
-                      <Image
-                        src={image}
-                        alt={`Thumbnail ${index + 1}`}
-                        width={80}
-                        height={80}
-                        className='h-full w-full object-cover'
-                      />
-                    </button>
-                  ))}
-                </div>
               </div>
             )}
           </div>
@@ -856,9 +785,12 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
               >
                 {product.videos && product.videos.length > 0 ? (
                   product.videos
-                    .filter(video => video.is_active)
+                    .filter((video) => video.is_active)
                     .map((video) => (
-                      <div key={video.id} className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'>
+                      <div
+                        key={video.id}
+                        className='w-64 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-lg lg:w-80'
+                      >
                         <div className='aspect-[4/3]'>
                           <iframe
                             src={video.embed_url}
@@ -877,8 +809,10 @@ export default function ProductDetail({ product, relatedProducts = [] }: Product
                       </div>
                     ))
                 ) : (
-                  <div className='w-full text-center py-8'>
-                    <p className='text-gray-500'>Chưa có video review nào cho sản phẩm này</p>
+                  <div className='w-full py-8 text-center'>
+                    <p className='text-gray-500'>
+                      Chưa có video review nào cho sản phẩm này
+                    </p>
                   </div>
                 )}
               </div>
