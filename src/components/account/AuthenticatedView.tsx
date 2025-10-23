@@ -43,10 +43,18 @@ export default function AuthenticatedView({
       return {
         id: order.id || `order-${Math.random()}`,
         status: order.status || 'Đang xử lý',
-        total_amount:
-          typeof order.total_amount === 'number' ? order.total_amount : 0,
-        items: Array.isArray(order.items) ? order.items : [],
-        shipping_address: order.shipping_address || 'Địa chỉ không xác định',
+        total_amount: order.total_amount,
+        items: Array.isArray(order.order_items) ? order.order_items : [],
+        shipping_address: order.shipping_address
+          ? order.shipping_address
+          : [
+              order.delivery_address,
+              order.shipping_ward_name,
+              order.shipping_district,
+              order.shipping_province_name,
+            ]
+              .filter((item) => typeof item === 'string' && item.trim() !== '')
+              .join(', '),
         created_at: order.created_at || new Date().toISOString(),
         updated_at: order.updated_at || new Date().toISOString(),
       };
@@ -254,6 +262,7 @@ export default function AuthenticatedView({
   const handleOrderClick = (order: Order) => {
     try {
       // Ensure order data is valid before opening modal
+      console.log(order);
       const validatedOrder = validateOrderData(order);
       setSelectedOrder(validatedOrder);
       setIsOrderModalOpen(true);
@@ -696,7 +705,10 @@ export default function AuthenticatedView({
                                   </p>
                                   <p className='text-gray-600'>
                                     {item.quantity || 0} x{' '}
-                                    {(item.price || 0).toLocaleString('vi-VN')}đ
+                                    {(item.unit_price || 0).toLocaleString(
+                                      'vi-VN'
+                                    )}
+                                    đ
                                   </p>
                                 </div>
                               </div>
@@ -1053,6 +1065,7 @@ export default function AuthenticatedView({
       </div>
 
       {/* Order Detail Modal */}
+
       {selectedOrder && (
         <OrderDetailModal
           order={selectedOrder}
