@@ -14,7 +14,7 @@ import type {
   Province,
   Ward,
   AdministrativeUnit,
-  AddressSearchResult
+  AddressSearchResult,
 } from '@/types';
 
 // Types
@@ -278,10 +278,10 @@ class TokenManager {
 
   static getToken(): string | null {
     if (typeof window === 'undefined') return null;
-    
+
     // Try main token first
     let token = localStorage.getItem(this.TOKEN_KEY);
-    
+
     // If main token is missing, try backup
     if (!token) {
       token = localStorage.getItem(this.BACKUP_TOKEN_KEY);
@@ -289,34 +289,34 @@ class TokenManager {
         this.setToken(token); // Restore to main location
       }
     }
-    
+
     return token;
   }
-  
+
   static setToken(token: string): void {
     if (typeof window === 'undefined') return;
-    
+
     // Store in main location
     localStorage.setItem(this.TOKEN_KEY, token);
-    
+
     // Create backup
     localStorage.setItem(this.BACKUP_TOKEN_KEY, token);
-    
+
     // Store timestamp of last valid token
     localStorage.setItem(this.LAST_VALID_KEY, Date.now().toString());
-    
+
     // Reset retry count
     this.resetRetryCount();
   }
-  
+
   static removeToken(): void {
     if (typeof window === 'undefined') return;
-    
+
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.BACKUP_TOKEN_KEY);
     localStorage.removeItem(this.LAST_VALID_KEY);
   }
-  
+
   static getLastValidTokenTime(): number {
     if (typeof window === 'undefined') return 0;
     const timestamp = localStorage.getItem(this.LAST_VALID_KEY);
@@ -331,11 +331,11 @@ class TokenManager {
   static resetRetryCount(): void {
     this.retryCount = 0;
   }
-  
+
   static isTokenValid(): boolean {
     const token = this.getToken();
     if (!token) return false;
-    
+
     try {
       // Check JWT format
       const parts = token.split('.');
@@ -343,22 +343,22 @@ class TokenManager {
         this.removeToken();
         return false;
       }
-      
+
       // Check expiration with 10 minute buffer (increased from 5)
       const payload = JSON.parse(atob(parts[1]));
       const currentTime = Math.floor(Date.now() / 1000);
       const bufferTime = 10 * 60; // 10 minutes buffer
-      
+
       if (!payload.exp) {
         this.removeToken();
         return false;
       }
-      
-      if (payload.exp <= (currentTime + bufferTime)) {
+
+      if (payload.exp <= currentTime + bufferTime) {
         this.removeToken();
         return false;
       }
-      
+
       return true;
     } catch (error) {
       this.removeToken();
@@ -370,18 +370,18 @@ class TokenManager {
   static isTokenExpiringSoon(): boolean {
     const token = this.getToken();
     if (!token) return false;
-    
+
     try {
       const parts = token.split('.');
       if (parts.length !== 3) return false;
-      
+
       const payload = JSON.parse(atob(parts[1]));
       const currentTime = Math.floor(Date.now() / 1000);
       const warningTime = 60 * 60; // 1 hour warning
-      
+
       if (!payload.exp) return false;
-      
-      return payload.exp <= (currentTime + warningTime);
+
+      return payload.exp <= currentTime + warningTime;
     } catch (error) {
       return false;
     }
@@ -391,15 +391,15 @@ class TokenManager {
   static getTokenInfo(): any {
     const token = this.getToken();
     if (!token) return null;
-    
+
     try {
       const parts = token.split('.');
       if (parts.length !== 3) return null;
-      
+
       const payload = JSON.parse(atob(parts[1]));
       const currentTime = Math.floor(Date.now() / 1000);
       const timeUntilExpiry = payload.exp - currentTime;
-      
+
       return {
         userId: payload.user_id,
         email: payload.email,
@@ -409,7 +409,7 @@ class TokenManager {
         hoursUntilExpiry: (timeUntilExpiry / 3600).toFixed(2),
         isExpired: timeUntilExpiry <= 0,
         isExpiringSoon: timeUntilExpiry <= 3600, // 1 hour
-        tokenLength: token.length
+        tokenLength: token.length,
       };
     } catch (error) {
       return null;
@@ -419,7 +419,7 @@ class TokenManager {
   // New method to attempt token recovery
   static attemptRecovery(): boolean {
     if (typeof window === 'undefined') return false;
-    
+
     const backupToken = localStorage.getItem(this.BACKUP_TOKEN_KEY);
     if (backupToken) {
       try {
@@ -428,7 +428,7 @@ class TokenManager {
         if (parts.length === 3) {
           const payload = JSON.parse(atob(parts[1]));
           const now = Math.floor(Date.now() / 1000);
-          
+
           if (payload.exp > now) {
             // Backup token is valid, restore it
             localStorage.setItem(this.TOKEN_KEY, backupToken);
@@ -442,7 +442,7 @@ class TokenManager {
         this.removeToken();
       }
     }
-    
+
     return false;
   }
 }
@@ -455,14 +455,18 @@ class ApiClient {
     this.baseUrl = baseUrl;
   }
 
-  private getAuthHeaders(): Record<string, string> {
+  getAuthHeaders(): Record<string, string> {
     const token = TokenManager.getToken();
+    console.log(token);
     return token ? { Authorization: `Bearer ${token}` } : {};
   }
 
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  private async request<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    
+
     const defaultOptions: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
@@ -475,19 +479,21 @@ class ApiClient {
     try {
       const response = await fetch(url, defaultOptions);
       const data = await response.json();
-      
+
       if (!response.ok) {
         // Handle 401 errors more intelligently
         if (response.status === 401) {
-          const isCoreAuthEndpoint = endpoint.includes('/auth/profile') || 
-                                   endpoint.includes('/auth/login') || 
-                                   endpoint.includes('/auth/register');
-          
-          const isUserEndpoint = endpoint.includes('/users/') || 
-                                endpoint.includes('/orders') ||
-                                endpoint.includes('/favorites') ||
-                                endpoint.includes('/addresses');
-          
+          const isCoreAuthEndpoint =
+            endpoint.includes('/auth/profile') ||
+            endpoint.includes('/auth/login') ||
+            endpoint.includes('/auth/register');
+
+          const isUserEndpoint =
+            endpoint.includes('/users/') ||
+            endpoint.includes('/orders') ||
+            endpoint.includes('/favorites') ||
+            endpoint.includes('/addresses');
+
           if (isCoreAuthEndpoint) {
             TokenManager.removeToken();
           } else if (isUserEndpoint) {
@@ -502,37 +508,37 @@ class ApiClient {
             }
           }
         }
-        
+
         throw {
           status: response.status,
           success: false,
           message: data.message || 'An error occurred',
-          errors: data.errors || ['An error occurred']
+          errors: data.errors || ['An error occurred'],
         };
-              }
+      }
 
-        // Reset retry count on successful request
-        TokenManager.resetRetryCount();
-        return data;
+      // Reset retry count on successful request
+      TokenManager.resetRetryCount();
+      return data;
     } catch (error: any) {
-              // Network or parsing errors
-        if (!error.status) {
-          // Increment retry count for network errors
-          const retryCount = TokenManager.incrementRetryCount();
-          const maxRetries = 3;
-          
-          if (retryCount <= maxRetries) {
-            // Don't throw immediately, let the caller handle retry logic
-          }
-          
-          throw {
-            status: 0,
-            success: false,
-            message: 'Lỗi kết nối. Vui lòng kiểm tra internet và thử lại.',
-            errors: ['Network error'],
-            retryCount
-          };
+      // Network or parsing errors
+      if (!error.status) {
+        // Increment retry count for network errors
+        const retryCount = TokenManager.incrementRetryCount();
+        const maxRetries = 3;
+
+        if (retryCount <= maxRetries) {
+          // Don't throw immediately, let the caller handle retry logic
         }
+
+        throw {
+          status: 0,
+          success: false,
+          message: 'Lỗi kết nối. Vui lòng kiểm tra internet và thử lại.',
+          errors: ['Network error'],
+          retryCount,
+        };
+      }
       throw error;
     }
   }
@@ -543,11 +549,11 @@ class ApiClient {
       success: boolean;
       data: HomeData;
     }>(API_ENDPOINTS.HOME);
-    
+
     if (response.success && response.data) {
       return response.data;
     }
-    
+
     // Fallback if response format is unexpected
     throw new Error('Invalid API response format');
   }
@@ -566,7 +572,7 @@ class ApiClient {
       success: boolean;
       data: HomeData;
     }>(API_ENDPOINTS.HOME);
-    
+
     if (homeData.success && homeData.data.early_order_products) {
       return {
         success: true,
@@ -574,11 +580,12 @@ class ApiClient {
           trending: homeData.data.early_order_products.trending_products,
           new_launched: homeData.data.early_order_products.new_products,
           ending_soon: homeData.data.early_order_products.ending_soon_products,
-          arriving_soon: homeData.data.early_order_products.arriving_soon_products,
-        }
+          arriving_soon:
+            homeData.data.early_order_products.arriving_soon_products,
+        },
       };
     }
-    
+
     // Fallback if early_order_products is not available
     return {
       success: true,
@@ -587,7 +594,7 @@ class ApiClient {
         new_launched: [],
         ending_soon: [],
         arriving_soon: [],
-      }
+      },
     };
   }
 
@@ -606,13 +613,18 @@ class ApiClient {
     sort?: string;
   }): Promise<ProductsResponse> {
     const searchParams = new URLSearchParams();
-    
+
     if (params?.page) searchParams.append('page', params.page.toString());
-    if (params?.per_page) searchParams.append('per_page', params.per_page.toString());
-    if (params?.category_id) searchParams.append('category_id', params.category_id.toString());
-    if (params?.brand_id) searchParams.append('brand_id', params.brand_id.toString());
-    if (params?.min_price) searchParams.append('min_price', params.min_price.toString());
-    if (params?.max_price) searchParams.append('max_price', params.max_price.toString());
+    if (params?.per_page)
+      searchParams.append('per_page', params.per_page.toString());
+    if (params?.category_id)
+      searchParams.append('category_id', params.category_id.toString());
+    if (params?.brand_id)
+      searchParams.append('brand_id', params.brand_id.toString());
+    if (params?.min_price)
+      searchParams.append('min_price', params.min_price.toString());
+    if (params?.max_price)
+      searchParams.append('max_price', params.max_price.toString());
     if (params?.is_new) searchParams.append('is_new', 'true');
     if (params?.is_hot) searchParams.append('is_hot', 'true');
     if (params?.is_featured) searchParams.append('is_featured', 'true');
@@ -621,10 +633,10 @@ class ApiClient {
 
     const queryString = searchParams.toString();
     const endpoint = `${API_ENDPOINTS.PRODUCTS}${queryString ? `?${queryString}` : ''}`;
-    
+
     try {
       const response = await this.request<any>(endpoint);
-      
+
       // Handle new response format
       if (response.success && response.data) {
         return {
@@ -632,17 +644,18 @@ class ApiClient {
           pagination: {
             current_page: response.pagination?.current_page || 1,
             total_pages: response.pagination?.total_pages || 1,
-            total_count: response.pagination?.total_count || response.data.length,
-            per_page: response.pagination?.per_page || 20
+            total_count:
+              response.pagination?.total_count || response.data.length,
+            per_page: response.pagination?.per_page || 20,
           },
           filters: {
             categories: [],
             brands: [],
-            price_range: { min: 0, max: 999999 }
-          }
+            price_range: { min: 0, max: 999999 },
+          },
         };
       }
-      
+
       // Fallback for old format
       return response as ProductsResponse;
     } catch (error) {
@@ -685,16 +698,17 @@ class ApiClient {
     sort?: string;
   }): Promise<NewsResponse> {
     const searchParams = new URLSearchParams();
-    
+
     if (params?.page) searchParams.append('page', params.page.toString());
-    if (params?.per_page) searchParams.append('per_page', params.per_page.toString());
+    if (params?.per_page)
+      searchParams.append('per_page', params.per_page.toString());
     if (params?.category) searchParams.append('category', params.category);
     if (params?.search) searchParams.append('search', params.search);
     if (params?.sort) searchParams.append('sort', params.sort);
 
     const queryString = searchParams.toString();
     const endpoint = `${API_ENDPOINTS.NEWS}${queryString ? `?${queryString}` : ''}`;
-    
+
     return this.request<NewsResponse>(endpoint);
   }
 
@@ -704,37 +718,44 @@ class ApiClient {
 
   // Search
   async search(query: string): Promise<SearchResponse> {
-    return this.request<SearchResponse>(`${API_ENDPOINTS.SEARCH}?q=${encodeURIComponent(query)}`);
+    return this.request<SearchResponse>(
+      `${API_ENDPOINTS.SEARCH}?q=${encodeURIComponent(query)}`
+    );
   }
 
   // Authentication
   async login(credentials: LoginRequest): Promise<AuthResponse> {
-    const response = await this.request<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, {
-      method: 'POST',
-      body: JSON.stringify(credentials),
-    });
-    
-    
+    const response = await this.request<AuthResponse>(
+      API_ENDPOINTS.AUTH.LOGIN,
+      {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+      }
+    );
+
     // Store token on successful login
     if (response.success && response.token) {
       TokenManager.setToken(response.token);
     } else {
     }
-    
+
     return response;
   }
 
   async register(userData: RegisterRequest): Promise<AuthResponse> {
-    const response = await this.request<AuthResponse>(API_ENDPOINTS.AUTH.REGISTER, {
-      method: 'POST',
-      body: JSON.stringify(userData),
-    });
-    
+    const response = await this.request<AuthResponse>(
+      API_ENDPOINTS.AUTH.REGISTER,
+      {
+        method: 'POST',
+        body: JSON.stringify(userData),
+      }
+    );
+
     // Store token on successful registration
     if (response.success && response.token) {
       TokenManager.setToken(response.token);
     }
-    
+
     return response;
   }
 
@@ -751,21 +772,33 @@ class ApiClient {
   }
 
   async getProfile(): Promise<{ success: boolean; user: User }> {
-    return this.request<{ success: boolean; user: User }>(API_ENDPOINTS.AUTH.PROFILE);
+    return this.request<{ success: boolean; user: User }>(
+      API_ENDPOINTS.AUTH.PROFILE
+    );
   }
 
-  async updateProfile(userData: UpdateProfileRequest): Promise<{ success: boolean; user: User; message: string }> {
-    return this.request<{ success: boolean; user: User; message: string }>(API_ENDPOINTS.AUTH.UPDATE_PROFILE, {
-      method: 'PUT',
-      body: JSON.stringify(userData),
-    });
+  async updateProfile(
+    userData: UpdateProfileRequest
+  ): Promise<{ success: boolean; user: User; message: string }> {
+    return this.request<{ success: boolean; user: User; message: string }>(
+      API_ENDPOINTS.AUTH.UPDATE_PROFILE,
+      {
+        method: 'PUT',
+        body: JSON.stringify(userData),
+      }
+    );
   }
 
-  async changePassword(passwordData: ChangePasswordRequest): Promise<{ success: boolean; message: string }> {
-    return this.request<{ success: boolean; message: string }>(API_ENDPOINTS.AUTH.CHANGE_PASSWORD, {
-      method: 'POST',
-      body: JSON.stringify(passwordData),
-    });
+  async changePassword(
+    passwordData: ChangePasswordRequest
+  ): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(
+      API_ENDPOINTS.AUTH.CHANGE_PASSWORD,
+      {
+        method: 'POST',
+        body: JSON.stringify(passwordData),
+      }
+    );
   }
 
   // User Data
@@ -781,17 +814,27 @@ class ApiClient {
     return this.request<UserAddress[]>(API_ENDPOINTS.USER.ADDRESSES);
   }
 
-  async addToWishlist(productId: number): Promise<{ success: boolean; message: string }> {
-    return this.request<{ success: boolean; message: string }>(`${API_ENDPOINTS.USER.FAVORITES}`, {
-      method: 'POST',
-      body: JSON.stringify({ product_id: productId }),
-    });
+  async addToWishlist(
+    productId: number
+  ): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(
+      `${API_ENDPOINTS.USER.FAVORITES}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ product_id: productId }),
+      }
+    );
   }
 
-  async removeFromWishlist(productId: string): Promise<{ success: boolean; message: string }> {
-    return this.request<{ success: boolean; message: string }>(`${API_ENDPOINTS.USER.FAVORITES}/${productId}`, {
-      method: 'DELETE',
-    });
+  async removeFromWishlist(
+    productId: string
+  ): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(
+      `${API_ENDPOINTS.USER.FAVORITES}/${productId}`,
+      {
+        method: 'DELETE',
+      }
+    );
   }
 
   // Token management
@@ -835,83 +878,124 @@ class ApiClient {
     phone: string;
     product_id: number;
   }): Promise<{ success: boolean; message: string }> {
-    return this.request<{ success: boolean; message: string }>('/contact_product_requests', {
-      method: 'POST',
-      body: JSON.stringify({
-        contact_product_request: contactData
-      }),
-    });
+    return this.request<{ success: boolean; message: string }>(
+      '/contact_product_requests',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          contact_product_request: contactData,
+        }),
+      }
+    );
   }
 
   // Cart Management
-  async saveCartToDatabase(cartItems: CartItem[]): Promise<{ success: boolean; cart_id: string; message: string }> {
-    return this.request<{ success: boolean; cart_id: string; message: string }>('/carts', {
-      method: 'POST',
-      body: JSON.stringify({
-        cart: {
-          items: cartItems.map(item => ({
-            product_id: item.id,
-            quantity: item.quantity,
-            selected_color: item.selectedColor,
-            // Include payment options
-            full_payment_transfer: item.full_payment_transfer,
-            full_payment_discount_percentage: item.full_payment_discount_percentage,
-            partial_advance_payment: item.partial_advance_payment,
-            advance_payment_percentage: item.advance_payment_percentage,
-            advance_payment_discount_percentage: item.advance_payment_discount_percentage,
-          }))
-        }
-      }),
-    });
+  async saveCartToDatabase(
+    cartItems: CartItem[]
+  ): Promise<{ success: boolean; cart_id: string; message: string }> {
+    return this.request<{ success: boolean; cart_id: string; message: string }>(
+      '/carts',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          cart: {
+            items: cartItems.map((item) => ({
+              product_id: item.id,
+              quantity: item.quantity,
+              selected_color: item.selectedColor,
+              // Include payment options
+              full_payment_transfer: item.full_payment_transfer,
+              full_payment_discount_percentage:
+                item.full_payment_discount_percentage,
+              partial_advance_payment: item.partial_advance_payment,
+              advance_payment_percentage: item.advance_payment_percentage,
+              advance_payment_discount_percentage:
+                item.advance_payment_discount_percentage,
+            })),
+          },
+        }),
+      }
+    );
   }
 
-  async getCartFromDatabase(cartId: string): Promise<{ success: boolean; data: CartData }> {
-    return this.request<{ success: boolean; data: CartData }>(`/carts/${cartId}`);
+  async getCartFromDatabase(
+    cartId: string
+  ): Promise<{ success: boolean; data: CartData }> {
+    return this.request<{ success: boolean; data: CartData }>(
+      `/carts/${cartId}`
+    );
   }
 
-  async updateCartInDatabase(cartId: string, cartItems: CartItem[]): Promise<{ success: boolean; message: string }> {
-    return this.request<{ success: boolean; message: string }>(`/carts/${cartId}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        cart: {
-          items: cartItems.map(item => ({
-            product_id: item.id,
-            quantity: item.quantity,
-            selected_color: item.selectedColor,
-            // Include payment options
-            full_payment_transfer: item.full_payment_transfer,
-            full_payment_discount_percentage: item.full_payment_discount_percentage,
-            partial_advance_payment: item.partial_advance_payment,
-            advance_payment_percentage: item.advance_payment_percentage,
-            advance_payment_discount_percentage: item.advance_payment_discount_percentage,
-          }))
-        }
-      }),
-    });
+  async updateCartInDatabase(
+    cartId: string,
+    cartItems: CartItem[]
+  ): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(
+      `/carts/${cartId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({
+          cart: {
+            items: cartItems.map((item) => ({
+              product_id: item.id,
+              quantity: item.quantity,
+              selected_color: item.selectedColor,
+              // Include payment options
+              full_payment_transfer: item.full_payment_transfer,
+              full_payment_discount_percentage:
+                item.full_payment_discount_percentage,
+              partial_advance_payment: item.partial_advance_payment,
+              advance_payment_percentage: item.advance_payment_percentage,
+              advance_payment_discount_percentage:
+                item.advance_payment_discount_percentage,
+            })),
+          },
+        }),
+      }
+    );
   }
 
   // Order Management
-  async createOrderFromCart(cartId: string, orderData: CreateOrderRequest): Promise<{ success: boolean; order_id: string; order_number: string; message: string }> {
-    return this.request<{ success: boolean; order_id: string; order_number: string; message: string }>('/orders', {
+  async createOrderFromCart(
+    cartId: string,
+    orderData: CreateOrderRequest
+  ): Promise<{
+    success: boolean;
+    order_id: string;
+    order_number: string;
+    message: string;
+  }> {
+    return this.request<{
+      success: boolean;
+      order_id: string;
+      order_number: string;
+      message: string;
+    }>('/orders', {
       method: 'POST',
       body: JSON.stringify({
         order: {
           cart_id: cartId,
-          ...orderData
-        }
+          ...orderData,
+        },
       }),
     });
   }
 
-  async getOrderForCheckout(orderId: string): Promise<{ success: boolean; data: CheckoutOrderData }> {
-    return this.request<{ success: boolean; data: CheckoutOrderData }>(`/orders/${orderId}/checkout`);
+  async getOrderForCheckout(
+    orderId: string
+  ): Promise<{ success: boolean; data: CheckoutOrderData }> {
+    return this.request<{ success: boolean; data: CheckoutOrderData }>(
+      `/orders/${orderId}/checkout`
+    );
   }
 
   // Address Management Methods
   async getProvinces(): Promise<Province[]> {
-    const response = await this.request<{ data: any[] }>(API_ENDPOINTS.ADDRESSES.PROVINCES);
+    const response = await this.request<{ data: any[] }>(
+      API_ENDPOINTS.ADDRESSES.PROVINCES
+    );
     // Transform JSON API format to simple objects and normalize field names
-    return response.data.map(item => ({
+    return response.data.map((item) => ({
       ...item.attributes,
       id: item.id,
       // Add normalized field names for easier access
@@ -921,14 +1005,16 @@ class ApiClient {
       code_name: item.attributes['code-name'],
       type_en: item.attributes['type-en'],
       is_municipality: item.attributes['is-municipality'],
-      wards_count: item.attributes['wards-count']
+      wards_count: item.attributes['wards-count'],
     }));
   }
 
   async getWards(provinceCode: string): Promise<Ward[]> {
-    const response = await this.request<{ data: any[] }>(`${API_ENDPOINTS.ADDRESSES.WARDS}?province_code=${provinceCode}`);
+    const response = await this.request<{ data: any[] }>(
+      `${API_ENDPOINTS.ADDRESSES.WARDS}?province_code=${provinceCode}`
+    );
     // Transform JSON API format to simple objects and normalize field names
-    return response.data.map(item => ({
+    return response.data.map((item) => ({
       ...item.attributes,
       id: item.id,
       // Add normalized field names for easier access
@@ -939,16 +1025,20 @@ class ApiClient {
       province_code: item.attributes['province-code'],
       administrative_unit_name: item.attributes['administrative-unit-name'],
       province_name: item.attributes['province-name'],
-      display_name: item.attributes['display-name']
+      display_name: item.attributes['display-name'],
     }));
   }
 
   async getAdministrativeUnits(): Promise<AdministrativeUnit[]> {
-    return this.request<AdministrativeUnit[]>(API_ENDPOINTS.ADDRESSES.ADMINISTRATIVE_UNITS);
+    return this.request<AdministrativeUnit[]>(
+      API_ENDPOINTS.ADDRESSES.ADMINISTRATIVE_UNITS
+    );
   }
 
   async searchAddresses(query: string): Promise<AddressSearchResult> {
-    return this.request<AddressSearchResult>(`${API_ENDPOINTS.ADDRESSES.SEARCH}?q=${encodeURIComponent(query)}`);
+    return this.request<AddressSearchResult>(
+      `${API_ENDPOINTS.ADDRESSES.SEARCH}?q=${encodeURIComponent(query)}`
+    );
   }
 
   // Product Videos

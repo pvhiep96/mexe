@@ -9,7 +9,7 @@ import { useRouter } from '@/i18n/navigation';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import { api } from '@/config/api';
 import CheckoutAddressSelector from './CheckoutAddressSelector';
-import { getAuthHeader } from '../services/api';
+import { apiClient } from '@/services/api';
 
 interface Product {
   id: string | number;
@@ -61,6 +61,8 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
   const t = useTranslations('checkout');
   const router = useRouter();
   const { showTooltip } = useFlashTooltip();
+
+  const token = apiClient.getToken();
 
   // State to track selected payment method for each product
   // Key: product ID, Value: 'full' | 'partial' | 'regular'
@@ -333,10 +335,10 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       };
 
       // Gọi trực tiếp đến backend Rails API
-      const authHeader = getAuthHeader(); // Retrieve the auth header
+      const authHeader = token; // Retrieve the auth header
       const headers = {
         'Content-Type': 'application/json', // Add Content-Type header
-        ...(authHeader ? { Authorization: authHeader } : {}), // Add auth header if it exists
+        ...(authHeader ? { Authorization: `Bearer ${authHeader}` } : {}), // Add auth header if it exists
       };
 
       const orderResponse = await fetch(
@@ -522,99 +524,6 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                         </p>
 
                         {/* Payment options selection for products with multiple options */}
-                        {(item.full_payment_transfer ||
-                          false ||
-                          item.partial_advance_payment ||
-                          false) && (
-                          <div className='mb-4 rounded-lg border border-purple-200 bg-purple-50 p-3'>
-                            <h5 className='mb-2 font-medium text-purple-800'>
-                              ⚡ Chọn phương thức thanh toán cho sản phẩm này:
-                            </h5>
-                            <div className='space-y-2'>
-                              {/* Regular payment option */}
-                              <label className='flex cursor-pointer items-center space-x-2'>
-                                <input
-                                  type='radio'
-                                  name={`payment-${item.id}`}
-                                  value='regular'
-                                  checked={
-                                    selectedPaymentMethods[String(item.id)] ===
-                                      'regular' ||
-                                    !selectedPaymentMethods[String(item.id)]
-                                  }
-                                  onChange={() =>
-                                    setSelectedPaymentMethods((prev) => ({
-                                      ...prev,
-                                      [String(item.id)]: 'regular',
-                                    }))
-                                  }
-                                  className='text-purple-600'
-                                />
-                                <span className='text-sm text-purple-700'>
-                                  💳 Thanh toán thông thường
-                                </span>
-                              </label>
-
-                              {/* Full payment option */}
-                              {(item.full_payment_transfer || false) && (
-                                <label className='flex cursor-pointer items-center space-x-2'>
-                                  <input
-                                    type='radio'
-                                    name={`payment-${item.id}`}
-                                    value='full'
-                                    checked={
-                                      selectedPaymentMethods[
-                                        String(item.id)
-                                      ] === 'full'
-                                    }
-                                    onChange={() =>
-                                      setSelectedPaymentMethods((prev) => ({
-                                        ...prev,
-                                        [String(item.id)]: 'full',
-                                      }))
-                                    }
-                                    className='text-purple-600'
-                                  />
-                                  <span className='text-sm text-purple-700'>
-                                    💰 Chuyển khoản toàn bộ (
-                                    {item.full_payment_discount_percentage || 0}
-                                    % giảm)
-                                  </span>
-                                </label>
-                              )}
-
-                              {/* Partial advance option */}
-                              {(item.partial_advance_payment || false) && (
-                                <label className='flex cursor-pointer items-center space-x-2'>
-                                  <input
-                                    type='radio'
-                                    name={`payment-${item.id}`}
-                                    value='partial'
-                                    checked={
-                                      selectedPaymentMethods[
-                                        String(item.id)
-                                      ] === 'partial'
-                                    }
-                                    onChange={() =>
-                                      setSelectedPaymentMethods((prev) => ({
-                                        ...prev,
-                                        [String(item.id)]: 'partial',
-                                      }))
-                                    }
-                                    className='text-purple-600'
-                                  />
-                                  <span className='text-sm text-purple-700'>
-                                    📊 Chuyển trước{' '}
-                                    {item.advance_payment_percentage || 0}% (
-                                    {item.advance_payment_discount_percentage ||
-                                      0}
-                                    % giảm)
-                                  </span>
-                                </label>
-                              )}
-                            </div>
-                          </div>
-                        )}
 
                         {/* Loại 1: Chuyển khoản toàn bộ */}
                         {/* {payment.type === 'full_payment' && (

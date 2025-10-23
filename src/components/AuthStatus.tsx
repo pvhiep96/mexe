@@ -22,7 +22,7 @@ const AuthStatus: React.FC<AuthStatusProps> = ({ showDebug = false }) => {
             const payload = JSON.parse(atob(parts[1]));
             const now = Math.floor(Date.now() / 1000);
             const timeUntilExpiry = payload.exp - now;
-            
+
             setTokenInfo({
               userId: payload.user_id,
               email: payload.email,
@@ -31,7 +31,7 @@ const AuthStatus: React.FC<AuthStatusProps> = ({ showDebug = false }) => {
               timeUntilExpiry,
               hoursUntilExpiry: (timeUntilExpiry / 3600).toFixed(2),
               isExpired: timeUntilExpiry <= 0,
-              tokenLength: token.length
+              tokenLength: token.length,
             });
           }
         } catch (error) {
@@ -54,72 +54,82 @@ const AuthStatus: React.FC<AuthStatusProps> = ({ showDebug = false }) => {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 bg-white border border-gray-300 rounded-lg shadow-lg p-4 max-w-sm z-50">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-semibold text-gray-700">Auth Status</h3>
+    <div className='fixed right-4 bottom-4 z-50 max-w-sm rounded-lg border border-gray-300 bg-white p-4 shadow-lg'>
+      <div className='mb-2 flex items-center justify-between'>
+        <h3 className='text-sm font-semibold text-gray-700'>Auth Status</h3>
         <button
           onClick={() => setLastUpdate(new Date())}
-          className="text-xs text-blue-500 hover:text-blue-700"
+          className='text-xs text-blue-500 hover:text-blue-700'
         >
           Refresh
         </button>
       </div>
-      
-      <div className="space-y-2 text-xs">
-        <div className="flex justify-between">
-          <span className="text-gray-600">Status:</span>
-          <span className={`font-medium ${isAuthenticated ? 'text-green-600' : 'text-red-600'}`}>
-            {isLoading ? 'Loading...' : isAuthenticated ? 'Authenticated' : 'Not Authenticated'}
+
+      <div className='space-y-2 text-xs'>
+        <div className='flex justify-between'>
+          <span className='text-gray-600'>Status:</span>
+          <span
+            className={`font-medium ${isAuthenticated ? 'text-green-600' : 'text-red-600'}`}
+          >
+            {isLoading
+              ? 'Loading...'
+              : isAuthenticated
+                ? 'Authenticated'
+                : 'Not Authenticated'}
           </span>
         </div>
-        
+
         {user && (
-          <div className="flex justify-between">
-            <span className="text-gray-600">User:</span>
-            <span className="font-medium text-gray-800">{user.email}</span>
+          <div className='flex justify-between'>
+            <span className='text-gray-600'>User:</span>
+            <span className='font-medium text-gray-800'>{user.email}</span>
           </div>
         )}
-        
+
         {tokenInfo && !tokenInfo.error && (
           <>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Token:</span>
-              <span className={`font-medium ${tokenInfo.isExpired ? 'text-red-600' : 'text-green-600'}`}>
+            <div className='flex justify-between'>
+              <span className='text-gray-600'>Token:</span>
+              <span
+                className={`font-medium ${tokenInfo.isExpired ? 'text-red-600' : 'text-green-600'}`}
+              >
                 {tokenInfo.isExpired ? 'Expired' : 'Valid'}
               </span>
             </div>
-            
-            <div className="flex justify-between">
-              <span className="text-gray-600">Expires in:</span>
-              <span className={`font-medium ${tokenInfo.timeUntilExpiry < 3600 ? 'text-orange-600' : 'text-gray-800'}`}>
+
+            <div className='flex justify-between'>
+              <span className='text-gray-600'>Expires in:</span>
+              <span
+                className={`font-medium ${tokenInfo.timeUntilExpiry < 3600 ? 'text-orange-600' : 'text-gray-800'}`}
+              >
                 {tokenInfo.hoursUntilExpiry}h
               </span>
             </div>
-            
-            <div className="flex justify-between">
-              <span className="text-gray-600">Issued:</span>
-              <span className="font-medium text-gray-800">
+
+            <div className='flex justify-between'>
+              <span className='text-gray-600'>Issued:</span>
+              <span className='font-medium text-gray-800'>
                 {tokenInfo.issuedAt.toLocaleTimeString()}
               </span>
             </div>
           </>
         )}
-        
-        <div className="flex justify-between">
-          <span className="text-gray-600">Last update:</span>
-          <span className="font-medium text-gray-800">
+
+        <div className='flex justify-between'>
+          <span className='text-gray-600'>Last update:</span>
+          <span className='font-medium text-gray-800'>
             {lastUpdate.toLocaleTimeString()}
           </span>
         </div>
       </div>
-      
-      <div className="mt-3 pt-2 border-t border-gray-200">
+
+      <div className='mt-3 border-t border-gray-200 pt-2'>
         <button
           onClick={() => {
             if (isAuthenticated) {
             }
           }}
-          className="w-full text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+          className='w-full rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600'
         >
           Test API Call
         </button>
