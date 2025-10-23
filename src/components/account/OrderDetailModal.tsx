@@ -136,7 +136,9 @@ export default function OrderDetailModal({
                     className='flex items-center space-x-4 rounded-lg border border-gray-200 p-3'
                   >
                     <img
-                      src={item.product_image}
+                      src={
+                        item.product_image || '/images/placeholder-product.png'
+                      }
                       alt={item.product_name}
                       className='h-16 w-16 rounded object-cover'
                     />
@@ -163,7 +165,7 @@ export default function OrderDetailModal({
 
             {/* Actions */}
             <div className='flex justify-end space-x-3 border-t border-gray-200 pt-4'>
-              <button
+              {/* <button
                 onClick={() => {
                   window.open(`/order-status/${order.id}`, '_blank');
                   onClose();
@@ -171,7 +173,7 @@ export default function OrderDetailModal({
                 className='rounded-lg bg-[#2D6294] px-6 py-2 text-white transition-colors hover:bg-[#2D6294]/90'
               >
                 Xem chi tiết đầy đủ
-              </button>
+              </button> */}
               <button
                 onClick={onClose}
                 className='rounded-lg border border-gray-300 px-6 py-2 text-gray-700 transition-colors hover:bg-gray-50'
