@@ -9,6 +9,7 @@ import { useRouter } from '@/i18n/navigation';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
 import { api } from '@/config/api';
 import CheckoutAddressSelector from './CheckoutAddressSelector';
+import { getAuthHeader } from '../services/api';
 
 interface Product {
   id: string | number;
@@ -332,14 +333,18 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       };
 
       // Gọi trực tiếp đến backend Rails API
+      const authHeader = getAuthHeader(); // Retrieve the auth header
+      const headers = {
+        'Content-Type': 'application/json', // Add Content-Type header
+        ...(authHeader ? { Authorization: authHeader } : {}), // Add auth header if it exists
+      };
+
       const orderResponse = await fetch(
         'https://admin.mexestore.vn/api/v1/orders',
         // 'http://localhost:3005/api/v1/orders',
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers,
           body: JSON.stringify(orderData),
         }
       );
