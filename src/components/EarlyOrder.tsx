@@ -528,15 +528,6 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
                     )}
                   </div>
                   <button
-                    onClick={() => {
-                      // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
-                      alert('Đặt hàng thành công!');
-                    }}
-                    className='mt-1 rounded-full bg-[#0A115F] px-2 py-1 text-xs font-bold text-white'
-                  >
-                    MUA NGAY
-                  </button>
-                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       // Thêm vào giỏ hàng
@@ -555,10 +546,9 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
                       }, 1);
                       showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
                     }}
-                    className='mt-1 rounded-full bg-blue-600 px-2 py-1 text-xs font-bold text-white flex items-center gap-1'
+                    className='mt-1 rounded-full bg-red-500 px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-red-600'
                   >
-                    <ShoppingCartIcon className='h-3 w-3' />
-                    Thêm giỏ hàng
+                    Thêm vào giỏ hàng
                   </button>
                 </div>
               ))}

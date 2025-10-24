@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
+import { useCart } from '@/context/CartContext';
 import Link from 'next/link';
 import { Product } from '@/services/api';
 
@@ -50,10 +51,19 @@ const convertApiProductToBrandProduct = (apiProduct: Product, index: number): Br
 function BrandProductCard({ product }: BrandProductCardProps) {
   const t = useTranslations('new_brands');
   const { showTooltip } = useFlashTooltip();
+  const { addToCart } = useCart();
 
-  const handleBuyNow = () => {
-    // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
-    showTooltip('Đặt hàng thành công!', 'success');
+  const handleAddToCart = () => {
+    const productToAdd = {
+      id: product.id,
+      name: product.name,
+      price: parseFloat(product.discountedPrice.replace(/[₫,]/g, '')) || 0,
+      image: product.image,
+      quantity: 1,
+    };
+    
+    addToCart(productToAdd, 1);
+    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
 
   return (
@@ -118,11 +128,11 @@ function BrandProductCard({ product }: BrandProductCardProps) {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleBuyNow();
+              handleAddToCart();
             }}
             className='flex-1 rounded-full bg-[#0A115F] px-3 py-1.5 text-xs font-semibold text-white transition hover:cursor-pointer hover:bg-[#0e1a8a]'
           >
-            {t('buy_now')}
+            Thêm vào giỏ
           </button>
         </div>
       </div>

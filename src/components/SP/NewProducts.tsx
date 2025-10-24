@@ -2,9 +2,13 @@
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { useCart } from '@/context/CartContext';
+import { useFlashTooltip } from '@/context/FlashTooltipContext';
 
 export default function SPNewProducts() {
   const t = useTranslations('new_products');
+  const { addToCart } = useCart();
+  const { showTooltip } = useFlashTooltip();
 
   const products = [
     {
@@ -44,17 +48,25 @@ export default function SPNewProducts() {
                 <p className='text-xs'>{t('product_info')}</p>
                 <p className='text-xs'>{product.description}</p>
                 <p className='text-xs'>{product.launch}</p>
-                <a
-                  href='#'
+                <button
                   onClick={(e) => {
                     e.preventDefault();
-                    // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
-                    alert('Đặt hàng thành công!');
+                    // Tạo mock product data để thêm vào giỏ hàng
+                    const productToAdd = {
+                      id: Math.random(), // Mock ID
+                      name: product.name,
+                      price: 100000, // Mock price
+                      image: product.image,
+                      quantity: 1,
+                    };
+                    
+                    addToCart(productToAdd, 1);
+                    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
                   }}
-                  className='mt-2 inline-block rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-700'
+                  className='mt-2 inline-block rounded bg-red-500 px-2 py-1 text-sm text-white hover:bg-red-600 transition-colors'
                 >
-                  {t('buy_now')}
-                </a>
+                  Thêm vào giỏ hàng
+                </button>
               </div>
             </div>
           ))}

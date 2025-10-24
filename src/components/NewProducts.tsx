@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useFlashTooltip } from '@/context/FlashTooltipContext';
+import { useCart } from '@/context/CartContext';
 import Link from 'next/link';
 
 interface Product {
@@ -85,11 +86,23 @@ interface ProductSlideProps {
 function ProductSlide({ product }: ProductSlideProps) {
   const t = useTranslations('new_products');
   const { showTooltip } = useFlashTooltip();
+  const { addToCart } = useCart();
   const [width, setWidth] = useState(375);
   const maxCharacter = width < 768 ? 60 : 50;
 
-  const handleBuyNow = () => {
-    showTooltip(t('buy_now_success'), 'success');
+  const handleAddToCart = () => {
+    const productToAdd = {
+      id: product.id,
+      name: product.name,
+      price: product.price || 0,
+      image: typeof product.images?.[0] === 'string' 
+        ? product.images[0] 
+        : product.images?.[0]?.image_url || '/images/placeholder-product.png',
+      quantity: 1,
+    };
+    
+    addToCart(productToAdd, 1);
+    showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
   };
 
   useEffect(() => {
@@ -123,10 +136,29 @@ function ProductSlide({ product }: ProductSlideProps) {
     >
       {/* Images */}
       <div
-        className='mr-[5px] grid grid-cols-2 grid-rows-2 gap-0 overflow-hidden'
+        className='mr-[5px] gap-0 overflow-hidden'
         style={{ width: '210px', height: '200px' }}
       >
         <Image
+          src={
+            typeof product.images?.[0] === 'string'
+              ? product.images[0]
+              : product.images?.[0]?.image_url ||
+              '/images/placeholder-product.png'
+          }
+          alt={product.name}
+          width={105}
+          height={100}
+          className='rounded-xl object-contain'
+          style={{
+            objectPosition: 'center',
+            gridRow: '1 / span 1',
+            gridColumn: '1 / span 1',
+            width: '100%',
+            height: '100%',
+          }}
+        />
+        {/* <Image
           src={
             typeof product.images?.[0] === 'string'
               ? product.images[0]
@@ -144,8 +176,8 @@ function ProductSlide({ product }: ProductSlideProps) {
             width: '100%',
             height: '100%',
           }}
-        />
-        <Image
+        /> */}
+        {/* <Image
           src={
             typeof product.images?.[2] === 'string'
               ? product.images[2]
@@ -188,7 +220,7 @@ function ProductSlide({ product }: ProductSlideProps) {
             width: '100%',
             height: '100%',
           }}
-        />
+        /> */}
       </div>
 
       {/* Info */}
@@ -211,11 +243,11 @@ function ProductSlide({ product }: ProductSlideProps) {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleBuyNow();
+              handleAddToCart();
             }}
-            className='mt-2 w-[120px] rounded-full bg-red-500 px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-red-600 sm:text-xs'
+            className='mt-2 w-[120px] rounded-full bg-[#0A115F] px-4 py-1.5 text-[10px] font-semibold text-white transition-colors hover:cursor-pointer hover:bg-[#0e1a8a] sm:text-xs'
           >
-            {t('buy_now')}
+            Thêm vào giỏ
           </button>
         </div>
       </div>
@@ -228,6 +260,8 @@ interface NewProductsProps {
 }
 export default function NewProducts({ products }: NewProductsProps) {
   const t = useTranslations('new_products');
+  const { addToCart } = useCart();
+  const { showTooltip } = useFlashTooltip();
   const [slider, setSlider] = useState(0);
   const [mounted, setMounted] = useState(false);
   const visible = 3; // Số sản phẩm hiển thị cùng lúc
@@ -509,12 +543,22 @@ export default function NewProducts({ products }: NewProductsProps) {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      // Chỉ hiển thị thông báo đơn giản, không thêm vào giỏ hàng
-                      alert('Đặt hàng thành công!');
+                      const productToAdd = {
+                        id: product.id,
+                        name: product.name,
+                        price: product.price || 0,
+                        image: typeof product.images?.[0] === 'string' 
+                          ? product.images[0] 
+                          : product.images?.[0]?.image_url || '/images/placeholder-product.png',
+                        quantity: 1,
+                      };
+                      
+                      addToCart(productToAdd, 1);
+                      showTooltip('Đã thêm vào giỏ hàng thành công!', 'success');
                     }}
-                    className='rounded-full bg-red-500 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-red-600'
+                    className='rounded-full bg-[#0A115F] px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-[#0e1a8a]'
                   >
-                    {t('buy_now')}
+                    Thêm vào giỏ
                   </button>
                 </div>
               ))}
