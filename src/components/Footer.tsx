@@ -23,11 +23,11 @@ export default function Footer() {
                     Kiểm tra đơn hàng
                   </a>
                 </li>
-                {/* <li>
-                  <a href='#' className='hover:underline'>
-                    {t('policies')}
+                <li>
+                  <a href='/purchase-policy' className='hover:underline'>
+                    Chính sách mua hàng
                   </a>
-                </li> */}
+                </li>
                 {/* <li>
                   <a href='#' className='hover:underline'>
                     {t('salon_terms')}
@@ -95,11 +95,11 @@ export default function Footer() {
                   Kiểm tra đơn hàng
                 </a>
               </li>
-              {/* <li>
-                <a href='#' className='hover:underline'>
-                  {t('policies')}
+              <li>
+                <a href='/purchase-policy' className='hover:underline'>
+                  Chính sách mua hàng
                 </a>
-              </li> */}
+              </li>
               {/* <li>
                 <a href='#' className='hover:underline'>
                   {t('salon_terms')}
