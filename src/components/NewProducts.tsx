@@ -136,10 +136,29 @@ function ProductSlide({ product }: ProductSlideProps) {
     >
       {/* Images */}
       <div
-        className='mr-[5px] grid grid-cols-2 grid-rows-2 gap-0 overflow-hidden'
+        className='mr-[5px] gap-0 overflow-hidden'
         style={{ width: '210px', height: '200px' }}
       >
         <Image
+          src={
+            typeof product.images?.[0] === 'string'
+              ? product.images[0]
+              : product.images?.[0]?.image_url ||
+              '/images/placeholder-product.png'
+          }
+          alt={product.name}
+          width={105}
+          height={100}
+          className='rounded-xl object-contain'
+          style={{
+            objectPosition: 'center',
+            gridRow: '1 / span 1',
+            gridColumn: '1 / span 1',
+            width: '100%',
+            height: '100%',
+          }}
+        />
+        {/* <Image
           src={
             typeof product.images?.[0] === 'string'
               ? product.images[0]
@@ -157,8 +176,8 @@ function ProductSlide({ product }: ProductSlideProps) {
             width: '100%',
             height: '100%',
           }}
-        />
-        <Image
+        /> */}
+        {/* <Image
           src={
             typeof product.images?.[2] === 'string'
               ? product.images[2]
@@ -201,7 +220,7 @@ function ProductSlide({ product }: ProductSlideProps) {
             width: '100%',
             height: '100%',
           }}
-        />
+        /> */}
       </div>
 
       {/* Info */}
