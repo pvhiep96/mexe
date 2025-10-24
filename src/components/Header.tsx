@@ -15,9 +15,9 @@ import { apiClient, type SearchResponse, type Product } from '@/services/api';
 const learnMoreMenu = [
   { label: 'Về Mexe', href: '#' },
   { label: 'Kiểm tra đơn hàng', href: '/order-status' },
-  { label: 'Chính sách bảo hành', href: '#' },
-  { label: 'Chính sách đổi trả', href: '#' },
-  { label: 'Hướng dẫn mua hàng', href: '#' },
+  { label: 'Chính sách bảo hành', href: '/purchase-policy#chinh-sach-bao-hanh' },
+  { label: 'Chính sách đổi trả', href: '/purchase-policy#chinh-sach-doi-tra-hang' },
+  { label: 'Hướng dẫn mua hàng', href: '/purchase-policy#chinh-sach-mua-hang' },
   { label: 'Hệ thống đại lý', href: '#' },
   { label: 'Tuyển dụng', href: '#' },
   { label: 'Liên hệ hỗ trợ', href: '#' },

@@ -7,13 +7,92 @@ export default function PurchasePolicyPage() {
   const t = useTranslations('purchase_policy');
 
   return (
-    <div className='min-h-screen bg-gray-50'>
-      <div className='container mx-auto max-w-4xl px-4 py-8'>
+    <>
+      <style jsx global>{`
+        html {
+          scroll-padding-top: 100px;
+        }
+        
+        .highlight-section {
+          animation: highlightPulse 2s ease-in-out;
+          transform: scale(1.02);
+          transition: all 0.3s ease;
+        }
+
+        @keyframes highlightPulse {
+          0% {
+            box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            background-color: rgba(59, 130, 246, 0.05);
+          }
+          50% {
+            box-shadow: 0 0 0 10px rgba(59, 130, 246, 0.3);
+            background-color: rgba(59, 130, 246, 0.1);
+          }
+          100% {
+            box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            background-color: rgba(59, 130, 246, 0.05);
+          }
+        }
+
+        .section-link {
+          transition: all 0.3s ease;
+        }
+
+        .section-link:hover {
+          transform: translateX(5px);
+          background-color: rgba(59, 130, 246, 0.1);
+        }
+      `}</style>
+      <div className='min-h-screen bg-gray-50'>
+        <div className='container mx-auto max-w-4xl px-4 py-8'>
         {/* Header */}
         <div className='mb-8 rounded-lg bg-white p-8 shadow-md'>
           <h1 className='mb-6 text-center text-3xl font-bold text-gray-900'>
             ĐIỀU KHOẢN & CHÍNH SÁCH MUA HÀNG – TRẢ HÀNG – BẢO HÀNH
           </h1>
+
+          {/* Table of Contents */}
+          <div className='mb-6 rounded-lg bg-gray-50 p-6'>
+            <h2 className='mb-4 text-lg font-semibold text-gray-900'>Mục lục</h2>
+                    <div className='grid grid-cols-1 gap-2 md:grid-cols-2'>
+                      <a
+                        href='#pham-vi-ap-dung'
+                        className='section-link block rounded-md bg-white p-3 text-sm text-blue-600 hover:bg-blue-50 hover:underline'
+                      >
+                        1. Phạm vi áp dụng
+                      </a>
+                      <a
+                        href='#chinh-sach-mua-hang'
+                        className='section-link block rounded-md bg-white p-3 text-sm text-blue-600 hover:bg-blue-50 hover:underline'
+                      >
+                        2. Chính sách mua hàng
+                      </a>
+                      <a
+                        href='#chinh-sach-thanh-toan'
+                        className='section-link block rounded-md bg-white p-3 text-sm text-blue-600 hover:bg-blue-50 hover:underline'
+                      >
+                        3. Chính sách thanh toán
+                      </a>
+                      <a
+                        href='#chinh-sach-doi-tra-hang'
+                        className='section-link block rounded-md bg-white p-3 text-sm text-blue-600 hover:bg-blue-50 hover:underline'
+                      >
+                        4. Chính sách đổi – trả hàng
+                      </a>
+                      <a
+                        href='#chinh-sach-bao-hanh'
+                        className='section-link block rounded-md bg-white p-3 text-sm text-blue-600 hover:bg-blue-50 hover:underline'
+                      >
+                        5. Chính sách bảo hành
+                      </a>
+                      <a
+                        href='#cam-ket-trach-nhiem'
+                        className='section-link block rounded-md bg-white p-3 text-sm text-blue-600 hover:bg-blue-50 hover:underline'
+                      >
+                        6. Cam kết & trách nhiệm
+                      </a>
+                    </div>
+          </div>
 
           <div className='mb-6 border-l-4 border-blue-400 bg-blue-50 p-6'>
             <h2 className='mb-4 text-xl font-semibold text-blue-900'>
@@ -58,7 +137,7 @@ export default function PurchasePolicyPage() {
         {/* Content Sections */}
         <div className='space-y-8'>
           {/* Section 1 */}
-          <div className='rounded-lg bg-white p-8 shadow-md'>
+          <div id='pham-vi-ap-dung' className='rounded-lg bg-white p-8 shadow-md'>
             <h2 className='mb-4 text-2xl font-bold text-gray-900'>
               1. Phạm vi áp dụng
             </h2>
@@ -70,7 +149,7 @@ export default function PurchasePolicyPage() {
           </div>
 
           {/* Section 2 */}
-          <div className='rounded-lg bg-white p-8 shadow-md'>
+          <div id='chinh-sach-mua-hang' className='rounded-lg bg-white p-8 shadow-md'>
             <h2 className='mb-4 text-2xl font-bold text-gray-900'>
               2. Chính sách mua hàng
             </h2>
@@ -116,7 +195,7 @@ export default function PurchasePolicyPage() {
           </div>
 
           {/* Section 3 */}
-          <div className='rounded-lg bg-white p-8 shadow-md'>
+          <div id='chinh-sach-thanh-toan' className='rounded-lg bg-white p-8 shadow-md'>
             <h2 className='mb-4 text-2xl font-bold text-gray-900'>
               3. Chính sách thanh toán
             </h2>
@@ -147,7 +226,7 @@ export default function PurchasePolicyPage() {
           </div>
 
           {/* Section 4 */}
-          <div className='rounded-lg bg-white p-8 shadow-md'>
+          <div id='chinh-sach-doi-tra-hang' className='rounded-lg bg-white p-8 shadow-md'>
             <h2 className='mb-4 text-2xl font-bold text-gray-900'>
               4. Chính sách đổi – trả hàng
             </h2>
@@ -227,7 +306,7 @@ export default function PurchasePolicyPage() {
           </div>
 
           {/* Section 5 */}
-          <div className='rounded-lg bg-white p-8 shadow-md'>
+          <div id='chinh-sach-bao-hanh' className='rounded-lg bg-white p-8 shadow-md'>
             <h2 className='mb-4 text-2xl font-bold text-gray-900'>
               5. Chính sách bảo hành
             </h2>
@@ -291,7 +370,7 @@ export default function PurchasePolicyPage() {
           </div>
 
           {/* Section 6 */}
-          <div className='rounded-lg bg-white p-8 shadow-md'>
+          <div id='cam-ket-trach-nhiem' className='rounded-lg bg-white p-8 shadow-md'>
             <h2 className='mb-4 text-2xl font-bold text-gray-900'>
               6. Cam kết & trách nhiệm
             </h2>
@@ -349,5 +428,6 @@ export default function PurchasePolicyPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

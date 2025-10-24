@@ -14,6 +14,7 @@ import { FlashTooltipProvider } from '@/context/FlashTooltipContext';
 import { AuthProvider } from '@/context/AuthContext';
 import Alert from '@/components/Alert';
 import ScrollToTop from '@/components/ScrollToTop';
+import GlobalScrollHandler from '@/components/GlobalScrollHandler';
 // Import auth debugger in development
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   import('@/utils/authDebugger');
@@ -108,6 +109,7 @@ export default async function RootLayout({
                   <SPHeader />
                 </div>
                 <Alert />
+                <GlobalScrollHandler />
                 {children}
                 <Footer />
                 <ScrollToTop />

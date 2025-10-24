@@ -24,7 +24,7 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href='/purchase-policy' className='hover:underline'>
+                  <a href='/purchase-policy#chinh-sach-mua-hang' className='hover:underline'>
                     Chính sách mua hàng
                   </a>
                 </li>
@@ -96,7 +96,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href='/purchase-policy' className='hover:underline'>
+                <a href='/purchase-policy#chinh-sach-mua-hang' className='hover:underline'>
                   Chính sách mua hàng
                 </a>
               </li>
