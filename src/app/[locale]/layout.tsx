@@ -22,6 +22,28 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   import('@/utils/testReloadFix');
 }
 
+// Fetch categories for headers
+async function fetchCategories() {
+  try {
+    const apiUrl = process.env.API_URL || 'http://localhost:3005/api/v1';
+    const response = await fetch(`${apiUrl}/categories`, {
+      next: { revalidate: 60 }, // Cache for 60 seconds
+    });
+    const categories = await response.json();
+    // Transform to match component interface
+    return categories.map((category: any) => ({
+      id: category.id,
+      name: category.name,
+      slug: category.slug || category.name.toLowerCase().replace(/\s+/g, '-'),
+      image: category.image_url || '/images/icon-more.webp',
+      subcategories: category.subcategories || [],
+    }));
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
+}
+
 export default async function RootLayout({
   children,
   params,
@@ -42,6 +64,9 @@ export default async function RootLayout({
   } catch {
     notFound();
   }
+
+  // Fetch categories for headers
+  const categories = await fetchCategories();
 
   return (
     <html lang={locale}>
@@ -106,7 +131,7 @@ export default async function RootLayout({
                 </div>
                 {/* Mobile Header */}
                 <div className='sticky top-0 z-50 bg-white lg:hidden'>
-                  <SPHeader />
+                  <SPHeader categories={categories} />
                 </div>
                 <Alert />
                 <GlobalScrollHandler />
