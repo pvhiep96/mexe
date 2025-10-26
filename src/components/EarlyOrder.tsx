@@ -385,29 +385,32 @@ export default function EarlyOrder({ earlyOrderProducts }: EarlyOrderProps) {
                                   {getTagText(activeTab)}
                                 </div>
 
-                                <div className='mb-1 text-base font-bold text-white'>
-                                  {product.name}
-                                </div>
+                                {/* Wrapper với background màu xám mờ */}
+                                <div className='rounded p-3' style={{ backgroundColor: 'rgba(128, 128, 128, 0.5)' }}>
+                                  <div className='mb-2 h-12 text-base font-bold text-white line-clamp-2'>
+                                    {product.name}
+                                  </div>
 
-                                {/* Số lượng đã đặt */}
-                                <div className='mb-1 text-sm text-white'>
-                                  Số lượng đã đặt:{' '}
-                                  <span className='font-bold'>
-                                    {product.ordered}/{product.total}
-                                  </span>
-                                </div>
+                                  {/* Số lượng đã đặt */}
+                                  <div className='mb-1 text-sm text-white'>
+                                    Số lượng đã đặt:{' '}
+                                    <span className='font-bold'>
+                                      {product.ordered}/{product.total}
+                                    </span>
+                                  </div>
 
-                                {/* Progress bar */}
-                                <div className='bg-opacity-30 mb-1 h-2 w-full overflow-hidden rounded bg-white'>
-                                  <div
-                                    className={`${product.badgeColor.replace('bg-', 'bg-opacity-70 bg-')} h-2 rounded`}
-                                    style={{ width: `${product.percent}%` }}
-                                  ></div>
-                                </div>
+                                  {/* Progress bar */}
+                                  <div className='bg-opacity-30 mb-1 h-2 w-full overflow-hidden rounded bg-white'>
+                                    <div
+                                      className={`${product.badgeColor.replace('bg-', 'bg-opacity-70 bg-')} h-2 rounded`}
+                                      style={{ width: `${product.percent}%` }}
+                                    ></div>
+                                  </div>
 
-                                {/* Ngày kết thúc */}
-                                <div className='text-xs text-white'>
-                                  {getEndText(product, activeTab, idx)}
+                                  {/* Ngày kết thúc */}
+                                  <div className='text-xs text-white'>
+                                    {getEndText(product, activeTab, idx)}
+                                  </div>
                                 </div>
                               </div>
                             </div>

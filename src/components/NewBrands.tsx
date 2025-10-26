@@ -91,24 +91,24 @@ function BrandProductCard({ product }: BrandProductCardProps) {
           alt={product.name}
           width={280}
           height={224}
-          className='h-full w-full'
+          className='h-full w-full object-cover'
         />
       </div>
 
       {/* Nội dung sản phẩm - chiều cao điều chỉnh */}
       <div className='flex h-[170px] flex-col justify-between p-3'>
-        <div className='flex-1'>
-          <h3 className='line-clamp-2 text-sm font-semibold text-gray-900 sm:text-base'>
+        <div>
+          <h3 className='h-12 line-clamp-2 text-sm font-semibold text-gray-900 sm:text-base'>
             {product.name}
           </h3>
-          <div className='mt-2 flex items-center gap-2'>
+          {/* <div className='mt-2 flex items-center gap-2'>
             <span className='text-sm text-gray-500 line-through'>
               {product.originalPrice}
-            </span>
-          </div>
-          <div className='mt-1 flex items-center gap-2'>
+            </span>CÙNG MEXE ĐẶT HÀNG VỀ TAY SỚM NHẤT
+          </div> */}
+          <div className='mt-2 flex items-center gap-2'>
             <span className='text-lg font-bold text-red-600'>
-              {product.discountedPrice}
+              {product.originalPrice}
             </span>
             <span className='rounded bg-red-600 px-2 py-0.5 text-xs font-semibold text-white'>
               {product.discount}

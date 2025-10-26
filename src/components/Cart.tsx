@@ -326,10 +326,10 @@ export default function Cart() {
                 <button
                   onClick={handleProceedToCheckout}
                   disabled={isCreatingOrder}
-                  className={`flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-gray-900 transition sm:text-base ${
+                  className={`flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white transition sm:text-base ${
                     isCreatingOrder 
                       ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-yellow-300 hover:bg-yellow-400 cursor-pointer'
+                      : 'bg-[#0A115F] hover:bg-[#0e1a8a] cursor-pointer'
                   }`}
                 >
                   <CreditCardIcon className='mr-2 h-5 w-5' />
@@ -355,10 +355,10 @@ export default function Cart() {
                 <button
                   onClick={handleProceedToCheckout}
                   disabled={isCreatingOrder}
-                  className={`flex items-center rounded-full px-4 py-2 text-sm font-semibold text-gray-900 transition ${
+                  className={`flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white transition ${
                     isCreatingOrder 
                       ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-yellow-300 hover:bg-yellow-400 cursor-pointer'
+                      : 'bg-[#0A115F] hover:bg-[#0e1a8a] cursor-pointer'
                   }`}
                 >
                   <CreditCardIcon className='mr-2 h-5 w-5' />
@@ -367,10 +367,10 @@ export default function Cart() {
                 <button
                   onClick={handleProceedToCheckout}
                   disabled={isCreatingOrder}
-                  className={`flex items-center rounded-full px-4 py-2 text-sm font-semibold text-gray-900 transition ${
+                  className={`flex items-center rounded-full px-4 py-2 text-sm font-semibold text-white transition ${
                     isCreatingOrder 
                       ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-yellow-300 hover:bg-yellow-400 cursor-pointer'
+                      : 'bg-[#0A115F] hover:bg-[#0e1a8a] cursor-pointer'
                   }`}
                 >
                   <GiftIcon className='mr-2 h-5 w-5' />

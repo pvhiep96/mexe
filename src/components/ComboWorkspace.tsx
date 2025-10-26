@@ -70,14 +70,14 @@ function ComboCard({ combo }: ComboCardProps) {
         <div className='mb-1 line-clamp-2 text-sm font-semibold text-white'>
           {combo.name}
         </div>
-        <div className='mt-2 flex items-center gap-2'>
+        {/* <div className='mt-2 flex items-center gap-2'>
           <span className='text-sm text-gray-300 line-through'>
             {combo.originalPrice}
           </span>
-        </div>
+        </div> */}
         <div className='mt-1 flex items-center gap-2'>
           <span className='text-lg font-bold text-white'>
-            {combo.discountedPrice}
+            {combo.originalPrice}
           </span>
           <span className='rounded bg-red-600 px-2 py-0.5 text-xs font-semibold text-white'>
             {combo.discount}
