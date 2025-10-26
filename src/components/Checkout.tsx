@@ -691,8 +691,8 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                   setValue('deliveryType', 'store');
                 }}
               >
-                <BuildingStorefrontIcon className='mr-2 inline-block size-5' />
-                {t('delivery_info.store')}
+                {/* <BuildingStorefrontIcon className='mr-2 inline-block size-5' />
+                {t('delivery_info.store')} */}
               </button>
             </div>
 
@@ -800,9 +800,9 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                   />
                 </div>
                 <div>
-                  <label className='mb-1 block text-sm font-medium'>
+                  {/* <label className='mb-1 block text-sm font-medium'>
                     {t('delivery_info.store')}
-                  </label>
+                  </label> */}
                   <Controller
                     name='store'
                     control={control}
