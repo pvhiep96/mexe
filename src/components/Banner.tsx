@@ -92,25 +92,25 @@ export default function Banner({ categories: defaultCategories }: BannerProps) {
           }))
         : undefined,
     })),
-    {
-      icon: '/images/icon-more.webp',
-      label: 'Thương hiệu đối tác',
-      href: '/',
-      submenu: [
-        { label: 'Toyota', href: '/products?brand=toyota' },
-        { label: 'Honda', href: '/products?brand=honda' },
-        { label: 'Thaco', href: '/products?brand=thaco' },
-        { label: 'Vinfast', href: '/products?brand=vinfast' },
-        { label: 'Tmas', href: '/products?brand=tmas' },
-        { label: 'Icar', href: '/products?brand=icar' },
-        { label: 'Aozoom', href: '/products?brand=aozoom' },
-        { label: 'Auto365', href: '/products?brand=auto365' },
-        { label: 'Chicco', href: '/products?brand=chicco' },
-        { label: 'Vinaquick', href: '/products?brand=vinaquick' },
-        { label: 'Setcar', href: '/products?brand=setcar' },
-        { label: 'Vietmap', href: '/products?brand=vietmap' },
-      ],
-    },
+    // {
+    //   icon: '/images/icon-more.webp',
+    //   label: 'Thương hiệu đối tác',
+    //   href: '/',
+    //   submenu: [
+    //     { label: 'Toyota', href: '/products?brand=toyota' },
+    //     { label: 'Honda', href: '/products?brand=honda' },
+    //     { label: 'Thaco', href: '/products?brand=thaco' },
+    //     { label: 'Vinfast', href: '/products?brand=vinfast' },
+    //     { label: 'Tmas', href: '/products?brand=tmas' },
+    //     { label: 'Icar', href: '/products?brand=icar' },
+    //     { label: 'Aozoom', href: '/products?brand=aozoom' },
+    //     { label: 'Auto365', href: '/products?brand=auto365' },
+    //     { label: 'Chicco', href: '/products?brand=chicco' },
+    //     { label: 'Vinaquick', href: '/products?brand=vinaquick' },
+    //     { label: 'Setcar', href: '/products?brand=setcar' },
+    //     { label: 'Vietmap', href: '/products?brand=vietmap' },
+    //   ],
+    // },
   ];
 
   const vendors = [

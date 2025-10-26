@@ -12,8 +12,13 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
+import { Category } from '../../../api';
 
-export default function SPHeader() {
+interface SPHeaderProps {
+  categories?: Category[];
+}
+
+export default function SPHeader({ categories = [] }: SPHeaderProps) {
   const t = useTranslations('header');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { order } = useCart();
@@ -30,17 +35,6 @@ export default function SPHeader() {
       document.body.style.overflow = '';
     };
   }, [isMenuOpen]);
-
-  const exploreThemes = [
-    'Tất cả sản phẩm',
-    'Thương hiệu đối tác',
-    'Phụ kiện nội/ngoại thất',
-    'Ứng dụng/định vị',
-    'Đồ chơi xe',
-    'Camping',
-    'Thiết bị an toàn',
-    'Pin - sạc – xe điện',
-  ];
 
 
 
@@ -174,14 +168,26 @@ export default function SPHeader() {
                     <div className='space-y-3 pl-4'>
                       <div className='border-l-2 border-gray-200 pl-4'>
                         <ul className='space-y-2'>
-                          {exploreThemes.map((theme) => (
-                            <li key={theme}>
+                          {/* Tất cả sản phẩm */}
+                          <li>
+                            <Link
+                              href='/products'
+                              className='block py-2 text-sm text-gray-600 hover:text-blue-600'
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              Tất cả sản phẩm
+                            </Link>
+                          </li>
+                          
+                          {/* Dynamic categories from API */}
+                          {categories.map((category) => (
+                            <li key={category.id}>
                               <Link
-                                href='#'
+                                href={`/products?category=${category.slug || category.id}`}
                                 className='block py-2 text-sm text-gray-600 hover:text-blue-600'
                                 onClick={() => setIsMenuOpen(false)}
                               >
-                                {theme}
+                                {category.name}
                               </Link>
                             </li>
                           ))}
