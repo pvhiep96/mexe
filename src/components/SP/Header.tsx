@@ -30,13 +30,11 @@ export default function SPHeader({ categories = [] }: SPHeaderProps) {
     } else {
       document.body.style.overflow = '';
     }
-    
+
     return () => {
       document.body.style.overflow = '';
     };
   }, [isMenuOpen]);
-
-
 
   return (
     <header className='text-primary sticky top-0 z-50 w-full border-b border-gray-100 bg-white shadow-sm'>
@@ -89,23 +87,26 @@ export default function SPHeader({ categories = [] }: SPHeaderProps) {
         {isMenuOpen && (
           <>
             {/* Overlay */}
-            <div 
-              className='fixed inset-0 bg-black/50 z-40'
+            <div
+              className='fixed inset-0 z-40 bg-black/50'
               onClick={() => setIsMenuOpen(false)}
             />
-            
+
             {/* Menu Container */}
-            <div className='fixed inset-0 z-50 bg-white'>
+            <div
+              className='fixed inset-0 z-50 overflow-y-auto bg-white'
+              data-menu-open={isMenuOpen}
+            >
               {/* Header */}
-              <div className='flex items-center justify-between px-4 py-3 border-b border-gray-200'>
+              <div className='flex items-center justify-between border-b border-gray-200 px-4 py-3'>
                 <button
                   onClick={() => setIsMenuOpen(false)}
                   className='p-2 text-gray-600 hover:text-gray-900'
                 >
                   <XMarkIcon className='h-6 w-6' />
                 </button>
-                
-                <div className='flex-1 flex justify-center'>
+
+                <div className='flex flex-1 justify-center'>
                   <Image
                     src='/images/logo-mexe.png'
                     alt='Mexe Logo'
@@ -114,7 +115,7 @@ export default function SPHeader({ categories = [] }: SPHeaderProps) {
                     className='h-8 w-auto'
                   />
                 </div>
-                
+
                 <div className='flex items-center space-x-3'>
                   <Link
                     href='/cart'
@@ -155,14 +156,14 @@ export default function SPHeader({ categories = [] }: SPHeaderProps) {
                 <nav className='space-y-4'>
                   <Link
                     href='/'
-                    className='block py-3 text-gray-700 hover:text-blue-600 text-base'
+                    className='block py-3 text-base text-gray-700 hover:text-blue-600'
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {t('home')}
                   </Link>
 
                   <div className='space-y-3'>
-                    <span className='block py-2 font-semibold text-gray-900 text-base'>
+                    <span className='block py-2 text-base font-semibold text-gray-900'>
                       {t('explore')}
                     </span>
                     <div className='space-y-3 pl-4'>
@@ -178,7 +179,7 @@ export default function SPHeader({ categories = [] }: SPHeaderProps) {
                               Tất cả sản phẩm
                             </Link>
                           </li>
-                          
+
                           {/* Dynamic categories from API */}
                           {categories.map((category) => (
                             <li key={category.id}>
@@ -193,14 +194,12 @@ export default function SPHeader({ categories = [] }: SPHeaderProps) {
                           ))}
                         </ul>
                       </div>
-
-
                     </div>
                   </div>
 
                   <Link
                     href='/about'
-                    className='block py-3 text-gray-700 hover:text-blue-600 text-base'
+                    className='block py-3 text-base text-gray-700 hover:text-blue-600'
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {t('learn_more')}
@@ -208,7 +207,7 @@ export default function SPHeader({ categories = [] }: SPHeaderProps) {
 
                   <Link
                     href='/articles'
-                    className='block py-3 text-gray-700 hover:text-blue-600 text-base'
+                    className='block py-3 text-base text-gray-700 hover:text-blue-600'
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {t('news')}
