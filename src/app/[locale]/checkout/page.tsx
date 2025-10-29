@@ -13,6 +13,12 @@ interface OrderItem {
   quantity: number;
   selectedColor?: string;
   image: string;
+  // Variant information
+  variant_id?: number;
+  variant_name?: string;
+  variant_value?: string;
+  variant_sku?: string;
+  variant_final_price?: number;
   // Payment options
   full_payment_transfer?: boolean;
   full_payment_discount_percentage?: number;
@@ -45,7 +51,9 @@ const CheckoutPage = () => {
         const savedOrder = localStorage.getItem('currentOrder');
 
         if (!savedOrder) {
-          throw new Error('Không tìm thấy đơn hàng trong giỏ hàng');
+          // If no order in localStorage, redirect to cart
+          router.push('/cart');
+          return;
         }
 
         const parsedOrder = JSON.parse(savedOrder);
@@ -62,17 +70,36 @@ const CheckoutPage = () => {
               const response = await apiClient.getProduct(String(item.id));
               const freshProductData = response;
 
+              // If item has a variant, find the fresh variant data
+              let variantFinalPrice = item.variant_final_price;
+              if (item.variant_id && freshProductData.variants) {
+                const freshVariant = freshProductData.variants.find(
+                  (v: any) => v.id === item.variant_id
+                );
+                if (freshVariant) {
+                  // Use fresh variant price from database
+                  variantFinalPrice = freshVariant.final_price;
+                }
+              }
+
               // Merge fresh data from DB with user selections from localStorage
               const enhancedItem: OrderItem = {
                 id: item.id,
                 name: freshProductData.name, // Fresh name from DB
-                price: parseFloat(freshProductData.price), // Fresh price from DB
+                price: parseFloat(freshProductData.price), // Fresh base price from DB
                 quantity: item.quantity, // Keep user selected quantity
                 selectedColor: item.selectedColor, // Keep user selected color
                 image:
                   freshProductData.primary_image_url ||
                   freshProductData.images?.[0]?.image_url ||
                   item.image, // Fresh image from DB
+
+                // Keep variant information from cart
+                variant_id: item.variant_id,
+                variant_name: item.variant_name,
+                variant_value: item.variant_value,
+                variant_sku: item.variant_sku,
+                variant_final_price: variantFinalPrice, // Fresh variant price from DB
 
                 // Fresh payment options from DB
                 full_payment_transfer:
@@ -106,9 +133,10 @@ const CheckoutPage = () => {
           })
         );
 
-        // Calculate total with fresh prices
+        // Calculate total with fresh prices (use variant price if available)
         const freshTotal = enhancedItems.reduce((sum, item) => {
-          return sum + item.price * item.quantity;
+          const itemPrice = item.variant_final_price || item.price;
+          return sum + itemPrice * item.quantity;
         }, 0);
 
         // Create enhanced order with fresh data

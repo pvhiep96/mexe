@@ -19,6 +19,12 @@ interface Product {
   image: string;
   quantity: number;
   selectedColor?: string;
+  // Variant information
+  variant_id?: number;
+  variant_name?: string;
+  variant_value?: string;
+  variant_sku?: string;
+  variant_final_price?: number;
   // Payment options from API
   full_payment_transfer?: boolean;
   full_payment_discount_percentage?: number;
@@ -87,7 +93,9 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
   // Calculate payment amounts for a product based on user selection
   const calculateProductPayment = (product: Product) => {
-    const originalPrice = (product.price || 0) * (product.quantity || 0);
+    // Use variant price if available, otherwise use base price
+    const unitPrice = product.variant_final_price || product.price || 0;
+    const originalPrice = unitPrice * (product.quantity || 0);
     const selectedMethod =
       selectedPaymentMethods[String(product.id)] || 'regular';
 
@@ -95,7 +103,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     if (selectedMethod === 'full' && (product.full_payment_transfer || false)) {
       const discountPercentage = product.full_payment_discount_percentage || 0;
       const discountedPrice =
-        (product.price || 0) * (1 - discountPercentage / 100);
+        unitPrice * (1 - discountPercentage / 100);
       const totalPrice = discountedPrice * (product.quantity || 0);
       const discount = (originalPrice || 0) - totalPrice;
 
@@ -322,7 +330,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
           order_items: order.items.map((item) => ({
             product_id: item.id,
             quantity: item.quantity,
-            variant_id: item.selectedColor || null,
+            variant_id: item.variant_id || null,
             full_payment_transfer: item.full_payment_transfer,
             full_payment_discount_percentage:
               item.full_payment_discount_percentage,
@@ -342,8 +350,8 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       };
 
       const orderResponse = await fetch(
-        'https://admin.mexestore.vn/api/v1/orders',
         // 'http://localhost:3005/api/v1/orders',
+        'http://localhost:3005/api/v1/orders',
         {
           method: 'POST',
           headers,
@@ -518,9 +526,15 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                         <h4 className='font-medium text-gray-900'>
                           {item.name}
                         </h4>
+                        {item.variant_name && item.variant_value && (
+                          <p className='text-sm text-gray-600'>
+                            {item.variant_name}: <span className='font-medium'>{item.variant_value}</span>
+                            {item.variant_sku && <span className='text-gray-400 ml-2'>({item.variant_sku})</span>}
+                          </p>
+                        )}
                         <p className='mb-3 text-sm text-gray-600'>
                           Số lượng: {item.quantity} | Giá gốc:{' '}
-                          {formatPrice(item.price)} x {item.quantity}
+                          {formatPrice(item.variant_final_price || item.price)} x {item.quantity}
                         </p>
 
                         {/* Payment options selection for products with multiple options */}
@@ -1100,11 +1114,17 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
                       />
                       <div className='grow'>
                         <p className='font-medium'>{item.name}</p>
+                        {item.variant_name && item.variant_value && (
+                          <p className='text-sm text-gray-600'>
+                            {item.variant_name}: <span className='font-medium'>{item.variant_value}</span>
+                            {item.variant_sku && <span className='text-gray-400 ml-2'>({item.variant_sku})</span>}
+                          </p>
+                        )}
                         <p className='text-sm text-gray-600'>
                           Số lượng: {item.quantity}
                         </p>
                         <p className='text-sm'>
-                          Giá gốc: {item.quantity} x {formatPrice(item.price)}
+                          Giá gốc: {item.quantity} x {formatPrice(item.variant_final_price || item.price)}
                         </p>
 
                         {/* Payment option display */}

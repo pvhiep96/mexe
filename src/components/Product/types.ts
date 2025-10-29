@@ -10,6 +10,17 @@ export type ProductVideoType = {
   youtube_video_id: string;
 };
 
+export type ProductVariant = {
+  id: number;
+  variant_name: string;
+  variant_value: string;
+  price_adjustment: number;
+  stock_quantity: number;
+  sku?: string;
+  final_price: number;
+  is_available: boolean;
+};
+
 export type ProductType = {
   id: string | number | undefined;
   name: string | undefined;
@@ -18,6 +29,7 @@ export type ProductType = {
   image: string | undefined;
   images: string[] | undefined;
   colors: { name: string | undefined; value: string | undefined }[] | undefined;
+  variants?: ProductVariant[];
   description: string | undefined;
   brand: string | undefined;
   brandDescription: string | undefined;

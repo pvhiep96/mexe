@@ -65,9 +65,20 @@ export interface OrderItem {
   product_id: string;
   product_name: string;
   product_image: string;
+  product_sku?: string;
   quantity: number;
-  price: number;
-  total: number;
+  price: number; // alias of unit_price (includes variant price if applicable)
+  unit_price?: number;
+  total: number; // alias of total_price
+  total_price?: number;
+  variant_info?: {
+    variant_id: number;
+    variant_name: string;
+    variant_value: string;
+    variant_sku?: string;
+    price_adjustment: number;
+    final_price: number;
+  };
 }
 
 // Wishlist Types

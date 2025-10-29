@@ -12,6 +12,10 @@ interface OrderData {
   payment_status: string;
   payment_method: string;
   total_amount: string;
+  subtotal?: string;
+  discount_amount?: string;
+  shipping_fee?: string;
+  tax_amount?: string;
   shipping_name?: string;
   shipping_phone?: string;
   shipping_city?: string;
@@ -22,7 +26,28 @@ interface OrderData {
   shipping_provider?: string;
   created_at: string;
   updated_at: string;
-  order_items?: any[];
+  order_items?: OrderItemData[];
+}
+
+interface OrderItemData {
+  id: number;
+  product_id: number;
+  product_name: string;
+  product_sku?: string;
+  product_image?: string;
+  quantity: number;
+  unit_price: number;
+  price: number; // alias for unit_price
+  total_price: number;
+  total: number; // alias for total_price
+  variant_info?: {
+    variant_id: number;
+    variant_name: string;
+    variant_value: string;
+    variant_sku?: string;
+    price_adjustment: number;
+    final_price: number;
+  } | string;
 }
 
 const OrderStatusPage = () => {
@@ -50,7 +75,7 @@ const OrderStatusPage = () => {
       }
 
       try {
-        const response = await fetch(`http://47.129.168.239/api/v1/orders/${orderNumber}`);
+        const response = await fetch(`http://localhost:3005/api/v1/orders/${orderNumber}`);
         if (!response.ok) {
           throw new Error('Không thể tải thông tin đơn hàng');
         }
@@ -227,6 +252,126 @@ const OrderStatusPage = () => {
                 </div>
               )}
             </div>
+
+            {/* Order Items */}
+            {orderData.order_items && orderData.order_items.length > 0 && (
+              <div className='rounded-lg bg-gray-50 p-6'>
+                <h3 className='mb-4 text-lg font-semibold text-gray-900'>
+                  Sản phẩm trong đơn hàng
+                </h3>
+                <div className='space-y-3'>
+                  {orderData.order_items.map((item) => {
+                    const unitPrice = item.unit_price || item.price || 0;
+                    const totalPrice = item.total_price || item.total || (unitPrice * item.quantity);
+                    
+                    // Parse variant_info if it's a string
+                    let variantInfo = null;
+                    if (item.variant_info) {
+                      if (typeof item.variant_info === 'string') {
+                        try {
+                          variantInfo = JSON.parse(item.variant_info);
+                        } catch (e) {
+                          console.error('Failed to parse variant_info:', e);
+                        }
+                      } else {
+                        variantInfo = item.variant_info;
+                      }
+                    }
+
+                    return (
+                      <div
+                        key={item.id}
+                        className='flex items-start space-x-4 rounded-lg bg-white p-4'
+                      >
+                        {item.product_image && (
+                          <img
+                            src={item.product_image}
+                            alt={item.product_name}
+                            className='h-20 w-20 rounded object-cover'
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = '/images/placeholder-product.png';
+                            }}
+                          />
+                        )}
+                        <div className='flex-1'>
+                          <h4 className='font-medium text-gray-900'>
+                            {item.product_name}
+                          </h4>
+                          {variantInfo && (
+                            <div className='mt-1'>
+                              <span className='inline-block rounded bg-blue-100 px-2 py-1 text-xs text-blue-800'>
+                                {variantInfo.variant_name}: {variantInfo.variant_value}
+                                {variantInfo.variant_sku && ` (${variantInfo.variant_sku})`}
+                              </span>
+                            </div>
+                          )}
+                          <p className='mt-1 text-sm text-gray-600'>
+                            Số lượng: {item.quantity}
+                          </p>
+                          <div className='mt-2 flex items-baseline justify-between'>
+                            <p className='text-sm text-gray-600'>
+                              Đơn giá: {formatPrice(unitPrice)}
+                            </p>
+                            <p className='font-semibold text-gray-900'>
+                              Thành tiền: {formatPrice(totalPrice)}
+                            </p>
+                          </div>
+                          {variantInfo && variantInfo.price_adjustment && variantInfo.price_adjustment !== 0 && (
+                            <p className='mt-1 text-xs text-gray-500'>
+                              {variantInfo.price_adjustment > 0 ? '+' : ''}
+                              {formatPrice(variantInfo.price_adjustment)} (điều chỉnh giá variant)
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Order Summary */}
+                <div className='mt-6 rounded-lg bg-white p-4 border-t-2 border-gray-200'>
+                  <div className='space-y-3'>
+                    <div className='flex justify-between text-sm'>
+                      <span className='text-gray-600'>Tổng tiền hàng:</span>
+                      <span className='font-medium text-gray-900'>
+                        {formatPrice(orderData.subtotal || orderData.total_amount)}
+                      </span>
+                    </div>
+                    {orderData.discount_amount && parseFloat(orderData.discount_amount) > 0 && (
+                      <div className='flex justify-between text-sm'>
+                        <span className='text-gray-600'>Giảm giá:</span>
+                        <span className='font-medium text-red-600'>
+                          -{formatPrice(orderData.discount_amount)}
+                        </span>
+                      </div>
+                    )}
+                    {orderData.shipping_fee && parseFloat(orderData.shipping_fee) > 0 && (
+                      <div className='flex justify-between text-sm'>
+                        <span className='text-gray-600'>Phí vận chuyển:</span>
+                        <span className='font-medium text-gray-900'>
+                          {formatPrice(orderData.shipping_fee)}
+                        </span>
+                      </div>
+                    )}
+                    {orderData.tax_amount && parseFloat(orderData.tax_amount) > 0 && (
+                      <div className='flex justify-between text-sm'>
+                        <span className='text-gray-600'>Thuế:</span>
+                        <span className='font-medium text-gray-900'>
+                          {formatPrice(orderData.tax_amount)}
+                        </span>
+                      </div>
+                    )}
+                    <div className='flex justify-between border-t-2 border-blue-600 pt-3 mt-3'>
+                      <span className='text-base font-semibold text-gray-900'>Tổng đơn hàng:</span>
+                      <span className='text-lg font-bold text-blue-600'>
+                        {formatPrice(orderData.total_amount)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Shipping Info - Only show if there's shipping data */}
             {(orderData.shipping_name || orderData.delivery_address || orderData.tracking_number) && (

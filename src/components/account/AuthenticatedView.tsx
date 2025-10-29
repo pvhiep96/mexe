@@ -680,6 +680,22 @@ export default function AuthenticatedView({
                               return null;
                             }
 
+                            // Parse variant_info if it's a string
+                            let variantInfo = null;
+                            if (item.variant_info) {
+                              if (typeof item.variant_info === 'string') {
+                                try {
+                                  variantInfo = JSON.parse(item.variant_info);
+                                } catch (e) {
+                                  console.error('Failed to parse variant_info:', e);
+                                }
+                              } else {
+                                variantInfo = item.variant_info;
+                              }
+                            }
+                            
+                            const unitPrice = item.unit_price || item.price || 0;
+
                             return (
                               <div
                                 key={item.id || `item-${Math.random()}`}
@@ -703,13 +719,26 @@ export default function AuthenticatedView({
                                     {item.product_name ||
                                       'Tên sản phẩm không xác định'}
                                   </p>
+                                  {variantInfo && (
+                                    <p className='text-xs text-blue-600 mt-1'>
+                                      {variantInfo.variant_name}: {variantInfo.variant_value}
+                                      {variantInfo.variant_sku && ` (${variantInfo.variant_sku})`}
+                                    </p>
+                                  )}
                                   <p className='text-gray-600'>
                                     {item.quantity || 0} x{' '}
-                                    {(item.unit_price || 0).toLocaleString(
+                                    {(unitPrice || 0).toLocaleString(
                                       'vi-VN'
                                     )}
                                     đ
                                   </p>
+                                  {variantInfo && variantInfo.price_adjustment && variantInfo.price_adjustment !== 0 && (
+                                    <p className='text-xs text-gray-500'>
+                                      {variantInfo.price_adjustment > 0 ? '+' : ''}
+                                      {variantInfo.price_adjustment.toLocaleString('vi-VN')}đ
+                                      {' '}(điều chỉnh)
+                                    </p>
+                                  )}
                                 </div>
                               </div>
                             );
