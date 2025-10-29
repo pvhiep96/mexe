@@ -130,36 +130,94 @@ export default function OrderDetailModal({
                 Sản phẩm đã đặt
               </h3>
               <div className='space-y-3'>
-                {order.items.map((item) => (
-                  <div
-                    key={item.id}
-                    className='flex items-center space-x-4 rounded-lg border border-gray-200 p-3'
-                  >
-                    <img
-                      src={
-                        item.product_image || '/images/placeholder-product.png'
+                {order.items.map((item) => {
+                  // Parse variant_info if it's a string
+                  let variantInfo = null;
+                  if (item.variant_info) {
+                    if (typeof item.variant_info === 'string') {
+                      try {
+                        variantInfo = JSON.parse(item.variant_info);
+                      } catch (e) {
+                        console.error('Failed to parse variant_info:', e);
                       }
-                      alt={item.product_name}
-                      className='h-16 w-16 rounded object-cover'
-                    />
-                    <div className='flex-1'>
-                      <h4 className='font-medium text-gray-900'>
-                        {item.product_name}
-                      </h4>
-                      <p className='text-sm text-gray-600'>
-                        Số lượng: {item.quantity}
-                      </p>
+                    } else {
+                      variantInfo = item.variant_info;
+                    }
+                  }
+
+                  const unitPrice = item.unit_price || item.price || 0;
+                  const totalPrice = item.total_price || item.total || (unitPrice * item.quantity);
+
+                  return (
+                    <div
+                      key={item.id}
+                      className='flex items-center space-x-4 rounded-lg border border-gray-200 p-3'
+                    >
+                      <img
+                        src={
+                          item.product_image || '/images/placeholder-product.png'
+                        }
+                        alt={item.product_name}
+                        className='h-16 w-16 rounded object-cover'
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = '/images/placeholder-product.png';
+                        }}
+                      />
+                      <div className='flex-1'>
+                        <h4 className='font-medium text-gray-900'>
+                          {item.product_name}
+                        </h4>
+                        {variantInfo && (
+                          <div className='mt-1'>
+                            <span className='inline-block rounded bg-blue-100 px-2 py-1 text-xs text-blue-800'>
+                              {variantInfo.variant_name}: {variantInfo.variant_value}
+                              {variantInfo.variant_sku && ` (${variantInfo.variant_sku})`}
+                            </span>
+                          </div>
+                        )}
+                        <p className='mt-1 text-sm text-gray-600'>
+                          Số lượng: {item.quantity}
+                        </p>
+                        {variantInfo && variantInfo.price_adjustment && variantInfo.price_adjustment !== 0 && (
+                          <p className='mt-1 text-xs text-gray-500'>
+                            {variantInfo.price_adjustment > 0 ? '+' : ''}
+                            {variantInfo.price_adjustment.toLocaleString('vi-VN')}đ (điều chỉnh giá)
+                          </p>
+                        )}
+                      </div>
+                      <div className='text-right'>
+                        <p className='text-sm text-gray-600'>
+                          Đơn giá: {unitPrice.toLocaleString('vi-VN')}đ
+                        </p>
+                        <p className='font-medium text-gray-900'>
+                          Thành tiền: {totalPrice.toLocaleString('vi-VN')}đ
+                        </p>
+                      </div>
                     </div>
-                    <div className='text-right'>
-                      <p className='font-medium text-gray-900'>
-                        {item.price.toLocaleString('vi-VN')}đ
-                      </p>
-                      <p className='text-sm text-gray-600'>
-                        Tổng: {item.total.toLocaleString('vi-VN')}đ
-                      </p>
-                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Order Summary */}
+              <div className='mt-6 rounded-lg bg-gray-50 p-4'>
+                <div className='space-y-2'>
+                  <div className='flex justify-between text-sm'>
+                    <span className='text-gray-600'>Tổng tiền hàng:</span>
+                    <span className='font-medium text-gray-900'>
+                      {(order.items.reduce((sum, item) => {
+                        const unitPrice = item.unit_price || item.price || 0;
+                        return sum + (unitPrice * item.quantity);
+                      }, 0)).toLocaleString('vi-VN')}đ
+                    </span>
                   </div>
-                ))}
+                  <div className='flex justify-between border-t-2 border-blue-600 pt-2 mt-2'>
+                    <span className='font-semibold text-gray-900'>Tổng đơn hàng:</span>
+                    <span className='text-lg font-bold text-blue-600'>
+                      {order.total_amount.toLocaleString('vi-VN')}đ
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 

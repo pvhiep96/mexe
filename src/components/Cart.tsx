@@ -18,6 +18,12 @@ interface Product {
   image: string;
   quantity: number;
   selectedColor?: string;
+  // Variant information
+  variant_id?: number;
+  variant_name?: string;
+  variant_value?: string;
+  variant_sku?: string;
+  variant_final_price?: number;
   // Payment options
   full_payment_transfer?: boolean;
   full_payment_discount_percentage?: number;
@@ -143,6 +149,12 @@ function CartItem({ item }: CartItemProps) {
           <h3 className='text-base font-semibold text-gray-900 sm:text-lg'>
             {item.name}
           </h3>
+          {item.variant_name && item.variant_value && (
+            <p className='mt-1 text-sm text-gray-600'>
+              {item.variant_name}: <span className='font-medium'>{item.variant_value}</span>
+              {item.variant_sku && <span className='text-gray-400 ml-2'>({item.variant_sku})</span>}
+            </p>
+          )}
           <p className='mt-1 text-sm text-gray-500'>
             {safeTranslate('quantity')}: {quantity}
           </p>
@@ -174,7 +186,7 @@ function CartItem({ item }: CartItemProps) {
           Xóa
         </button>
         <p className='text-lg font-semibold text-blue-600'>
-          {((item.discountedPrice || item.price) * quantity).toLocaleString('vi-VN')}đ
+          {((item.variant_final_price || item.discountedPrice || item.price) * quantity).toLocaleString('vi-VN')}đ
         </p>
         {item.discountedPrice && item.discountedPrice !== item.price && (
           <>

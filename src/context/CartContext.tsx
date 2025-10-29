@@ -16,6 +16,12 @@ interface Product {
   image: string;
   quantity: number;
   selectedColor?: string;
+  // Variant information
+  variant_id?: number;
+  variant_name?: string;
+  variant_value?: string;
+  variant_sku?: string;
+  variant_final_price?: number;
   full_payment_transfer: boolean;
   full_payment_discount_percentage: number;
   partial_advance_payment: boolean;
@@ -116,16 +122,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
       };
 
       if (!prevOrder) {
-        const total = (product.discountedPrice || product.price) * quantity;
+        const itemPrice = product.variant_final_price || product.discountedPrice || product.price;
+        const total = itemPrice * quantity;
         return { items: [newItem], total };
       }
 
-      // Check if product already exists (considering color if available)
+      // Check if product already exists (considering variant_id if available)
       const existingItemIndex = prevOrder.items.findIndex((item) => {
+        // If both items have variant_id, compare product id and variant id
+        if (product.variant_id && item.variant_id) {
+          return item.id === product.id && item.variant_id === product.variant_id;
+        }
+        // Fallback to color comparison for backward compatibility
         if (selectedColor && item.selectedColor) {
           return item.id === product.id && item.selectedColor === selectedColor;
         }
-        return item.id === product.id;
+        // If no variant or color, just compare product id
+        return item.id === product.id && !item.variant_id && !product.variant_id;
       });
 
       let updatedItems: Product[];
@@ -143,8 +156,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
 
       const total = updatedItems.reduce(
-        (sum, item) =>
-          sum + (item.discountedPrice || item.price) * item.quantity,
+        (sum, item) => {
+          const itemPrice = item.variant_final_price || item.discountedPrice || item.price;
+          return sum + itemPrice * item.quantity;
+        },
         0
       );
 
@@ -164,8 +179,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
           return null;
         }
         const total = updatedItems.reduce(
-          (sum, item) =>
-            sum + (item.discountedPrice || item.price) * item.quantity,
+          (sum, item) => {
+            const itemPrice = item.variant_final_price || item.discountedPrice || item.price;
+            return sum + itemPrice * item.quantity;
+          },
           0
         );
         return { items: updatedItems, total };
@@ -176,8 +193,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       );
 
       const total = updatedItems.reduce(
-        (sum, item) =>
-          sum + (item.discountedPrice || item.price) * item.quantity,
+        (sum, item) => {
+          const itemPrice = item.variant_final_price || item.discountedPrice || item.price;
+          return sum + itemPrice * item.quantity;
+        },
         0
       );
 
@@ -196,8 +215,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
 
       const total = updatedItems.reduce(
-        (sum, item) =>
-          sum + (item.discountedPrice || item.price) * item.quantity,
+        (sum, item) => {
+          const itemPrice = item.variant_final_price || item.discountedPrice || item.price;
+          return sum + itemPrice * item.quantity;
+        },
         0
       );
 

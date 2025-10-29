@@ -13,22 +13,28 @@ interface PaymentSuccessProps {
   paymentMethod?: string;
 }
 
-export default function PaymentSuccess({ 
-  orderNumber, 
-  amount, 
-  transactionId, 
-  paymentMethod 
+export default function PaymentSuccess({
+  orderNumber,
+  amount,
+  transactionId,
+  paymentMethod
 }: PaymentSuccessProps) {
   const t = useTranslations('payment_success');
   const router = useRouter();
   const [countdown, setCountdown] = useState(10);
 
   useEffect(() => {
+    // Clear cart after successful payment
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('cart');
+      localStorage.removeItem('currentOrder');
+    }
+
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          router.push('/');
+          router.push(`/order-status?order=${orderNumber}`);
           return 0;
         }
         return prev - 1;
@@ -36,7 +42,7 @@ export default function PaymentSuccess({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [router]);
+  }, [router, orderNumber]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -106,7 +112,7 @@ export default function PaymentSuccess({
           {/* Action Buttons */}
           <div className="space-y-3">
             <Link
-              href={`/order-status`}
+              href={`/order-status?order=${orderNumber}`}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors inline-block"
             >
               <ShoppingBagIcon className="h-5 w-5 inline mr-2" />

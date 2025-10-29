@@ -5,11 +5,12 @@ import { useState } from 'react';
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { useCart } from '@/context/CartContext';
 import { useTranslations } from 'next-intl';
-import { ProductType, RelatedProductType } from './types';
+import { ProductType, RelatedProductType, ProductVariant } from './types';
 import Link from 'next/link';
 import RelatedProducts from './RelatedProducts';
 import ChatFloat from '../ChatFloat';
 import { useRouter } from 'next/navigation';
+import VariantSelector from './VariantSelector';
 type ProductDetailProps = {
   product: ProductType;
   relatedProducts?: RelatedProductType[];
@@ -27,8 +28,27 @@ export default function ProductDetail({
   const [showFullTargetAudience, setShowFullTargetAudience] = useState(false);
   const [showWarrantyPolicy, setShowWarrantyPolicy] = useState(false);
   const [showTechnicalSpecs, setShowTechnicalSpecs] = useState(true);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
+    product.variants && product.variants.length > 0 ? product.variants[0] : null
+  );
 
   // const product: Product = PRODUCT_MOCK;
+
+  // Get current price based on selected variant
+  const getCurrentPrice = () => {
+    if (selectedVariant) {
+      return selectedVariant.final_price;
+    }
+    return product.price || 0;
+  };
+
+  // Get current stock based on selected variant
+  const getCurrentStock = () => {
+    if (selectedVariant) {
+      return selectedVariant.stock_quantity;
+    }
+    return product.quantity || 0;
+  };
 
   // Format price to Vietnamese currency
   const formatPrice = (price: number) => {
@@ -38,6 +58,36 @@ export default function ProductDetail({
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(price);
+  };
+
+  // Create cart item with variant info
+  const createCartItem = (qty: number) => {
+    const baseItem = {
+      id: product.id,
+      name: product.name || 'Unknown Product',
+      price: product.price || 0,
+      image: product.image || '/images/placeholder-product.png',
+      quantity: qty,
+      full_payment_transfer: product.full_payment_transfer || false,
+      full_payment_discount_percentage: product.full_payment_discount_percentage || 0,
+      partial_advance_payment: product.partial_advance_payment || false,
+      advance_payment_percentage: product.advance_payment_percentage || 0,
+      advance_payment_discount_percentage: product.advance_payment_discount_percentage || 0,
+    };
+
+    // Add variant info if variant is selected
+    if (selectedVariant) {
+      return {
+        ...baseItem,
+        variant_id: selectedVariant.id,
+        variant_name: selectedVariant.variant_name,
+        variant_value: selectedVariant.variant_value,
+        variant_sku: selectedVariant.sku,
+        variant_final_price: selectedVariant.final_price,
+      };
+    }
+
+    return baseItem;
   };
 
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
@@ -51,24 +101,8 @@ export default function ProductDetail({
     const newQuantity =
       type === 'increase' ? quantity + 1 : Math.max(1, quantity - 1);
     if (newQuantity > 0 && product.id) {
-      addToCart(
-        {
-          id: product.id,
-          name: product.name || 'Unknown Product',
-          price: product.price || 0,
-          image: product.image || '/images/placeholder-product.png',
-          quantity: newQuantity,
-          // Use payment options from product data
-          full_payment_transfer: product.full_payment_transfer || false,
-          full_payment_discount_percentage:
-            product.full_payment_discount_percentage || 0,
-          partial_advance_payment: product.partial_advance_payment || false,
-          advance_payment_percentage: product.advance_payment_percentage || 0,
-          advance_payment_discount_percentage:
-            product.advance_payment_discount_percentage || 0,
-        },
-        newQuantity
-      );
+      const cartItem = createCartItem(newQuantity);
+      addToCart(cartItem, newQuantity);
       setSuccessMessage(t('add_to_cart_success'));
       setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
     }
@@ -82,24 +116,8 @@ export default function ProductDetail({
     event.stopPropagation();
 
     if (product.id) {
-      addToCart(
-        {
-          id: product.id,
-          name: product.name || 'Unknown Product',
-          price: product.price || 0,
-          image: product.image || '/images/placeholder-product.png',
-          quantity: quantity,
-          // Use payment options from product data
-          full_payment_transfer: product.full_payment_transfer || false,
-          full_payment_discount_percentage:
-            product.full_payment_discount_percentage || 0,
-          partial_advance_payment: product.partial_advance_payment || false,
-          advance_payment_percentage: product.advance_payment_percentage || 0,
-          advance_payment_discount_percentage:
-            product.advance_payment_discount_percentage || 0,
-        },
-        quantity
-      );
+      const cartItem = createCartItem(quantity);
+      addToCart(cartItem, quantity);
       setSuccessMessage(t('add_to_cart_success'));
       setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3s
     }
@@ -114,26 +132,12 @@ export default function ProductDetail({
 
       try {
         // Tạo single product order cho checkout
+        const cartItem = createCartItem(quantity);
+        const itemPrice = cartItem.variant_final_price || cartItem.price;
+
         const singleProductOrder = {
-          items: [
-            {
-              id: product.id,
-              name: product.name || 'Unknown Product',
-              price: product.price || 0,
-              image: product.image || '/images/placeholder-product.png',
-              quantity: quantity,
-              // Use payment options from product data
-              full_payment_transfer: product.full_payment_transfer || false,
-              full_payment_discount_percentage:
-                product.full_payment_discount_percentage || 0,
-              partial_advance_payment: product.partial_advance_payment || false,
-              advance_payment_percentage:
-                product.advance_payment_percentage || 0,
-              advance_payment_discount_percentage:
-                product.advance_payment_discount_percentage || 0,
-            },
-          ],
-          total: (product.price || 0) * quantity,
+          items: [cartItem],
+          total: itemPrice * quantity,
           orderNumber: `ORD-SINGLE-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           createdAt: new Date().toISOString(),
           status: 'pending',
@@ -253,8 +257,24 @@ export default function ProductDetail({
                 {product.name}
               </h1>
               <p className='text-2xl font-semibold text-red-600'>
-                {formatPrice(product.price || 0)}
+                {formatPrice(getCurrentPrice())}
               </p>
+              {selectedVariant && selectedVariant.price_adjustment !== 0 && (
+                <p className='text-sm text-gray-500 mt-1'>
+                  Giá gốc: {formatPrice(product.price || 0)}
+                  {selectedVariant.price_adjustment > 0 ? ' + ' : ' - '}
+                  {formatPrice(Math.abs(selectedVariant.price_adjustment))}
+                </p>
+              )}
+              {getCurrentStock() > 0 ? (
+                <p className='text-sm text-green-600 mt-2'>
+                  Còn {getCurrentStock()} sản phẩm
+                </p>
+              ) : (
+                <p className='text-sm text-red-600 mt-2'>
+                  Hết hàng
+                </p>
+              )}
             </div>
 
             {/* Services */}
@@ -329,6 +349,17 @@ export default function ProductDetail({
                 </div>
               </div>
             </div>
+
+            {/* Variant Selector */}
+            {product.variants && product.variants.length > 0 && (
+              <div className='rounded-lg border border-gray-200 bg-white p-4'>
+                <VariantSelector
+                  variants={product.variants}
+                  selectedVariant={selectedVariant}
+                  onVariantSelect={setSelectedVariant}
+                />
+              </div>
+            )}
 
             {/* Quantity Selector and Action Buttons */}
             <div className='flex flex-row items-center gap-2 sm:gap-3'>
