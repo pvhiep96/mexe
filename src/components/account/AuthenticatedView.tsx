@@ -15,6 +15,15 @@ export default function AuthenticatedView({
   user,
   onLogout,
 }: AuthenticatedViewProps) {
+  // Format price to Vietnamese currency (matching product detail page format)
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
   const [activeTab, setActiveTab] = useState<
     'profile' | 'orders' | 'favorites' | 'coupons' | 'settings'
   >('profile');
@@ -661,7 +670,7 @@ export default function AuthenticatedView({
                             {order.status || 'Đang xử lý'}
                           </span>
                           <p className='mt-1 font-semibold text-gray-900'>
-                            {(order.total_amount || 0).toLocaleString('vi-VN')}đ
+                            {formatPrice(order.total_amount || 0)}
                           </p>
                         </div>
                       </div>
@@ -727,15 +736,12 @@ export default function AuthenticatedView({
                                   )}
                                   <p className='text-gray-600'>
                                     {item.quantity || 0} x{' '}
-                                    {(unitPrice || 0).toLocaleString(
-                                      'vi-VN'
-                                    )}
-                                    đ
+                                    {formatPrice(unitPrice || 0)}
                                   </p>
                                   {variantInfo && variantInfo.price_adjustment && variantInfo.price_adjustment !== 0 && (
                                     <p className='text-xs text-gray-500'>
                                       {variantInfo.price_adjustment > 0 ? '+' : ''}
-                                      {variantInfo.price_adjustment.toLocaleString('vi-VN')}đ
+                                      {formatPrice(variantInfo.price_adjustment)}
                                       {' '}(điều chỉnh)
                                     </p>
                                   )}
