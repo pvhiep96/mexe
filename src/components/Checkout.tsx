@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm, Controller } from 'react-hook-form';
 import Image from 'next/image';
@@ -383,8 +383,18 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
         localStorage.removeItem('cart');
         localStorage.removeItem('cartItems');
 
+        // Reset submitting state trước khi redirect
+        setIsSubmitting(false);
+        
         setTimeout(() => {
-          router.push('/order-status');
+          try {
+            router.push('/order-status');
+          } catch (error) {
+            // Fallback nếu router.push thất bại
+            const currentPath = window.location.pathname;
+            const locale = currentPath.split('/')[1] || 'vi';
+            window.location.href = `/${locale}/order-status`;
+          }
         }, 2000);
       } else if (data.paymentMethod === 'card') {
         // Card/Bank: Chuyển đến payment gateway với order đã tạo
@@ -412,9 +422,17 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
             console.error('Payment URL generation error:', error);
             showTooltip(
               'Có lỗi khi tạo link thanh toán. Vui lòng kiểm tra đơn hàng của bạn.',
-              'warning'
+              'noti'
             );
-            router.push('/order-status');
+            setIsSubmitting(false);
+            try {
+              router.push('/order-status');
+            } catch (redirectError) {
+              // Fallback nếu router.push thất bại
+              const currentPath = window.location.pathname;
+              const locale = currentPath.split('/')[1] || 'vi';
+              window.location.href = `/${locale}/order-status`;
+            }
           }
         }, 1500);
       }
@@ -444,7 +462,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     // Coupon applied
   };
 
-  const handleCheckoutAddressChange = (address: any) => {
+  const handleCheckoutAddressChange = useCallback((address: any) => {
     setCheckoutAddressData(address);
 
     // Update form values for backward compatibility
@@ -455,7 +473,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
     if (address.province?.name) {
       setValue('city', address.province.name);
     }
-  };
+  }, [setValue]);
 
   // Check if address is complete for home delivery
   const isAddressComplete = () => {

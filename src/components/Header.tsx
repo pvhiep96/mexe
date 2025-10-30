@@ -15,8 +15,14 @@ import { apiClient, type SearchResponse, type Product } from '@/services/api';
 const learnMoreMenu = [
   { label: 'Về Mexe', href: '#' },
   { label: 'Kiểm tra đơn hàng', href: '/order-status' },
-  { label: 'Chính sách bảo hành', href: '/purchase-policy#chinh-sach-bao-hanh' },
-  { label: 'Chính sách đổi trả', href: '/purchase-policy#chinh-sach-doi-tra-hang' },
+  {
+    label: 'Chính sách bảo hành',
+    href: '/purchase-policy#chinh-sach-bao-hanh',
+  },
+  {
+    label: 'Chính sách đổi trả',
+    href: '/purchase-policy#chinh-sach-doi-tra-hang',
+  },
   { label: 'Hướng dẫn mua hàng', href: '/purchase-policy#chinh-sach-mua-hang' },
   { label: 'Hệ thống đại lý', href: '#' },
   { label: 'Tuyển dụng', href: '#' },
@@ -25,10 +31,16 @@ const learnMoreMenu = [
 
 const newsMenu = [
   { label: 'Tin tức thị trường', href: '/news?category=tin-tuc-thi-truong' },
-  { label: 'Kinh nghiệm sử dụng xe', href: '/news?category=kinh-nghiem-su-dung-xe' },
+  {
+    label: 'Kinh nghiệm sử dụng xe',
+    href: '/news?category=kinh-nghiem-su-dung-xe',
+  },
   { label: 'So sánh sản phẩm', href: '/news?category=so-sanh-san-pham' },
   { label: 'Khuyến mãi', href: '/news?category=khuyen-mai' },
-  { label: 'Top 10 phụ kiện ô tô cần thiết', href: '/news/top-10-phu-kien-o-to-can-thiet' },
+  {
+    label: 'Top 10 phụ kiện ô tô cần thiết',
+    href: '/news/top-10-phu-kien-o-to-can-thiet',
+  },
 ];
 
 const exploreSidebar = [
@@ -83,9 +95,22 @@ const exploreGrid = [
 
 export default function Header() {
   const [openMenu, setOpenMenu] = useState<string | null>('null');
+  const formatPrice = (price: number | string) => {
+    const numeric = typeof price === 'string' ? parseFloat(price) : price;
+    if (Number.isNaN(numeric)) return '';
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+    })
+      .format(numeric)
+      .replace('₫', 'đ');
+  };
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResponse | null>(null);
+  const [searchResults, setSearchResults] = useState<SearchResponse | null>(
+    null
+  );
   const [isSearching, setIsSearching] = useState(false);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -138,7 +163,10 @@ export default function Header() {
   // Handle clicks outside search dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
         setShowSearchDropdown(false);
       }
     };
@@ -283,67 +311,80 @@ export default function Header() {
                 )}
               </button>
             </form>
-            
+
             {/* Search Dropdown */}
             {showSearchDropdown && searchResults && (
-              <div className='absolute top-full left-0 z-50 mt-2 w-full max-h-96 overflow-y-auto rounded-xl bg-white shadow-2xl border border-gray-200'>
+              <div className='absolute top-full left-0 z-50 mt-2 max-h-96 w-full overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-2xl'>
                 {searchResults.total_count > 0 ? (
                   <>
                     {/* Products Section */}
-                    {searchResults.products && searchResults.products.length > 0 && (
-                      <div className='p-4'>
-                        <h3 className='text-sm font-semibold text-gray-700 mb-2'>Sản phẩm</h3>
-                        <div className='space-y-2'>
-                          {searchResults.products.map((product: any) => (
-                            <Link
-                              key={product.id}
-                              href={`/products/${product.slug}`}
-                              className='flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg'
-                              onClick={() => setShowSearchDropdown(false)}
-                            >
-                              <div className='w-10 h-10 flex-shrink-0'>
-                                {product.image_url ? (
-                                  <img
-                                    src={product.image_url}
-                                    alt={product.name}
-                                    className='w-full h-full object-cover rounded border border-gray-200'
-                                    onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
-                                      target.src = 'https://via.placeholder.com/40x40/f3f4f6/9ca3af?text=No+Image';
-                                    }}
-                                  />
-                                ) : (
-                                  <div className='w-full h-full bg-gray-100 rounded border border-gray-200 flex items-center justify-center'>
-                                    <svg className='w-4 h-4 text-gray-400' fill='currentColor' viewBox='0 0 20 20'>
-                                      <path fillRule='evenodd' d='M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z' clipRule='evenodd' />
-                                    </svg>
-                                  </div>
-                                )}
-                              </div>
-                              <div className='flex-1'>
-                                <p className='text-sm font-medium text-gray-900 line-clamp-1'>
-                                  {product.name}
-                                </p>
-                                <p className='text-sm text-blue-600 font-semibold'>
-                                  {product.price}đ
-                                </p>
-                                {product.brand_name && (
-                                  <p className='text-xs text-gray-500'>
-                                    {product.brand_name}
+                    {searchResults.products &&
+                      searchResults.products.length > 0 && (
+                        <div className='p-4'>
+                          <h3 className='mb-2 text-sm font-semibold text-gray-700'>
+                            Sản phẩm
+                          </h3>
+                          <div className='space-y-2'>
+                            {searchResults.products.map((product: any) => (
+                              <Link
+                                key={product.id}
+                                href={`/products/${product.slug}`}
+                                className='flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50'
+                                onClick={() => setShowSearchDropdown(false)}
+                              >
+                                <div className='h-10 w-10 flex-shrink-0'>
+                                  {product.image_url ? (
+                                    <img
+                                      src={product.image_url}
+                                      alt={product.name}
+                                      className='h-full w-full rounded border border-gray-200 object-cover'
+                                      onError={(e) => {
+                                        const target =
+                                          e.target as HTMLImageElement;
+                                        target.src =
+                                          'https://via.placeholder.com/40x40/f3f4f6/9ca3af?text=No+Image';
+                                      }}
+                                    />
+                                  ) : (
+                                    <div className='flex h-full w-full items-center justify-center rounded border border-gray-200 bg-gray-100'>
+                                      <svg
+                                        className='h-4 w-4 text-gray-400'
+                                        fill='currentColor'
+                                        viewBox='0 0 20 20'
+                                      >
+                                        <path
+                                          fillRule='evenodd'
+                                          d='M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z'
+                                          clipRule='evenodd'
+                                        />
+                                      </svg>
+                                    </div>
+                                  )}
+                                </div>
+                                <div className='flex-1'>
+                                  <p className='line-clamp-1 text-sm font-medium text-gray-900'>
+                                    {product.name}
                                   </p>
-                                )}
-                              </div>
-                            </Link>
-                          ))}
+                                  <p className='text-sm font-semibold text-blue-600'>
+                                    {formatPrice(product.price)}
+                                  </p>
+                                  {product.brand_name && (
+                                    <p className='text-xs text-gray-500'>
+                                      {product.brand_name}
+                                    </p>
+                                  )}
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
                     {/* View All Results */}
-                    <div className='p-4 border-t border-gray-100'>
+                    <div className='border-t border-gray-100 p-4'>
                       <Link
                         href={`/products?search=${encodeURIComponent(searchQuery)}`}
-                        className='block w-full text-center py-2 px-4 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors'
+                        className='block w-full rounded-lg bg-blue-50 px-4 py-2 text-center text-blue-600 transition-colors hover:bg-blue-100'
                         onClick={() => setShowSearchDropdown(false)}
                       >
                         Xem tất cả kết quả ({searchResults.total_count})

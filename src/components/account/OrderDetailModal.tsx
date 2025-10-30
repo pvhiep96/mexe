@@ -16,6 +16,16 @@ export default function OrderDetailModal({
 }: OrderDetailModalProps) {
   if (!isOpen || !order) return null;
 
+  // Format price to Vietnamese currency (matching product detail page format)
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'pending':
@@ -108,7 +118,7 @@ export default function OrderDetailModal({
                   <div className='flex justify-between'>
                     <span className='text-gray-600'>Tổng tiền:</span>
                     <span className='text-lg font-semibold text-[#2D6294]'>
-                      {order.total_amount.toLocaleString('vi-VN')}đ
+                      {formatPrice(order.total_amount)}
                     </span>
                   </div>
                 </div>
@@ -182,16 +192,16 @@ export default function OrderDetailModal({
                         {variantInfo && variantInfo.price_adjustment && variantInfo.price_adjustment !== 0 && (
                           <p className='mt-1 text-xs text-gray-500'>
                             {variantInfo.price_adjustment > 0 ? '+' : ''}
-                            {variantInfo.price_adjustment.toLocaleString('vi-VN')}đ (điều chỉnh giá)
+                            {formatPrice(variantInfo.price_adjustment)} (điều chỉnh giá)
                           </p>
                         )}
                       </div>
                       <div className='text-right'>
                         <p className='text-sm text-gray-600'>
-                          Đơn giá: {unitPrice.toLocaleString('vi-VN')}đ
+                          Đơn giá: {formatPrice(unitPrice)}
                         </p>
                         <p className='font-medium text-gray-900'>
-                          Thành tiền: {totalPrice.toLocaleString('vi-VN')}đ
+                          Thành tiền: {formatPrice(totalPrice)}
                         </p>
                       </div>
                     </div>
@@ -205,16 +215,16 @@ export default function OrderDetailModal({
                   <div className='flex justify-between text-sm'>
                     <span className='text-gray-600'>Tổng tiền hàng:</span>
                     <span className='font-medium text-gray-900'>
-                      {(order.items.reduce((sum, item) => {
+                      {formatPrice(order.items.reduce((sum, item) => {
                         const unitPrice = item.unit_price || item.price || 0;
                         return sum + (unitPrice * item.quantity);
-                      }, 0)).toLocaleString('vi-VN')}đ
+                      }, 0))}
                     </span>
                   </div>
                   <div className='flex justify-between border-t-2 border-blue-600 pt-2 mt-2'>
                     <span className='font-semibold text-gray-900'>Tổng đơn hàng:</span>
                     <span className='text-lg font-bold text-blue-600'>
-                      {order.total_amount.toLocaleString('vi-VN')}đ
+                      {formatPrice(order.total_amount)}
                     </span>
                   </div>
                 </div>
