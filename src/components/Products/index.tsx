@@ -371,7 +371,7 @@ export default function ProductListPage({ allProducts, filterInfo }: ProductList
           <ProductGrid
             products={products}
             itemsPerPage={16}
-            showBanner={true}
+            showBanner={false}
             bannerIndex={8}
             bannerImage='https://file.hstatic.net/1000069970/file/banner_pre_c4eeb4b0068b421dafdc8ce2f9aa7d54_40d9e9e6a2894924b768c57612313211.png'
           />

@@ -82,7 +82,7 @@ export default function Footer() {
                     </span>
                   </div>
                   <p className='ml-7 text-base font-bold sm:ml-8 sm:text-lg'>
-                    support@mexe.vn
+                    mexestore2025@gmail.com
                   </p>
                 </div>
 
@@ -288,12 +288,7 @@ export default function Footer() {
                 <h3 className='mb-4 font-semibold'>Địa chỉ liên hệ</h3>
                 <ul className='space-y-2 text-sm text-white/80'>
                   <li className='leading-relaxed'>
-                    Văn phòng Hà Nội: Tầng 3-4, Tòa nhà BMM, Km2, Đường Phùng
-                    Hưng, Phường Hà Đông, Thành phố Hà Nội, Việt Nam
-                  </li>
-                  <li className='leading-relaxed'>
-                    Văn phòng TP.HCM: Lô C3, đường D2, KCN Cát Lái, Thạnh Mỹ
-                    Lợi, TP. Thủ Đức, TP. Hồ Chí Minh
+                    Số 68, đường Chùa Thầy, Xã Quốc Oai, Thành phố Hà Nội, Việt Nam
                   </li>
                 </ul>
               </div>
@@ -308,12 +303,12 @@ export default function Footer() {
               {/* Company Info */}
               <div className='text-sm text-white/80'>
                 <p className='mb-2 font-semibold text-white'>
-                  @ CÔNG TY TNHH MEXE
+                  @ CÔNG TY TNHH CARRIOR.,JSC
                 </p>
                 <p>
-                  Mã số doanh nghiệp: 0108617038. Giấy chứng nhận đăng ký doanh
-                  nghiệp do Sở Kế hoạch và Đầu tư TP Hà Nội cấp lần đầu ngày
-                  20/02/2019.
+                  Mã số doanh nghiệp: 0111247891. Giấy chứng nhận đăng ký doanh
+                  nghiệp do Sở Tài chính thành phố Hà Nội phòng đăng ký Dinh doanh và Tài chính doanh nghiệp cấp lần đầu ngày
+                  10/10/2025.
                 </p>
               </div>
 
