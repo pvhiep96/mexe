@@ -292,18 +292,16 @@ const ProductGrid: React.FC<ProductGridProps> = ({
 
                 {/* Product content */}
                 <div className='flex w-full flex-1 flex-col items-center px-2 pt-2 pb-3 sm:px-3'>
-                  {/* Product name */}
+                  {/* Product name (max 2 lines, fixed height) */}
                   <div
-                    className='mb-1 line-clamp-2 w-full text-left text-xs font-bold text-black sm:text-base'
-                    style={{ minHeight: '32px' }}
+                    className='mb-1 w-full text-left text-xs font-bold text-black leading-5 line-clamp-2 sm:text-base sm:leading-6 h-[40px] sm:h-[48px]'
                   >
                     {product.name}
                   </div>
 
-                  {/* Product description */}
+                  {/* Product description (max 3 lines, fixed height) */}
                   <div
-                    className='mb-2 line-clamp-2 w-full text-left text-xs text-gray-600'
-                    style={{ minHeight: '24px' }}
+                    className='mb-2 w-full text-left text-xs text-gray-600 leading-5 line-clamp-3 h-[60px]'
                   >
                     {product.description}
                   </div>
@@ -354,7 +352,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
                   <div className='mt-auto flex w-full justify-center'>
                     <button 
                       onClick={(event) => handleAddToCart(product, event)}
-                      className='flex w-full cursor-pointer items-center justify-center gap-0.5 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-bold text-white transition-all hover:bg-red-600 sm:gap-2 sm:px-6 sm:py-2 sm:text-base'
+                      className='flex w-full cursor-pointer items-center justify-center gap-0.5 rounded-full bg-[#0A115F] px-1.5 py-0.5 text-xs font-bold text-white transition-all hover:bg-[#0e1a8a] sm:gap-2 sm:px-6 sm:py-2 sm:text-base'
                     >
                       <svg
                         className='h-3 w-3 sm:h-6 sm:w-6 lg:h-7 lg:w-7'
