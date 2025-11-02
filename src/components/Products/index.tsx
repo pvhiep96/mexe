@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 // import Footer from '@/components/Footer';
 import ProductGrid from '@/components/ProductGrid';
 import Slider from 'react-slick';
@@ -24,31 +24,43 @@ const sortOptions = [
     label: 'A-Z',
     desc: 'Sắp xếp tên từ A đến Z',
     icon: <FontAwesomeIcon icon={faSortAlphaDown} className='h-6 w-6' />,
+    sortValue: 'name_asc',
+    isHot: false,
   },
   {
     label: 'Z-A',
     desc: 'Sắp xếp tên từ Z đến A',
     icon: <FontAwesomeIcon icon={faSortAlphaUp} className='h-6 w-6' />,
+    sortValue: 'name_desc',
+    isHot: false,
   },
   {
     label: 'Mới nhất',
     desc: 'Sắp xếp theo sản phẩm mới nhất',
     icon: <FontAwesomeIcon icon={faClock} className='h-6 w-6' />,
+    sortValue: 'newest',
+    isHot: false,
   },
   {
     label: 'Bán chạy',
     desc: 'Sắp xếp theo sản phẩm bán chạy',
     icon: <FontAwesomeIcon icon={faStar} className='h-6 w-6' />,
+    sortValue: 'newest', // Keep default sort when filtering by is_hot
+    isHot: true,
   },
   {
     label: 'Giá tăng',
     desc: 'Sắp xếp theo giá tăng dần',
     icon: <FontAwesomeIcon icon={faSortNumericUp} className='h-6 w-6' />,
+    sortValue: 'price_asc',
+    isHot: false,
   },
   {
     label: 'Giá giảm',
     desc: 'Sắp xếp theo giá giảm dần',
     icon: <FontAwesomeIcon icon={faSortNumericDown} className='h-6 w-6' />,
+    sortValue: 'price_desc',
+    isHot: false,
   },
 ];
 
@@ -115,9 +127,60 @@ interface ProductVideoData {
 
 export default function ProductListPage({ allProducts, filterInfo }: ProductListPageType) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
   const [selectedSort, setSelectedSort] = useState<number>(2); // Default to "Mới nhất" (index 2)
   const [latestVideos, setLatestVideos] = useState<ProductVideoData[]>([]);
+
+  // Read sort from URL on mount and when URL changes
+  useEffect(() => {
+    const sortParam = searchParams.get('sort');
+    const isHotParam = searchParams.get('isHot');
+    
+    // Find matching sort option index
+    const matchingIndex = sortOptions.findIndex(opt => {
+      if (isHotParam === 'true') {
+        return opt.isHot === true;
+      }
+      return opt.sortValue === sortParam;
+    });
+    
+    if (matchingIndex !== -1) {
+      setSelectedSort(matchingIndex);
+    } else if (!sortParam && !isHotParam) {
+      // Default to "Mới nhất" if no params
+      setSelectedSort(2);
+    }
+  }, [searchParams]);
+
+  // Handle sort button click - update URL to trigger server-side refetch
+  const handleSortClick = (idx: number) => {
+    const selectedOption = sortOptions[idx];
+    if (!selectedOption) return;
+
+    // Build new URL with updated params
+    const currentParams = new URLSearchParams(searchParams.toString());
+    
+    // Reset page to 1 when sort changes
+    currentParams.set('page', '1');
+    
+    // Update sort params
+    if (selectedOption.isHot) {
+      currentParams.set('isHot', 'true');
+      currentParams.set('sort', selectedOption.sortValue);
+    } else {
+      currentParams.set('sort', selectedOption.sortValue);
+      currentParams.delete('isHot'); // Remove isHot if not needed
+    }
+
+    // Navigate to new URL - use pathname to preserve locale if present
+    const basePath = pathname?.split('?')[0] || '/products';
+    const newUrl = `${basePath}?${currentParams.toString()}`;
+    router.push(newUrl);
+    
+    setSelectedSort(idx);
+  };
 
   // Filter products based on filterInfo
   const getFilteredProducts = () => {
@@ -335,7 +398,7 @@ export default function ProductListPage({ allProducts, filterInfo }: ProductList
                       ? 'bg-[#2D6294] text-white shadow-lg'
                       : 'bg-white text-gray-600 shadow hover:bg-gray-50 hover:text-[#2D6294]'
                   }`}
-                  onClick={() => setSelectedSort(idx)}
+                  onClick={() => handleSortClick(idx)}
                   onMouseEnter={() => setHoverIdx(idx)}
                   onMouseLeave={() => setHoverIdx(null)}
                 >

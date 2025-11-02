@@ -1527,6 +1527,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
                 localVarQueryParameter['is_active'] = isActive;
             }
 
+            // Merge additional params from options.params into localVarQueryParameter
+            if (options && options.params) {
+                Object.assign(localVarQueryParameter, options.params);
+            }
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
