@@ -10,15 +10,28 @@ async function fetchProducts(
   page: number = 1, 
   perPage: number = 100,
   categoryId?: number,
-  brandId?: number
+  brandId?: number,
+  sort?: string,
+  isHot?: boolean
 ) {
   try {
+    // Build query params for sort and filters
+    // Note: API generated code only handles specific params, so we need to pass additional params via options
+    const additionalParams: Record<string, string> = {};
+    if (sort) additionalParams['sort'] = sort;
+    if (isHot) additionalParams['is_hot'] = 'true';
+    
+    const options = Object.keys(additionalParams).length > 0 
+      ? { params: additionalParams } 
+      : undefined;
+    
     const response = await api.listProducts(
       page,
       perPage,
       categoryId,
       brandId,
-      true
+      true,
+      options as any
     );
     const data: ListProducts200Response = response.data;
     console.log('data', JSON.stringify(data));
@@ -105,6 +118,8 @@ interface PageProps {
     preorder?: string;
     page?: string;
     perPage?: string;
+    sort?: string;
+    isHot?: string;
   }>;
 }
 
@@ -114,6 +129,8 @@ const ProductsPage: FC<PageProps> = async ({ params, searchParams }) => {
   
   const page = parseInt(awaitedSearchParams.page || '1');
   const perPage = parseInt(awaitedSearchParams.perPage || '100');
+  const sort = awaitedSearchParams.sort || 'newest'; // Default to newest
+  const isHot = awaitedSearchParams.isHot === 'true';
   
   // Fetch categories and brands to map slug -> ID
   const [categories, brands] = await Promise.all([
@@ -165,7 +182,7 @@ const ProductsPage: FC<PageProps> = async ({ params, searchParams }) => {
     total,
     page: currentPage,
     perPage: itemsPerPage,
-  } = await fetchProducts(page, perPage, categoryId, brandId);
+  } = await fetchProducts(page, perPage, categoryId, brandId, sort, isHot);
 
   // Pass filter info to component
   return (
