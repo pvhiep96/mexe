@@ -55,7 +55,7 @@ export default function Footer() {
                     </span>
                   </div>
                   <p className='ml-7 text-base font-bold sm:ml-8 sm:text-lg'>
-                    1900.272737 - 028.7777.2737
+                    055 9517 007
                   </p>
                   <p className='ml-7 text-xs text-white/80 sm:ml-8 sm:text-sm'>
                     (8:30 - 22:00)
