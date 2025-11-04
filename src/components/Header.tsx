@@ -115,6 +115,7 @@ export default function Header() {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const currentSearchQueryRef = useRef<string>(''); // Track current search query to handle race conditions
   const { getCartItemCount } = useCart!();
 
   // Handle search functionality
@@ -122,19 +123,36 @@ export default function Header() {
     if (query.trim().length < 2) {
       setSearchResults(null);
       setShowSearchDropdown(false);
+      currentSearchQueryRef.current = '';
       return;
     }
 
+    // Store the query we're searching for
+    const trimmedQuery = query.trim();
+    currentSearchQueryRef.current = trimmedQuery;
     setIsSearching(true);
+    
     try {
-      const results = await apiClient.search(query.trim());
-      setSearchResults(results);
-      setShowSearchDropdown(true);
+      const results = await apiClient.search(trimmedQuery);
+      
+      // Only update state if this response is for the current query
+      // This prevents race conditions where older API calls return after newer ones
+      // Double check: compare both the ref and the response query field
+      if (currentSearchQueryRef.current === trimmedQuery && results.query === trimmedQuery) {
+        setSearchResults(results);
+        setShowSearchDropdown(true);
+      }
     } catch (error) {
-      setSearchResults(null);
-      setShowSearchDropdown(false);
+      // Only update state if this error is for the current query
+      if (currentSearchQueryRef.current === trimmedQuery) {
+        setSearchResults(null);
+        setShowSearchDropdown(false);
+      }
     } finally {
-      setIsSearching(false);
+      // Only update loading state if this is still the current query
+      if (currentSearchQueryRef.current === trimmedQuery) {
+        setIsSearching(false);
+      }
     }
   };
 
@@ -147,10 +165,11 @@ export default function Header() {
       clearTimeout(searchTimeoutRef.current);
     }
 
-    // Set new timeout for debouncing - 150ms for instant feel
+    // Set new timeout for debouncing - 400ms to wait for user to stop typing
+    // This reduces API calls and improves performance
     searchTimeoutRef.current = setTimeout(() => {
       performSearch(query);
-    }, 150);
+    }, 400);
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
