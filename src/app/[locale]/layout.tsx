@@ -25,7 +25,7 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
 // Fetch categories for headers
 async function fetchCategories() {
   try {
-    const apiUrl = process.env.API_URL || 'http://localhost:3005/api/v1';
+    const apiUrl = process.env.API_URL || 'https://admin.mexestore.vn/api/v1';
     const response = await fetch(`${apiUrl}/categories`, {
       next: { revalidate: 60 }, // Cache for 60 seconds
     });

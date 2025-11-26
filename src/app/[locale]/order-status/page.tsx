@@ -57,7 +57,7 @@ const OrderStatusPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Lấy order number từ localStorage
-  const orderNumber = typeof window !== 'undefined' 
+  const orderNumber = typeof window !== 'undefined'
     ? localStorage.getItem('lastOrderNumber') || null
     : null;
 
@@ -75,11 +75,13 @@ const OrderStatusPage = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:3005/api/v1/orders/${orderNumber}`);
+        const response = await fetch(
+          `https://admin.mexestore.vn/api/v1/orders/${orderNumber}`
+        );
         if (!response.ok) {
           throw new Error('Không thể tải thông tin đơn hàng');
         }
-        
+
         const data = await response.json();
         setOrderData(data);
       } catch (err) {
@@ -211,7 +213,7 @@ const OrderStatusPage = () => {
                 <CreditCardIcon className='mr-2 h-5 w-5' />
                 {t('payment_info')}
               </h3>
-              
+
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 <div>
                   <p className='text-sm font-medium text-gray-500'>
@@ -263,7 +265,7 @@ const OrderStatusPage = () => {
                   {orderData.order_items.map((item) => {
                     const unitPrice = item.unit_price || item.price || 0;
                     const totalPrice = item.total_price || item.total || (unitPrice * item.quantity);
-                    
+
                     // Parse variant_info if it's a string
                     let variantInfo = null;
                     if (item.variant_info) {
@@ -380,7 +382,7 @@ const OrderStatusPage = () => {
                   <TruckIcon className='mr-2 h-5 w-5' />
                   {t('shipping_info')}
                 </h3>
-                
+
                 <div className='space-y-4'>
                   {orderData.shipping_name && (
                     <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>

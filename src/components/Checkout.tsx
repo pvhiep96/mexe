@@ -350,8 +350,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
       };
 
       const orderResponse = await fetch(
-        // 'http://localhost:3005/api/v1/orders',
-        'http://localhost:3005/api/v1/orders',
+        'https://admin.mexestore.vn/api/v1/orders',
         {
           method: 'POST',
           headers,
@@ -385,7 +384,7 @@ export default function Checkout({ order, checkout }: CheckoutProps) {
 
         // Reset submitting state trước khi redirect
         setIsSubmitting(false);
-        
+
         setTimeout(() => {
           try {
             router.push('/order-status');
